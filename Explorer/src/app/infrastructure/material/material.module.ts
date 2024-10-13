@@ -8,7 +8,7 @@ import {MatHeaderRowDef, MatRowDef, MatTable, MatTableModule} from '@angular/mat
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle} from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Import MatDialog and MatDialogRef
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -21,7 +21,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Imp
     MatTableModule,
     MatIconModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   exports: [
     MatToolbar,
@@ -38,7 +39,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Imp
     MatCardContent,
     MatRowDef,
     MatHeaderRowDef,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

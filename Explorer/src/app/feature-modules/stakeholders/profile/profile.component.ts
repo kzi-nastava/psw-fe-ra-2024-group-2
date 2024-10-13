@@ -3,6 +3,7 @@ import { ProfileService } from "../profile.service";
 import { Profile } from "../model/profile.model";
 import { MatDialog } from "@angular/material/dialog";
 import { ProfileFormComponent } from "../profile-form/profile-form.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: "xp-profile",
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
     displayedColumns: string[] = ['username', 'name', 'lastName', 'email', 'biography', 'moto'];
 
-    constructor(private profileService: ProfileService, public dialog: MatDialog) { }
+    constructor(private profileService: ProfileService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.getProfile();
@@ -50,13 +51,32 @@ export class ProfileComponent implements OnInit {
                 this.profileService.updateProfile(result).subscribe({
                     next: () => {
                         this.getProfile(); // Reload profile data on successful update
+                        this.showSuccessSnackbar(); // Show success message
                     },
                     error: (error) => {
                         this.errorMessage = "Failed to update profile. Please try again."; // Set error message
-                        console.error(error); // Log the error for debugging
+                        this.showErrorSnackbar(); // Show error message
                     }
                 });
             }
+        });
+    }
+
+    showSuccessSnackbar(): void {
+        this.snackBar.open("Profile saved successfully", "Close", {
+            duration: 3000,
+            verticalPosition: 'bottom', // Positioning
+            horizontalPosition: 'right', // Positioning
+            panelClass: ['snackbar-success'], // Custom CSS class
+        });
+    }
+
+    showErrorSnackbar(): void {
+        this.snackBar.open("Failed to save profile", "Close", {
+            duration: 3000,
+            verticalPosition: 'bottom', // Positioning
+            horizontalPosition: 'right', // Positioning
+            panelClass: ['snackbar-error'], // Custom CSS class
         });
     }
 }

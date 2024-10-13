@@ -93,3 +93,15 @@ mat-card-header {
     align-items: center;
     flex-direction: column;
 }
+
+.snackbar-success {
+    background-color: #4caf50; /* Green background for success */
+    color: white; /* White text */
+    font-weight: bold; /* Bold text */
+}
+
+.snackbar-error {
+    background-color: #f44336; /* Red background for error */
+    color: white; /* White text */
+    font-weight: bold; /* Bold text */
+}

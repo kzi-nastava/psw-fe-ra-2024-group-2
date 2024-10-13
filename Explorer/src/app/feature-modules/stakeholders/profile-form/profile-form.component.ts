@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ProfileService } from "../profile.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Profile } from "../model/profile.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
     selector: "xp-profile-form",
@@ -12,6 +13,7 @@ import { Profile } from "../model/profile.model";
 export class ProfileFormComponent implements OnInit {
     profileForm: FormGroup;
     selectedImage: File | null = null; // To store the selected image file
+    imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
 
     constructor(public dialogRef: MatDialogRef<ProfileFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Profile) {
@@ -24,6 +26,12 @@ export class ProfileFormComponent implements OnInit {
             moto: new FormControl(""),
             image: new FormControl(""),
         });
+
+        let imageData = data.image?.data;
+
+        if (imageData) {
+            this.imagePreview = imageData;
+        }
     }
 
     ngOnInit(): void {
@@ -42,12 +50,16 @@ export class ProfileFormComponent implements OnInit {
                 const uploadedAt = new Date().toISOString(); // Get the current date and time
                 this.profileForm.patchValue({ image: { data: base64String, mimeType, uploadedAt } }); // Update the form control with base64 string
                 this.profileForm.get('image')!.updateValueAndValidity();
+
+                this.imagePreview = base64String; // Set the preview to the base64 string
             };
             reader.readAsDataURL(file); // Convert file to DataURL (base64 encoded string)
         }
     }
 
     onSave(): void {
+        if(!this.profileForm.valid) return; // Ensure form is valid before proceeding
+        
         const formData = { ...this.profileForm.value };
         this.dialogRef.close(formData); // Return form data including image
     }
@@ -55,4 +67,6 @@ export class ProfileFormComponent implements OnInit {
     onCancel(): void {
         this.dialogRef.close();
     }
+
+
 }
