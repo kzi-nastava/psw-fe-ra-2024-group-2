@@ -14,6 +14,7 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { ProfileModule } from './feature-modules/stakeholders/profile.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
     BrowserAnimationsModule,
     MaterialModule,
     AdministrationModule,
+    ProfileModule,
     BlogModule,
     MarketplaceModule,
     TourAuthoringModule,

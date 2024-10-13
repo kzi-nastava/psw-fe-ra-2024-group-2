@@ -1,0 +1,50 @@
+.full-width {
+    width: 100%;
+}
+
+.edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.file-input {
+    margin-top: 16px;
+}
+
+.file-input-container {
+    display: flex;
+    justify-content: space-between;
+    /* Aligns items on the left and right */
+    align-items: center;
+    /* Centers items vertically */
+    margin-top: 15px;
+    /* Adds space above the container */
+}
+
+.file-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.image-preview-container {
+    flex: 0 0 150px;
+    /* Fixed width for the image preview container */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    /* Centers the image horizontally */
+}
+
+.image-preview {
+    width: 100%;
+    /* Make the image fit within the container */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 8px;
+    /* Optional: round the corners of the image */
+    object-fit: cover;
+    /* Ensures the image covers the space */
+}
