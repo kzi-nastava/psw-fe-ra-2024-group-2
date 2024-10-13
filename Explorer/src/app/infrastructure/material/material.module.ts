@@ -4,8 +4,9 @@ import {MatToolbar, MatToolbarModule,} from '@angular/material/toolbar';
 import {MatButton, MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatInput, MatInputModule} from '@angular/material/input';
-import {MatTable, MatTableModule} from '@angular/material/table';
+import {MatHeaderRowDef, MatRowDef, MatTable, MatTableModule} from '@angular/material/table';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle} from '@angular/material/card';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatIcon, MatIconModule} from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
   ],
   exports: [
     MatToolbar,
@@ -27,7 +29,13 @@ import {MatIcon, MatIconModule} from '@angular/material/icon';
     MatInput,
     MatTable,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatRowDef,
+    MatHeaderRowDef
   ]
 })
 export class MaterialModule { }
