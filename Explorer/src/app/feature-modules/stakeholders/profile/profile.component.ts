@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ProfileService } from "../profile.service";
 import { Profile } from "../model/profile.model";
+import { MatDialog } from "@angular/material/dialog";
+import { ProfileFormComponent } from "../profile-form/profile-form.component";
 
 @Component({
     selector: "xp-profile",
@@ -15,7 +17,7 @@ export class ProfileComponent implements OnInit {
 
     displayedColumns: string[] = ['username', 'name', 'lastName', 'email', 'biography', 'moto'];
 
-    constructor(private profileService: ProfileService) {}
+    constructor(private profileService: ProfileService, public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.getProfile();
@@ -31,6 +33,29 @@ export class ProfileComponent implements OnInit {
                 this.errorMessage = "Failed to load profile. Please try again."; // Set error message
                 console.error(error); // Log the error for debugging
                 this.loading = false; // Ensure loading is false on error
+            }
+        });
+    }
+
+    openEditDialog(): void {
+        if (!this.profile) return; // Ensure profile data is available
+
+        const dialogRef = this.dialog.open(ProfileFormComponent, {
+            width: '600px',
+            data: { ...this.profile }
+        });
+
+        dialogRef.afterClosed().subscribe((result: Profile) => {
+            if (result) {
+                this.profileService.updateProfile(result).subscribe({
+                    next: () => {
+                        this.getProfile(); // Reload profile data on successful update
+                    },
+                    error: (error) => {
+                        this.errorMessage = "Failed to update profile. Please try again."; // Set error message
+                        console.error(error); // Log the error for debugging
+                    }
+                });
             }
         });
     }

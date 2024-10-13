@@ -11,7 +11,10 @@ export class ProfileService {
     constructor(private http: HttpClient) { }
     
     getProfile(): Observable<Profile> {
-        console.log(environment.apiHost + '/profile');
         return this.http.get<Profile>(environment.apiHost + 'profile')
+    }
+
+    updateProfile(result: Profile) {
+        return this.http.put(environment.apiHost + 'profile', result)
     }
 }

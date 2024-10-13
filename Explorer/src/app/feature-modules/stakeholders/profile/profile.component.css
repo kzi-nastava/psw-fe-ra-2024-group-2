@@ -1,3 +1,10 @@
+.profile {
+    display: flex; /* Display items in a row */
+    gap: 20px; /* Add spacing between items */
+    margin: 20px auto; /* Center the card */
+    max-width: 800px; /* Limit the width of the profile section */
+}
+
 .profile-container {
     max-width: 800px; /* Limit the width of the profile section */
     margin: 20px auto; /* Center the card */
@@ -46,4 +53,43 @@ mat-card {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item {
+    margin: 10px 0;
+}
+
+.edit-button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+mat-card-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }

@@ -7,6 +7,7 @@ import {MatInput, MatInputModule} from '@angular/material/input';
 import {MatHeaderRowDef, MatRowDef, MatTable, MatTableModule} from '@angular/material/table';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle} from '@angular/material/card';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Import MatDialog and MatDialogRef
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle} fro
     MatTableModule,
     MatIconModule,
     MatCardModule,
+    MatDialogModule
   ],
   exports: [
     MatToolbar,
@@ -35,7 +37,8 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle} fro
     MatCardTitle,
     MatCardContent,
     MatRowDef,
-    MatHeaderRowDef
+    MatHeaderRowDef,
+    MatDialogModule
   ]
 })
 export class MaterialModule { }

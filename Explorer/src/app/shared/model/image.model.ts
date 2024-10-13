@@ -1,5 +1,5 @@
 export interface Image {
-    Data: string;
-    UploadedAt: string;
-    MimeType: string;
+    data: string;
+    uploadedAt: string;
+    mimeType: string;
 }
