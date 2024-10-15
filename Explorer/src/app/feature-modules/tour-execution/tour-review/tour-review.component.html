@@ -1,0 +1,19 @@
+<p>tour-review works!</p>
+<div class="review-container" *ngFor="let review of reviews">
+    <div class="review-header">
+      <h3 class="review-user">User ID: {{ review.userId }}</h3>
+      <div class="review-rating">Rating: {{ review.grade }} / 5</div>
+    </div>
+  
+    <div class="review-dates">
+      <small>Reviewed on: {{ review.reviewDate | date: 'longDate' }}</small><br>
+      <small>Visited on: {{ review.visitDate | date: 'longDate' }}</small>
+    </div>
+  
+    <p class="review-comment">{{ review.comment }}</p>
+  
+    <!-- Conditionally render the image if it exists -->
+    <div class="review-image-container" *ngIf="review.image">
+      <img [src]="review.image.url" [alt]="review.image.altText" class="review-image" />
+    </div>
+  </div>
