@@ -1,0 +1,19 @@
+<div>
+    <h3>Select Equipment</h3>
+    <ul>
+      <li *ngFor="let equipment of equipmentsTotal">
+        <input 
+          type="checkbox" 
+          [value]="equipment.id" 
+          [checked]="isEquipmentSelected(equipment.id)"
+          (change)="onSelectEquipment($event, equipment)" 
+        />
+        <label>{{ equipment.name }}</label> 
+        <label> - </label>
+        <label>{{ equipment.description }}</label>
+      </li>
+    </ul>
+
+    <button (click)="updateTour()">Update</button>
+  </div>
+  
