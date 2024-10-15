@@ -70,4 +70,8 @@ export class AuthService {
     };
     this.user$.next(user);
   }
+
+  getCurrentUser(): User {
+    return this.user$.getValue(); // Vraća trenutnu vrednost iz BehaviorSubject-a
+  }
 }
