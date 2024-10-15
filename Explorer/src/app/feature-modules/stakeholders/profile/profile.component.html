@@ -1,0 +1,45 @@
+<div id="profile" class="profile-container mat-elevation-z4">
+    <mat-card *ngIf="profile;">
+        <mat-card-header>
+            <!-- Profile Picture Avatar -->
+            <div class="profile-picture">
+                <img *ngIf="profile.image" [src]="profile.image.data" alt="Profile Picture" class="profile-img"/>
+            </div>
+
+            <mat-card-title>User Profile</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="profile-info">
+                <div class="info-item">
+                    <label>Username:</label>
+                    <input matInput [value]="profile.username" disabled />
+                </div>
+                <div class="info-item">
+                    <label>Name:</label>
+                    <input matInput [value]="profile.name" disabled />
+                </div>
+                <div class="info-item">
+                    <label>Last Name:</label>
+                    <input matInput [value]="profile.lastName" disabled />
+                </div>
+                <div class="info-item">
+                    <label>Email:</label>
+                    <input matInput [value]="profile.email" disabled />
+                </div>
+                <div *ngIf="profile.biography" class="info-item">
+                    <label>Biography:</label>
+                    <input matInput [value]="profile.biography" disabled />
+                </div>
+                <div *ngIf="profile.moto" class="info-item">
+                    <label>Moto:</label>
+                    <input matInput [value]="profile.moto" disabled />
+                </div>
+            </div>
+
+            <div class="edit-button-container">
+                <button mat-raised-button color="primary" (click)="openEditDialog()">Edit</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

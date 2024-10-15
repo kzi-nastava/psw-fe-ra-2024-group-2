@@ -1,0 +1,15 @@
+<div>
+    <br>
+    <table>
+        <th>
+            <tr>My Tours</tr>
+        </th>
+        <tbody>
+            <tr *ngFor="let tour of tours" (click)="showTourClick(tour)" class="clickable-row">
+                <td>{{tour.name}}</td>
+                <td>{{tour.description}}</td>
+                <td>{{tour.price}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
