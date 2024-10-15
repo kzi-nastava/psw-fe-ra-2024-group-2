@@ -37,7 +37,6 @@ export class EditTourComponent implements OnInit {
     this.service.getAllEquipment().subscribe({
       next: (result: PagedResult<Equipment>) =>{
         this.equipmentsTotal = result.results;
-
         if (this.tour) {
           this.selectedEquipment = this.equipmentsTotal.filter(equip => 
             this.tour.equipment.includes(equip.id!)
@@ -65,18 +64,14 @@ export class EditTourComponent implements OnInit {
   }
 
   updateTour(): void {
-    // Update the tour object with the selected equipment IDs
-    console.log('Selected Equipment:', this.selectedEquipment);
   
-    // Update the tour object with the selected equipment IDs
     this.tour.equipment = this.selectedEquipment
       .map(equip => equip.id)
-      .filter((id): id is number => id !== undefined); // Filter out undefined
+      .filter((id): id is number => id !== undefined);
   
     console.log('Updated Tour Equipment:', this.tour.equipment);
     console.log('update tour: ',this.tour)
 
-    //Call the service method to update the tour
     this.service.updateTour(this.tour).subscribe({
       next: (response) => {
         console.log('Tour updated successfully:', response);

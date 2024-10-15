@@ -1,19 +1,26 @@
 <div>
-    <h3>Select Equipment</h3>
-    <ul>
-      <li *ngFor="let equipment of equipmentsTotal">
-        <input 
-          type="checkbox" 
-          [value]="equipment.id" 
-          [checked]="isEquipmentSelected(equipment.id)"
-          (change)="onSelectEquipment($event, equipment)" 
-        />
-        <label>{{ equipment.name }}</label> 
-        <label> - </label>
-        <label>{{ equipment.description }}</label>
-      </li>
-    </ul>
+  <table>
+    <th>
+      <tr>Select Equipment</tr>
+    </th>
+    <tbody>
+        <tr *ngFor="let equipment of equipmentsTotal">
+          <td>
+          <input 
+            type="checkbox" 
+            [value]="equipment.id" 
+            [checked]="isEquipmentSelected(equipment.id)"
+            (change)="onSelectEquipment($event, equipment)"/>
 
-    <button (click)="updateTour()">Update</button>
-  </div>
+            <label>{{ equipment.name }}</label> 
+            <label> - </label>
+            <label>{{ equipment.description }}</label>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <button style="margin-left: 4%;" color="primary" mat-raised-button (click)="updateTour()">Update Equipment</button>
+</div>
   
