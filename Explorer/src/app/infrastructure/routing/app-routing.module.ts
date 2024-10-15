@@ -9,6 +9,7 @@ import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],},
   {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
-  {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]}
+  {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
+  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],}
 ];
 
 @NgModule({
