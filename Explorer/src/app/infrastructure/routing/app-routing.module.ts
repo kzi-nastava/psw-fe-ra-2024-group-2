@@ -10,6 +10,9 @@ import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
 import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/object.component';
 
+import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
+
+
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -18,7 +21,11 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-  {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]}
+
+  {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
+
+  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard]}
+
 ];
 
 @NgModule({
