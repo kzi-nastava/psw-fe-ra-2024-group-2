@@ -33,7 +33,7 @@ import { ProfileModule } from './feature-modules/stakeholders/profile.module';
     TourAuthoringModule,
     TourExecutionModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     {
