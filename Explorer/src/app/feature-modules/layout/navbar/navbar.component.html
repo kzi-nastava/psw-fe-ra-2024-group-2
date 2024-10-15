@@ -4,11 +4,12 @@
         <div id="buttons">
             <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
-            <button *ngIf="user && user.username !== ''" color="primary" mat-raised-button (click)="showProfile()">Profile</button>
+            <button *ngIf="user && user.username !== '' && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button (click)="showProfile()">Profile</button>
             <button *ngIf="user && user.username !== '' && user.role ==='author'" color="primary" mat-raised-button (click)="showMyTours()">My Tours</button>
             <button color="primary" mat-raised-button [routerLink]="['home']">Home</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['account']">Manage accounts</button>
+            <button *ngIf="user && user.username !== '' && user.role ==='tourist'" color="primary" mat-raised-button (click)="showAllTours()">Tours</button>
         </div>
     </div>
 </mat-toolbar>

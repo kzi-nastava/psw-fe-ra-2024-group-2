@@ -1,0 +1,29 @@
+<div class="tour-container" *ngFor="let tour of tours">
+  <h2 class="tour-name">{{ tour.name }}</h2>
+
+  <p class="tour-description">{{ tour.description }}</p>
+
+  <div class="tour-details">
+    <div><strong>Difficulty:</strong> {{ tour.difficulty }}</div>
+    <div><strong>Price:</strong> ${{ tour.price }}</div>
+    <div><strong>Status:</strong> {{ tour.status }}</div>
+  </div>
+
+  <!-- Conditionally display equipment if any are available -->
+  <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
+    <h4>Equipment:</h4>
+    <ul>
+      <li *ngFor="let equipmentId of tour.equipment">Equipment ID: {{ equipmentId }}</li>
+    </ul>
+  </div>
+  
+  <div class="tour-tag">
+    <strong>Tag ID:</strong> {{ tour.tag }}
+  </div>
+
+  <!-- Pass tour.id as an argument to showReviews() -->
+  <button  color="primary" mat-raised-button 
+          (click)="showReviews(tour.id)">Show Reviews</button>
+</div>
+
+  
