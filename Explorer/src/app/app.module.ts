@@ -18,7 +18,7 @@ import { ProfileModule } from './feature-modules/stakeholders/profile.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
