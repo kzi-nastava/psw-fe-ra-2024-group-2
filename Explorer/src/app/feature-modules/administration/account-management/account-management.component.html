@@ -1,0 +1,22 @@
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Block</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let acc of account">
+        <tr *ngIf="acc.username !== user?.username">
+          <td>{{acc.username}}</td>
+          <td>{{acc.email}}</td>
+          <td>{{ getRoleName(acc.role) }}</td>
+          <td><button>Block</button></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
