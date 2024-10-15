@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PagedResult } from './shared/model/tour.module';
 import { Tour } from './model/tour.model';
 import { Equipment } from '../administration/model/equipment.model';
+import { Object } from './model/object.model';
 
 
 @Injectable({
@@ -15,6 +16,10 @@ export class TourAuthoringService {
 
   getTours(): Observable<PagedResult<Tour>>{
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
+  }
+
+  getObjects(): Observable<PagedResult<Object>>{
+    return this.http.get<PagedResult<Object>>('https://localhost:44333/api/author/tourObject')
   }
 
   getAllEquipment(): Observable<PagedResult<Equipment>>{
