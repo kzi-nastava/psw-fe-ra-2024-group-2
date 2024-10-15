@@ -23,7 +23,6 @@ export class MyToursComponent implements OnInit{
     getTours(): void {
       this.service.getTours().subscribe({
         next: (result: PagedResult<Tour>) =>{
-          console.log(result)
           this.tours = result.results
         },
         error: (err:any) => {

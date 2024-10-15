@@ -69,12 +69,9 @@ export class EditTourComponent implements OnInit {
       .map(equip => equip.id)
       .filter((id): id is number => id !== undefined);
   
-    console.log('Updated Tour Equipment:', this.tour.equipment);
-    console.log('update tour: ',this.tour)
 
     this.service.updateTour(this.tour).subscribe({
       next: (response) => {
-        console.log('Tour updated successfully:', response);
       },
       error: (err) => {
         console.error('Error updating tour:', err);
