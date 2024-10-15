@@ -1,0 +1,45 @@
+p {
+    font-size: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 300px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+thead tr {
+    background-color: #3f51b5;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:last-of-type {
+    border-bottom: 2px solid #3f51b5;
+}
+
+tbody tr.active-row {
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.1s;
+  }
+  
+.clickable-row:hover {
+background-color: #b0d4f2; /* Light gray background on hover */
+}
