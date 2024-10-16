@@ -11,7 +11,9 @@ import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/editto
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { TourIssueReportComponent } from 'src/app/feature-modules/tour-execution/tour-issue-report/tour-issue-report.component';
 import { TourReportingComponent } from 'src/app/feature-modules/tour-execution/tour-reporting/tour-reporting.component';
+import { RatingApplicationComponent } from 'src/app/feature-modules/administration/rating-application/rating-application.component';
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
+import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -24,7 +26,9 @@ const routes: Routes = [
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
-  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],}
+  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
+  {path: 'ratingsApplications', component: RatingApplicationComponent, canActivate: [AuthGuard],},
+  {path: 'rateApp', component: RateAppFormComponent, canActivate: [AuthGuard],}
 ];
 
 @NgModule({
