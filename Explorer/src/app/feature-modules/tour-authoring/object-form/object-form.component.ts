@@ -16,6 +16,7 @@ export class ObjectFormComponent  {
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
 
+  @Output() objectAdded = new EventEmitter<null>();
   constructor (private service: TourAuthoringService){
     this.objectForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -61,7 +62,7 @@ export class ObjectFormComponent  {
 
     this.service.addObject(obj).subscribe({
       next:(_) => {
-        console.log('ok')
+        this.objectAdded.emit()
         //this.service.getObjects()
       }
     });

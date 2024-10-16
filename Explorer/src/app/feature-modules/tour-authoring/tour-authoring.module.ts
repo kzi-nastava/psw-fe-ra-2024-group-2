@@ -6,9 +6,6 @@ import { EditTourComponent } from './edittour/edittour.component';
 import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatOptionModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -21,11 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   imports: [
     CommonModule,
-    MaterialModule,
-    ReactiveFormsModule, 
-    MatOptionModule,
-    MatInputModule,
-    MatFormFieldModule, 
+    MaterialModule, 
+    ReactiveFormsModule
+  ],
+  exports: [
+    ObjectComponent,
+    ObjectFormComponent
   ]
 })
 export class TourAuthoringModule { }
