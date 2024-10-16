@@ -18,8 +18,10 @@ export class RateAppFormComponent implements OnInit {
   @Input() rateApp: RateApp;
   user: User | undefined;
   ratingApplication: RatingApplication[] = [];
+  result: string = '';
+  alreadyRate: string = '';
 
-  constructor(private service: ProfileService,private administratorService: AdministrationService,private authService: AuthService, private router: Router) {
+  constructor(private service: ProfileService,private authService: AuthService, private router: Router) {
   }
   rateAppForm = new FormGroup({
     grade: new FormControl('', [Validators.required,Validators.max(5),Validators.min(1)]),
@@ -27,53 +29,52 @@ export class RateAppFormComponent implements OnInit {
   });
   
   ngOnInit(): void {
-    this.getRatingApplication();
-
+    
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
   }
-  getRatingApplication(): void {
-    this.administratorService.getRatingApplication().subscribe({
-      next: (result: PagedResults<RatingApplication>) => {
-        this.ratingApplication = result.results;
-      },
-      error: () => {
-      }
-    })
-  }
+
 
   addRateApp(): void {
     if (!this.user) {
       return;
     }
   
+
     const rate: RateApp = {
       grade: Number(this.rateAppForm.value.grade),
       comment: this.rateAppForm.value.comment || "",
       ratingTime: new Date(),  // Postavljanje trenutnog vremena
       userId: this.user.id  // Pretpostavljam da imaš userId iz user objekta
     };
+  
     if (this.user.role === "tourist") {
       // Ako je role 2, pozovi servis za turiste
       this.service.addRateAppTourist(rate).subscribe({
-        next: () => {
-          // Možeš dodati neku akciju po uspešnom dodavanju
+        next: (response) => {
+          // Ovde se postavlja poruka jer je odgovor uspešan
+          this.result = 'Uspešno si ocenio aplikaciju!';
         },
         error: (err) => {
-          console.error('Error adding tourist rate', err);
+          this.result = 'Greška pri ocenjivanju aplikacije!';
+          console.error('Greška pri ocenjivanju aplikacije za turiste!', err);
         }
       });
     } else if (this.user.role === "author") {
       // Ako je role 1, pozovi servis za autore
       this.service.addRateAppAuthor(rate).subscribe({
-        next: () => {
-          // Možeš dodati neku akciju po uspešnom dodavanju
+        next: (response) => {
+          // Ovde se postavlja poruka jer je odgovor uspešan
+          this.result = 'Uspešno si ocenio aplikaciju!';
         },
         error: (err) => {
-          console.error('Error adding author rate', err);
+          this.result = 'Greška pri ocenjivanju aplikacije!';
+          console.error('Greška pri ocenjivanju aplikacije za autore!', err);
         }
       });
     }
   }
+  
+
 }

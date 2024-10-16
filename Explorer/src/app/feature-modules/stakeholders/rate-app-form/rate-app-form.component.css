@@ -1,10 +1,77 @@
-div {
-    width: 400px;
-    display:flex;
-    gap: 20px;
+.rate-app-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rate-app-form {
+    display: flex;
     flex-direction: column;
-}
-
-.mat-icon {
-    vertical-align: middle;
-}
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .input-field, 
+  .textarea-field {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+  
+  .input-field:focus,
+  .textarea-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .textarea-field {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .submit-button {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .already-rate-message {
+    color: #dc3545;
+  }
+  
+  .result-message,
+  .already-rate-message {
+    margin-top: 20px;
+    font-size: 25px;
+    color:  #dc3545;
+    text-align: center;
+    font-weight: bold;
+  }
+  
