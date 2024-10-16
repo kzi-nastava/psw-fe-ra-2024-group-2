@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
 import { EquipmentComponent } from 'src/app/feature-modules/administration/equipment/equipment.component';
 import { RatingApplicationComponent } from 'src/app/feature-modules/administration/rating-application/rating-application.component';
+import { ToursitClubComponent } from 'src/app/feature-modules/administration/toursit-club/toursit-club.component';
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
@@ -17,6 +18,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 
+
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -29,9 +31,9 @@ const routes: Routes = [
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard]},
+  {path: 'myclub', component: ToursitClubComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
-  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'ratingsApplications', component: RatingApplicationComponent, canActivate: [AuthGuard],},
   {path: 'rateApp', component: RateAppFormComponent, canActivate: [AuthGuard],}
 
