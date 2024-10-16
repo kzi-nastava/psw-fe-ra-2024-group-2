@@ -2,6 +2,7 @@
   <table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
@@ -11,10 +12,18 @@
     <tbody>
       <ng-container *ngFor="let acc of account">
         <tr *ngIf="acc.username !== user?.username">
+          <td>{{acc.userId}}</td>
           <td>{{acc.username}}</td>
           <td>{{acc.email}}</td>
           <td>{{ getRoleName(acc.role) }}</td>
-          <td><button>Block</button></td>
+          <td>
+            <ng-container *ngIf="acc.isBlocked; else notBlocked">
+              Blocked
+            </ng-container>
+            <ng-template #notBlocked>
+              <button (click)="blockUser(acc)">Block</button>
+            </ng-template>
+          </td>
         </tr>
       </ng-container>
     </tbody>
