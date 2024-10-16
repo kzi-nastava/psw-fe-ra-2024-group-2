@@ -27,7 +27,6 @@ export class AddtourComponent {
   });
 
   addTour(): void {
-    console.log(this.tourForm.value);
 
     const tour : Tour = {
       userId: 1,
