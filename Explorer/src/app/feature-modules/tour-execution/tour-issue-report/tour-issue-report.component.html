@@ -1,0 +1,22 @@
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Tour</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Date and Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rp of tourIssueReportName">
+                <td>{{rp.tourName}}</td>
+                <td>{{rp.category}}</td>
+                <td>{{rp.description}}</td>
+                <td>{{rp.priority}}</td>
+                <td>{{rp.dateTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

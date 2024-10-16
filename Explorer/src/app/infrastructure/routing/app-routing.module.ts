@@ -8,6 +8,8 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours/mytours.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
+import { TourIssueReportComponent } from 'src/app/feature-modules/tour-execution/tour-issue-report/tour-issue-report.component';
+import { TourReportingComponent } from 'src/app/feature-modules/tour-execution/tour-reporting/tour-reporting.component';
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
 
 const routes: Routes = [
@@ -18,6 +20,8 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
+  {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],}
 ];
 
