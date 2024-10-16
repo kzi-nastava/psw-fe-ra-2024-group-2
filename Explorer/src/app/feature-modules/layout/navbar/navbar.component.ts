@@ -35,11 +35,13 @@ export class NavbarComponent implements OnInit {
   showClub(): void{
     this.router.navigate(['/club'])
   }
+
   showObjects(): void{
     this.router.navigate(['/objects'])
   }
 
   showComment(): void{
     this.router.navigate(['/comment'])
+
   }
 }
