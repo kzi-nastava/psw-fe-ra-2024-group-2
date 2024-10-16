@@ -19,4 +19,12 @@ export class TourExecutionService {
   getById(id: number): Observable<Tour>{
     return this.http.get<Tour>('https://localhost:44333/api/administration/tourIssueReportReview/'+id)
   }
+
+  getTours(): Observable<PagedResult<Tour>>{
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/tourist/tourIssueReport')
+  }
+
+  addTourIssueReport(report: TourIssueReport): Observable<TourIssueReport>{
+    return this.http.post<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport', report)
+  }
 }
