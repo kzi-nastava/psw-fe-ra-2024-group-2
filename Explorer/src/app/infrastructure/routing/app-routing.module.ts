@@ -27,13 +27,8 @@ const routes: Routes = [
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-
-
   {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
-
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard]},
-
-
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
