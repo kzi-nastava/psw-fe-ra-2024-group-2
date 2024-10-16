@@ -11,11 +11,15 @@
         </thead>
         <tbody>
             <tr *ngFor="let check of checkpoints">
-                <td>{{check.name}}</td>
-                <td>{{check.description}}</td>
-                <td>{{check.longitude}}</td>
-                <td>{{check.latitude}}</td>
+                <td>{{ check.name }}</td>
+                <td>{{ check.description }}</td>
+                <td>{{ check.longitude }}</td>
+                <td>{{ check.latitude }}</td>
             </tr>
         </tbody>
     </table>
+    <div></div>
+    <div>
+        <xp-checkpoint-form></xp-checkpoint-form>
+    </div>
 </div>

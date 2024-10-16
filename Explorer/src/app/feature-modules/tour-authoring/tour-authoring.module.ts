@@ -4,6 +4,8 @@ import { MyToursComponent } from './mytours/mytours.component';
 import { MaterialModule } from "src/app/infrastructure/material/material.module";
 import { EditTourComponent } from './edittour/edittour.component';
 import { CheckpointComponent } from './checkpoint/checkpoint.component';
+import { CheckpointFormComponent } from './checkpoint-form/checkpoint-form.component';
+import { ReactiveFormsModule } from '@angular/forms';  // <-- Import this
 
 
 
@@ -11,11 +13,13 @@ import { CheckpointComponent } from './checkpoint/checkpoint.component';
   declarations: [
     MyToursComponent,
     EditTourComponent,
-    CheckpointComponent
+    CheckpointComponent,
+    CheckpointFormComponent
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   exports: [
     CheckpointComponent

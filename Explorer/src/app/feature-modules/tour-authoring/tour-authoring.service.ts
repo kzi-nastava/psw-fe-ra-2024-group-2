@@ -30,4 +30,8 @@ export class TourAuthoringService {
     return this.http.get<PagedResult<Checkpoint>>('https://localhost:44333/api/author/checkpoint/checkpoints/getAll')
   }
 
+  addCheckpoint(checkpoint: Checkpoint): Observable<Checkpoint>{
+    return this.http.post<Checkpoint>('https://localhost:44333/api/author/checkpoint', checkpoint)
+  }
+
 }
