@@ -5,11 +5,12 @@
             <tr>Objects</tr>
         </th>
         <tbody>
-            <tr *ngFor="let obj of objects">
-                <td>{{obj.name}}</td>
-                <td>{{obj.description}}</td>
-                <td>{{obj.category}}</td>
+            <tr *ngFor="let objek of objects">
+                <td>{{objek.name}}</td>
+                <td>{{objek.description}}</td>
+                <td>{{objek.category}}</td>
             </tr>
         </tbody>
     </table>
+    <xp-object-form (objectAdded)="getObjects()"></xp-object-form>
 </div>

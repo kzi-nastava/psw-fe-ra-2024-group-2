@@ -5,6 +5,7 @@ import { PagedResult } from './shared/model/tour.module';
 import { Tour } from './model/tour.model';
 import { Equipment } from '../administration/model/equipment.model';
 import { Object } from './model/object.model';
+import { ObjectFormComponent } from './object-form/object-form.component';
 
 
 @Injectable({
@@ -30,4 +31,7 @@ export class TourAuthoringService {
     return this.http.put('https://localhost:44333/api/author/tour/equipment', result)
   }
   
+  addObject(object: Object): Observable<Object>{
+    return this.http.post<Object>('https://localhost:44333/api/author/tourObject', object);
+  }
 }
