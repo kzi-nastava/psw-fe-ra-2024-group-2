@@ -5,6 +5,8 @@ import { PagedResult } from './shared/model/tour.module';
 import { Tour } from './model/tour.model';
 import { Equipment } from '../administration/model/equipment.model';
 import { Checkpoint } from './model/checkpoint.model';
+import { Object } from './model/object.model';
+import { ObjectFormComponent } from './object-form/object-form.component';
 
 
 @Injectable({
@@ -16,6 +18,10 @@ export class TourAuthoringService {
 
   getTours(): Observable<PagedResult<Tour>>{
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
+  }
+
+  getObjects(): Observable<PagedResult<Object>>{
+    return this.http.get<PagedResult<Object>>('https://localhost:44333/api/author/tourObject')
   }
 
   getAllEquipment(): Observable<PagedResult<Equipment>>{
@@ -33,5 +39,15 @@ export class TourAuthoringService {
   addCheckpoint(checkpoint: Checkpoint): Observable<Checkpoint>{
     return this.http.post<Checkpoint>('https://localhost:44333/api/author/checkpoint', checkpoint)
   }
+
+
+  addObject(object: Object): Observable<Object>{
+    return this.http.post<Object>('https://localhost:44333/api/author/tourObject', object);
+  }
+
+  addTour(tour : Tour): Observable<Tour>{
+    return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
+  }
+
 
 }

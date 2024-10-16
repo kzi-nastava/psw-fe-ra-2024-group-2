@@ -35,4 +35,19 @@ export class NavbarComponent implements OnInit {
   showCheckpoints(): void{
     this.router.navigate(['/checkpoints'])
   }
+
+  showMyClub(): void {
+    this.router.navigate(['/myclub']);
+  }
+
+
+  showObjects(): void{
+    this.router.navigate(['/objects'])
+  }
+
+  showComment(): void{
+    this.router.navigate(['/comment'])
+
+  }
+
 }
