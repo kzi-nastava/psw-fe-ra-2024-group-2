@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdministrationService } from '../administration.service';
+import { AuthService } from '../../../infrastructure/auth/auth.service';
 import { ClubInviteDTO } from '../model/clubinvitedto.model';
 import { AccountDTO } from '../model/accountdto.model'; // Import AccountDTO
 
@@ -13,15 +14,18 @@ export class ToursitClubComponent implements OnInit {
   nonMembers: any[] = [];  // Non-members list
   page = 1;
   pageSize = 10;
+  currentUser: {};
+  clubId:1;
 
-  constructor(private touristService: AdministrationService) { }
+  constructor(private touristService: AdministrationService,private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+    console.log('Current User:', this.currentUser);
     this.loadTourists();
   }
 
   loadTourists(): void {
-    // Step 1: Get filtered tourists
     this.touristService.getFilteredTourists(this.page, this.pageSize).subscribe(touristData => {
       const tourists: AccountDTO[] = touristData.results; 
       console.log('Tourist Data:', touristData);
@@ -56,6 +60,8 @@ export class ToursitClubComponent implements OnInit {
   }
 
   inviteTourist(dto: ClubInviteDTO): void {
+    dto.clubId=this.clubId;
+
     this.touristService.inviteTouristToClub(dto).subscribe(() => {
       this.loadTourists();
     });
