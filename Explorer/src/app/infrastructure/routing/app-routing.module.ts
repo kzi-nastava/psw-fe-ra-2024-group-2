@@ -15,6 +15,7 @@ import { TourIssueReportComponent } from 'src/app/feature-modules/tour-execution
 import { TourReportingComponent } from 'src/app/feature-modules/tour-execution/tour-reporting/tour-reporting.component';
 import { RatingApplicationComponent } from 'src/app/feature-modules/administration/rating-application/rating-application.component';
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
+import { ToursitClubComponent } from 'src/app/feature-modules/administration/toursit-club/toursit-club.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
 
 
@@ -27,16 +28,11 @@ const routes: Routes = [
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-
-
   {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
-
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard]},
-
-
+  {path: 'myclub', component: ToursitClubComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
-  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'ratingsApplications', component: RatingApplicationComponent, canActivate: [AuthGuard],},
   {path: 'rateApp', component: RateAppFormComponent, canActivate: [AuthGuard],}
 
