@@ -7,14 +7,14 @@ import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
+import { AddtourComponent } from './addtour/addtour.component';
 @NgModule({
   declarations: [
     MyToursComponent,
     EditTourComponent,
     ObjectComponent,
-    ObjectFormComponent
+    ObjectFormComponent, 
+    AddtourComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +24,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     ObjectComponent,
     ObjectFormComponent
-  ]
+  ],
 })
 export class TourAuthoringModule { }

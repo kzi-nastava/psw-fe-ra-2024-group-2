@@ -31,7 +31,14 @@ export class TourAuthoringService {
     return this.http.put('https://localhost:44333/api/author/tour/equipment', result)
   }
   
+
   addObject(object: Object): Observable<Object>{
     return this.http.post<Object>('https://localhost:44333/api/author/tourObject', object);
   }
+
+  addTour(tour : Tour): Observable<Tour>{
+    return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
+  }
+
+
 }

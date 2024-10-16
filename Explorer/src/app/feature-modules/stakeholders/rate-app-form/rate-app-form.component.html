@@ -1,0 +1,25 @@
+<div class="rate-app-container">
+    <h2 class="form-title">Ocenite aplikaciju</h2> <!-- Dodan naslov -->
+    <form [formGroup]="rateAppForm" class="rate-app-form">
+      <div class="form-group">
+        <label for="grade">Ocena</label>
+        <input id="grade" type="number" formControlName="grade" max="5" min="1" class="input-field" 
+          [ngClass]="{'input-error': rateAppForm.get('grade')!.invalid && (rateAppForm.get('grade')!.touched || rateAppForm.get('grade')!.dirty)}"/>
+        <div *ngIf="rateAppForm.get('grade')!.invalid && (rateAppForm.get('grade')!.touched || rateAppForm.get('grade')!.dirty)" class="error-message">
+          Unesite ocenu između 1 i 5.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="comment">Komentar</label>
+        <textarea id="comment" formControlName="comment" class="textarea-field" ></textarea>
+       
+      </div>
+  
+      <button type="submit" class="submit-button" (click)="addRateApp()">Pošalji ocenu</button>
+    </form>
+  
+    <h1 class="result-message">{{ result }}</h1>
+    <h1 class="already-rate-message">{{ alreadyRate }}</h1>
+  </div>
+  
