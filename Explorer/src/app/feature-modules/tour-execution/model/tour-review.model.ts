@@ -8,5 +8,5 @@ export interface TourReview {
     tourId?: number;
     reviewDate: Date 
     visitDate: Date
-    image: Image | null;
+    image?: Image | null;
 }

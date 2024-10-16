@@ -22,8 +22,8 @@
   </div>
 
   <!-- Pass tour.id as an argument to showReviews() -->
-  <button  color="primary" mat-raised-button 
-          (click)="showReviews(tour.id)">Show Reviews</button>
-</div>
+  <button color="primary" mat-raised-button (click)="showReviews(tour.id)">Show Reviews</button>
 
-  
+  <!-- New button to redirect to the review form -->
+  <button color="accent" mat-raised-button (click)="goToReviewForm(tour.id)">Submit a Review</button>
+</div>

@@ -27,4 +27,9 @@ export class ToursComponent implements OnInit {
   showReviews(tourId: number): void {
     this.router.navigate(['/reviews', tourId]); // Navigates to /reviews/:tourId
   }
+
+  // Method to navigate to the review form for a specific tour
+  goToReviewForm(tourId: number): void {
+    this.router.navigate(['/reviewform', tourId]); // Pass tourId as a route parameter
+  }
 }

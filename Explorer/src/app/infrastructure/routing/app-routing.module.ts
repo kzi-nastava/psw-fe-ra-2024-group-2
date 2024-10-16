@@ -11,6 +11,7 @@ import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/editto
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
 import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tours.component';
 import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
+import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'alltours', component: ToursComponent,canActivate: [AuthGuard]},
-  {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard]}
+  {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard]},
+  { path: 'reviewform/:tourId', component: TourReviewFormComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
