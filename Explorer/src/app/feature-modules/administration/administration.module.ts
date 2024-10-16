@@ -5,6 +5,7 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountManagementComponent } from './account-management/account-management.component';
+import { ToursitClubComponent } from './toursit-club/toursit-club.component';
 
 
 
@@ -12,7 +13,8 @@ import { AccountManagementComponent } from './account-management/account-managem
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
-    AccountManagementComponent
+    AccountManagementComponent,
+    ToursitClubComponent
   ],
   imports: [
     CommonModule,
