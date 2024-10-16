@@ -35,6 +35,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/myclub']);
   }
 
+  showClub(): void{
+    this.router.navigate(['/club'])
+  }
 
   showObjects(): void{
     this.router.navigate(['/objects'])
@@ -44,5 +47,4 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/comment'])
 
   }
-
 }
