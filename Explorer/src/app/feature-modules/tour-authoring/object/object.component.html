@@ -1,0 +1,16 @@
+<div>
+    <br>
+    <table>
+        <th>
+            <tr>Objects</tr>
+        </th>
+        <tbody>
+            <tr *ngFor="let objek of objects">
+                <td>{{objek.name}}</td>
+                <td>{{objek.description}}</td>
+                <td>{{objek.category}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <xp-object-form (objectAdded)="getObjects()"></xp-object-form>
+</div>
