@@ -16,14 +16,7 @@ export class AccountManagementComponent implements OnInit {
   constructor(private service: AdministrationService, private authService: AuthService){ }
   
   ngOnInit(): void {
-    this.service.getAccount().subscribe({
-      next: (result: PagedResult<Account>) => {
-        this.account = result.results
-      },
-      error(err: any) {
-        console.log(err)
-      }
-    })
+    this.getAccounts();
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
@@ -40,5 +33,37 @@ export class AccountManagementComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+
+  blockUser(account: Account): void {
+
+    const userToBlock = this.account.find(acc => acc.userId === account.userId);
+    if (userToBlock) {
+      userToBlock.isBlocked = true;
+
+      // Pozovi servis za ažuriranje korisničkog naloga (pretpostavljam da imaš metodu za to)
+      this.service.blockAccount(userToBlock).subscribe({
+        next: () => {
+          console.log(`User ${userToBlock.username} has been blocked.`);
+          this.getAccounts(); 
+        },
+        error: (err: any) => {
+          console.error('Error during blocking the user:', err);
+        }
+      });
+    } else {
+      console.log('User not found.');
+    }
+  }
+
+  getAccounts(): void{
+    this.service.getAccount().subscribe({
+      next: (result: PagedResult<Account>) => {
+        this.account = result.results;
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    });
   }
 }

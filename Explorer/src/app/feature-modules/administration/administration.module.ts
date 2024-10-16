@@ -4,6 +4,7 @@ import { EquipmentFormComponent } from './equipment-form/equipment-form.componen
 import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RatingApplicationComponent } from './rating-application/rating-application.component';
 import { AccountManagementComponent } from './account-management/account-management.component';
 import { ToursitClubComponent } from './toursit-club/toursit-club.component';
 
@@ -14,7 +15,9 @@ import { ToursitClubComponent } from './toursit-club/toursit-club.component';
     EquipmentFormComponent,
     EquipmentComponent,
     AccountManagementComponent,
-    ToursitClubComponent
+    ToursitClubComponent,
+    RatingApplicationComponent,
+    AccountManagementComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +27,7 @@ import { ToursitClubComponent } from './toursit-club/toursit-club.component';
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
+    RatingApplicationComponent,
     AccountManagementComponent
   ]
 })
