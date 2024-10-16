@@ -8,8 +8,11 @@
                 <div class="rating-icon">{{ '⭐'.repeat(ra.grade) }}</div>
             </div>
             <div class="card-content">
-                <p class="comment"><i>"{{ ra.comment }}"</i></p>
-                <p><strong>Rated on:</strong> {{ ra.ratingTime ? (ra.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</p>
+                <p class="comment">
+                    <i *ngIf="ra.comment; else noComment">"{{ ra.comment }}"</i>
+                    <ng-template #noComment><strong>Korisnik nije ostavio komentar!</strong></ng-template>
+                </p>          
+                      <p><strong>Rated on:</strong> {{ ra.ratingTime ? (ra.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</p>
             </div>
         </div>
     </div>

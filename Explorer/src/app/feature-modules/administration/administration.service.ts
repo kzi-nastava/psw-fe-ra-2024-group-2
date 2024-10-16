@@ -5,6 +5,7 @@ import { RatingApplication } from './model/rating-application.model';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Account } from './model/account.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,9 @@ export class AdministrationService {
   getRatingApplication(): Observable<PagedResults<RatingApplication>> {
     return this.http.get<PagedResults<RatingApplication>>(environment.apiHost + 'administrator/ratingApplication')
   }
+
+  getAccount(): Observable<PagedResults<Account>>{
+    return this.http.get<PagedResults<Account>>('https://localhost:44333/api/administrator/account');
+  }
+
 }

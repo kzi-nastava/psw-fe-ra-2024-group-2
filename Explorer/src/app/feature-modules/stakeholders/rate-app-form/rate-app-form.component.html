@@ -1,0 +1,17 @@
+<form [formGroup]="rateAppForm">
+    <div>
+        <mat-form-field>
+            <mat-label>Ocena</mat-label>
+            <input matInput formControlName="grade" type="number"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Komentar</mat-label>
+          <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          formControlName="comment"
+          cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+        <button mat-raised-button type="submit" color="primary" (click)="addRateApp()">Pošalji ocenu</button>
+    </div>
+</form>
