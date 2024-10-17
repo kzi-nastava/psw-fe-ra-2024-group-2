@@ -39,7 +39,7 @@ export class TourExecutionService {
   }
 
   addReview(tourReview: TourReview): Observable<TourReview>{
-    return this.http.post<TourReview>(environment.apiHost + 'tour/reviews', tourReview)
+    return this.http.post<TourReview>(`${environment.apiHost}tour/reviews`, tourReview)
   }
 
 

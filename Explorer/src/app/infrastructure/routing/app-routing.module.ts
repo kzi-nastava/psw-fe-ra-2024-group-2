@@ -31,7 +31,10 @@ const routes: Routes = [
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],}
+  {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
+  {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
+  {path: 'reviewform/:tourId', component: TourReviewFormComponent, canActivate: [AuthGuard] },
+  {path: 'alltours', component: ToursComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
