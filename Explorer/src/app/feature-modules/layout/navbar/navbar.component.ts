@@ -40,4 +40,20 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/reviews'])
   }
 
+  showMyClub(): void {
+    this.router.navigate(['/myclub']);
+  }
+
+  showClub(): void{
+    this.router.navigate(['/club'])
+  }
+
+  showObjects(): void{
+    this.router.navigate(['/objects'])
+  }
+
+  showComment(): void{
+    this.router.navigate(['/comment'])
+
+  }
 }

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Tour } from './model/tour-model';
 import { PagedResult } from '../tour-authoring/shared/model/tour.module';
+import { TourIssueReport } from './model/tour-issue-report.model';
+import { Tour } from '../tour-authoring/model/tour.model';
 import { TourReview } from './model/tour-review.model';
 import { environment } from 'src/env/environment';
 
@@ -11,9 +12,25 @@ import { environment } from 'src/env/environment';
 })
 export class TourExecutionService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getTours():   Observable<PagedResult<Tour>>{
+  getTourIssueReport(): Observable<PagedResult<TourIssueReport>>{
+    return this.http.get<PagedResult<TourIssueReport>>('https://localhost:44333/api/administration/tourIssueReportReview')
+  }
+
+  getById(id: number): Observable<Tour>{
+    return this.http.get<Tour>('https://localhost:44333/api/administration/tourIssueReportReview/'+id)
+  }
+
+  getTours(): Observable<PagedResult<Tour>>{
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/tourist/tourIssueReport')
+  }
+
+  addTourIssueReport(report: TourIssueReport): Observable<TourIssueReport>{
+    return this.http.post<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport', report)
+  }
+
+  getAllTours():   Observable<PagedResult<Tour>>{
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/tour/reviews/get/tours');
   }
 
@@ -25,4 +42,10 @@ export class TourExecutionService {
     return this.http.post<TourReview>(environment.apiHost + 'tour/reviews', tourReview)
   }
 
+
 }
+
+
+
+
+
