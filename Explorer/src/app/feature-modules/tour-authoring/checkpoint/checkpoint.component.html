@@ -7,6 +7,7 @@
                 <th>Description</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,10 @@
                 <td>{{ check.description }}</td>
                 <td>{{ check.longitude }}</td>
                 <td>{{ check.latitude }}</td>
+                <td>
+                    <!-- Display image if exists -->
+                    <img *ngIf="check.image?.data" [src]="'data:' + check.image?.mimeType + ';base64,' + check.image?.data" alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
+                </td>
             </tr>
         </tbody>
     </table>
