@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { PagedResult } from '../tour-authoring/shared/model/tour.module';
 import { TourIssueReport } from './model/tour-issue-report.model';
 import { Tour } from '../tour-authoring/model/tour.model';
+import { TourReview } from './model/tour-review.model';
+import { environment } from 'src/env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +29,23 @@ export class TourExecutionService {
   addTourIssueReport(report: TourIssueReport): Observable<TourIssueReport>{
     return this.http.post<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport', report)
   }
+
+  getAllTours():   Observable<PagedResult<Tour>>{
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/tour/reviews/get/tours');
+  }
+
+  getReviews(tourId: number):   Observable<PagedResult<TourReview>>{
+    return this.http.get<PagedResult<TourReview>>(`https://localhost:44333/api/tour/reviews/get/${tourId}`);
+  }
+
+  addReview(tourReview: TourReview): Observable<TourReview>{
+    return this.http.post<TourReview>(`${environment.apiHost}tour/reviews`, tourReview)
+  }
+
+
 }
+
+
+
+
+

@@ -32,6 +32,15 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/mytours'])
   }
 
+  showAllTours(): void{
+    this.router.navigate(['/alltours'])
+  }
+
+  showReviews(): void{
+    this.router.navigate(['/reviews'])
+  }
+
+
   showCheckpoints(): void{
     this.router.navigate(['/checkpoints'])
   }
@@ -40,6 +49,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/myclub']);
   }
 
+  showClub(): void{
+    this.router.navigate(['/club'])
+  }
 
   showObjects(): void{
     this.router.navigate(['/objects'])
@@ -49,5 +61,4 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/comment'])
 
   }
-
 }

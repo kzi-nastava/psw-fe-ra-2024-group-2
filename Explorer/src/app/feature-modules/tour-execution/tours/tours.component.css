@@ -1,0 +1,45 @@
+.tour-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    max-width: 600px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tour-name {
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+  
+  .tour-description {
+    font-size: 1em;
+    margin: 12px 0;
+  }
+  
+  .tour-details {
+    margin-top: 8px;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .tour-equipment {
+    margin-top: 10px;
+  }
+  
+  .tour-tag {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  .tour-equipment ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  
+  .tour-equipment li {
+    margin-bottom: 5px;
+  }
+  

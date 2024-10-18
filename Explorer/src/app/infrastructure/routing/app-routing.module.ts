@@ -8,6 +8,7 @@ import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.c
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
+import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club/club.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
 import { CheckpointComponent } from 'src/app/feature-modules/tour-authoring/checkpoint/checkpoint.component';
 
@@ -18,6 +19,9 @@ import { TourReportingComponent } from 'src/app/feature-modules/tour-execution/t
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tours.component';
+import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
+import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -25,12 +29,16 @@ const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],},
+  {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'checkpoints', component: CheckpointComponent, canActivate: [AuthGuard]},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
+  {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
+  {path: 'reviewform/:tourId', component: TourReviewFormComponent, canActivate: [AuthGuard] },
+  {path: 'alltours', component: ToursComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
