@@ -31,6 +31,15 @@ export class NavbarComponent implements OnInit {
   showMyTours(): void{
     this.router.navigate(['/mytours'])
   }
+
+  showAllTours(): void{
+    this.router.navigate(['/alltours'])
+  }
+
+  showReviews(): void{
+    this.router.navigate(['/reviews'])
+  }
+
   showMyClub(): void {
     this.router.navigate(['/myclub']);
   }
