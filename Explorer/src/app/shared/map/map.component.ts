@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
-import * as L from 'leaflet';
 import { MapService } from './map.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'xp-map',
@@ -28,7 +28,8 @@ export class MapComponent implements AfterViewInit {
       }
     );
     tiles.addTo(this.map);
-    this.registerOnClick()
+    this.registerOnClick();
+    this.setRoute();
   }
 
   search(): void {
@@ -63,4 +64,17 @@ export class MapComponent implements AfterViewInit {
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
   }
+  setRoute(): void {
+    const routeControl = L.Routing.control({
+      waypoints: [L.latLng(43.96, 21.26), L.latLng(45.25, 19.84)],
+      router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', {profile: 'mapbox/walking'})
+    }).addTo(this.map);
+
+    routeControl.on('routesfound', function(e) {
+      var routes = e.routes;
+      var summary = routes[0].summary;
+      alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+  }
+
 }
