@@ -1,5 +1,6 @@
 .container {
     display: flex;
+    border: 1px solid black;
     justify-content: space-between;
     align-items: flex-start;
     margin: 20px auto;
