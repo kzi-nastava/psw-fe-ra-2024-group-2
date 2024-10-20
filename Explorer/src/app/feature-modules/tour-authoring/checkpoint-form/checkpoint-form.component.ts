@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Checkpoint } from '../model/checkpoint.model';
@@ -10,6 +10,8 @@ import { Image } from '../../../shared/model/image.model';
   styleUrls: ['./checkpoint-form.component.css']
 })
 export class CheckpointFormComponent {
+
+  @Output() checkpointAdded = new EventEmitter<number>(); // Output event emitter
 
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // For previewing the image
@@ -24,7 +26,6 @@ export class CheckpointFormComponent {
     image: new FormControl('') // New form control for the image
   });
 
-  // Method to handle file input
   onFileSelect(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -39,15 +40,14 @@ export class CheckpointFormComponent {
   }
 
   addCheckpoint(): void {
-    // Ensure image is properly handled before submission
     if (this.selectedImage) {
       const reader = new FileReader();
       reader.onload = () => {
-        const base64String = reader.result as string; // Get base64 string
+        const base64String = reader.result as string; 
         const image: Image = {
-          data: base64String.split(',')[1], // Remove data URL prefix
+          data: base64String.split(',')[1], 
           mimeType: this.selectedImage!.type,
-          uploadedAt: new Date().toISOString() // Convert Date to string
+          uploadedAt: new Date().toISOString() 
         };
 
         const checkpoint: Checkpoint = {
@@ -55,23 +55,23 @@ export class CheckpointFormComponent {
           description: this.checkpointForm.value.description || "",
           latitude: Number(this.checkpointForm.value.latitude || ""),
           longitude: Number(this.checkpointForm.value.longitude || ""),
-          image: image // Attach image object to the checkpoint
+          image: image 
         };
 
-        console.log(checkpoint);
-
+        // Modify this part inside the addCheckpoint() method to emit checkpoint ID
         this.service.addCheckpoint(checkpoint).subscribe({
-          next: (_) => {
-            console.log("Checkpoint added successfully");
+          next: (response) => {
+            console.log("Checkpoint added successfully. Id: " + response.id);
+            this.checkpointAdded.emit(response.id as number); // Emit checkpoint ID after it's successfully added
           },
           error: (err) => {
             console.error("Error adding checkpoint:", err);
           }
         });
+
       };
-      reader.readAsDataURL(this.selectedImage); // Convert image to base64
+      reader.readAsDataURL(this.selectedImage); 
     } else {
-      // Submit checkpoint without an image if no image is selected
       const checkpoint: Checkpoint = {
         name: this.checkpointForm.value.name || "",
         description: this.checkpointForm.value.description || "",
@@ -79,11 +79,10 @@ export class CheckpointFormComponent {
         longitude: Number(this.checkpointForm.value.longitude || "")
       };
 
-      console.log(checkpoint);
-
       this.service.addCheckpoint(checkpoint).subscribe({
-        next: (_) => {
+        next: (response) => {
           console.log("Checkpoint added successfully without image");
+          this.checkpointAdded.emit(response.id as number); // Emit the checkpoint to parent component
         },
         error: (err) => {
           console.error("Error adding checkpoint:", err);

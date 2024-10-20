@@ -9,6 +9,7 @@ import { ObjectFormComponent } from './object-form/object-form.component';
 import { CheckpointComponent } from './checkpoint/checkpoint.component';
 import { CheckpointFormComponent } from './checkpoint-form/checkpoint-form.component';
 import { ObjectComponent } from './object/object.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AddtourComponent } from './addtour/addtour.component';
 @NgModule({
@@ -25,7 +26,8 @@ import { AddtourComponent } from './addtour/addtour.component';
   imports: [
     CommonModule,
     MaterialModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     ObjectComponent,
