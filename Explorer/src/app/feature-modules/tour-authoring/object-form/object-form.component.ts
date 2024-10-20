@@ -1,8 +1,6 @@
 import { Component,EventEmitter, Inject, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Object, ObjectCategory } from '../model/object.model';
-import { AdministrationService } from '../../administration/administration.service';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { TourAuthoringService } from '../tour-authoring.service';
 
 @Component({
@@ -13,8 +11,8 @@ import { TourAuthoringService } from '../tour-authoring.service';
 export class ObjectFormComponent  {
 
   objectForm: FormGroup;
-  selectedImage: File | null = null; // To store the selected image file
-  imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
+  selectedImage: File | null = null; 
+  imagePreview: string | ArrayBuffer | null = null; 
 
   @Output() objectAdded = new EventEmitter<null>();
   constructor (private service: TourAuthoringService){
@@ -25,11 +23,6 @@ export class ObjectFormComponent  {
       image: new FormControl(""),
   });
 
-       /* let imageData = data.image?.data;
-
-        if (imageData) {
-            this.imagePreview = imageData;
-        }*/
   }
 
   onFileSelect(event: any): void {
@@ -38,14 +31,16 @@ export class ObjectFormComponent  {
         const reader = new FileReader();
         reader.onload = () => {
             const base64String = reader.result as string;
-            const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0]; // Extract MIME type from base64 string
-            const uploadedAt = new Date().toISOString(); // Get the current date and time
-            this.objectForm.patchValue({ image: { data: base64String, mimeType, uploadedAt } }); // Update the form control with base64 string
+            const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0]; // Extract MIME type
+            const uploadedAt = new Date().toISOString(); // Current timestamp
+            // Update the form with the base64-encoded image
+            this.objectForm.patchValue({
+                image: { data: base64String.split(',')[1], mimeType, uploadedAt }
+            });
             this.objectForm.get('image')!.updateValueAndValidity();
-
-            this.imagePreview = base64String; // Set the preview to the base64 string
+            this.imagePreview = base64String; // Set preview for the UI
         };
-        reader.readAsDataURL(file); // Convert file to DataURL (base64 encoded string)
+        reader.readAsDataURL(file); // Convert file to base64
     }
 }
   
@@ -55,7 +50,7 @@ export class ObjectFormComponent  {
     const obj: Object = {
       name: this.objectForm.value.name || "",
       description: this.objectForm.value.description || "",
-      image: this.objectForm.value.image, // Set this to the appropriate image data if needed
+      image: this.objectForm.value.image, 
       category: this.objectForm.value.category as ObjectCategory || ObjectCategory.WC
 
     }
@@ -63,7 +58,7 @@ export class ObjectFormComponent  {
     this.service.addObject(obj).subscribe({
       next:(_) => {
         this.objectAdded.emit()
-        //this.service.getObjects()
+       
       }
     });
   }
