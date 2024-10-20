@@ -10,5 +10,5 @@ export interface Tour {
     tag: number;
     status: number;
     price: number;
-    checkpoints?: number[];  // List of checkpoints
+    checkpoints: number[];  // List of checkpoints
 }
