@@ -3,7 +3,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResult } from '../shared/model/tour.module';
 import { Tour } from '../model/tour.model';
 import { Router } from '@angular/router';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 export enum Status
 {
