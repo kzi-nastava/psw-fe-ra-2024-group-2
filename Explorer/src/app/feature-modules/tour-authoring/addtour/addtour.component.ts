@@ -15,6 +15,8 @@ export class AddtourComponent {
 
   @Output() tourAdded = new EventEmitter<null>();
 
+  checkpoints: number[] = [];
+
   constructor(private service: TourAuthoringService) {}
 
   tourForm  = new FormGroup({
@@ -25,6 +27,10 @@ export class AddtourComponent {
         difficulty : new FormControl(0),
         price : new FormControl(0, [Validators.required])
   });
+
+  onCheckpointAdded(checkpointId: number): void{
+    this.checkpoints.push(checkpointId);
+  }
 
   addTour(): void {
 
@@ -38,7 +44,9 @@ export class AddtourComponent {
       tag: Number(this.tourForm.value.tag) || 0,
       difficulty: Number(this.tourForm.value.difficulty) || 0,
       price: 0,
+      checkpoints: this.checkpoints
     }
+    console.log(tour);
     this.service.addTour(tour).subscribe({next: (_) => {this.tourAdded.emit();}});
   }
 

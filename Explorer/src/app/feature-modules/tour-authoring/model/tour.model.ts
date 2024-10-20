@@ -1,3 +1,5 @@
+import { Checkpoint } from "./checkpoint.model";
+
 export interface Tour {
     id: number;
     userId: number;
@@ -8,4 +10,5 @@ export interface Tour {
     tag: number;
     status: number;
     price: number;
+    checkpoints?: number[];  // List of checkpoints
 }

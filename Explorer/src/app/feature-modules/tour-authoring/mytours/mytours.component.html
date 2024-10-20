@@ -11,6 +11,7 @@
             <th>Status</th>
             <th>Tag</th>
             <th>Price</th>
+            <th>Checkpoint ids</th>
           </tr>
         </thead>
         <tbody>
@@ -21,6 +22,8 @@
             <td>{{ getStatusLabel(tour.status) }}</td>
             <td>{{ getTagLabel(tour.tag) }}</td>
             <td>{{ tour.price }}</td>
+            <td>{{ tour.checkpoints?.join(', ') || 'No checkpoints available' }}</td>
+
           </tr>
         </tbody>
       </table>

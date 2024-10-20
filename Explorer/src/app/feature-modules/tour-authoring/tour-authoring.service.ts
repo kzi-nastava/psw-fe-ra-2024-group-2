@@ -40,6 +40,9 @@ export class TourAuthoringService {
     return this.http.post<Checkpoint>('https://localhost:44333/api/author/checkpoint', checkpoint)
   }
 
+  updateTourCheckpoints(tour: Tour){
+    return this.http.put('https://localhost:44333/api/author/tour/checkpoints', tour);
+  }
 
   addObject(object: Object): Observable<Object>{
     return this.http.post<Object>('https://localhost:44333/api/author/tourObject', object);
