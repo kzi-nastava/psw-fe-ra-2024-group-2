@@ -15,19 +15,13 @@
       <tr>
         <td><label for="latitude">Latitude:</label></td>
         <td>
-          <input type="number" id="latitude" name="latitude" placeholder="Latitude" formControlName="latitude" required>
+          <input type="number" id="latitude" name="latitude" placeholder="Latitude" formControlName="latitude" readonly>
         </td>
       </tr>
       <tr>
         <td><label for="longitude">Longitude:</label></td>
         <td>
-          <input type="number" id="longitude" name="longitude" placeholder="Longitude" formControlName="longitude" required>
-        </td>
-      </tr>
-      <tr>
-        <td><label for="image">Upload Image:</label></td>
-        <td>
-          <input type="file" id="image" (change)="onFileSelect($event)" accept="image/*">
+          <input type="number" id="longitude" name="longitude" placeholder="Longitude" formControlName="longitude" readonly>
         </td>
       </tr>
       <tr>
@@ -38,6 +32,13 @@
           </select>
         </td>
       </tr>
+      <tr>
+        <td><label for="image">Upload Image:</label></td>
+        <td>
+          <input type="file" id="image" (change)="onFileSelect($event)" accept="image/*">
+        </td>
+      </tr>
+      
       <!-- Image Preview Row -->
       <tr *ngIf="imagePreview">
         <td colspan="2">
@@ -45,6 +46,10 @@
           <img [src]="imagePreview" alt="Image Preview" width="200">
         </td>
       </tr>
+      <!-- Add the map component -->
+      <td colspan="2">
+        <xp-map (locationSelected)="onLocationSelected($event)"></xp-map>
+      </td>
       <tr>
         <td colspan="2" style="text-align: right;">
           <button mat-raised-button type="submit" (click)="addCheckpoint()">Submit Checkpoint</button>

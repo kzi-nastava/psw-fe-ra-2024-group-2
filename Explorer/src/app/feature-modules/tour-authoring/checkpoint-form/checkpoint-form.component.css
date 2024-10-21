@@ -36,3 +36,12 @@ button:hover {
 .submit-row {
     text-align: right; /* Dugme poravnato na desno */
 }
+
+.map-container {
+    width: 100%; /* Make map take the full width */
+    height: 300px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden; /* Ensure map does not overflow */
+}

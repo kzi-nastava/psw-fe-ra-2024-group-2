@@ -4,7 +4,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Checkpoint } from '../model/checkpoint.model';
 import { Image } from '../../../shared/model/image.model';
 import { Tour } from '../model/tour.model';
-
+import { MapComponent } from 'src/app/shared/map/map.component';
 @Component({
   selector: 'xp-checkpoint-form',
   templateUrl: './checkpoint-form.component.html',
@@ -18,6 +18,8 @@ export class CheckpointFormComponent implements OnInit{
   imagePreview: string | ArrayBuffer | null = null; // For previewing the image
   tours: Tour[] = [];
   selectedTourId: number | null = null;;
+  latitude: number = 0;
+  longitude: number = 0;
 
   constructor(private service: TourAuthoringService){}
 
@@ -25,7 +27,7 @@ export class CheckpointFormComponent implements OnInit{
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     latitude: new FormControl('', [Validators.required]),
-    longitude: new FormControl('', [Validators.required]),
+    longitude: new FormControl('', [Validators.required]), 
     image: new FormControl('') // New form control for the image
   });
 
@@ -56,6 +58,15 @@ export class CheckpointFormComponent implements OnInit{
     }
   }
 
+  onLocationSelected(location: { lat: number, lng: number }) {
+    this.latitude = location.lat;
+    this.longitude = location.lng;
+  
+    // Optionally, update the form controls directly
+    this.checkpointForm.get('latitude')?.setValue(this.latitude.toString());
+    this.checkpointForm.get('longitude')?.setValue(this.longitude.toString());
+  }
+
   addCheckpoint(): void {
     if (this.selectedImage) {
       const reader = new FileReader();
@@ -70,8 +81,8 @@ export class CheckpointFormComponent implements OnInit{
         const checkpoint: Checkpoint = {
           name: this.checkpointForm.value.name || "",
           description: this.checkpointForm.value.description || "",
-          latitude: Number(this.checkpointForm.value.latitude || ""),
-          longitude: Number(this.checkpointForm.value.longitude || ""),
+          latitude: Number(this.checkpointForm.value.latitude || 0), // Add latitude from form
+          longitude: Number(this.checkpointForm.value.longitude || 0) ,
           image: image,
           //tours: this.selectedTourId ? [this.selectedTourId] : [] // Add selected tour ID here
         };
