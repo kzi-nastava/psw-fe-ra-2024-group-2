@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --font-family: 'Roboto', sans-serif;
+    --primary-color: #E57734;
+    --secondary-color: #F8EBCF;
+    --font-family: "Montserrat", sans-serif;
     --background-color: #f8ebcf;
-    --text-color: #333;
+    --text-color-primary: #01757A;
+    --text-color-secondary: #000;
   }
   
   /* Global styles for essential HTML tags */
@@ -34,6 +35,7 @@
     margin: 1% auto;
     background-color: rgba(248, 235, 207, 0.95); 
     position: fixed; 
+    transition: 1s ease;
     top: 0; 
     left: 5%; 
     z-index: 2; 

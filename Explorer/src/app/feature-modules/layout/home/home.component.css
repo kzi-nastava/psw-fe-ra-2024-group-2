@@ -216,6 +216,7 @@
 }
 
 .tour-person span{
+  color: var(--text-color-primary);
   font-weight: bold;
   line-height: 5vh;
   display: flex;
