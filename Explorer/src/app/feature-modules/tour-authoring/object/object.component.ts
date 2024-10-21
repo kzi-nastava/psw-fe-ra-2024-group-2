@@ -30,21 +30,5 @@ export class ObjectComponent implements OnInit {
         console.log(err)
       }
     });
-  }  
-  /*ngOnInit(): void {
-    this.service.getObjects().subscribe({
-      next: (result: PagedResult<Object>) => {
-        console.log('Response received:', result);
-        this.objects = result.results;
-        console.log('Objects array:', this.objects);
-      },
-      error: (err: any) => {
-        console.log('no')
-      }
-    })
-  }*/
-
-
-
-   
+  }
   }  
