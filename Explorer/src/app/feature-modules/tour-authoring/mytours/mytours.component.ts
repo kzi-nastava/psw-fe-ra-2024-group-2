@@ -4,6 +4,7 @@ import { PagedResult } from '../shared/model/tour.module';
 import { Tour } from '../model/tour.model';
 import { Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { Checkpoint } from '../model/checkpoint.model';
 
 
 export enum Status
@@ -40,12 +41,14 @@ export class MyToursComponent implements OnInit{
 
   tours: Tour[] = []
   tourObjects: any[] = []; 
+  tourCheckpoints: any[] = [];
 
     constructor(private service: TourAuthoringService, private router: Router) {}
 
     ngOnInit(): void {
       this.getTours();
       this.loadTourObjects();
+      this.loadTourCheckpoints();
     }
 
 
@@ -60,6 +63,17 @@ export class MyToursComponent implements OnInit{
         }
     });
     }
+    loadTourCheckpoints(): void{
+      this.service.getCheckpoints().subscribe({
+        next: (result: PagedResult<Checkpoint>) =>{
+          this.tourCheckpoints = result.results;
+        },
+        error: (error) => {
+          console.error('Error fetching checkpoints from the backend: ', error);
+        }
+      })
+    }
+
     getTours(): void {
       this.service.getTours().subscribe({
         next: (result: PagedResult<Tour>) =>{

@@ -3,6 +3,7 @@ import { MapService } from './map.service';
 import * as L from 'leaflet';
 import { Input } from '@angular/core';
 import { Object } from 'src/app/feature-modules/tour-authoring/model/object.model';
+import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpoint.model';
 
 @Component({
   selector: 'xp-map',
@@ -15,6 +16,7 @@ export class MapComponent implements AfterViewInit {
 
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
+  @Input() checkpointCollection: Checkpoint[] | null = null;
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
 
@@ -29,6 +31,14 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  private loadCheckpoints(): void{
+    if (this.checkpointCollection != null) {
+      this.checkpointCollection.forEach(element => {
+        const mp = new L.Marker([element.latitude, element.longitude]).addTo(this.map);
+        console.log("Checkpoints added!");
+      })
+    }
+  }
   
 
   private initMap(): void {
@@ -47,6 +57,7 @@ export class MapComponent implements AfterViewInit {
       }
     );
     this.loadObjects();
+    this.loadCheckpoints();
     tiles.addTo(this.map);
     this.registerOnClick();
     this.setRoute();
@@ -95,6 +106,7 @@ export class MapComponent implements AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
+      this.loadCheckpoints();
     }
     if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
       console.log('TOOOOOO BOZEEEE');
