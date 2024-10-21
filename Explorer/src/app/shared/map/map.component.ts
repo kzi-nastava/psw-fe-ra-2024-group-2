@@ -1,6 +1,8 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { MapService } from './map.service';
 import * as L from 'leaflet';
+import { Input } from '@angular/core';
+import { Object } from 'src/app/feature-modules/tour-authoring/model/object.model';
 
 @Component({
   selector: 'xp-map',
@@ -9,8 +11,25 @@ import * as L from 'leaflet';
 })
 export class MapComponent implements AfterViewInit {
   private map: any;
+  private markers: L.Marker[] = [];
+
+  @Input() clearMarkersTrigger: boolean = false;
+  @Input() objectCollection: Object[] | null = null;
+  @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
+  @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
 
   constructor(private mapService: MapService) {}
+
+  private loadObjects(): void {
+    if (this.objectCollection != null){
+      this.objectCollection.forEach(element => {
+        const mp = new L.Marker([element.latitude, element.longitude]).addTo(this.map);
+        console.log('tooooo');
+      });
+    }
+  }
+
+  
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -27,6 +46,7 @@ export class MapComponent implements AfterViewInit {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }
     );
+    this.loadObjects();
     tiles.addTo(this.map);
     this.registerOnClick();
     this.setRoute();
@@ -51,11 +71,36 @@ export class MapComponent implements AfterViewInit {
       const lng = coord.lng;
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
       });
+
+      this.locationSelected.emit({ lat, lng });
       const mp = new L.Marker([lat, lng]).addTo(this.map);
+      this.markers.push(mp);
       alert(mp.getLatLng());
     });
   }
-  
+  clearMarkers(): void {
+    if (this.markers && this.markers.length > 0) {
+        this.markers.forEach(marker => {
+            if (this.map.hasLayer(marker)) {
+                this.map.removeLayer(marker);
+            }
+        });
+        this.markers = [];  // Clear the markers array
+        // Notify the parent that markers have been cleared
+        this.markersCleared.emit();
+    }
+}
+
+  // Watch for changes in `clearMarkersTrigger` to trigger marker clearing
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
+      this.loadObjects();
+    }
+    if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
+      console.log('TOOOOOO BOZEEEE');
+      this.clearMarkers();
+    }
+  }
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
@@ -66,9 +111,9 @@ export class MapComponent implements AfterViewInit {
   }
   setRoute(): void {
     const routeControl = L.Routing.control({
-      waypoints: [L.latLng(43.96, 21.26), L.latLng(45.25, 19.84)],
+     /* waypoints: [L.latLng(43.96, 21.26), L.latLng(45.25, 19.84)],
       router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', {profile: 'mapbox/walking'})
-    }).addTo(this.map);
+   */ }).addTo(this.map); 
 
     routeControl.on('routesfound', function(e) {
       var routes = e.routes;
@@ -76,5 +121,6 @@ export class MapComponent implements AfterViewInit {
       alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
     });
   }
+  
 
 }

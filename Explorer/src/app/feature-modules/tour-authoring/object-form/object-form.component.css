@@ -1,8 +1,103 @@
-div{
-    width: 400px;
+div {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-direction: column;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 750px;
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+form {
+    width: 100%; /* Make form take the full width of the container */
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+    display: block;
+}
+
+input[type="text"],
+textarea,
+select,
+input[type="file"] {
+    width: 80%; /* Input fields take full width of form group */
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out;
+    box-sizing: border-box; /* Ensures padding doesn't exceed container width */
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    width: 100%; /* Button takes full width of the form */
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.image-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.map-container {
+    width: 100%; /* Make map take the full width */
+    height: 300px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden; /* Ensure map does not overflow */
+}

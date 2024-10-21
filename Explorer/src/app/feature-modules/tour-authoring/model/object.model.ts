@@ -12,4 +12,6 @@ export enum ObjectCategory {
     description: string;
     image: Image | null; 
     category: ObjectCategory; 
+    longitude: number;
+    latitude: number;
   }
