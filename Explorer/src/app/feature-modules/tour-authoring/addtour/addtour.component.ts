@@ -52,7 +52,7 @@ export class AddtourComponent {
         console.log('Tour created:', createdTour);
   
         // After the tour is created, update the checkpoints
-        createdTour.checkpoints = this.checkpoints;
+        /*createdTour.checkpoints = this.checkpoints;
   
         // Call the service to update checkpoints with the newly created tour ID
         this.service.updateTourCheckpoints(createdTour).subscribe({
@@ -63,7 +63,7 @@ export class AddtourComponent {
           error: (err) => {
             console.error("Error updating checkpoints:", err);
           }
-        });
+        });*/
       },
       error: (err) => {
         console.error("Error creating tour:", err);

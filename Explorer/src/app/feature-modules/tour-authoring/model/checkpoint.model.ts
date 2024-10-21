@@ -6,6 +6,6 @@ export interface Checkpoint{
     longitude: number;
     name: string;
     description: string;
-    tours?: number[]; //Array of tour ids
     image?: Image | null;
+    tours?: number[]; //Array of tour ids
 }
