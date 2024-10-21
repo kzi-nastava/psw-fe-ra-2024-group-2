@@ -1,3 +1,4 @@
+<div class="form-container">
 <form [formGroup]="objectForm">
     <div>
       <!-- Name Field -->
@@ -38,10 +39,22 @@
         <label>Image Preview:</label>
         <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview" />
       </div>
-  
+      <div class="form-group">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" formControlName="latitude" class="form-control" [value]="latitude" readonly />
+      </div>
+
+      <!-- Longitude Field (Read-Only) -->
+      <div class="form-group">
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" formControlName="longitude" class="form-control" [value]="longitude" readonly />
+      </div>
+
+      <xp-map (locationSelected)="onLocationSelected($event)" [clearMarkersTrigger]="clearMarkersFlag" (markersCleared)="onMarkersCleared()"></xp-map>
       <!-- Submit Button -->
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" (click)="addObject()">Add</button>
+        <button type="submit" class="btn btn-primary" (click)="clearMarkers()" (click)="addObject()">Add</button>
       </div>
     </div>
   </form>
+</div>

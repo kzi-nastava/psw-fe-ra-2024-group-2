@@ -1,16 +1,30 @@
-<div>
-    <br>
-    <table>
-        <th>
-            <tr>Objects</tr>
-        </th>
-        <tbody>
-            <tr *ngFor="let objek of objects">
-                <td>{{objek.name}}</td>
-                <td>{{objek.description}}</td>
-                <td>{{objek.category}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <xp-object-form (objectAdded)="getObjects()"></xp-object-form>
+<div class="container">
+    <div class="table-section">
+        <div class="table-title">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Image</th>
+                </tr>
+              </thead>
+            <tbody>
+                <tr *ngFor="let objek of objects">
+                    <td>{{objek.name}}</td>
+                    <td>{{objek.description}}</td>
+                    <td>{{objek.category}}</td>
+                    <td>
+                        <!-- Display image if exists -->
+                        <img *ngIf="objek.image?.data" [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data" alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-section">
+        <xp-object-form (objectAdded)="getObjects()" ></xp-object-form>
+    </div>   
 </div>
