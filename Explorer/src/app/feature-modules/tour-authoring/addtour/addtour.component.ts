@@ -15,6 +15,8 @@ export class AddtourComponent {
 
   @Output() tourAdded = new EventEmitter<null>();
 
+  checkpoints: number[] = [];
+
   constructor(private service: TourAuthoringService) {}
 
   tourForm  = new FormGroup({
@@ -26,20 +28,48 @@ export class AddtourComponent {
         price : new FormControl(0, [Validators.required])
   });
 
-  addTour(): void {
+  onCheckpointAdded(checkpointId: number): void{
+    this.checkpoints.push(checkpointId);
+  }
 
-    const tour : Tour = {
+  addTour(): void {
+    const tour: Tour = {
       userId: 1,
       equipment: [],
-      id: 0,
+      id: 0, // This will be updated after the tour is created
       name: this.tourForm.value.name || "",
       description: this.tourForm.value.description || "",
-      status: 0,
+      status: Number(this.tourForm.value.status) || 0,
       tag: Number(this.tourForm.value.tag) || 0,
       difficulty: Number(this.tourForm.value.difficulty) || 0,
-      price: 0,
-    }
-    this.service.addTour(tour).subscribe({next: (_) => {this.tourAdded.emit();}});
+      price: Number(this.tourForm.value.price) || 0,
+      checkpoints: [] // Checkpoints will be updated separately
+    };
+  
+    // First, create the tour
+    this.service.addTour(tour).subscribe({
+      next: (createdTour) => {
+        console.log('Tour created:', createdTour);
+  
+        // After the tour is created, update the checkpoints
+        createdTour.checkpoints = this.checkpoints;
+  
+        // Call the service to update checkpoints with the newly created tour ID
+        this.service.updateTourCheckpoints(createdTour).subscribe({
+          next: (_) => {
+            this.tourAdded.emit();
+            console.log("Tour checkpoints updated successfully");
+          },
+          error: (err) => {
+            console.error("Error updating checkpoints:", err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error("Error creating tour:", err);
+      }
+    });
   }
+  
 
 }

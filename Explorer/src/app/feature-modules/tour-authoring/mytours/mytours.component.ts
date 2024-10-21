@@ -3,6 +3,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResult } from '../shared/model/tour.module';
 import { Tour } from '../model/tour.model';
 import { Router } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 export enum Status
@@ -38,14 +39,27 @@ export enum Difficulty
 export class MyToursComponent implements OnInit{
 
   tours: Tour[] = []
+  tourObjects: any[] = []; 
 
     constructor(private service: TourAuthoringService, private router: Router) {}
 
     ngOnInit(): void {
       this.getTours();
+      this.loadTourObjects();
     }
 
 
+    loadTourObjects() {
+      this.service.getObjects().subscribe({
+       
+        next: (result: PagedResult<Object>) =>{
+          this.tourObjects = result.results
+        },
+        error: (error) => {
+          console.error('Error fetching objects from the backend:', error);
+        }
+    });
+    }
     getTours(): void {
       this.service.getTours().subscribe({
         next: (result: PagedResult<Tour>) =>{
