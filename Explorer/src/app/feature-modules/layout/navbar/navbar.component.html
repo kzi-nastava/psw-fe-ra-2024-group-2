@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <div>
-        <p>Explorer</p>
+        <img src="../../../../assets/logo.png" alt="Logo" class="logo">
         <div id="buttons">
             <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
