@@ -20,6 +20,10 @@ export class TourAuthoringService {
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
   }
 
+  getTourById(tourId: number): Observable<Tour> {
+    return this.http.get<Tour>(`https://localhost:44333/api/author/tour/${tourId}`);
+  }
+
   getObjects(): Observable<PagedResult<Object>>{
     return this.http.get<PagedResult<Object>>('https://localhost:44333/api/author/tourObject')
   }
