@@ -1,10 +1,50 @@
+.mat-toolbar {
+    width: 90%;
+    margin: 1% auto;
+    background-color: #F8EBCF;
+  }
+
 div {
-    width: 100%;
+    width: 90%;
     display: flex;
-    gap: 10px;
 }
 
 #buttons {
     width: auto;
     margin-left: auto;
 }
+
+#buttons button{
+    color: #01757A;
+    background-color: transparent;
+    box-shadow: none;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    letter-spacing: -0.1px;
+    padding: 1%;
+    border-radius: 0;
+}
+
+#buttons button:hover {
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+.active{
+    color: #01757A;
+    border-bottom: 2.5px solid #E57734;
+    background-color: transparent;
+    box-shadow: none;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    letter-spacing: -0.1px;
+}
+
+.logout{
+    color: #E57734 !important; 
+}
+
+.logo {
+    height: 30px;
+    margin-right: 20px;
+  }
