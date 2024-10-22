@@ -17,8 +17,10 @@ export class MapComponent implements AfterViewInit {
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
   @Input() checkpointCollection: Checkpoint[] | null = null;
+  @Input() editing: boolean = false;
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
+  @Output() markerClicked = new EventEmitter<[number, number]>();
 
   constructor(private mapService: MapService) {}
 
@@ -40,7 +42,6 @@ export class MapComponent implements AfterViewInit {
     }
   }
   
-
   private initMap(): void {
     this.map = L.map('map', {
       center: [45.2396, 19.8227],
@@ -85,6 +86,13 @@ export class MapComponent implements AfterViewInit {
 
       this.locationSelected.emit({ lat, lng });
       const mp = new L.Marker([lat, lng]).addTo(this.map);
+      if(this.editing){
+        mp.on('click', (event) => {
+          const latLng = event.latlng; // Get latitude and longitude
+          console.log('Latitude:', latLng.lat, 'Longitude:', latLng.lng);
+          this.markerClicked.emit([latLng.lat, latLng.lng])
+        });
+      }
       this.markers.push(mp);
       alert(mp.getLatLng());
     });
@@ -106,10 +114,9 @@ export class MapComponent implements AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
-      this.loadCheckpoints();
+      //this.loadCheckpoints();
     }
     if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
-      console.log('TOOOOOO BOZEEEE');
       this.clearMarkers();
     }
   }
@@ -134,5 +141,5 @@ export class MapComponent implements AfterViewInit {
     });
   }
   
-
+ 
 }
