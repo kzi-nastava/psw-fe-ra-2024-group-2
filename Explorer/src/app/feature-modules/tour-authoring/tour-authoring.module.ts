@@ -12,6 +12,7 @@ import { ObjectComponent } from './object/object.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AddtourComponent } from './addtour/addtour.component';
+import { ObjectUpdateComponent } from './object-update/object-update.component';
 @NgModule({
   declarations: [
     MyToursComponent,
@@ -21,7 +22,7 @@ import { AddtourComponent } from './addtour/addtour.component';
     CheckpointFormComponent,
     ObjectComponent,
     ObjectFormComponent, 
-    AddtourComponent
+    AddtourComponent, ObjectUpdateComponent
   ],
   imports: [
     CommonModule,
