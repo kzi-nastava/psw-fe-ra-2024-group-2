@@ -11,7 +11,6 @@
             <th>Status</th>
             <th>Tag</th>
             <th>Price</th>
-            <th>Checkpoints</th>
           </tr>
         </thead>
         <tbody>
@@ -22,8 +21,6 @@
             <td>{{ getStatusLabel(tour.status) }}</td>
             <td>{{ getTagLabel(tour.tag) }}</td>
             <td>{{ tour.price }}</td>
-            <td>{{ tour.checkpoints.join(', ') }}</td> <!-- Display checkpoints as comma-separated list -->
-
           </tr>
         </tbody>
       </table>
@@ -33,6 +30,6 @@
     </div>
   </div>
   <div>
-    <xp-map [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"></xp-map>
+    <xp-map [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints" [checkpointObjectCollection] = "tourCheckpointObjects"></xp-map>
   </div>
   

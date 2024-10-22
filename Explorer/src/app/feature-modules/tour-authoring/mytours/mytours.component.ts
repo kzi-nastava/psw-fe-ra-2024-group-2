@@ -42,6 +42,7 @@ export class MyToursComponent implements OnInit{
   tours: Tour[] = []
   tourObjects: any[] = []; 
   tourCheckpoints: any[] = [];
+  tourCheckpointObjects: any[] = [];
 
     constructor(private service: TourAuthoringService, private router: Router) {}
 
@@ -63,15 +64,40 @@ export class MyToursComponent implements OnInit{
         }
     });
     }
+    
     loadTourCheckpoints(): void{
       this.service.getCheckpoints().subscribe({
         next: (result: PagedResult<Checkpoint>) =>{
           this.tourCheckpoints = result.results;
+          this.linkToursWithCheckpoints();
+
         },
         error: (error) => {
           console.error('Error fetching checkpoints from the backend: ', error);
         }
       })
+    }
+
+
+    //this will work for now, but in the future we should update checkpoint model since its -> (1,1)
+    linkToursWithCheckpoints(): void {
+      this.tours.forEach(tour => {
+        const checkpointsForTour = this.tourCheckpoints.filter(
+          (checkpoint) => tour.checkpoints.includes(checkpoint.id)
+        );
+    
+        tour.checkpoints = checkpointsForTour;
+      });
+      this.generateTourCheckpointObjects();
+    }
+
+    generateTourCheckpointObjects(): void {
+       this.tourCheckpointObjects = this.tours.map(tour => {
+        return {
+          tourId: tour.id,
+          checkpoints: tour.checkpoints 
+        };
+      });
     }
 
     getTours(): void {
