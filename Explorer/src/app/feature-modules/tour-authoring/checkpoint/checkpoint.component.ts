@@ -16,6 +16,10 @@ export class CheckpointComponent implements OnInit{
   constructor(private service: TourAuthoringService) { }
 
   ngOnInit(): void {
+    this.getCheckpoints();
+  }
+
+  getCheckpoints(): void{
     this.service.getCheckpoints().subscribe({
       next: (result: PagedResult<Checkpoint>) =>{
         this.checkpoints = result.results

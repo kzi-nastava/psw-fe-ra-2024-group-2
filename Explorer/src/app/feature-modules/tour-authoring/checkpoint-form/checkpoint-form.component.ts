@@ -13,6 +13,7 @@ import { MapComponent } from 'src/app/shared/map/map.component';
 export class CheckpointFormComponent implements OnInit{
 
   @Output() checkpointAdded = new EventEmitter<number>(); // Output event emitter
+  @Output() checkpointsUpdated = new EventEmitter<null>();
 
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // For previewing the image
@@ -92,6 +93,7 @@ export class CheckpointFormComponent implements OnInit{
           next: (response) => {
             const checkpointId = response.id as number; // Get the checkpoint ID
             console.log("Checkpoint added successfully. Id: " + response.id);
+            this.checkpointsUpdated.emit();
             this.checkpointAdded.emit(response.id as number); // Emit checkpoint ID after it's successfully added
             if (this.selectedTourId) {
               this.updateTourWithCheckpoint(this.selectedTourId, checkpointId);
@@ -122,6 +124,7 @@ export class CheckpointFormComponent implements OnInit{
           } else {
             console.log("No tours selected or available");
           }
+          this.checkpointsUpdated.emit();
           this.checkpointAdded.emit(response.id as number); // Emit the checkpoint to parent component
             // Now update the tour with the new checkpoint ID
           if (this.selectedTourId) {
