@@ -2,7 +2,6 @@ import { Component,EventEmitter, Inject, Input, OnChanges, OnInit, Output, ViewC
 import { Object, ObjectCategory } from '../model/object.model';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
-import { MapComponent } from 'src/app/shared/map/map.component';
 
 @Component({
   selector: 'xp-object-form',
@@ -37,21 +36,20 @@ export class ObjectFormComponent  {
     this.clearMarkersFlag = true;
   }
 
-  // Handle the event when markers are cleared in the map component
   onMarkersCleared(): void {
     console.log('Markers cleared in the map component');
     setTimeout(() => {
-      this.clearMarkersFlag = false;  // Reset the flag after clearing
+      this.clearMarkersFlag = false; 
     });
   }
   onFileSelect(event: any): void {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = () => {
             const base64String = reader.result as string;
-            const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0]; // Extract MIME type
-            const uploadedAt = new Date().toISOString(); // Current timestamp
+            const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0]; 
+            const uploadedAt = new Date().toISOString(); 
             // Update the form with the base64-encoded image
             this.objectForm.patchValue({
                 image: { data: base64String.split(',')[1], mimeType, uploadedAt }
@@ -66,41 +64,40 @@ onLocationSelected(location: { lat: number, lng: number }) {
   this.latitude = location.lat;
   this.longitude = location.lng;
 
-  // Optionally, update the form controls directly
+  
   this.objectForm.get('latitude')?.setValue(this.latitude);
   this.objectForm.get('longitude')?.setValue(this.longitude);
 }
-  addObject(): void{
+addObject(): void {
+  this.objectForm.markAllAsTouched();
 
-    console.log(this.objectForm.value)
+  if (this.objectForm.valid) {
     const obj: Object = {
       name: this.objectForm.value.name || "",
       description: this.objectForm.value.description || "",
       image: this.objectForm.value.image, 
-      category: this.objectForm.value.category as ObjectCategory || ObjectCategory.WC,
-      latitude: this.objectForm.value.latitude || 0, // Add latitude from form
+      category: this.objectForm.value.category as ObjectCategory,
+      latitude: this.objectForm.value.latitude || 0,
       longitude: this.objectForm.value.longitude || 0 
+    };
 
-    }
-
-    
     this.service.addObject(obj).subscribe({
-      next:(_) => {
-        console.log(obj)
-        this.objectAdded.emit()
-        this.clearForm();
-      }   
+      next: (_) => {
+        console.log(obj);
+        this.objectAdded.emit();  
+        this.clearForm();  
+      },
+      error: (err) => {
+        console.error("Error adding object:", err);
+      }
     });
-
-    
+  } else {
+    console.log("Form is invalid");
   }
+}
   clearForm(): void {
-    this.objectForm.reset(); // Reset the form
-    this.imagePreview = null; // Clear the image preview
-    
-    // Set the clearMap flag to true and then reset it to false to trigger the marker clearing
-    
-    
+    this.objectForm.reset(); 
+    this.imagePreview = null; 
   }
   
 }

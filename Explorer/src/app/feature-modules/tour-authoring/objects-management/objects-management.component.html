@@ -10,6 +10,7 @@
                   <th>Description</th>
                   <th>Category</th>
                   <th>Image</th>
+                  <th></th>
                 </tr>
               </thead>
             <tbody>
@@ -18,13 +19,15 @@
                     <td>{{objek.description}}</td>
                     <td>{{objek.category}}</td>
                     <td>
+                        <!-- Display image if exists -->
                         <img *ngIf="objek.image?.data" [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data" alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
+                    </td>
+                    <td>
+                        <button (click)="editObject(objek)">Edit</button><!-- Edit button -->
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="form-section">
-        <xp-object-form (objectAdded)="getObjects()" ></xp-object-form>
-    </div>   
+    </div>  
 </div>
+

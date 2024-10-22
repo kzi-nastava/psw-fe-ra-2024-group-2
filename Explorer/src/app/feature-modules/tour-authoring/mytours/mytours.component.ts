@@ -5,7 +5,8 @@ import { Tour } from '../model/tour.model';
 import { Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Checkpoint } from '../model/checkpoint.model';
-
+import { MatDialog } from '@angular/material/dialog';
+import { ObjectUpdateComponent } from '../object-update/object-update.component';
 
 export enum Status
 {
@@ -43,15 +44,15 @@ export class MyToursComponent implements OnInit{
   tourObjects: any[] = []; 
   tourCheckpoints: any[] = [];
   tourCheckpointObjects: any[] = [];
+  //selectedObject: Object | null = null;
 
-    constructor(private service: TourAuthoringService, private router: Router) {}
+    constructor(private service: TourAuthoringService, private router: Router, private dialog: MatDialog) {}
 
     ngOnInit(): void {
       this.getTours();
       this.loadTourObjects();
       this.loadTourCheckpoints();
     }
-
 
     loadTourObjects() {
       this.service.getObjects().subscribe({
@@ -126,5 +127,4 @@ export class MyToursComponent implements OnInit{
     getDifficultyLabel(difficulty: number): string {
       return Difficulty[difficulty];
     }
-
 }
