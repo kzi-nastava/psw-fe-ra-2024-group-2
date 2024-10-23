@@ -38,6 +38,7 @@ export class TourAuthoringService {
   }
 
   updateTour(result: Tour){
+    console.log(result)
     return this.http.put('https://localhost:44333/api/author/tour/equipment', result)
   }
   
