@@ -95,9 +95,12 @@ export class CheckpointFormComponent implements OnInit{
             console.log("Checkpoint added successfully. Id: " + response.id);
             this.checkpointsUpdated.emit();
             this.checkpointAdded.emit(response.id as number); // Emit checkpoint ID after it's successfully added
+
             if (this.selectedTourId) {
               this.updateTourWithCheckpoint(this.selectedTourId, checkpointId);
             }
+            this.resetForm();
+
           },
           error: (err) => {
             console.error("Error adding checkpoint:", err);
@@ -130,6 +133,8 @@ export class CheckpointFormComponent implements OnInit{
           if (this.selectedTourId) {
             this.updateTourWithCheckpoint(this.selectedTourId, checkpointId);
           }
+          this.resetForm();
+
         },
         error: (err) => {
           console.error("Error adding checkpoint:", err);
@@ -168,4 +173,11 @@ export class CheckpointFormComponent implements OnInit{
     this.selectedTourId = Number(event.target.value); // Convert to number if necessary
     console.log(this.selectedTourId);
   }
+  // Method to reset the form and other relevant fields
+  resetForm(): void {
+  this.checkpointForm.reset(); // Reset all form fields to initial state
+  this.selectedImage = null; // Clear the selected image
+  this.imagePreview = null; // Clear the image preview
+  this.selectedTourId = null; // Reset the selected tour
+}
 }
