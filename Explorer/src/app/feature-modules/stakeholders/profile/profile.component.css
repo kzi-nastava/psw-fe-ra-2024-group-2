@@ -1,0 +1,107 @@
+.profile {
+    display: flex; /* Display items in a row */
+    gap: 20px; /* Add spacing between items */
+    margin: 20px auto; /* Center the card */
+    max-width: 800px; /* Limit the width of the profile section */
+}
+
+.profile-container {
+    max-width: 800px; /* Limit the width of the profile section */
+    margin: 20px auto; /* Center the card */
+    padding: 15px; /* Add padding around the card */
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Add spacing between items */
+}
+
+.info-item {
+    font-size: 1rem;
+    display: flex; /* Align label and input */
+    flex-direction: column; /* Stack label above input */
+}
+
+label {
+    font-weight: bold; /* Bold label */
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+input {
+    padding: 8px; /* Padding for input */
+    background-color: #f5f5f5; /* Light background for better visibility */
+    border-radius: 4px; /* Slight rounding of corners */
+    border: 1px solid #ddd; /* Border for separation */
+    font-size: 1rem; /* Input font size */
+    width: 100%; /* Full width */
+}
+
+.edit-button-container {
+    margin-top: 20px; /* Add space above the button */
+    text-align: center; /* Center the button */
+}
+
+mat-card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+mat-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item {
+    margin: 10px 0;
+}
+
+.edit-button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+mat-card-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.snackbar-success {
+    background-color: #4caf50; /* Green background for success */
+    color: white; /* White text */
+    font-weight: bold; /* Bold text */
+}
+
+.snackbar-error {
+    background-color: #f44336; /* Red background for error */
+    color: white; /* White text */
+    font-weight: bold; /* Bold text */
+}

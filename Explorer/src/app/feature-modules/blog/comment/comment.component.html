@@ -1,0 +1,77 @@
+<div class="component">
+    <h1>Comments</h1>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>Blog ID</th>
+          <th>Text</th>
+          <th>User ID</th>
+          <th>Created At</th>
+          <th>Last Modified At</th>
+          <th>Edit</th> 
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comment of comments" class="clickable-row">
+          <td>{{ comment.blogId }}</td>
+          <td>{{ comment.text }}</td>
+          <td>{{ comment.userId }}</td> <!-- Prikaz User ID-a -->
+          <td>{{ comment.createdAt | date: 'short' }}</td> <!-- Prikaz createdAt -->
+          <td>{{ comment.lastModifiedAt | date: 'short' }}</td> <!-- Prikaz lastModifiedAt -->
+          <td>
+            <!-- Ikonica za uređivanje, pokreće edit mod -->
+            <button mat-icon-button (click)="onEditClick(comment)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button mat-icon-button (click)="onDeleteClick(comment)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="comments.length === 0">
+      <p>No comments available.</p>
+    </div>
+  </div>
+  
+  <!-- Forma za dodavanje ili ažuriranje komentara -->
+  <form [formGroup]="commentForm">
+    <div>
+      <mat-form-field>
+        <mat-label>Blog ID</mat-label>
+        <input matInput formControlName="blogId" type="text" placeholder="Enter Blog ID" />
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Text</mat-label>
+        <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          formControlName="text"
+          cdkAutosizeMaxRows="5"
+          placeholder="Enter Comment Text"></textarea>
+      </mat-form-field>
+  
+      <!-- Dugme za dodavanje novog komentara, vidljivo ako nismo u režimu uređivanja -->
+      <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addComment()" mat-raised-button>
+        Add Comment
+      </button>
+  
+      <!-- Dugme za ažuriranje postojećeg komentara, vidljivo ako smo u režimu uređivanja -->
+      <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateComment()" mat-raised-button>
+        Update Comment
+      </button>
+  
+      <!-- Dugme za otkazivanje uređivanja -->
+      <button *ngIf="shouldEdit" color="warn" type="button" (click)="cancelEdit()" mat-raised-button>
+        Cancel
+      </button>
+    </div>
+  </form>
+  

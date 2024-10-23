@@ -1,0 +1,36 @@
+<div class = component></div>
+<div class="container">
+    <div class="table-section">
+      <div class="table-title">
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Difficulty</th>
+            <th>Status</th>
+            <th>Tag</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tour of tours" (click)="showTourClick(tour)" class="clickable-row">
+            <td>{{ tour.name }}</td>
+            <td>{{ tour.description }}</td>
+            <td>{{ getDifficultyLabel(tour.difficulty) }}</td>
+            <td>{{ getStatusLabel(tour.status) }}</td>
+            <td>{{ getTagLabel(tour.tag) }}</td>
+            <td>{{ tour.price }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-section">
+      <xp-addtour (tourAdded) = "getTours()" ></xp-addtour>
+    </div>
+  </div>
+  <div>
+    <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints" [checkpointObjectCollection] = "tourCheckpointObjects"></xp-map>
+  </div>
+  

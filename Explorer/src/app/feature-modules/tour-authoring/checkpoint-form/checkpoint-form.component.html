@@ -1,0 +1,66 @@
+<form [formGroup]="checkpointForm">
+  <table>
+    <tr>
+      <td><label for="name">Name:</label></td>
+      <td>
+        <input type="text" id="name" name="name" placeholder="Checkpoint Name" formControlName="name" required>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="description">Description:</label></td>
+      <td>
+        <textarea id="description" name="description" placeholder="Checkpoint Description" formControlName="description" rows="3" required></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="latitude">Latitude:</label></td>
+      <td>
+        <input type="number" id="latitude" name="latitude" placeholder="Latitude" formControlName="latitude" readonly>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="longitude">Longitude:</label></td>
+      <td>
+        <input type="number" id="longitude" name="longitude" placeholder="Longitude" formControlName="longitude" readonly>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="tour">Select Tour:</label></td>
+      <td>
+        <select formControlName="tour" (change)="onTourSelect($event)" required>
+          <option *ngFor="let tour of tours" [value]="tour.id">{{tour.name}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="image">Upload Image:</label></td>
+      <td>
+        <input type="file" id="image" (change)="onFileSelect($event)" accept="image/*">
+      </td>
+    </tr>
+
+    <!-- Image Preview Row -->
+    <tr *ngIf="imagePreview">
+      <td colspan="2">
+        <h4>Image Preview:</h4>
+        <img [src]="imagePreview" alt="Image Preview" width="200">
+      </td>
+    </tr>
+
+    <!-- Add the map component -->
+    <tr>
+      <td colspan="2">
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" style="text-align: right;">
+        <button mat-raised-button type="submit" (click)="addCheckpoint()" [disabled]="checkpointForm.invalid">
+          Submit Checkpoint
+        </button>
+      </td>
+    </tr>
+  </table>
+  <xp-map (locationSelected)="onLocationSelected($event)"></xp-map>
+
+</form>

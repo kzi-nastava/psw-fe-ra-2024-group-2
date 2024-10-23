@@ -1,0 +1,31 @@
+<div id="tours" class="component">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Difficulty</th>
+                <th>Description</th>
+                <th>Tag</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rp of tour">
+                <td>{{rp.name}}</td>
+                <td>{{rp.difficulty}}</td>
+                <td>{{rp.description}}</td>
+                <td>{{rp.tag}}</td>
+                <td>{{rp.status}}</td>
+                <td>{{rp.price}}</td>
+                <td><button (click)="onAddClicked(rp)">Report Tour</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <xp-report-form
+    *ngIf="shouldRenderReportForm"
+    [tour]="selectedTour"
+    [tourId]="selectedTourId"
+    [userId]="selectedUserId"></xp-report-form>
+</div>

@@ -1,0 +1,16 @@
+<div class="dialog-container">
+    <form [formGroup]="updateForm" (ngSubmit)="updateObject()">
+      <div>
+        <label for="latitude">Latitude</label>
+        <input id="latitude" formControlName="latitude" [value]="latitude" readonly />
+      </div>
+      <div>
+        <label for="longitude">Longitude</label>
+        <input id="longitude" formControlName="longitude" [value]="longitude" readonly />
+      </div>
+      <div class="map-container">     
+        <xp-map  (locationSelected)="onLocationSelected($event)"></xp-map>
+      </div>
+      <button type="submit" [disabled]="updateForm.invalid" (click)="onSubmit()">Update Location</button>
+    </form>
+  </div>
