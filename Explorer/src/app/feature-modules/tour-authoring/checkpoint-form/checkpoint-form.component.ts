@@ -5,6 +5,8 @@ import { Checkpoint } from '../model/checkpoint.model';
 import { Image } from '../../../shared/model/image.model';
 import { Tour } from '../model/tour.model';
 import { MapComponent } from 'src/app/shared/map/map.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'xp-checkpoint-form',
   templateUrl: './checkpoint-form.component.html',
@@ -22,14 +24,16 @@ export class CheckpointFormComponent implements OnInit{
   latitude: number = 0;
   longitude: number = 0;
 
-  constructor(private service: TourAuthoringService){}
+  constructor(private service: TourAuthoringService, private snackBar: MatSnackBar){}
 
   checkpointForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     latitude: new FormControl('', [Validators.required]),
     longitude: new FormControl('', [Validators.required]), 
-    image: new FormControl('') // New form control for the image
+    image: new FormControl(''), // New form control for the image
+    tour: new FormControl(null)  // Initialize with null
+
   });
 
   ngOnInit(): void {
@@ -103,7 +107,12 @@ export class CheckpointFormComponent implements OnInit{
 
           },
           error: (err) => {
-            console.error("Error adding checkpoint:", err);
+            if (err.status === 409) {
+              // Handle 409 Conflict error (image already exists)
+              this.showErrorMessage('Image already exists');
+            } else {
+              console.error("Error adding checkpoint:", err);
+            }
           }
         });
 
@@ -175,9 +184,15 @@ export class CheckpointFormComponent implements OnInit{
   }
   // Method to reset the form and other relevant fields
   resetForm(): void {
-  this.checkpointForm.reset(); // Reset all form fields to initial state
-  this.selectedImage = null; // Clear the selected image
-  this.imagePreview = null; // Clear the image preview
-  this.selectedTourId = null; // Reset the selected tour
-}
+    this.checkpointForm.reset(); // Reset all form fields to initial state
+    this.selectedImage = null; // Clear the selected image
+    this.imagePreview = null; // Clear the image preview
+    this.selectedTourId = null; // Reset the selected tour
+    this.checkpointForm.get('tour')?.setValue(null); 
+  }
+  showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
+  }
 }
