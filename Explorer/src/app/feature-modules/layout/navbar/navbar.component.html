@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <div>
-        <p>Explorer</p>
+        <img src="../../../../assets/logo.png" alt="Logo" class="logo">
         <div id="buttons">
             <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
@@ -10,6 +10,7 @@
             <button *ngIf="user && user.username !== '' && user.role ==='author'" color="primary" mat-raised-button (click)="showObjects()">Objects</button>
             <button color="primary" mat-raised-button [routerLink]="['home']">Home</button>
             <button *ngIf="user && user.username !== ''" color="primary" mat-raised-button (click)="showComment()">Comment</button>
+            <button *ngIf="user && user.role === 'author'"color="primary" mat-raised-button mat-raised-button (click)="showObjectsForUpdate()">Manage objects</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
             <button *ngIf="user && user.username !== '' && user.role === 'author'" color="primary" mat-raised-button (click)="showCheckpoints()">Checkpoints</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['ratingsApplications']">All ratings</button>

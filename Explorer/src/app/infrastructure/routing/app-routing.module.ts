@@ -22,7 +22,7 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tours.component';
 import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
-
+import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -38,8 +38,13 @@ const routes: Routes = [
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
   {path: 'reviewform/:tourId', component: TourReviewFormComponent, canActivate: [AuthGuard] },
+  {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'alltours', component: ToursComponent, canActivate: [AuthGuard]},
-  {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]}
+  {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
+  {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
+  {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

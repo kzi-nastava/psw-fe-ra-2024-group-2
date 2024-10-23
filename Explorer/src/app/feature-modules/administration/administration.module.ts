@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RatingApplicationComponent } from './rating-application/rating-application.component';
 import { AccountManagementComponent } from './account-management/account-management.component';
 import { ToursitClubComponent } from './toursit-club/toursit-club.component';
+import { ObjectsManagementComponent } from '../tour-authoring/objects-management/objects-management.component';
 
 
 
@@ -17,7 +18,8 @@ import { ToursitClubComponent } from './toursit-club/toursit-club.component';
     AccountManagementComponent,
     ToursitClubComponent,
     RatingApplicationComponent,
-    AccountManagementComponent
+    AccountManagementComponent,
+    ObjectsManagementComponent
   ],
   imports: [
     CommonModule,
