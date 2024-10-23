@@ -50,14 +50,14 @@ export class AddtourComponent {
     this.service.addTour(tour).subscribe({
       next: (createdTour) => {
         console.log('Tour created:', createdTour);
-  
+        this.tourAdded.emit();
+
         // After the tour is created, update the checkpoints
         /*createdTour.checkpoints = this.checkpoints;
   
         // Call the service to update checkpoints with the newly created tour ID
         this.service.updateTourCheckpoints(createdTour).subscribe({
           next: (_) => {
-            this.tourAdded.emit();
             console.log("Tour checkpoints updated successfully");
           },
           error: (err) => {
