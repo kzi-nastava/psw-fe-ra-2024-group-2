@@ -5,6 +5,8 @@ import { Checkpoint } from '../model/checkpoint.model';
 import { Image } from '../../../shared/model/image.model';
 import { Tour } from '../model/tour.model';
 import { MapComponent } from 'src/app/shared/map/map.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'xp-checkpoint-form',
   templateUrl: './checkpoint-form.component.html',
@@ -13,6 +15,7 @@ import { MapComponent } from 'src/app/shared/map/map.component';
 export class CheckpointFormComponent implements OnInit{
 
   @Output() checkpointAdded = new EventEmitter<number>(); // Output event emitter
+  @Output() checkpointsUpdated = new EventEmitter<null>();
 
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // For previewing the image
@@ -21,14 +24,16 @@ export class CheckpointFormComponent implements OnInit{
   latitude: number = 0;
   longitude: number = 0;
 
-  constructor(private service: TourAuthoringService){}
+  constructor(private service: TourAuthoringService, private snackBar: MatSnackBar){}
 
   checkpointForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     latitude: new FormControl('', [Validators.required]),
     longitude: new FormControl('', [Validators.required]), 
-    image: new FormControl('') // New form control for the image
+    image: new FormControl(''), // New form control for the image
+    tour: new FormControl(null)  // Initialize with null
+
   });
 
   ngOnInit(): void {
@@ -92,13 +97,22 @@ export class CheckpointFormComponent implements OnInit{
           next: (response) => {
             const checkpointId = response.id as number; // Get the checkpoint ID
             console.log("Checkpoint added successfully. Id: " + response.id);
+            this.checkpointsUpdated.emit();
             this.checkpointAdded.emit(response.id as number); // Emit checkpoint ID after it's successfully added
+
             if (this.selectedTourId) {
               this.updateTourWithCheckpoint(this.selectedTourId, checkpointId);
             }
+            this.resetForm();
+
           },
           error: (err) => {
-            console.error("Error adding checkpoint:", err);
+            if (err.status === 409) {
+              // Handle 409 Conflict error (image already exists)
+              this.showErrorMessage('Image already exists');
+            } else {
+              console.error("Error adding checkpoint:", err);
+            }
           }
         });
 
@@ -122,11 +136,14 @@ export class CheckpointFormComponent implements OnInit{
           } else {
             console.log("No tours selected or available");
           }
+          this.checkpointsUpdated.emit();
           this.checkpointAdded.emit(response.id as number); // Emit the checkpoint to parent component
             // Now update the tour with the new checkpoint ID
           if (this.selectedTourId) {
             this.updateTourWithCheckpoint(this.selectedTourId, checkpointId);
           }
+          this.resetForm();
+
         },
         error: (err) => {
           console.error("Error adding checkpoint:", err);
@@ -164,5 +181,18 @@ export class CheckpointFormComponent implements OnInit{
    onTourSelect(event: any): void {
     this.selectedTourId = Number(event.target.value); // Convert to number if necessary
     console.log(this.selectedTourId);
+  }
+  // Method to reset the form and other relevant fields
+  resetForm(): void {
+    this.checkpointForm.reset(); // Reset all form fields to initial state
+    this.selectedImage = null; // Clear the selected image
+    this.imagePreview = null; // Clear the image preview
+    this.selectedTourId = null; // Reset the selected tour
+    this.checkpointForm.get('tour')?.setValue(null); 
+  }
+  showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
   }
 }
