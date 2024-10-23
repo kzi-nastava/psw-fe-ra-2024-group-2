@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, Output, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, Output, SimpleChanges,OnDestroy } from '@angular/core';
 import { MapService } from './map.service';
 import * as L from 'leaflet';
 import { Input } from '@angular/core';
@@ -10,7 +10,7 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit,OnDestroy {
   private map: any;
   private markers: L.Marker[] = [];
 
@@ -87,7 +87,23 @@ export class MapComponent implements AfterViewInit {
 
   }
   
+  ngAfterViewInit(): void {
+    let DefaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
+    setTimeout(() => {
+      this.initMap();
+    }, 0);  // Delay to ensure the DOM is fully ready  }
+  }
   private initMap(): void {
+
+    if (this.map) {
+      this.map.remove(); // Ensures that the previous map is fully removed
+      this.map = undefined; // Clear the reference
+    }
+
     this.map = L.map('map', {
       center: [45.2396, 19.8227],
       zoom: 13,
@@ -167,17 +183,17 @@ export class MapComponent implements AfterViewInit {
     }
     if (changes['checkpointObjectCollection'] && changes['checkpointObjectCollection'].currentValue) {
       this.loadCheckpoints();
-      console.log(this.checkpointObjectCollection);
     }
   }
-  ngAfterViewInit(): void {
-    let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-    });
 
-    L.Marker.prototype.options.icon = DefaultIcon;
-    this.initMap();
+  ngOnDestroy(): void {
+    // Clean up the map instance when the component is destroyed
+    if (this.map) {
+      this.map.remove(); // Remove the map and its layers
+      this.map = undefined; // Clear the map reference to avoid reinitialization issues
+    }
   }
+  
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {

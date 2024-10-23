@@ -82,21 +82,13 @@ export class MyToursComponent implements OnInit{
 
     //this will work for now, but in the future we should update checkpoint model since its -> (1,1)
     linkToursWithCheckpoints(): void {
-      this.tours.forEach(tour => {
+      this.tourCheckpointObjects = this.tours.map(tour => {
         const checkpointsForTour = this.tourCheckpoints.filter(
           (checkpoint) => tour.checkpoints.includes(checkpoint.id)
         );
-    
-        tour.checkpoints = checkpointsForTour;
-      });
-      this.generateTourCheckpointObjects();
-    }
-
-    generateTourCheckpointObjects(): void {
-       this.tourCheckpointObjects = this.tours.map(tour => {
         return {
           tourId: tour.id,
-          checkpoints: tour.checkpoints 
+          checkpoints: checkpointsForTour
         };
       });
     }
