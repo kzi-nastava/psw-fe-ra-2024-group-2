@@ -28,6 +28,11 @@ export class TourAuthoringService {
     return this.http.get<PagedResult<Object>>('https://localhost:44333/api/author/tourObject')
   }
 
+  updateObject([long, lat]: [number, number], id?: number): Observable<Object> {
+    return this.http.put<Object>(`https://localhost:44333/api/author/tourObject/${id}`, [long, lat]);
+  }
+
+
   getAllEquipment(): Observable<PagedResult<Equipment>>{
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
