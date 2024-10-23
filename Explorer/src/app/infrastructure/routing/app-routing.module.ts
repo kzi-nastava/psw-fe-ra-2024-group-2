@@ -44,7 +44,9 @@ const routes: Routes = [
   {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
-  {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]}
+  {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]},
+  {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
+  {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
