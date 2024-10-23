@@ -43,7 +43,7 @@ const routes: Routes = [
   {path: 'alltours', component: ToursComponent, canActivate: [AuthGuard]},
   {path: 'objects', component: ObjectComponent, canActivate: [AuthGuard]},
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
-  {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]}
+  {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]}
 ];
 
