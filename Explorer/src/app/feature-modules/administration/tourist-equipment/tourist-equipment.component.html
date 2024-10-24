@@ -1,0 +1,43 @@
+<div id="equipment">
+    <div id="equipment-details">
+        <!-- Leva tabela: Oprema koja je povezana sa turistom -->
+        <div class="equipment-table">
+            <p>Assigned Equipment</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of touristEquipment" (click)="selectEquipment(eq)">
+                        <td>{{ eq.name }}</td>
+                        <td>{{ eq.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button (click)="removeEquipment()">Delete</button>
+        </div>
+
+        <!-- Desna tabela: Dostupna oprema -->
+        <div class="equipment-table">
+            <p>Available Equipment</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of availableEquipment" (click)="selectAvailableEquipment(eq)">
+                        <td>{{ eq.name }}</td>
+                        <td>{{ eq.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button (click)="addEquipment()">Add</button>
+        </div>
+    </div>
+</div>
