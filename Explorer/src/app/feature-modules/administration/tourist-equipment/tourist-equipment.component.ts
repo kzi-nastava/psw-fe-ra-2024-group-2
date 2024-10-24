@@ -10,34 +10,30 @@ import { PagedResult } from '../../blog/blog.module';
 })
 export class TouristEquipmentComponent implements OnInit {
 
-  equipment: Equipment[] = [];  // Sva oprema
-  touristEquipment: Equipment[] = [];  // Oprema dodeljena turistu
-  availableEquipment: Equipment[] = [];  // Dostupna oprema
+  equipment: Equipment[] = [];  
+  touristEquipment: Equipment[] = []; 
+  availableEquipment: Equipment[] = []; 
   selectedEquipment: Equipment | null = null;
   selectedAvailableEquipment: Equipment | null = null;
-  touristId: number; // ID ulogovanog korisnika, da se popuni iz logina
-
+  touristId: number;
   constructor(private service: AdministrationService) { }
 
   ngOnInit(): void {
-    this.touristId = this.getTouristIdFromLogin(); // Pretpostavljamo da postoji metoda koja vraća touristId iz logina
+    this.touristId = this.getTouristIdFromLogin(); 
     console.log('Tourist ID:', this.touristId); 
-    this.loadTouristEquipment();  // Učitava opremu koja je dodeljena turistu
-    this.loadAvailableEquipment();  // Učitava svu dostupnu opremu
+    this.loadTouristEquipment(); 
+    this.loadAvailableEquipment();  
   }
-
+//ovo izmeni
   getTouristIdFromLogin(): number {
-    // Ovdje dodaj logiku za preuzimanje ID-a korisnika iz autentifikacije
-    // Ovo je primer kako bi moglo izgledati, prilagodi ga svojoj aplikaciji
-    // Na primer, ako koristiš JWT, možeš ga dekodirati da dobiješ ID
     const user = JSON.parse(localStorage.getItem('currentUser')!);
-    return user ? user.id : 5; // Ako korisnik nije pronađen, vrati 0 ili odgovarajući ID
+    return user ? user.id : 5; 
   }
 
   loadTouristEquipment() {
     this.service.getTouristEquipment(this.touristId).subscribe({
       next: (result: Equipment[]) => {
-        console.log('Tourist equipment:', result);  // Proverava koje podatke dobijaš
+        console.log('Tourist equipment:', result); 
         this.touristEquipment = result;
       },
       error: (err: any) => {
@@ -47,25 +43,37 @@ export class TouristEquipmentComponent implements OnInit {
   }
 
   loadAvailableEquipment() {
+    // Proveri da li su svi dostupni equipment već dodeljeni turistu
+    const allAvailableAssigned = this.availableEquipment.every(eq => 
+        this.touristEquipment.some(te => te.id === eq.id)
+    );
+
+    if (allAvailableAssigned) {
+        console.log('All available equipment are already assigned to the tourist. Skipping loading available equipment.');
+        return; // Ne učitavaj dostupnu opremu ako su svi dodeljeni
+    }
+
     this.service.getEquipmentForTourist().subscribe({
-      next: (result: PagedResult<Equipment>) => {
-        console.log('Available equipment:', result);  // Proverava koje podatke dobijaš
-        this.availableEquipment = result.results;
-        this.filterAvailableEquipment();  // Filtrira opremu koja nije dodeljena turistu
-      },
-      error: (err: any) => {
-        console.log(err);
-      }
+        next: (result: PagedResult<Equipment>) => {
+            console.log('Available equipment:', result);
+            this.availableEquipment = result.results;
+
+            // Filtriraj dostupnu opremu odmah nakon učitavanja
+            this.filterAvailableEquipment();
+        },
+        error: (err: any) => {
+            console.log(err);
+        }
     });
-  }
+}
 
-  // Filtrira dostupnu opremu koja još nije dodeljena turistu
-  filterAvailableEquipment() {
-    const touristEquipmentIds = this.touristEquipment.map(eq => eq.id);  // Dobijamo ID-ove opreme koju turist već ima
-    this.availableEquipment = this.availableEquipment.filter(eq => !touristEquipmentIds.includes(eq.id));  // Uklanjamo opremu koja je već dodeljena turistu
-  }
+filterAvailableEquipment() {
+    const touristEquipmentIds = this.touristEquipment.map(eq => eq.id);
+    this.availableEquipment = this.availableEquipment.filter(eq => !touristEquipmentIds.includes(eq.id));
+}
 
-  // Selektovanje opreme
+
+
   selectEquipment(eq: Equipment) {
     this.selectedEquipment = eq;
   }
@@ -74,33 +82,55 @@ export class TouristEquipmentComponent implements OnInit {
     this.selectedAvailableEquipment = eq;
   }
 
-  // Dodavanje opreme turistu
+ 
   addEquipment() {
     if (this.selectedAvailableEquipment && this.selectedAvailableEquipment.id !== undefined) {
       this.service.addEquipmentToTourist(this.touristId, this.selectedAvailableEquipment.id).subscribe({
         next: () => {
-          this.loadTouristEquipment();  // Ponovo učitava turistovu opremu
-          this.loadAvailableEquipment();  // Ponovo učitava dostupnu opremu
+          // Ukloni opremu iz availableEquipment i dodaj je u touristEquipment
+          if(this.selectedAvailableEquipment!=null)
+          this.touristEquipment.push(this.selectedAvailableEquipment);
+          
+          this.availableEquipment = this.availableEquipment.filter(eq => eq.id !== this.selectedAvailableEquipment!.id);
+          this.loadAvailableEquipment();
+          // Resetuj selektovanu opremu
+          this.selectedAvailableEquipment = null; 
         },
         error: (err: any) => {
           console.log(err);
         }
       });
+    } else {
+      console.error('Selected available equipment is not defined or has no valid ID.');
     }
   }
+  
 
-  // Uklanjanje opreme sa liste turiste
+  
   removeEquipment() {
+    // Proveri da li je selectedEquipment definisan i ima validan ID
     if (this.selectedEquipment && this.selectedEquipment.id !== undefined) {
       this.service.removeEquipmentFromTourist(this.touristId, this.selectedEquipment.id).subscribe({
         next: () => {
-          this.loadTouristEquipment();  // Ponovo učitava turistovu opremu
-          this.loadAvailableEquipment();  // Ponovo učitava dostupnu opremu
+          // Ukloni opremu iz touristEquipment
+          this.touristEquipment = this.touristEquipment.filter(eq => eq.id !== this.selectedEquipment!.id);
+          
+          // Dodaj obrisanu opremu nazad u availableEquipment
+          if(this.selectedEquipment)
+          this.availableEquipment.push(this.selectedEquipment);
+          this.loadAvailableEquipment();
+          // Resetuj selektovanu opremu nakon brisanja
+          this.selectedEquipment = null; 
         },
         error: (err: any) => {
           console.log(err);
         }
       });
+    } else {
+      console.error('Selected equipment is not defined or has no valid ID.');
     }
   }
-}
+  
+  }
+  
+

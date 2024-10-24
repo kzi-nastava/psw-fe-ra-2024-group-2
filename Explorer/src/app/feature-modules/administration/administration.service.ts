@@ -59,15 +59,15 @@ export class AdministrationService {
 
   //anino
   addEquipmentToTourist(touristId: number, equipmentId: number): Observable<any> {
-    return this.http.post<any>(`${environment.apiHost}/tourist/equipment/${touristId}/add/${equipmentId}`, {});
+    return this.http.post<any>(`${environment.apiHost}tourist/equipment/${touristId}/add/${equipmentId}`, {});
   }
 
   removeEquipmentFromTourist(touristId: number, equipmentId: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiHost}/tourist/equipment/${touristId}/remove/${equipmentId}`);
+    return this.http.delete<any>(`${environment.apiHost}tourist/equipment/${touristId}/remove/${equipmentId}`);
   }
 
   getTouristEquipment(touristId: number): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${environment.apiHost}/tourist/equipment/${touristId}`);
+    return this.http.get<Equipment[]>(`${environment.apiHost}tourist/equipment/${touristId}`);
   }
 
   getEquipmentForTourist(): Observable<PagedResults<Equipment>> {
