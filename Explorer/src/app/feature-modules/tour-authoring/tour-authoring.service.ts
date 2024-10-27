@@ -62,5 +62,8 @@ export class TourAuthoringService {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
   }
 
+  addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour>{
+    return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', {tour, checkpoints});
+  }
 
 }

@@ -23,6 +23,7 @@ import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tou
 import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
 import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
+import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -46,7 +47,8 @@ const routes: Routes = [
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]},
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
-  {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]}
+  {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
+  {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
