@@ -4,8 +4,11 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Tour } from '../model/tour.model';
 import { EventEmitter } from '@angular/core';
 import { Checkpoint } from '../model/checkpoint.model';
+import { TourDurationByTransportDtos } from '../model/tourDurationByTransportDtos.model';
 import { PagedResult } from '../shared/model/tour.module';
 import { Image } from 'src/app/shared/model/image.model';
+import * as L from 'leaflet';
+import 'leaflet-routing-machine';
 
 @Component({
     selector: 'xp-addnewtour',
@@ -77,8 +80,11 @@ export class AddNewTourComponent implements OnInit {
                 tag: Number(this.tourForm.value.tag) || 0,
                 difficulty: Number(this.tourForm.value.difficulty) || 0,
                 price: Number(this.tourForm.value.price) || 0,
-                checkpoints: [] // Checkpoints will be updated separately
+                checkpoints: [], // Checkpoints will be updated separately
+                tourDurationByTransportDtos: []
             };
+
+
 
             this.service.addTourAndCheckpoints(tour, this.checkpoints).subscribe({
                 next: (createdTour) => {

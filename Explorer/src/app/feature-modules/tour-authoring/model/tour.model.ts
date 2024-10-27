@@ -1,4 +1,5 @@
 import { Checkpoint } from "./checkpoint.model";
+import { TourDurationByTransportDtos } from "./tourDurationByTransportDtos.model";
 
 export interface Tour {
     id: number;
@@ -11,4 +12,5 @@ export interface Tour {
     status: number;
     price: number;
     checkpoints: number[];  // List of checkpoints
+    tourDurationByTransportDtos: TourDurationByTransportDtos[];
 }
