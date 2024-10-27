@@ -1,141 +1,127 @@
-<div style="margin-top: 5%; display: flex; justify-content: space-between; gap: 20px;">
-    <!-- adding tour form -->
-    <div style="flex: 1;">
-        <form [formGroup]="tourForm">
-            <table>
-                <tr>
-                    <td><label for="name">Name:</label></td>
-                    <td>
-                        <input type="text" id="name" name="name" placeholder="Name" formControlName="name" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="description">Description:</label></td>
-                    <td>
-                        <input type="text" id="description" name="description" placeholder="Description"
-                            formControlName="description" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="difficulty">Difficulty:</label></td>
-                    <td>
-                        <select id="difficulty" name="difficulty" formControlName="difficulty" required>
-                            <option value="0">Easy</option>
-                            <option value="1">Moderate</option>
-                            <option value="2">Hard</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="tag">Tag:</label></td>
-                    <td>
-                        <select id="tag" name="tag" formControlName="tag" required>
-                            <option value="0">Adventure</option>
-                            <option value="1">Relaxation</option>
-                            <option value="2">Historical</option>
-                            <option value="3">Cultural</option>
-                            <option value="4">Nature</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: right;">
-                        <button mat-raised-button type="submit" (click)="addTour()">Submit</button> 
-                    </td>
-                </tr>
-            </table>
-        </form>
+<div class="page-container">
+    <!-- Tour Form Section -->
+    <section class="forms-section">
+        <div class="form-container">
+            <h2 class="form-title">Add New Tour</h2>
+            <form [formGroup]="tourForm" class="custom-form" (ngSubmit)="addTour()">
+                <div class="form-group">
+                    <label for="tourName" class="form-label">Name</label>
+                    <input type="text" id="tourName" class="input-field" placeholder="Enter tour name"
+                        formControlName="name" required>
+                </div>
 
-        <form style="margin-top: 1vh;" [formGroup]="checkpointForm">
-            <table>
-                <tr>
-                    <td><label for="name">Name:</label></td>
-                    <td>
-                        <input type="text" id="name" name="name" placeholder="Checkpoint Name" formControlName="name"
-                            required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="description">Description:</label></td>
-                    <td>
-                        <textarea id="description" name="description" placeholder="Checkpoint Description"
-                            formControlName="description" rows="3" required></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="latitude">Latitude:</label></td>
-                    <td>
-                        <input type="number" id="latitude" name="latitude" placeholder="Latitude" formControlName="latitude"
-                            readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="longitude">Longitude:</label></td>
-                    <td>
-                        <input type="number" id="longitude" name="longitude" placeholder="Longitude"
-                            formControlName="longitude" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="image">Upload Image:</label></td>
-                    <td>
-                        <input type="file" id="image" (change)="onFileSelect($event)" accept="image/*">
-                    </td>
-                </tr>
-    
-                <tr *ngIf="imagePreview">
-                    <td colspan="2">
-                        <h4>Image Preview:</h4>
-                        <img [src]="imagePreview" alt="Image Preview" width="200">
-                    </td>
-                </tr>
-    
-                <!-- Add the map component -->
-                <tr>
-                    <td colspan="2">
-                    </td>
-                </tr>
-    
-                <tr>
-                    <td colspan="2" style="text-align: right;">
-                        <button mat-raised-button type="submit" (click)="addCheckpoint()"
-                            [disabled]="checkpointForm.invalid">
-                            Submit Checkpoint
-                        </button>
-                    </td>
-                </tr>
+                <div class="form-group">
+                    <label for="tourDescription" class="form-label">Description</label>
+                    <input type="text" id="tourDescription" class="input-field" placeholder="Enter tour description"
+                        formControlName="description" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="difficulty" class="form-label">Difficulty</label>
+                    <select id="difficulty" class="select-field" formControlName="difficulty" required>
+                        <option value="0">Easy</option>
+                        <option value="1">Moderate</option>
+                        <option value="2">Hard</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select id="tag" class="select-field" formControlName="tag" required>
+                        <option value="0">Adventure</option>
+                        <option value="1">Relaxation</option>
+                        <option value="2">Historical</option>
+                        <option value="3">Cultural</option>
+                        <option value="4">Nature</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-button">Add Tour</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Checkpoint Form -->
+        <div class="form-container">
+            <h2 class="form-title">Add Checkpoint</h2>
+            <form [formGroup]="checkpointForm" class="custom-form" (ngSubmit)="addCheckpoint()">
+                <div class="form-group">
+                    <label for="checkpointName" class="form-label">Name</label>
+                    <input type="text" id="checkpointName" class="input-field" placeholder="Enter checkpoint name"
+                        formControlName="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="checkpointDescription" class="form-label">Description</label>
+                    <textarea id="checkpointDescription" class="textarea-field"
+                        placeholder="Enter checkpoint description" formControlName="description" rows="3"
+                        required></textarea>
+                </div>
+
+                <div class="coordinates-group">
+                    <div class="form-group">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="number" id="latitude" class="input-field" formControlName="latitude" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="number" id="longitude" class="input-field" formControlName="longitude" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image" class="form-label">Upload Image</label>
+                    <input type="file" id="image" class="file-input" (change)="onFileSelect($event)" accept="image/*">
+                </div>
+
+                <div *ngIf="imagePreview" class="image-preview">
+                    <h4 class="preview-title">Image Preview</h4>
+                    <img [src]="imagePreview" alt="Image Preview" class="preview-image">
+                </div>
+
+                <div class="map-container">
+                    <xp-map (locationSelected)="onLocationSelected($event)"></xp-map>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-button" [disabled]="checkpointForm.invalid">
+                        Add Checkpoint
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Checkpoints Table Section -->
+    <section class="table-section">
+        <h2 class="form-title">Checkpoints List</h2>
+        <div class="table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let check of checkpoints">
+                        <td>{{ check.name }}</td>
+                        <td>{{ check.description }}</td>
+                        <td>{{ check.longitude }}</td>
+                        <td>{{ check.latitude }}</td>
+                        <td>
+                            <img *ngIf="check.image?.data"
+                                [src]="'data:' + check.image?.mimeType + ';base64,' + check.image?.data"
+                                alt="Checkpoint Image" class="checkpoint-image">
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <div style="max-width: 60%; margin: 0 auto;">
-                <xp-map (locationSelected)="onLocationSelected($event)"></xp-map>
-            </div>
-    
-        </form>
-    </div>
-    <div style="flex: 1;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Longitude</th>
-                    <th>Latitude</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let check of checkpoints">
-                    <td>{{ check.name }}</td>
-                    <td>{{ check.description }}</td>
-                    <td>{{ check.longitude }}</td>
-                    <td>{{ check.latitude }}</td>
-                    <td>
-                        <!-- Display image if exists -->
-                        <img *ngIf="check.image?.data"
-                            [src]="'data:' + check.image?.mimeType + ';base64,' + check.image?.data"
-                            alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        </div>
+    </section>
 </div>
