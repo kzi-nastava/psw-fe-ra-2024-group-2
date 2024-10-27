@@ -8,7 +8,7 @@ import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.c
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
-import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club/club.component';
+import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
 
 import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours/mytours.component';
