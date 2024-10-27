@@ -35,7 +35,7 @@ import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
     AuthModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {

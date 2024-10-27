@@ -6,12 +6,10 @@ import { ClubComponent } from './club/club/club.component';
 import { EditTourComponent } from './edittour/edittour.component';
 import { MyToursComponent } from './mytours/mytours.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
-import { CheckpointComponent } from './checkpoint/checkpoint.component';
-import { CheckpointFormComponent } from './checkpoint-form/checkpoint-form.component';
 import { ObjectComponent } from './object/object.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AddNewTourComponent } from './addNewTour/addNewTour.component'; 
 
-import { AddtourComponent } from './addtour/addtour.component';
 import { ObjectUpdateComponent } from './object-update/object-update.component';
 import { PositionSimulatorComponent } from './position-simulator/position-simulator.component';
 @NgModule({
@@ -19,11 +17,11 @@ import { PositionSimulatorComponent } from './position-simulator/position-simula
     MyToursComponent,
     EditTourComponent,
     ClubComponent,
-    CheckpointComponent,
-    CheckpointFormComponent,
     ObjectComponent,
     ObjectFormComponent, 
-    AddtourComponent, ObjectUpdateComponent, PositionSimulatorComponent
+    ObjectUpdateComponent,
+    AddNewTourComponent,
+    PositionSimulatorComponent
   ],
   imports: [
     CommonModule,

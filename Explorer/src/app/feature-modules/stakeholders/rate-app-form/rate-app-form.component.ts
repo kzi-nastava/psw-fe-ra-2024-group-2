@@ -21,15 +21,15 @@ export class RateAppFormComponent implements OnInit {
   result: string = '';
   alreadyRate: string = '';
 
-  constructor(private service: ProfileService,private authService: AuthService, private router: Router) {
+  constructor(private service: ProfileService, private authService: AuthService, private router: Router) {
   }
   rateAppForm = new FormGroup({
-    grade: new FormControl('', [Validators.required,Validators.max(5),Validators.min(1)]),
+    grade: new FormControl('', [Validators.required, Validators.max(5), Validators.min(1)]),
     comment: new FormControl(''),
   });
-  
+
   ngOnInit(): void {
-    
+
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
@@ -40,7 +40,7 @@ export class RateAppFormComponent implements OnInit {
     if (!this.user) {
       return;
     }
-  
+
 
     const rate: RateApp = {
       grade: Number(this.rateAppForm.value.grade),
@@ -48,7 +48,7 @@ export class RateAppFormComponent implements OnInit {
       ratingTime: new Date(),  // Postavljanje trenutnog vremena
       userId: this.user.id  // Pretpostavljam da imaš userId iz user objekta
     };
-  
+
     if (this.user.role === "tourist") {
       // Ako je role 2, pozovi servis za turiste
       this.service.addRateAppTourist(rate).subscribe({
@@ -75,6 +75,11 @@ export class RateAppFormComponent implements OnInit {
       });
     }
   }
-  
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.rateAppForm.get(fieldName);
+    return field ? field.invalid && (field.dirty || field.touched) : false;
+  }
+
 
 }
