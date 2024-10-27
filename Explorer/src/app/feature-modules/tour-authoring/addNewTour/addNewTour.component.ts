@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Tour } from '../model/tour.model';
@@ -9,6 +9,7 @@ import { PagedResult } from '../shared/model/tour.module';
 import { Image } from 'src/app/shared/model/image.model';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { MapComponent } from 'src/app/shared/map/map.component';
 
 @Component({
     selector: 'xp-addnewtour',
@@ -17,13 +18,14 @@ import 'leaflet-routing-machine';
 })
 
 export class AddNewTourComponent implements OnInit {
-
     checkpoints: Checkpoint[] = [];
     selectedImage: File | null = null;
     imagePreview: string | ArrayBuffer | null = null;
     latitude: number = 0;
     longitude: number = 0;
     tempImage: Image | null = null;
+
+    @ViewChild('map', { static: false }) mapComponent!: MapComponent;
 
     constructor(private service: TourAuthoringService) { }
 
@@ -47,7 +49,7 @@ export class AddNewTourComponent implements OnInit {
     });
 
     ngOnInit(): void {
-        
+
     }
 
     onFileSelect(event: any): void {
@@ -63,41 +65,124 @@ export class AddNewTourComponent implements OnInit {
         }
     }
 
-    addTour(): void {
-            
-            if(this.checkpoints.length < 2){
-                console.log('Please add at least 2 checkpoints to create a tour');
+    async addTour(): Promise<void> {
+
+        if (this.checkpoints.length < 2) {
+            console.log('Please add at least 2 checkpoints to create a tour');
+            return;
+        }
+
+        let tour: Tour = {
+            userId: 1,
+            equipment: [],
+            id: 0, // This will be updated after the tour is created
+            name: this.tourForm.value.name || "",
+            description: this.tourForm.value.description || "",
+            status: Number(this.tourForm.value.status) || 0,
+            tag: Number(this.tourForm.value.tag) || 0,
+            difficulty: Number(this.tourForm.value.difficulty) || 0,
+            price: Number(this.tourForm.value.price) || 0,
+            checkpoints: [], // Checkpoints will be updated separately
+            tourDurationByTransportDtos: []
+        };
+
+        const transportModes: Array<'Walking' | 'Bicycling' | 'Driving'> = ['Walking', 'Bicycling', 'Driving'];
+
+        transportModes.forEach((mode) => {
+            const duration: TourDurationByTransportDtos = {
+                transport: mode,
+                duration: 0,
+            };
+            tour.tourDurationByTransportDtos.push(duration);
+        });
+
+        let durations = await this.findDuration();
+
+        tour.tourDurationByTransportDtos = durations;
+
+        this.service.addTourAndCheckpoints(tour, this.checkpoints).subscribe({
+            next: (createdTour) => {
+                console.log('Tour created:', createdTour);
+                window.location.reload();
+            },
+            error: (err) => {
+                console.error("Error creating tour:", err);
+            }
+        });
+    }
+
+    findDuration(): Promise<TourDurationByTransportDtos[]> {
+        return new Promise<TourDurationByTransportDtos[]>((resolve, reject) => {
+            if (this.checkpoints.length < 2) {
+                console.error("At least two checkpoints are required to calculate duration.");
+                resolve([{ transport: 'Driving', duration: 0 }, { transport: 'Walking', duration: 0 }, { transport: 'Bicycling', duration: 0 }]);
                 return;
             }
 
-            const tour: Tour = {
-                userId: 1,
-                equipment: [],
-                id: 0, // This will be updated after the tour is created
-                name: this.tourForm.value.name || "",
-                description: this.tourForm.value.description || "",
-                status: Number(this.tourForm.value.status) || 0,
-                tag: Number(this.tourForm.value.tag) || 0,
-                difficulty: Number(this.tourForm.value.difficulty) || 0,
-                price: Number(this.tourForm.value.price) || 0,
-                checkpoints: [], // Checkpoints will be updated separately
-                tourDurationByTransportDtos: []
-            };
+            const waypoints = this.checkpoints.map((checkpoint) =>
+                L.latLng(checkpoint.latitude, checkpoint.longitude)
+            );
 
+            // Create an array to hold promises for each routing request
+            const durationPromises: Promise<TourDurationByTransportDtos>[] = [];
 
-
-            this.service.addTourAndCheckpoints(tour, this.checkpoints).subscribe({
-                next: (createdTour) => {
-                    console.log('Tour created:', createdTour);
+            const routingOptions = [
+                {
+                    profile: 'mapbox/driving',
+                    transport: 'Driving',
                 },
-                error: (err) => {
-                    console.error("Error creating tour:", err);
-                }
+                {
+                    profile: 'mapbox/walking',
+                    transport: 'Walking',
+                },
+                {
+                    profile: 'mapbox/cycling',
+                    transport: 'Bicycling',
+                },
+            ];
+
+            // Iterate over the routing options to create routing requests
+            routingOptions.forEach(({ profile, transport }) => {
+                const routingControl = L.Routing.control({
+                    router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile }),
+                    waypoints,
+                    routeWhileDragging: false,
+                });
+
+                const promise = new Promise<TourDurationByTransportDtos>((resolveDuration, rejectDuration) => {
+                    routingControl.on('routesfound', (e) => {
+                        const route = e.routes[0];
+                        const duration = route.summary.totalTime; // Duration in seconds
+                        console.log(`Duration for ${transport}:`, duration);
+                        resolveDuration({ transport, duration });
+                    });
+
+                    routingControl.on('routingerror', (error) => {
+                        console.error("Error finding route:", error);
+                        rejectDuration({ transport, duration: 0 }); // Return duration 0 on error
+                    });
+
+                    routingControl.addTo(this.mapComponent.map);
+                });
+
+                durationPromises.push(promise);
             });
+
+            // Wait for all duration promises to resolve
+            Promise.all(durationPromises)
+                .then((durations) => {
+                    console.log("Durations found:", durations);
+                    resolve(durations);
+                })
+                .catch((error) => {
+                    console.error("Error calculating durations:", error);
+                    reject(0);
+                });
+        });
     }
 
+
     addCheckpoint(): void {
-        console.log(this.selectedImage)
         if (this.selectedImage) {
             const reader = new FileReader();
             reader.onload = () => {
