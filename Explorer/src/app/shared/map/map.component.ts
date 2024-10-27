@@ -11,7 +11,7 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit,OnDestroy {
-  private map: any;
+  map: any;
   private markers: L.Marker[] = [];
 
   @Input() clearMarkersTrigger: boolean = false;

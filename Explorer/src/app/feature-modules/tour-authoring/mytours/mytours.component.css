@@ -1,63 +1,166 @@
-.container {
+/* Page Layout */
+.page-container {
     display: flex;
-    border: 1px solid black;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 20px auto;
-    width: 80%;
-    gap: 20px;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.table-section {
-    width: 60%;
-    /* Add max-height and scrolling behavior */
-    max-height: 400px; 
-    overflow-y: auto; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Content Section */
+.content-section {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.form-section {
-    width: 35%;
+.section-title {
+    color: var(--dark-brown);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--lighter-brown);
 }
 
-table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
+/* Table Styles */
+.table-container {
+    overflow: hidden;
+    background-color: var(--white);
+    border-radius: 8px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.custom-table {
     width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
 }
 
-th, td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
+.custom-table th {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    white-space: nowrap;
 }
 
-/* Keep header sticky while scrolling */
-thead tr {
-    background-color: #3f51b5;
-    color: white;
-    position: sticky;
-    top: 0; /* Fixed header on scroll */
-    z-index: 1;
+.custom-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+    color: var(--text-light);
 }
 
-.clickable-row:hover {
-    background-color: #b0d4f2;
-}
-
-button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-    background-color: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 4px;
+.interactive-row {
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s ease;
 }
 
-button:hover {
-    background-color: #2c387e;
+.interactive-row:hover {
+    background-color: rgba(210, 180, 140, 0.1);
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Difficulty Badges */
+.difficulty-easy {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.difficulty-moderate {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+}
+
+.difficulty-hard {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error);
+}
+
+/* Status Badges */
+.status-active {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.status-inactive {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: var(--text-light);
+}
+
+/* Tag Badges */
+.tag-adventure,
+.tag-relaxation,
+.tag-historical,
+.tag-cultural,
+.tag-nature {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+}
+
+/* Price Column */
+.price-column {
+    font-weight: 500;
+    color: var(--dark-brown);
+    text-align: right;
+}
+
+/* Map Section */
+.map-section {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .page-container {
+        padding: 1rem;
+    }
+
+    .section-title {
+        padding: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .table-wrapper {
+        padding: 0 1rem 1rem;
+    }
+
+    .map-section {
+        height: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .custom-table th,
+    .custom-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .badge {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .map-section {
+        height: 250px;
+    }
 }

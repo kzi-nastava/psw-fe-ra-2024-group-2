@@ -1,107 +1,159 @@
-.profile {
-    display: flex; /* Display items in a row */
-    gap: 20px; /* Add spacing between items */
-    margin: 20px auto; /* Center the card */
-    max-width: 800px; /* Limit the width of the profile section */
-}
-
+/* Profile Container */
 .profile-container {
-    max-width: 800px; /* Limit the width of the profile section */
-    margin: 20px auto; /* Center the card */
-    padding: 15px; /* Add padding around the card */
+    max-width: 800px;
+    margin: 1rem auto;
+    padding: 0 1rem;
 }
 
-.profile-info {
+.mat-header {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 10px; /* Add spacing between items */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
-.info-item {
-    font-size: 1rem;
-    display: flex; /* Align label and input */
-    flex-direction: column; /* Stack label above input */
+.mat-card {
+    background-color: var(--white);
+    border-radius: 12px !important;
+    padding: 2rem !important;
 }
 
-label {
-    font-weight: bold; /* Bold label */
-    margin-bottom: 5px; /* Space between label and input */
-}
-
-input {
-    padding: 8px; /* Padding for input */
-    background-color: #f5f5f5; /* Light background for better visibility */
-    border-radius: 4px; /* Slight rounding of corners */
-    border: 1px solid #ddd; /* Border for separation */
-    font-size: 1rem; /* Input font size */
-    width: 100%; /* Full width */
-}
-
-.edit-button-container {
-    margin-top: 20px; /* Add space above the button */
-    text-align: center; /* Center the button */
-}
-
-mat-card-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-mat-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.profile-container {
-    max-width: 600px;
-    margin: 30px auto;
-}
-
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
+/* Profile Header */
+.mat-card-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--lighter-brown);
 }
 
 .profile-picture {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 4px solid var(--light-brown);
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.2);
 }
 
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+}
+
+.mat-card-title {
+    color: var(--dark-brown);
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+/* Profile Content */
 .profile-info {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .info-item {
-    margin: 10px 0;
-}
-
-.edit-button-container {
-    margin-top: 20px;
-    text-align: center;
-}
-
-mat-card-header {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: rgba(210, 180, 140, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.snackbar-success {
-    background-color: #4caf50; /* Green background for success */
-    color: white; /* White text */
-    font-weight: bold; /* Bold text */
+.info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.snackbar-error {
-    background-color: #f44336; /* Red background for error */
-    color: white; /* White text */
-    font-weight: bold; /* Bold text */
+.info-item label {
+    color: var(--dark-brown);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-item input {
+    background-color: transparent;
+    border: none;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    width: 100%;
+    cursor: default;
+}
+
+.info-item input:disabled {
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+/* Biography and Moto special styling */
+.info-item:has(input[value*="biography"]),
+.info-item:has(input[value*="moto"]) {
+    grid-column: 1 / -1;
+}
+
+/* Edit Button Container */
+.edit-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--lighter-brown);
+}
+
+button[mat-raised-button] {
+    min-width: 150px;
+    padding: 0.75rem 2rem !important;
+    font-size: 1.1rem;
+    background-color: var(--primary-brown) !important;
+    transition: all 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+    background-color: var(--dark-brown) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .profile-container {
+        margin: 1rem;
+    }
+
+    .mat-card {
+        padding: 1rem !important;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-info {
+        grid-template-columns: 1fr;
+    }
+
+    .info-item {
+        padding: 0.75rem;
+    }
+
+    .mat-card-title {
+        font-size: 1.5rem;
+    }
 }
