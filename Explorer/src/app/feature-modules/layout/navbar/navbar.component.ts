@@ -40,6 +40,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/reviews'])
   }
 
+  showAddNewTour(): void{
+    this.router.navigate(['/addNewTour'])
+  }
 
   showCheckpoints(): void{
     this.router.navigate(['/checkpoints'])

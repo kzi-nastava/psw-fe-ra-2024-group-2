@@ -5,6 +5,7 @@
             <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
             <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
             <button *ngIf="user && user.username !== '' && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button (click)="showProfile()">Profile</button>
+            <button *ngIf="user && user.username !== '' && user.role ==='author'" color="primary" mat-raised-button (click)="showAddNewTour()">Add tour</button>
             <button *ngIf="user && user.username !== '' && user.role ==='author'" color="primary" mat-raised-button (click)="showMyTours()">My Tours</button>
             <button *ngIf="user && user.username !== '' && user.role ==='tourist'" color="primary" mat-raised-button (click)="showClub()">Club</button>
             <button *ngIf="user && user.username !== '' && user.role ==='author'" color="primary" mat-raised-button (click)="showObjects()">Objects</button>

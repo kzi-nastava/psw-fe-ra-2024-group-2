@@ -10,6 +10,7 @@ import { CheckpointComponent } from './checkpoint/checkpoint.component';
 import { CheckpointFormComponent } from './checkpoint-form/checkpoint-form.component';
 import { ObjectComponent } from './object/object.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AddNewTourComponent } from './addNewTour/addNewTour.component'; 
 
 import { AddtourComponent } from './addtour/addtour.component';
 import { ObjectUpdateComponent } from './object-update/object-update.component';
@@ -22,7 +23,8 @@ import { ObjectUpdateComponent } from './object-update/object-update.component';
     CheckpointFormComponent,
     ObjectComponent,
     ObjectFormComponent, 
-    AddtourComponent, ObjectUpdateComponent
+    AddtourComponent, ObjectUpdateComponent,
+    AddNewTourComponent
   ],
   imports: [
     CommonModule,
