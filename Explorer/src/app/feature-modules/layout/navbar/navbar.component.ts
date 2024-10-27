@@ -44,10 +44,6 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/addNewTour'])
   }
 
-  showCheckpoints(): void{
-    this.router.navigate(['/checkpoints'])
-  }
-
   showMyClub(): void {
     this.router.navigate(['/myclub']);
   }

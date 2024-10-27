@@ -10,7 +10,6 @@ import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/p
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
 import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club/club.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
-import { CheckpointComponent } from 'src/app/feature-modules/tour-authoring/checkpoint/checkpoint.component';
 
 import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours/mytours.component';
 import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/object.component';
@@ -33,7 +32,6 @@ const routes: Routes = [
   {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-  {path: 'checkpoints', component: CheckpointComponent, canActivate: [AuthGuard]},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
