@@ -43,7 +43,8 @@ export class AddtourComponent {
       tag: Number(this.tourForm.value.tag) || 0,
       difficulty: Number(this.tourForm.value.difficulty) || 0,
       price: Number(this.tourForm.value.price) || 0,
-      checkpoints: [] // Checkpoints will be updated separately
+      checkpoints: [], // Checkpoints will be updated separately
+      tourDurationByTransportDtos: []
     };
   
     // First, create the tour
