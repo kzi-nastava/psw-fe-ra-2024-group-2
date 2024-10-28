@@ -1,0 +1,171 @@
+// Review Form Container
+.review-form-container {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--lighter-brown);
+}
+
+.form-title {
+  color: var(--dark-brown);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+// Form Group Styles
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+// Date fields container
+.date-fields-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .form-group {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.form-label {
+  display: block;
+  color: var(--dark-brown);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+// Input Styles
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--lighter-brown);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--white);
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 0 2px rgba(var(--primary-brown-rgb), 0.1);
+  }
+
+  &.error {
+    border-color: var(--error);
+  }
+}
+
+// Textarea specific styles
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+// Number input specific styles
+input[type="number"].form-control {
+  max-width: 100px;
+}
+
+// Date input specific styles
+input[type="date"].form-control {
+  width: 100%;
+}
+
+// Error message styles
+.error-message {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  .icon {
+    font-size: 1rem;
+  }
+}
+
+// File upload styles
+.file-upload {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--lighter-brown);
+  color: var(--dark-brown);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--light-brown);
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+  }
+}
+
+input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+// Image preview styles
+.image-preview-container {
+  margin-top: 1rem;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--lighter-brown);
+}
+
+// Submit button styles
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.btn-submit {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--dark-brown);
+  }
+
+  &:disabled {
+    background-color: var(--lighter-brown);
+    cursor: not-allowed;
+  }
+}

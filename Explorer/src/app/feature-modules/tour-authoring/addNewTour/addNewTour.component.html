@@ -72,8 +72,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image" class="form-label">Upload Image</label>
-                    <input type="file" id="image" class="file-input" (change)="onFileSelect($event)" accept="image/*">
+                    <label for="image" class="form-label">Image Upload</label>
+                    <div class="file-input-container">
+                        <label for="image" class="file-label">
+                            <span class="upload-text">Choose an image</span>
+                            <input type="file" id="image" class="file-input" (change)="onFileSelect($event)"
+                                accept="image/*">
+                        </label>
+                    </div>
                 </div>
 
                 <div *ngIf="imagePreview" class="image-preview">
