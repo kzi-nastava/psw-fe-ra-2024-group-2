@@ -23,7 +23,7 @@ import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour
 import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
 import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
 import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
-import { PositionSimulatorComponent } from 'src/app/feature-modules/tour-authoring/position-simulator/position-simulator.component';
+import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},

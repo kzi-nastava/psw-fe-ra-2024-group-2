@@ -23,6 +23,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
   @Output() markerClicked = new EventEmitter<[number, number]>();
+  @Input() touristPosition: { latitude: number, longitude: number } | null = null;
 
   constructor(private mapService: MapService) {}
 
@@ -172,6 +173,10 @@ export class MapComponent implements AfterViewInit,OnDestroy {
 
   // Watch for changes in `clearMarkersTrigger` to trigger marker clearing
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
+      console.log(changes['touristPosition'].currentValue.position);
+      this.addTouristMarker(changes['touristPosition'].currentValue.position);
+    }
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
     }
@@ -184,6 +189,12 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     if (changes['checkpointObjectCollection'] && changes['checkpointObjectCollection'].currentValue) {
       this.loadCheckpoints();
     }
+  }
+  private addTouristMarker(position: { latitude: number, longitude: number }): void {
+    // Clear existing tourist markers if any, then add a new one
+    const marker = L.marker([position.latitude, position.longitude]).addTo(this.map);
+    this.markers.push(marker);
+    marker.bindPopup('Current Tourist Position').openPopup();
   }
 
   ngOnDestroy(): void {

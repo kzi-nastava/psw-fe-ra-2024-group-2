@@ -1,0 +1,7 @@
+<div>
+    <p>Select your position</p>
+</div>
+<div>
+    <xp-map (locationSelected)="onLocationSelected($event)"     [touristPosition]="touristPosition"
+    [clearMarkersTrigger]="clearMarkersFlag" (markersCleared)="onMarkersCleared()"></xp-map>
+</div>
