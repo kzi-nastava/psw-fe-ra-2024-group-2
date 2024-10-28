@@ -8,7 +8,7 @@ import { Router } from '@angular/router'; // Import Router here
 @Component({
   selector: 'xp-tour-review-form',
   templateUrl: './tour-review-form.component.html',
-  styleUrls: ['./tour-review-form.component.css']
+  styleUrls: ['./tour-review-form.component.scss']
 })
 export class TourReviewFormComponent implements OnInit {
   tourReviewForm: FormGroup;

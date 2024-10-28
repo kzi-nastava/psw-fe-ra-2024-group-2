@@ -1,50 +1,151 @@
-p {
-    font-size: 20px;
+/* equipment-map.component.scss */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f5f5f5;
 }
 
-table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    margin-left: 20px;
-    margin-top: 20px;
+.equipment-section {
+    flex: 0 0 auto;
 }
 
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
+.equipment-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
 }
 
-th, td {
-    padding: 12px 15px;
+.equipment-header {
+    color: var(--dark-brown);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--lighter-brown);
 }
 
-tbody tr {
-    border-bottom: 1px solid #dddddd;
+.equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
+.equipment-item {
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
 
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
+.equipment-item:hover {
+    background-color: rgba(210, 180, 140, 0.1);
 }
 
-.clickable-row {
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.equipment-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--light-brown);
+    border-radius: 3px;
     cursor: pointer;
-    transition: background-color 0.1s;
-  }
-  
-.clickable-row:hover {
-background-color: #b0d4f2; /* Light gray background on hover */
+    position: relative;
+    transition: all 0.2s ease;
 }
 
-button.mat-raised-button {
-    background-color: #3f51b5 !important; /* Primary color */
-    color: white !important; /* Text color */
+.equipment-checkbox:checked {
+    background-color: var(--primary-brown);
+    border-color: var(--primary-brown);
+}
+
+.equipment-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.equipment-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.equipment-name {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.equipment-description {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-container button {
+    background-color: var(--primary-brown) !important;
+    color: var(--white) !important;
+    padding: 0.5rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.button-container button:hover {
+    background-color: var(--dark-brown) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.map-section {
+    flex: 1;
+    min-height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep xp-map {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Scrollbar styling */
+.equipment-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.equipment-list::-webkit-scrollbar-track {
+    background: var(--lighter-brown);
+    border-radius: 3px;
+}
+
+.equipment-list::-webkit-scrollbar-thumb {
+    background: var(--primary-brown);
+    border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .page-container {
+        padding: 2rem;
+    }
 }
