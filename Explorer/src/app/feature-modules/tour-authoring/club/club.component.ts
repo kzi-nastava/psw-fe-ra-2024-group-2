@@ -49,6 +49,7 @@ addClub(): void {
     this.service.addClub(clubData).subscribe({
       next: (response) => {
         console.log('Club added successfully!');
+        window.location.reload();
       },
       error: (err) => {
         console.log('Error adding club:', err);
