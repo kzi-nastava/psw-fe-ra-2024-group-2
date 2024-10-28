@@ -1,38 +1,112 @@
-p {
-    font-size: 20px;
-}
-
-table {
+#tours {
+    padding: 1rem;
+  }
+  
+  #tours table {
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
+    margin-bottom: 1.5rem;
+  }
+  
+  #tours thead {
+    background-color: var(--lighter-brown);
+  }
+  
+  #tours th {
+    color: var(--dark-brown);
+    font-weight: 600;
+    padding: 1rem;
     text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
+    border-bottom: 2px solid var(--light-brown);
+  }
+  
+  #tours td {
+    color: var(--text-light);
+    padding: 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+  }
+  
+  #tours tbody tr:nth-child(even) {
+    background-color: rgba(210, 180, 140, 0.1);
+  }
+  
+  #tours tbody tr:hover {
+    background-color: rgba(144, 238, 144, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Status styling */
+  #tours td:nth-child(5) {
+    font-weight: 500;
+  }
+  
+  .status-active {
+    color: var(--dark-green);
+  }
+  
+  .status-inactive {
+    color: var(--error);
+  }
+  
+  /* Price column styling */
+  #tours td:nth-child(6) {
+    font-weight: 500;
+    color: var(--dark-brown);
+  }
+  
+  /* Difficulty indicators */
+  .difficulty-easy {
+    color: var(--dark-green);
+  }
+  
+  .difficulty-medium {
+    color: var(--primary-brown);
+  }
+  
+  .difficulty-hard {
+    color: var(--error);
+  }
+  
+  /* Report button styling */
+  #tours button {
+    background-color: var(--primary-brown);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  
+  #tours button:hover {
+    background-color: var(--dark-brown);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  /* Responsive design */
+  @media screen and (max-width: 1024px) {
+    #tours {
+      padding: 0.5rem;
+      overflow-x: auto;
+    }
+    
+    #tours table {
+      min-width: 800px;
+    }
+    
+    #tours th, 
+    #tours td {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    #tours button {
+      padding: 0.4rem 1rem;
+    }
+  }

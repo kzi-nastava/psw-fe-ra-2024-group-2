@@ -16,7 +16,7 @@ export class TourAuthoringService {
 
   constructor(private http: HttpClient) { }
 
-  getTours(): Observable<PagedResult<Tour>>{
+  getTours(): Observable<PagedResult<Tour>> {
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
   }
 
@@ -24,7 +24,7 @@ export class TourAuthoringService {
     return this.http.get<Tour>(`https://localhost:44333/api/author/tour/${tourId}`);
   }
 
-  getObjects(): Observable<PagedResult<Object>>{
+  getObjects(): Observable<PagedResult<Object>> {
     return this.http.get<PagedResult<Object>>('https://localhost:44333/api/author/tourObject')
   }
 
@@ -33,34 +33,40 @@ export class TourAuthoringService {
   }
 
 
-  getAllEquipment(): Observable<PagedResult<Equipment>>{
+  getAllEquipment(): Observable<PagedResult<Equipment>> {
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
 
-  updateTour(result: Tour){
+  updateTour(result: Tour) {
     console.log(result)
     return this.http.put('https://localhost:44333/api/author/tour/equipment', result)
   }
-  
-  getCheckpoints(): Observable<PagedResult<Checkpoint>>{
+
+  getCheckpoints(): Observable<PagedResult<Checkpoint>> {
     return this.http.get<PagedResult<Checkpoint>>('https://localhost:44333/api/author/checkpoint/checkpoints/getAll')
   }
 
-  addCheckpoint(checkpoint: Checkpoint): Observable<Checkpoint>{
+  addCheckpoint(checkpoint: Checkpoint): Observable<Checkpoint> {
     return this.http.post<Checkpoint>('https://localhost:44333/api/author/checkpoint', checkpoint)
   }
 
-  updateTourCheckpoints(tour: Tour){
+  updateTourCheckpoints(tour: Tour) {
     return this.http.put('https://localhost:44333/api/author/tour/checkpoints', tour);
   }
 
-  addObject(object: Object): Observable<Object>{
+  addObject(object: Object): Observable<Object> {
     return this.http.post<Object>('https://localhost:44333/api/author/tourObject', object);
   }
 
-  addTour(tour : Tour): Observable<Tour>{
+  addTour(tour: Tour): Observable<Tour> {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
   }
 
+  addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour> {
+    return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', { tour, checkpoints });
+  }
 
+  getTourCheckpoints(checkpointIds: number[]): Observable<PagedResult<Checkpoint>> {
+    return this.http.post<PagedResult<Checkpoint>>('https://localhost:44333/api/author/checkpoint/checkpoints/getSome', checkpointIds);
+  }
 }

@@ -1,0 +1,195 @@
+// Clubs Container
+.clubs-container {
+  padding: 2rem;
+}
+
+.page-title {
+  color: var(--dark-brown);
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+// Layout
+.clubs-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+
+  .table-section {
+    flex: 0 0 66.666667%; // 8 columns of 12
+    max-width: 66.666667%;
+  }
+
+  .form-section {
+    flex: 0 0 33.333333%; // 4 columns of 12
+    max-width: 33.333333%;
+  }
+}
+
+// Table Styles
+.clubs-table {
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  thead {
+    background-color: var(--lighter-brown);
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      color: var(--dark-brown);
+      font-weight: 500;
+      border-bottom: 2px solid var(--light-brown);
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--lighter-brown);
+      transition: background-color 0.2s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &.clickable-row {
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--lighter-brown);
+        }
+      }
+    }
+
+    td {
+      padding: 1rem;
+      color: var(--text-light);
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--text-light);
+}
+
+// Form Styles
+.club-form {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+
+  .form-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+
+    h2 {
+      color: var(--dark-brown);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .form-label {
+    display: block;
+    color: var(--dark-brown);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--lighter-brown);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-brown);
+      box-shadow: 0 0 0 2px rgba(var(--primary-brown-rgb), 0.1);
+    }
+  }
+
+  textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+  }
+}
+
+// Action Buttons
+.btn-action {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--primary-brown);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--lighter-brown);
+  }
+
+  .icon {
+    font-size: 1.25rem;
+  }
+}
+
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--dark-brown);
+  }
+
+  &:disabled {
+    background-color: var(--lighter-brown);
+    cursor: not-allowed;
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .clubs-layout {
+    flex-direction: column;
+
+    .table-section,
+    .form-section {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+}
