@@ -203,3 +203,97 @@
     padding: 0.75rem;
   }
 }
+
+/* Add to your existing component styles */
+
+.image-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.preview-title {
+  color: var(--dark-brown);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--lighter-brown);
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--lighter-brown);
+  background-color: #f8f8f8;
+  transition: transform 0.3s ease;
+}
+
+.preview-image:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media query for responsive design */
+@media (min-width: 768px) {
+  .image-preview {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .preview-image {
+    max-height: 400px;
+  }
+}
+
+/* Add these styles to your existing CSS file */
+
+.file-input-container {
+  margin: 1rem 0;
+}
+
+.file-label {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  border: 2px dashed var(--light-brown);
+  border-radius: 4px;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: transparent;
+}
+
+.file-label:hover {
+  border-color: var(--primary-brown);
+  color: var(--primary-brown);
+}
+
+.file-input {
+  display: none;
+}
+
+/* Optional: Add this if you want to style the text inside */
+.upload-text {
+  font-size: 1rem;
+  color: var(--dark-brown);
+}

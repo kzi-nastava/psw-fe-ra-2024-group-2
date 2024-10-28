@@ -1,18 +1,33 @@
-<div class="review-container" *ngFor="let review of reviews">
-    <div class="review-header">
-      <h3 class="review-user">User ID: {{ review.userId }}</h3>
-      <div class="review-rating">Rating: {{ review.grade }} / 5</div>
+<div class="mat-card review-container" *ngFor="let review of reviews">
+  <!-- Review Header Section -->
+  <div class="mat-card-header">
+    <div class="review-header-content">
+      <h3 class="mat-card-title">
+        User {{ review.userId }}
+        <span class="rating-badge">
+          {{ review.grade }}/5
+        </span>
+      </h3>
+      <div class="mat-card-subtitle review-dates">
+        <span class="date-item">
+          <i class="material-icons">rate_review</i>
+          Reviewed {{ review.reviewDate | date: 'longDate' }}
+        </span>
+        <span class="date-item">
+          <i class="material-icons">event</i>
+          Visited {{ review.visitDate | date: 'longDate' }}
+        </span>
+      </div>
     </div>
-  
-    <div class="review-dates">
-      <small>Reviewed on: {{ review.reviewDate | date: 'longDate' }}</small><br>
-      <small>Visited on: {{ review.visitDate | date: 'longDate' }}</small>
-    </div>
-  
-    <p class="review-comment">{{ review.comment }}</p>
-  
-    <!-- Conditionally render the image if it exists 
-    <div class="review-image-container" *ngIf="review.image">
-      <img [src]="review.image.url" [alt]="review.image.altText" class="review-image" />
-    </div>-->
   </div>
+
+  <!-- Review Content Section -->
+  <div class="mat-card-content">
+    <p class="review-comment">{{ review.comment }}</p>
+    
+    <!-- Image Section -->
+    <!-- <div class="review-image-container" *ngIf="review.image">
+      <img [src]="review.image.url" [alt]="review.image.altText" class="review-image" />
+    </div> -->
+  </div>
+</div>

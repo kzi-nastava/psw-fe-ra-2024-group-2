@@ -1,39 +1,32 @@
-<div>
-  <table>
-    <th>
-      <tr>
-        Select Equipment
-      </tr>
-    </th>
-    <tbody>
-      <tr *ngFor="let equipment of equipmentsTotal">
-        <td>
-          <input type="checkbox" [value]="equipment.id" [checked]="isEquipmentSelected(equipment.id)"
-            (change)="onSelectEquipment($event, equipment)" />
+<!-- equipment-map.component.html -->
+<div class="page-container">
+  <div class="equipment-section">
+    <div class="equipment-card">
+      <h2 class="equipment-header">Select Equipment</h2>
+      <div class="equipment-list">
+        <div class="equipment-item" *ngFor="let equipment of equipmentsTotal">
+          <div class="checkbox-container">
+            <input type="checkbox" [id]="'equipment-' + equipment.id" [value]="equipment.id"
+              [checked]="isEquipmentSelected(equipment.id)" (change)="onSelectEquipment($event, equipment)"
+              class="equipment-checkbox" />
+            <label [for]="'equipment-' + equipment.id" class="equipment-label">
+              <span class="equipment-name">{{ equipment.name }}</span>
+              <span class="equipment-description">{{ equipment.description }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="updateTour()">
+          Update Equipment
+        </button>
+      </div>
+    </div>
+  </div>
 
-          <label>{{ equipment.name }}</label>
-          <label> - </label>
-          <label>{{ equipment.description }}</label>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br />
-  <button style="margin-left: 4%" color="primary" mat-raised-button (click)="updateTour()">
-    Update Equipment
-  </button>
-  <!-- Conditional buttons for tour status -->
-  <button *ngIf="tour.status === 0 || tour.status === 2" style="margin-left: 4%" color="primary" mat-raised-button
-    (click)="publishTour()">
-    Publish Tour
-  </button>
-
-  <button *ngIf="tour.status === 1" style="margin-left: 4%" color="warn" mat-raised-button (click)="archiveTour()">
-    Archive Tour
-  </button>
-</div>
-<div>
-  <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"
-    [checkpointObjectCollection]="tourCheckpointObjects"></xp-map>
+  <div class="map-section">
+    <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"
+      [checkpointObjectCollection]="tourCheckpointObjects">
+    </xp-map>
+  </div>
 </div>

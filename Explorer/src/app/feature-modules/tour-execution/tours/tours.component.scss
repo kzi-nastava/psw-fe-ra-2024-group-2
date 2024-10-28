@@ -1,0 +1,240 @@
+.container {
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+}
+
+.col-3 {
+  width: calc(25% - 1rem);
+  margin: 0.5rem;
+  
+  @media (max-width: 1200px) {
+    width: calc(33.333% - 1rem);
+  }
+  
+  @media (max-width: 992px) {
+    width: calc(50% - 1rem);
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.col-4 {
+  width: calc(33.333% - 1rem);
+  margin: 0.5rem;
+  
+  @media (max-width: 1200px) {
+    width: calc(50% - 1rem);
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+// Card Styles
+.tour-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+}
+
+// Header Styles
+.tour-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--lighter-brown);
+  background-color: var(--lighter-brown);
+}
+
+.tour-title {
+  color: var(--dark-brown);
+  font-size: 1.25rem;
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+}
+
+.tour-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// Badge Styles
+.badge-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  &.badge-difficulty-1 {
+    background-color: var(--primary-green);
+    color: var(--dark-green);
+  }
+  
+  &.badge-difficulty-2 {
+    background-color: var(--light-brown);
+    color: var(--dark-brown);
+  }
+  
+  &.badge-difficulty-3 {
+    background-color: var(--error);
+    color: var(--white);
+  }
+  
+  &.badge-status-1 {
+    background-color: var(--primary-green);
+    color: var(--white);
+  }
+  
+  &.badge-status-2 {
+    background-color: var(--warning);
+    color: var(--dark-brown);
+  }
+  
+  &.badge-status-3 {
+    background-color: var(--error);
+    color: var(--white);
+  }
+}
+
+// Content Styles
+.tour-content {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.tour-price {
+  background-color: var(--lighter-brown);
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  .price-amount {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--dark-brown);
+  }
+
+  .price-label {
+    color: var(--text-light);
+    font-size: 0.875rem;
+  }
+}
+
+.tour-description {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+// Equipment Styles
+.tour-equipment {
+  margin-bottom: 1rem;
+
+  .section-title {
+    color: var(--dark-brown);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.equipment-list {
+  .equipment-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--lighter-brown);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.tour-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+}
+
+// Icon Styles
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+// Button Styles
+.tour-actions {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid var(--lighter-brown);
+  margin-top: auto;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+
+  &.btn-primary {
+    background-color: var(--primary-brown);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--dark-brown);
+    }
+  }
+
+  &.btn-accent {
+    background-color: var(--light-brown);
+    color: var(--dark-brown);
+
+    &:hover {
+      background-color: var(--lighter-brown);
+    }
+  }
+}

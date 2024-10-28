@@ -1,33 +1,57 @@
-<div class="component"></div>
-<div class="container">
-    <div class="table-section">
-        <div class="table-title">
+<div class="component">
+    <div class="container">
+      <div class="table-section">
+        <div class="table-header">
+          <h2 class="table-title">Objects List</h2>
+          <div class="table-actions">
+            <div class="search-container">
+              <input type="text" placeholder="Search objects..." class="search-input">
+              <i class="fas fa-search search-icon"></i>
+            </div>
+          </div>
         </div>
-        <table>
+        
+        <div class="table-container">
+          <table class="custom-table">
             <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Category</th>
-                  <th>Image</th>
-                  <th></th>
-                </tr>
-              </thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
             <tbody>
-                <tr *ngFor="let objek of objects">
-                    <td>{{objek.name}}</td>
-                    <td>{{objek.description}}</td>
-                    <td>{{objek.category}}</td>
-                    <td>
-                        <!-- Display image if exists -->
-                        <img *ngIf="objek.image?.data" [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data" alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
-                    </td>
-                    <td>
-                        <button (click)="editObject(objek)">Edit</button><!-- Edit button -->
-                    </td>
-                </tr>
+              <tr *ngFor="let objek of objects" class="table-row">
+                <td class="name-cell">{{objek.name}}</td>
+                <td class="description-cell">
+                  <div class="description-content">{{objek.description}}</div>
+                </td>
+                <td class="category-cell">
+                  <span class="category-badge">
+                    {{ objek.category }}
+                  </span>
+                </td>
+                <td class="image-cell">
+                  <div class="image-container" *ngIf="objek.image?.data">
+                    <img [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data" 
+                         alt="Object Image" 
+                         class="object-image">
+                  </div>
+                  <div class="no-image" *ngIf="!objek.image?.data">
+                    <i class="fas fa-image"></i>
+                  </div>
+                </td>
+                <td class="actions-cell">
+                  <button class="btn btn-icon btn-edit" (click)="editObject(objek)" title="Edit object">
+                    Edit object
+                  </button>
+                </td>
+              </tr>
             </tbody>
-        </table>
-    </div>  
-</div>
-
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

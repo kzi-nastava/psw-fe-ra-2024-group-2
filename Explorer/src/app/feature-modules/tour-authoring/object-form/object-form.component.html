@@ -1,78 +1,127 @@
 <div class="form-container">
-<form [formGroup]="objectForm" (ngSubmit)="addObject()">
-    <div>
-      <!-- Name Field -->
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input id="name" formControlName="name" type="text" class="form-control" />
-        <!-- Error message for Name field -->
-        <div *ngIf="objectForm.get('name')?.invalid && objectForm.get('name')?.touched">
-          <small class="error">Name is required</small>
+  <form [formGroup]="objectForm" (ngSubmit)="addObject()">
+    <div class="form-header">
+      <h2>Add New Object</h2>
+      <p class="form-subtitle">Fill in the details below to add a new object to the system</p>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Basic Information</h3>
+      <div class="form-grid">
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="name" class="required">Name</label>
+          <div class="input-container">
+            <input id="name" formControlName="name" type="text" class="form-control" placeholder="Enter object name" />
+            <div class="input-icon">
+              <i class="fas fa-cube"></i>
+            </div>
+          </div>
+          <div *ngIf="objectForm.get('name')?.invalid && objectForm.get('name')?.touched" class="error-container">
+            <small class="error"><i class="fas fa-exclamation-circle"></i> Name is required</small>
+          </div>
         </div>
-      </div>
-  
-      <!-- Description Field -->
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea
-          id="description"
-          formControlName="description"
-          rows="5"
-          class="form-control"
-        ></textarea>
-      </div>
-  
-      <!-- Category Dropdown -->
-      <div class="form-group">
-        <label for="category">Category</label>
-        <select id="category" formControlName="category" class="form-control">
-          <option value="">Select a category</option> <!-- Default empty option -->
-          <option value="0">WC</option>
-          <option value="1">Restaurant</option>
-          <option value="2">Parking</option>
-        </select>
-        <!-- Error message for Category field -->
-        <div *ngIf="objectForm.get('category')?.invalid && objectForm.get('category')?.touched">
-          <small class="error">Category is required</small>
+
+        <!-- Category Dropdown -->
+        <div class="form-group">
+          <label for="category" class="required">Category</label>
+          <div class="input-container">
+            <select id="category" formControlName="category" class="form-control">
+              <option value="">Select a category</option>
+              <option value="0">WC</option>
+              <option value="1">Restaurant</option>
+              <option value="2">Parking</option>
+            </select>
+            <div class="input-icon">
+              <i class="fas fa-tag"></i>
+            </div>
+          </div>
+          <div *ngIf="objectForm.get('category')?.invalid && objectForm.get('category')?.touched"
+            class="error-container">
+            <small class="error"><i class="fas fa-exclamation-circle"></i> Category is required</small>
+          </div>
         </div>
-      </div>
-  
-      <!-- File Input for Image -->
-      <div class="form-group">
-        <label for="image-upload">Image:</label>
-        <input type="file" id="image-upload" (change)="onFileSelect($event)" class="form-control" />
-      </div>
-  
-      <!-- Image Preview -->
-      <div *ngIf="imagePreview" class="image-preview-container">
-        <label>Image Preview:</label>
-        <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview" />
       </div>
 
+      <!-- Description Field -->
       <div class="form-group">
-        <label for="latitude">Latitude</label>
-        <input type="text" id="latitude" formControlName="latitude" class="form-control" readonly />
-        <div *ngIf="objectForm.get('latitude')?.invalid && objectForm.get('latitude')?.touched">
-          <small class="error">Latitude is required and must be a valid number</small>
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4" class="form-control"
+          placeholder="Enter detailed description of the object"></textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Image Upload</h3>
+      <div class="upload-container">
+        <!-- File Input for Image -->
+        <div class="form-group">
+          <div class="file-upload">
+            <label for="image-upload" class="file-upload-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Choose an image</span>
+              <input type="file" id="image-upload" (change)="onFileSelect($event)" class="file-input"
+                accept="image/*" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Image Preview -->
+        <div *ngIf="imagePreview" class="image-preview-container">
+          <div class="preview-wrapper">
+            <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview" />
+            <div class="preview-overlay">
+            </div>
+          </div>
         </div>
       </div>
-  
-      <!-- Longitude Field -->
-      <div class="form-group">
-        <label for="longitude">Longitude</label>
-        <input type="text" id="longitude" formControlName="longitude" class="form-control" readonly />
-        <div *ngIf="objectForm.get('longitude')?.invalid && objectForm.get('longitude')?.touched">
-          <small class="error">Longitude is required and must be a valid number</small>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Location Details</h3>
+      <div class="coordinates-grid">
+        <!-- Latitude Field -->
+        <div class="form-group">
+          <label for="latitude">Latitude</label>
+          <div class="input-container">
+            <input type="text" id="latitude" formControlName="latitude" class="form-control" readonly />
+            <div class="input-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+          </div>
+          <div *ngIf="objectForm.get('latitude')?.invalid && objectForm.get('latitude')?.touched"
+            class="error-container">
+            <small class="error"><i class="fas fa-exclamation-circle"></i> Latitude is required</small>
+          </div>
+        </div>
+
+        <!-- Longitude Field -->
+        <div class="form-group">
+          <label for="longitude">Longitude</label>
+          <div class="input-container">
+            <input type="text" id="longitude" formControlName="longitude" class="form-control" readonly />
+            <div class="input-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+          </div>
+          <div *ngIf="objectForm.get('longitude')?.invalid && objectForm.get('longitude')?.touched"
+            class="error-container">
+            <small class="error"><i class="fas fa-exclamation-circle"></i> Longitude is required</small>
+          </div>
         </div>
       </div>
 
       <div class="map-container">
-        <xp-map (locationSelected)="onLocationSelected($event)" [clearMarkersTrigger]="clearMarkersFlag" (markersCleared)="onMarkersCleared()"></xp-map>
+        <xp-map (locationSelected)="onLocationSelected($event)" [clearMarkersTrigger]="clearMarkersFlag"
+          (markersCleared)="onMarkersCleared()"></xp-map>
       </div>
-      <!-- Submit Button -->
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary" (click)="clearMarkers()" >Add</button>
-      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" (click)="clearMarkers()">
+        Add Object
+      </button>
     </div>
   </form>
 </div>
