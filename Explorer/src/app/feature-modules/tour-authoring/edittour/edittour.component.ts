@@ -129,5 +129,18 @@ export class EditTourComponent implements OnInit {
         console.error('Error updating tour:', err);
       }
     });
+  } 
+  
+  publishTour() {
+    console.log('Tour published');
+    this.tour.status = 1;
+    this.updateTour();
   }
+  
+  archiveTour() {
+    console.log('Tour archived');
+    this.tour.status = 2;
+    this.updateTour();
+  }
+
 }

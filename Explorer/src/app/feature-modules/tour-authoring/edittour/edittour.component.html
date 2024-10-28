@@ -1,29 +1,39 @@
 <div>
   <table>
     <th>
-      <tr>Select Equipment</tr>
+      <tr>
+        Select Equipment
+      </tr>
     </th>
     <tbody>
-        <tr *ngFor="let equipment of equipmentsTotal">
-          <td>
-          <input 
-            type="checkbox" 
-            [value]="equipment.id" 
-            [checked]="isEquipmentSelected(equipment.id)"
-            (change)="onSelectEquipment($event, equipment)"/>
+      <tr *ngFor="let equipment of equipmentsTotal">
+        <td>
+          <input type="checkbox" [value]="equipment.id" [checked]="isEquipmentSelected(equipment.id)"
+            (change)="onSelectEquipment($event, equipment)" />
 
-            <label>{{ equipment.name }}</label> 
-            <label> - </label>
-            <label>{{ equipment.description }}</label>
-          </td>
-        </tr>
+          <label>{{ equipment.name }}</label>
+          <label> - </label>
+          <label>{{ equipment.description }}</label>
+        </td>
+      </tr>
     </tbody>
   </table>
 
-    <br>
-    <button style="margin-left: 4%;" color="primary" mat-raised-button (click)="updateTour()">Update Equipment</button>
+  <br />
+  <button style="margin-left: 4%" color="primary" mat-raised-button (click)="updateTour()">
+    Update Equipment
+  </button>
+  <!-- Conditional buttons for tour status -->
+  <button *ngIf="tour.status === 0 || tour.status === 2" style="margin-left: 4%" color="primary" mat-raised-button
+    (click)="publishTour()">
+    Publish Tour
+  </button>
+
+  <button *ngIf="tour.status === 1" style="margin-left: 4%" color="warn" mat-raised-button (click)="archiveTour()">
+    Archive Tour
+  </button>
 </div>
 <div>
-  <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints" [checkpointObjectCollection]="tourCheckpointObjects"></xp-map>
+  <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"
+    [checkpointObjectCollection]="tourCheckpointObjects"></xp-map>
 </div>
-  
