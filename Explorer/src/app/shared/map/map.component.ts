@@ -173,9 +173,11 @@ export class MapComponent implements AfterViewInit,OnDestroy {
 
   // Watch for changes in `clearMarkersTrigger` to trigger marker clearing
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
-      console.log(changes['touristPosition'].currentValue.position);
-      this.addTouristMarker(changes['touristPosition'].currentValue.position);
+    if(this.markers.length == 0){
+      if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
+        console.log(changes['touristPosition'].currentValue.position);
+        this.addTouristMarker(changes['touristPosition'].currentValue.position);
+      }
     }
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
