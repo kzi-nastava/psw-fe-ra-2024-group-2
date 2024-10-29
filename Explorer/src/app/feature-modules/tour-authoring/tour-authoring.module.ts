@@ -11,6 +11,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AddNewTourComponent } from './addNewTour/addNewTour.component'; 
 
 import { ObjectUpdateComponent } from './object-update/object-update.component';
+import { PositionSimulatorComponent } from '../stakeholders/position-simulator/position-simulator.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     MyToursComponent,
@@ -19,13 +21,15 @@ import { ObjectUpdateComponent } from './object-update/object-update.component';
     ObjectComponent,
     ObjectFormComponent, 
     ObjectUpdateComponent,
-    AddNewTourComponent
+    AddNewTourComponent,
+    PositionSimulatorComponent
   ],
   imports: [
     CommonModule,
     MaterialModule, 
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   exports: [
     ObjectComponent,
