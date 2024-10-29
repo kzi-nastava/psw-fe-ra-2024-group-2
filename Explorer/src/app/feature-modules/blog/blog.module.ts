@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms'; // Za reactive forme
 import { MaterialModule } from '../../infrastructure/material/material.module'; // Uveri se da imaš ispravan put ka MaterialModule
+import { BlogComponentComponent } from './blog-component/blog-component.component';
+import { BlogPostComponent } from './blog-post/blog-post.component';
 import { CommentComponent } from './comment/comment.component';
 
 export interface PagedResult<T> {
@@ -11,7 +13,9 @@ export interface PagedResult<T> {
 
 @NgModule({
   declarations: [
-    CommentComponent, // Komponente u BlogModule
+    CommentComponent,
+    BlogComponentComponent,
+    BlogPostComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,26 @@
+<div class="blog-table-container">
+    <table class="blog-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Author ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let blog of blogs">
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.description }}</td>
+                <td>{{ blog.date | date: 'longDate' }}</td>
+                <td>{{ blog.status }}</td>
+                <td>{{ blog.authorId }}</td>
+                <td>
+                    <button (click)="goToBlog(blog)">Go to Blog</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
