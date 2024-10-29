@@ -22,6 +22,7 @@ import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tou
 import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
 import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
 import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
+import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
 import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
 
@@ -49,7 +50,8 @@ const routes: Routes = [
   {path: 'position-simulator', component:PositionSimulatorComponent, canActivate: [AuthGuard]},
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
-  {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
+  {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
+  {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
