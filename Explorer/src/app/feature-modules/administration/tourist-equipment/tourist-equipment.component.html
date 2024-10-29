@@ -38,13 +38,19 @@
                     <tr *ngFor="let eq of availableEquipment" (click)="selectAvailableEquipment(eq)">
                         <td>{{ eq.name }}</td>
                         <td>{{ eq.description }}</td>
-                        <button color="primary" (click)="addEquipment()" mat-icon-button>
-                            <mat-icon>add</mat-icon>
-                        </button>
-                        
+                        <td>
+                            <button color="primary" (click)="addEquipment()" mat-icon-button>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        
+        <!-- Obaveštenje -->
+        <div *ngIf="message" class="notification">
+            {{ message }}
         </div>
     </div>
 </div>

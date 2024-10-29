@@ -10,28 +10,24 @@ import { PagedResult } from '../../blog/blog.module';
 })
 export class TouristEquipmentComponent implements OnInit {
 
-  equipment: Equipment[] = [];  
   touristEquipment: Equipment[] = []; 
   availableEquipment: Equipment[] = []; 
   selectedEquipment: Equipment | null = null;
   selectedAvailableEquipment: Equipment | null = null;
-  touristId: number;
+  message: string | null = null;
   constructor(private service: AdministrationService) { }
 
   ngOnInit(): void {
-    this.touristId = this.getTouristIdFromLogin(); 
-    console.log('Tourist ID:', this.touristId); 
     this.loadTouristEquipment(); 
-    this.loadAvailableEquipment();  
+    this.loadAvailableEquipment();
+  
+    console.log("Tourist Equipment:", this.touristEquipment);
+    console.log("Available Equipment:", this.availableEquipment);
   }
-//ovo izmeni
-  getTouristIdFromLogin(): number {
-    const user = JSON.parse(localStorage.getItem('currentUser')!);
-    return user ? user.id : 5; 
-  }
+  
 
   loadTouristEquipment() {
-    this.service.getTouristEquipment(this.touristId).subscribe({
+    this.service.getTouristEquipment().subscribe({
       next: (result: Equipment[]) => {
         console.log('Tourist equipment:', result); 
         this.touristEquipment = result;
@@ -44,21 +40,31 @@ export class TouristEquipmentComponent implements OnInit {
 
   loadAvailableEquipment() {
     this.service.getEquipmentForTourist().subscribe({
-        next: (result: PagedResult<Equipment>) => {
-            console.log('Available equipment:', result);
-            this.availableEquipment = result.results;
-            this.filterAvailableEquipment();
-        },
-        error: (err: any) => {
-            console.log(err);
-        }
+      next: (result: PagedResult<Equipment>) => {
+        console.log('Available equipment response:', result);
+        this.availableEquipment = result.results || [];
+        this.filterAvailableEquipment();
+        this.availableEquipment = this.availableEquipment.filter(eq => 
+          !this.touristEquipment.some(te => te.id === eq.id)
+        );
+      },
+      error: (err: any) => {
+        console.log('Error loading available equipment:', err);
+      }
     });
-}
+  }
+  
 
-filterAvailableEquipment() {
+
+  filterAvailableEquipment() {
+    if (!this.availableEquipment || !this.touristEquipment) {
+        console.warn('Nema dostupne opreme za filtriranje');
+        return;
+    }
     const touristEquipmentIds = this.touristEquipment.map(eq => eq.id);
     this.availableEquipment = this.availableEquipment.filter(eq => !touristEquipmentIds.includes(eq.id));
-}
+  }
+
 
   selectEquipment(eq: Equipment) {
     this.selectedEquipment = eq;
@@ -68,38 +74,45 @@ filterAvailableEquipment() {
     this.selectedAvailableEquipment = eq;
   }
 
- 
   addEquipment() {
+    
     if (this.selectedAvailableEquipment && this.selectedAvailableEquipment.id !== undefined) {
-      this.service.addEquipmentToTourist(this.touristId, this.selectedAvailableEquipment.id).subscribe({
+      const alreadyAssigned = this.touristEquipment.some(eq => eq.id === this.selectedAvailableEquipment!.id);
+  
+      if (alreadyAssigned) {
+        this.message = 'This equipment is already added!';
+        return; 
+      }
+  
+      this.service.addEquipmentToTourist(this.selectedAvailableEquipment.id).subscribe({
         next: () => {
-        
-          if(this.selectedAvailableEquipment!=null)
-          this.touristEquipment.push(this.selectedAvailableEquipment);
-          
+          if (this.selectedAvailableEquipment) { 
+            this.touristEquipment.push(this.selectedAvailableEquipment);
+          }
           this.availableEquipment = this.availableEquipment.filter(eq => eq.id !== this.selectedAvailableEquipment!.id);
           this.loadAvailableEquipment();
           this.selectedAvailableEquipment = null; 
+          this.message = null; 
         },
         error: (err: any) => {
           console.log(err);
         }
       });
     } else {
-      console.error('Selected available equipment is not defined or has no valid ID.');
+      console.error('Selected available equipment is not defined or has no valid ID greater than 0.');
     }
   }
   
-
   
+
   removeEquipment() {
-   
     if (this.selectedEquipment && this.selectedEquipment.id !== undefined) {
-      this.service.removeEquipmentFromTourist(this.touristId, this.selectedEquipment.id).subscribe({
+      this.service.removeEquipmentFromTourist(this.selectedEquipment.id).subscribe({
         next: () => {
           this.touristEquipment = this.touristEquipment.filter(eq => eq.id !== this.selectedEquipment!.id);
-          if(this.selectedEquipment)
-          this.availableEquipment.push(this.selectedEquipment);
+          if (this.selectedEquipment) {
+            this.availableEquipment.push(this.selectedEquipment);
+          }
           this.loadAvailableEquipment();
           this.selectedEquipment = null; 
         },
@@ -107,8 +120,6 @@ filterAvailableEquipment() {
           console.log(err);
         }
       });
+    }
   }
-  
-  }
-  
 }

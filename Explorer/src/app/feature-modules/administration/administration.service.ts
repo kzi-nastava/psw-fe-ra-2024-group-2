@@ -58,19 +58,21 @@ export class AdministrationService {
   }
 
   //anino
-  addEquipmentToTourist(touristId: number, equipmentId: number): Observable<any> {
-    return this.http.post<any>(`${environment.apiHost}tourist/equipment/${touristId}/add/${equipmentId}`, {});
+  addEquipmentToTourist(equipmentId: number): Observable<any> {
+    return this.http.post<any>(`${environment.apiHost}tourist/equipment/add/${equipmentId}`, {});
   }
 
-  removeEquipmentFromTourist(touristId: number, equipmentId: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiHost}tourist/equipment/${touristId}/remove/${equipmentId}`);
+  removeEquipmentFromTourist(equipmentId: number): Observable<any> {
+      return this.http.delete<any>(`${environment.apiHost}tourist/equipment/remove/${equipmentId}`);
   }
 
-  getTouristEquipment(touristId: number): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${environment.apiHost}tourist/equipment/${touristId}`);
+  getTouristEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`${environment.apiHost}tourist/equipment`);
   }
 
   getEquipmentForTourist(): Observable<PagedResults<Equipment>> {
-    return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'tourist/equipment')
+      return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tourist/equipment/all`);
   }
+
+
 }
