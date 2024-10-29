@@ -6,7 +6,7 @@ import { TourIssueReport } from './model/tour-issue-report.model';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { TourReview } from './model/tour-review.model';
 import { environment } from 'src/env/environment';
-
+import { TourExecution } from './model/tourExecution-model';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +41,12 @@ export class TourExecutionService {
   addReview(tourReview: TourReview): Observable<TourReview>{
     return this.http.post<TourReview>(`${environment.apiHost}tour/reviews`, tourReview)
   }
+
+  startTour(tourId: number): Observable<TourExecution>{
+    console.log("Tour Id je :",tourId)
+    return this.http.post<TourExecution>('https://localhost:44333/api/tour/execution', tourId)
+  }
+
 
 
 }
