@@ -5,46 +5,33 @@
     <!-- Left Column - Comment Form -->
     <div class="column form-column">
       <div class="form-card">
-        <form [formGroup]="commentForm">
+        <form [formGroup]="commentForm" (ngSubmit)="addComment()">
           <div class="form-content">
-            <!-- Blog ID Field -->
-            <div class="form-field">
-              <label for="blogId">Blog ID</label>
-              <input id="blogId" type="text" formControlName="blogId" placeholder="Enter Blog ID" class="form-input">
-              <div class="error-message"
-                *ngIf="commentForm.get('blogId')?.invalid && commentForm.get('blogId')?.touched">
-                Blog ID is required
-              </div>
-            </div>
-
             <!-- Comment Text Field -->
             <div class="form-field">
               <label for="text">Text</label>
-              <textarea id="text" formControlName="text" placeholder="Enter Comment Text" class="form-input"
-                rows="3"></textarea>
+              <textarea id="text" formControlName="text" placeholder="Enter Comment Text" class="form-input" rows="3"></textarea>
               <div class="error-message" *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
                 Comment text is required
               </div>
             </div>
-
+        
             <!-- Form Actions -->
             <div class="form-actions">
-              <button *ngIf="!shouldEdit" type="submit" class="btn btn-primary" [disabled]="commentForm.invalid"
-                (click)="addComment()">
+              <button *ngIf="!shouldEdit" type="button" class="btn btn-primary" (click)="addComment()">
                 Add Comment
               </button>
-
-              <button *ngIf="shouldEdit" type="submit" class="btn btn-primary" [disabled]="commentForm.invalid"
-                (click)="updateComment()">
+        
+              <button *ngIf="shouldEdit" type="button" class="btn btn-primary" [disabled]="commentForm.invalid" (click)="updateComment()">
                 Update Comment
               </button>
-
+        
               <button *ngIf="shouldEdit" type="button" class="btn btn-error" (click)="cancelEdit()">
                 Cancel
               </button>
             </div>
           </div>
-        </form>
+        </form>        
       </div>
     </div>
 

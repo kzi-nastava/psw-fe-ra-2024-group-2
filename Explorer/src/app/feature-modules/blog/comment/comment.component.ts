@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommentService } from '../comment.service';
 import { Comment } from '../model/comment.model';
-import { PagedResult } from '../blog.module';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'xp-comment',
@@ -15,26 +15,31 @@ export class CommentComponent implements OnInit {
   comments: Comment[] = [];
   commentForm: FormGroup;
   shouldEdit: boolean = false;
-  currentCommentId: number | null = null;  // ID komentara koji se trenutno edituje
-  currentUserId: number = 1;  // Podaci o trenutno ulogovanom korisniku, hardkodovano za sada
+  currentCommentId: number | null = null;  // ID of the comment being edited
+  currentUserId: number = 1;  // Currently logged-in user ID, hardcoded for now
+  blogId: string | null = null;
 
-  constructor(private fb: FormBuilder, private service: CommentService, private router: Router) {}
+  constructor(private fb: FormBuilder, private service: CommentService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.blogId = params.get('id');
+    });
+
     this.commentForm = this.fb.group({
-      blogId: ['', Validators.required],
       text: ['', Validators.required]
     });
-    this.getComments();
+    this.getComments(Number(this.blogId));
   }
 
-  getComments(): void {
-    this.service.getAllComments().subscribe({
-      next: (result: PagedResult<Comment>) => {
-        this.comments = result.results;
+  // Fetch comments for a specific blog
+  getComments(blogId: number): void {
+    this.service.getCommentsByBlogId(blogId).subscribe({
+      next: (comments: Comment[]) => {
+        this.comments = comments;
       },
       error: (err: any) => {
-        console.log('Error fetching comments:', err);
+        console.error('Error fetching comments:', err);
       }
     });
   }
@@ -43,64 +48,72 @@ export class CommentComponent implements OnInit {
     if (this.commentForm.valid) {
       const commentData = {
         ...this.commentForm.value,
-        userId: this.currentUserId,  // Postavi userId
-        createdAt: new Date(),  // Postavi trenutno vreme
-        lastModifiedAt: new Date()  // Postavi trenutno vreme i za lastModifiedAt
+        blogId: Number(this.blogId),  // Inject blogId directly
+        userId: this.currentUserId,
+        createdAt: new Date(),
+        lastModifiedAt: new Date()
       };
   
-      this.service.addComment(commentData).subscribe({
-        next: (response) => {
+      this.service.addComment(Number(this.blogId), commentData).subscribe({
+        next: () => {
           console.log('Comment added successfully!');
-          this.getComments();  // Ponovo učitaj komentare nakon dodavanja
-          this.commentForm.reset();  // Resetuj formu
+          this.getComments(Number(this.blogId));  // Reload comments after adding
+          this.commentForm.reset();  // Reset form
         },
         error: (err) => {
-          console.log('Error adding comment:', err);
+          console.error('Error adding comment:', err);
         }
       });
     }
   }
+  
 
   updateComment(): void {
-    if (this.commentForm.valid && this.currentCommentId) {
+    if (this.commentForm.valid && this.currentCommentId !== null) {
       const updatedComment = {
         ...this.commentForm.value,
         id: this.currentCommentId,
-        userId: this.currentUserId  // Pretpostavimo da se update uvek radi sa trenutnim korisnikom
+        userId: this.currentUserId  // Assume update is done by the current user
       };
 
-      this.service.updateComment(updatedComment).subscribe({
-        next: (response) => {
+      this.service.updateComment(this.currentCommentId,Number(this.blogId), updatedComment).subscribe({
+        next: () => {
           console.log('Comment updated successfully!');
-          this.getComments();  // Ponovo učitaj komentare nakon ažuriranja
-          this.commentForm.reset();  // Resetuj formu
-          this.shouldEdit = false;  // Vratimo se u režim dodavanja
+          this.getComments(Number(this.blogId));  // Reload comments after updating
+          this.commentForm.reset();  // Reset form
+          this.shouldEdit = false;  // Return to add mode
           this.currentCommentId = null;
         },
         error: (err) => {
-          console.log('Error updating comment:', err);
+          console.error('Error updating comment:', err);
         }
       });
     }
   }
 
   onDeleteClick(comment: Comment): void {
+    if (comment.userId !== this.currentUserId) {
+      alert('You are not authorized to delete this comment.');
+      return;
+    }
+  
     if (confirm('Are you sure you want to delete this comment?')) {
-      this.service.deleteComment(comment.id).subscribe({
-        next: (response) => {
+      this.service.deleteComment(comment.id, Number(this.blogId)).subscribe({
+        next: () => {
           console.log('Comment deleted successfully!');
-          this.getComments();  // Reload comments after deletion
+          this.getComments(Number(this.blogId));
         },
         error: (err) => {
-          console.log('Error deleting comment:', err);
+          console.error('Error deleting comment:', err);
         }
       });
     }
   }
+  
 
-  onEditClick(comment: Comment): void {
-    this.shouldEdit = true;  // Postavljamo da smo u režimu uređivanja
-    this.currentCommentId = comment.id;  // Sačuvamo ID komentara koji se uređuje
+  onEditClick(comment: Comment): void { 
+    this.shouldEdit = true;  // Enter edit mode
+    this.currentCommentId = comment.id;  // Save the ID of the comment being edited
     this.commentForm.patchValue({
       blogId: comment.blogId,
       text: comment.text
@@ -108,8 +121,8 @@ export class CommentComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    this.shouldEdit = false;  // Prekinemo režim uređivanja
-    this.commentForm.reset();  // Resetujemo formu
-    this.currentCommentId = null;  // Očistimo ID trenutnog komentara
+    this.shouldEdit = false;  // Exit edit mode
+    this.commentForm.reset();  // Reset form
+    this.currentCommentId = null;  // Clear the current comment ID
   }
 }

@@ -34,7 +34,7 @@ const routes: Routes = [
   {path: 'blog', component: BlogComponentComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-  {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
+  //{path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
@@ -49,7 +49,7 @@ const routes: Routes = [
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
-  { path: 'blog/:id', component: BlogPostComponent },
+  { path: 'blog/:id', component: CommentComponent },
 ];
 
 @NgModule({

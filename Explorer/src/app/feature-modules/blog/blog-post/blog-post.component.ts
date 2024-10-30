@@ -11,9 +11,6 @@ export class BlogPostComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log('Blog ID from route:', id);
-    });
+
   }
 }
