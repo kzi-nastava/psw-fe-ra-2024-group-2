@@ -32,6 +32,20 @@ export class ToursComponent implements OnInit {
   goToReviewForm(tourId: number): void {
     this.router.navigate(['/reviewform', tourId]); // Pass tourId as a route parameter
   }
+  
+  startTour(tourId: number): void {
+    console.log('Starting tour:', tourId);
+    this.service.startTour(tourId).subscribe({
+      next: (response) => {
+        console.log('Tour started successfully!', response);
+        this.router.navigate(['/position-simulator']); // Navigate on success
+      },
+      error: (error) => {
+        console.error('Failed to start the tour:', error); // Handle error
+        // Optionally, show a user-friendly message or retry logic
+      }
+    });
+  }
 
   getDifficultyLabel(difficulty: number): string {
     switch (difficulty) {
