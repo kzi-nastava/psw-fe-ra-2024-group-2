@@ -57,4 +57,22 @@ export class AdministrationService {
     return this.http.put<Account>('https://localhost:44333/api/administrator/account/block/', account);
   }
 
+  //anino
+  addEquipmentToTourist(equipmentId: number): Observable<any> {
+    return this.http.post<any>(`${environment.apiHost}tourist/equipment/add/${equipmentId}`, {});
+  }
+
+  removeEquipmentFromTourist(equipmentId: number): Observable<any> {
+      return this.http.delete<any>(`${environment.apiHost}tourist/equipment/remove/${equipmentId}`);
+  }
+
+  getTouristEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`${environment.apiHost}tourist/equipment`);
+  }
+
+  getEquipmentForTourist(): Observable<PagedResults<Equipment>> {
+      return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tourist/equipment/all`);
+  }
+
+
 }

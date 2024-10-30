@@ -8,6 +8,7 @@ import { RatingApplicationComponent } from './rating-application/rating-applicat
 import { AccountManagementComponent } from './account-management/account-management.component';
 import { ToursitClubComponent } from './toursit-club/toursit-club.component';
 import { ObjectsManagementComponent } from '../tour-authoring/objects-management/objects-management.component';
+import { TouristEquipmentComponent } from './tourist-equipment/tourist-equipment.component';
 
 
 
@@ -19,7 +20,8 @@ import { ObjectsManagementComponent } from '../tour-authoring/objects-management
     ToursitClubComponent,
     RatingApplicationComponent,
     AccountManagementComponent,
-    ObjectsManagementComponent
+    ObjectsManagementComponent,
+    TouristEquipmentComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { ObjectsManagementComponent } from '../tour-authoring/objects-management
     EquipmentComponent,
     EquipmentFormComponent,
     RatingApplicationComponent,
-    AccountManagementComponent
+    AccountManagementComponent,
+    TouristEquipmentComponent
   ]
 })
 export class AdministrationModule { }
