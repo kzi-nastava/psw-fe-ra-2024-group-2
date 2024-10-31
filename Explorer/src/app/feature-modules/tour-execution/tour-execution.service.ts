@@ -47,7 +47,9 @@ export class TourExecutionService {
     return this.http.post<TourExecution>('https://localhost:44333/api/tour/execution', tourId)
   }
 
-
+  updateReview(review: TourReview): Observable<TourReview>{
+    return this.http.put<TourReview>('https://localhost:44333/api/tour/reviews/update/review', review);
+  }
 
 }
 
