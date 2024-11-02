@@ -10,4 +10,5 @@ export interface TourReview {
     visitDate: Date
     image?: Image | null;
     isEditing?: boolean;
+    progress: number;
 }

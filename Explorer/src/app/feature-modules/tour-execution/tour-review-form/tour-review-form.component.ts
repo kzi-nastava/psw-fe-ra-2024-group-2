@@ -73,6 +73,7 @@ export class TourReviewFormComponent implements OnInit {
         image: this.tourReviewForm.value.image,  // Include the image data
         reviewDate: this.tourReviewForm.value.reviewDate,
         visitDate: this.tourReviewForm.value.visitDate,
+        progress: 0
       };
 
       this.service.addReview(review).subscribe({
