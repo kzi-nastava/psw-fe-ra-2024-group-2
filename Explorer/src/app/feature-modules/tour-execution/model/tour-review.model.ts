@@ -9,4 +9,5 @@ export interface TourReview {
     reviewDate: Date 
     visitDate: Date
     image?: Image | null;
+    isEditing?: boolean;
 }
