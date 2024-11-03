@@ -16,6 +16,7 @@ export class TourIssueReportComponent implements OnInit {
   tourIssueReport: TourIssueReport[] = [];
   tourIssueReportName: TourIssueReportName[] = [];
   user: any;
+  today: Date = new Date();
 
   constructor(private service: TourExecutionService, private router: Router, private authService: AuthService) {}
 
@@ -37,7 +38,6 @@ export class TourIssueReportComponent implements OnInit {
       error: (err: any) => console.error('Failed to load reports', err)
     });
   }
-
   private fetchTourNames(): void {
     const tourRequests = this.tourIssueReport.map(report => this.fetchTourName(report));
     
@@ -87,5 +87,9 @@ export class TourIssueReportComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+
+  public isExpired(fixUntil: string): boolean {
+    return fixUntil ? new Date(fixUntil) < this.today : false;
   }
 }

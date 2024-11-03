@@ -18,6 +18,8 @@ import { ReportFormComponent } from './report-form/report-form.component';
 import { FormsModule } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms';
 import { TourIssueManagementComponent } from './tour-issue-management/tour-issue-management.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { TourIssueManagementComponent } from './tour-issue-management/tour-issue
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports:[
     TourReviewComponent,

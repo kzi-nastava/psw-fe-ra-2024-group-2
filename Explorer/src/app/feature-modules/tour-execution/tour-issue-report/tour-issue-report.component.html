@@ -13,7 +13,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let rp of tourIssueReportName"
-            (click)="checkReport(rp)" >
+                (click)="checkReport(rp)"
+                [ngClass]="{'row-expired': isExpired(rp.fixUntil)}">
+
                 <td>{{rp.tourName}}</td>
                 <td>{{rp.category}}</td>
                 <td>{{rp.description}}</td>

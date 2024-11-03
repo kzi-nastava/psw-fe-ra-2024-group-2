@@ -3,11 +3,15 @@
     <div class="header-buttons">
       <button mat-stroked-button *ngIf="user?.role === 'tourist'">Mark as done</button>
       <button mat-stroked-button *ngIf="user?.role === 'tourist'">Alert admin</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseReportOverlay = true" 
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Close</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showSetFixUntilDateOverlay = true">Set until date</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseTourOverlay = true">Penalize author</button>
     </div>
     <h2 class="title text-primary">NAZIV TURE</h2>
     <div class="header-right">
-      <span class="status text-light">fix Until: datum... status</span>
-      <button mat-stroked-button *ngIf="user?.role === 'administrator'">Close</button>
+      <span class="status text-light">Fix Until: {{ tourIssueReport.fixUntil | date:'dd-MMM-yyyy HH:mm' }}</span>
+      <span class="status text-light">status: {{ getStatus(tourIssueReport.status) }}</span>
     </div>
   </mat-toolbar>
 
@@ -48,4 +52,59 @@
     </mat-form-field>
     <button mat-raised-button class="postCommentButton" (click)="PostComment(commentInput.value)">Send</button>
   </div>
+
+
+  <div *ngIf="showSetFixUntilDateOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Pick date (time is optional)</h3>
+      
+      <mat-form-field appearance="outline" class="comment-input">
+        <input 
+          matInput [min]="today"
+          [matDatepicker]="picker" 
+          placeholder="Izaberite datum" 
+          [(ngModel)]="FixUntilDate" 
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="comment-input">
+        <input type="time" matInput placeholder="Izaberite vreme" [(ngModel)]="FixUntilTime" required>
+      </mat-form-field>
+      
+      <div class="form-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="SetFixUntilDate()">Accept</button>
+        <button 
+          mat-raised-button 
+          color="warn" 
+          (click)="showSetFixUntilDateOverlay = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="showCloseReportOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Close Report?</h3>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" (click)="CloseTourIssueReport()">Accept</button>
+        <button mat-raised-button color="warn" (click)="showCloseReportOverlay = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="showCloseTourOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Do you want to close this Tour?</h3>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" (click)="CloseTour()">Accept</button>
+        <button mat-raised-button color="warn" (click)="showCloseTourOverlay = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
 </div>

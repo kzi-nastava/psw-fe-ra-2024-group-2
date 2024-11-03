@@ -19,6 +19,12 @@ export class TourIssueManagementComponent implements OnInit{
   tourIssueReportId: number;
   tourIssueReport: TourIssueReport;
   tour: Tour;
+  showSetFixUntilDateOverlay: boolean;
+  showCloseReportOverlay: boolean;
+  showCloseTourOverlay: boolean;
+  FixUntilDate: Date;
+  FixUntilTime: string; // Promenljiva za vreme u formatu "HH:mm"
+  today: Date = new Date();
 
   constructor(private authService: AuthService, private service: TourExecutionService, 
               private router: Router, private route: ActivatedRoute){ }
@@ -38,11 +44,8 @@ export class TourIssueManagementComponent implements OnInit{
     console.log('TOUR ISSUE REPORT ID: '+this.tourIssueReportId)
     try {
       await this.getTourIssueReport();
-      console.log('TOURE REPORT ' + this.tourIssueReport.description)
-      await this.getTour();  // Poziva se nakon što se učita `tourIssueReport`
-      console.log('TOURE  ' + this.tour.name)
-      await this.getComments();  // Na kraju učitava komentare
-      console.log('KOMENTARI  ' + this.comments[0].comment)
+      await this.getTour();
+      await this.getComments();
     } catch (err) {
       console.log(err);
     }
@@ -113,5 +116,65 @@ export class TourIssueManagementComponent implements OnInit{
         },
       });
     }
+  }
+
+  getStatus(status: number): string{
+    switch (status) {
+      case 0:
+        return 'Open';
+      case 1:
+        return 'Closed';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  async CloseTourIssueReport(): Promise<void>{
+    await this.service.closeTourIssueReport(this.tourIssueReport).subscribe({
+      next: (result) => {
+        this.tourIssueReport.status = result.status
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
+    this.showCloseReportOverlay = false
+  }
+
+  async SetFixUntilDate(): Promise<void>{
+    if (this.FixUntilDate && this.FixUntilTime) 
+    {
+      const [hours, minutes] = this.FixUntilTime.split(':');
+      const combinedDateTime = new Date(this.FixUntilDate);
+      combinedDateTime.setHours(+hours);
+      combinedDateTime.setMinutes(+minutes);
+      this.tourIssueReport.fixUntil = combinedDateTime.toISOString()
+    }
+    else if(this.FixUntilDate)
+    {
+      this.tourIssueReport.fixUntil = this.FixUntilDate.toISOString()
+    }
+    
+    await this.service.setReportFixUntilDate(this.tourIssueReport, this.user.id).subscribe({
+      next: (result) => {
+        this.tourIssueReport.fixUntil = result.fixUntil
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
+
+    this.showSetFixUntilDateOverlay = false
+  }
+
+  async CloseTour(): Promise<void>{
+    await this.service.closeTour(this.tour.id).subscribe({
+      next: (result) => {
+        this.router.navigate(['/tourIssueReport'])
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
   }
 }
