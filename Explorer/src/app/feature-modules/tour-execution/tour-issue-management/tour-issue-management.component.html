@@ -1,0 +1,51 @@
+<div class="chat-container padding">
+  <mat-toolbar class="header">
+    <div class="header-buttons">
+      <button mat-stroked-button *ngIf="user?.role === 'tourist'">Mark as done</button>
+      <button mat-stroked-button *ngIf="user?.role === 'tourist'">Alert admin</button>
+    </div>
+    <h2 class="title text-primary">NAZIV TURE</h2>
+    <div class="header-right">
+      <span class="status text-light">fix Until: datum... status</span>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'">Close</button>
+    </div>
+  </mat-toolbar>
+
+  <div class="messages-container">
+    <div class="message-list">
+      <div *ngFor="let comment of comments" 
+           class="message-wrapper"
+           [ngClass]="{'message-right': comment.userId === user?.id, 'message-left': comment.userId !== user?.id}">
+        <mat-card class="message" 
+                  [ngClass]="{
+                    'tourist-message': comment.userId === tourIssueReport.userId,
+                    'author-message': comment.userId === tour.userId,
+                    'admin-message': comment.userId !== user?.id && 
+                                   comment.userId !== tourIssueReport.userId && 
+                                   comment.userId !== tour.userId,
+                    'user-message': comment.userId === user?.id
+                  }">
+          <mat-card-header>
+            <mat-card-title class="message-sender">
+              {{
+                comment.userId === user?.id ? 'You' : 
+                (comment.userId === tourIssueReport.userId ? 'Tourist' : 
+                (comment.userId === tour.userId ? 'Author' : 'Admin'))
+              }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ comment.comment }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <mat-form-field appearance="outline" class="message-input">
+      <input matInput placeholder="Type a message..." #commentInput>
+    </mat-form-field>
+    <button mat-raised-button class="postCommentButton" (click)="PostComment(commentInput.value)">Send</button>
+  </div>
+</div>
