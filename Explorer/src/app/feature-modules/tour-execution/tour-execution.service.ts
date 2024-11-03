@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedResult } from '../tour-authoring/shared/model/tour.module';
 import { TourIssueReport } from './model/tour-issue-report.model';
+import { TourIssueComment } from './model/tour-issue-comment.model'
 import { Tour } from '../tour-authoring/model/tour.model';
 import { TourReview } from './model/tour-review.model';
 import { environment } from 'src/env/environment';
@@ -14,12 +15,20 @@ export class TourExecutionService {
 
   constructor(private http: HttpClient) { }
 
-  getTourIssueReport(): Observable<PagedResult<TourIssueReport>>{
-    return this.http.get<PagedResult<TourIssueReport>>('https://localhost:44333/api/administration/tourIssueReportReview')
+  addTourIssueComment(tourIssueComment: TourIssueComment): Observable<TourIssueComment>{
+    return this.http.post<TourIssueComment>('https://localhost:44333/api/tourIssueComment/comment', tourIssueComment)
   }
 
-  getById(id: number): Observable<Tour>{
-    return this.http.get<Tour>('https://localhost:44333/api/administration/tourIssueReportReview/'+id)
+  getTourIssueReportById(tourIssueReportId: number): Observable<TourIssueReport>{
+    return this.http.get<TourIssueReport>('https://localhost:44333/api/tourIssueReportView/tourIssueReport/'+tourIssueReportId)
+  }
+
+  getTourIssueReport(userId: number): Observable<PagedResult<TourIssueReport>>{
+    return this.http.get<PagedResult<TourIssueReport>>('https://localhost:44333/api/tourIssueReportView/'+userId)
+  }
+
+  getTourById(id: number): Observable<Tour>{
+    return this.http.get<Tour>('https://localhost:44333/api/tourIssueReportView/tour/'+id)
   }
 
   getTours(): Observable<PagedResult<Tour>>{
@@ -49,6 +58,10 @@ export class TourExecutionService {
 
   updateReview(review: TourReview): Observable<TourReview>{
     return this.http.put<TourReview>('https://localhost:44333/api/tour/reviews/update/review', review);
+  }
+
+  getTourIssueComments(tourIssueReportId: number) : Observable<PagedResult<TourIssueComment>>{
+    return this.http.get<PagedResult<TourIssueComment>>('https://localhost:44333/api/tourIssueComment/comments/'+tourIssueReportId);
   }
 
 }

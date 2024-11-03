@@ -6,11 +6,14 @@
                 <th>Category</th>
                 <th>Description</th>
                 <th>Priority</th>
-                <th>Date and Time</th>
+                <th>Created At</th>
+                <th>Fix Until</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let rp of tourIssueReportName">
+            <tr *ngFor="let rp of tourIssueReportName"
+            (click)="checkReport(rp)" >
                 <td>{{rp.tourName}}</td>
                 <td>{{rp.category}}</td>
                 <td>{{rp.description}}</td>
@@ -19,7 +22,9 @@
                     'priority-medium': rp.priority === 'Medium',
                     'priority-low': rp.priority === 'Low'
                 }">{{rp.priority}}</td>
-                <td>{{rp.dateTime}}</td>
+                <td>{{rp.createdAt | date:'dd-MMM-yyyy HH:mm'}}</td>
+                <td>{{rp.fixUntil | date:'dd-MMM-yyyy HH:mm'}}</td>
+                <td>{{getStatus(rp.status)}}</td>
             </tr>
         </tbody>
     </table>
