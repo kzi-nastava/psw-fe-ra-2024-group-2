@@ -33,6 +33,7 @@ const routes: Routes = [
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],},
   {path: 'club', component: ClubComponent, canActivate: [AuthGuard],},
+  {path: 'myclub', component: ToursitClubComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
