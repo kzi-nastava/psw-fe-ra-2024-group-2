@@ -48,10 +48,13 @@ export class ReportFormComponent implements OnChanges {
     }
 
     const newTourIssueReport: TourIssueReport = {
-      category: category,
-      description: description,
-      priority: priority,
-      dateTime: new Date().toISOString(),
+      id: 0,
+      category: this.reportForm.value.category || "",
+      description: this.reportForm.value.description || "",
+      priority: this.reportForm.value.priority || "",
+      createdAt: new Date().toISOString(), 
+      fixUntil: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
+      status: 0,
       tourId: this.tourId,
       userId: this.userId,
     };

@@ -25,6 +25,7 @@ import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authori
 import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
 import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
+import { TourIssueManagementComponent } from 'src/app/feature-modules/tour-execution/tour-issue-management/tour-issue-management.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -52,7 +53,8 @@ const routes: Routes = [
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
   {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
-  {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]}
+  {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
