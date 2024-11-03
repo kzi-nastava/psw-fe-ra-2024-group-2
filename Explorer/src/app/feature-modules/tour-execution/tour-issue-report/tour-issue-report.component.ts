@@ -47,7 +47,7 @@ export class TourIssueReportComponent implements OnInit {
       console.log('Updated Tour Issue Report Names:', this.tourIssueReportName); 
     });
   }
-
+  
   private fetchTourName(report: TourIssueReport): Promise<TourIssueReportName> {
     return new Promise((resolve, reject) => {
       this.service.getTourById(report.tourId).subscribe({

@@ -169,7 +169,6 @@
   color: var(--white) !important;
 }
 
-
 .overlay {
   position: fixed;
   top: 0;
@@ -180,11 +179,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001;
+  z-index: 1001; 
 }
 
 .comment-form {
-  background-color: #fff;
+  background-color: var(--white);
   padding: 20px;
   border-radius: 8px;
   width: 300px;
@@ -208,4 +207,17 @@
 .form-actions {
   display: flex;
   justify-content: space-between;
+}
+
+.input-container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.alert-admin-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
 }

@@ -76,6 +76,13 @@ export class TourExecutionService {
     return this.http.get<PagedResult<TourIssueComment>>('https://localhost:44333/api/tourIssueComment/comments/'+tourIssueReportId);
   }
 
+  markAsDone(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/resolvedReport', tourIssueReport)
+  }
+
+  alertAdmin(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/alertAdmin', tourIssueReport)
+  }
 }
 
 
