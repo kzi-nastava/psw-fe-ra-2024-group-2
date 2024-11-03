@@ -1,8 +1,13 @@
 <div class="chat-container padding">
   <mat-toolbar class="header">
     <div class="header-buttons">
-      <button mat-stroked-button *ngIf="user?.role === 'tourist'">Mark as done</button>
-      <button mat-stroked-button *ngIf="user?.role === 'tourist'">Alert admin</button>
+      <button mat-stroked-button *ngIf="user?.role === 'tourist'" 
+        (click)="openCommentOverlay()" 
+        [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Mark as done</button>
+
+        <button mat-stroked-button *ngIf="user?.role === 'tourist'" 
+        (click)="openAlertAdminOverlay()" 
+        [disabled]="isAlertDisabled || alertedAdmin">Alert admin</button>
     </div>
     <h2 class="title text-primary">NAZIV TURE</h2>
     <div class="header-right">
@@ -42,10 +47,35 @@
     </div>
   </div>
 
-  <div class="input-container">
+  <div class="input-container" [class.disabled]="actionsDisabled">
     <mat-form-field appearance="outline" class="message-input">
-      <input matInput placeholder="Type a message..." #commentInput>
+      <input matInput placeholder="Type a message..." #commentInput [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">
     </mat-form-field>
-    <button mat-raised-button class="postCommentButton" (click)="PostComment(commentInput.value)">Send</button>
+    <button mat-raised-button class="postCommentButton" 
+            (click)="PostComment(commentInput.value)" [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Send</button>
   </div>
+
+  <div *ngIf="showCommentOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Comment</h3>
+      <mat-form-field appearance="outline" class="comment-input">
+        <input matInput placeholder="Comment" [(ngModel)]="commentText" required>
+      </mat-form-field>
+      <div class="form-actions">
+        <button mat-raised-button class="postCommentButton" (click)="confirmComment()">Accept</button>
+        <button mat-raised-button color="warn" (click)="closeOverlay()">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showAlertAdminOverlay" class="overlay">
+    <div class="alert-admin-form">
+      <h3>Are you sure you want to alert the admin?</h3>
+      <div class="form-actions">
+        <button mat-raised-button class="postCommentButton" (click)="confirmAlertAdmin()">Yes</button>
+        <button mat-raised-button color="warn" (click)="closeAlertAdminOverlay()">No</button>
+      </div>
+    </div>
+  </div>
+  
 </div>
