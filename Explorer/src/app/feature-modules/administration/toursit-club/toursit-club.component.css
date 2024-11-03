@@ -2,7 +2,9 @@
     display: flex;
     justify-content: space-between;
   }
-  
+  .component{
+    margin-top: 5%;
+  }
   .column {
     width: 45%;
   }
