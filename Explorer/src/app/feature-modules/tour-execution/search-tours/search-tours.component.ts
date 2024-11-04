@@ -29,31 +29,7 @@ export class SearchToursComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO: Fetch tours from the server
-    this.tours = [
-      {
-        id: 1,
-        userId: 101,
-        equipment: [1, 2],
-        name: 'Mountain Adventure',
-        description: 'Explore the breathtaking mountains.',
-        difficulty: 3,
-        tag: 1,
-        status: 1,
-        price: 199.99
-      },
-      {
-        id: 2,
-        userId: 102,
-        equipment: [2, 3],
-        name: 'Desert Safari',
-        description: 'Experience the vast desert landscapes.',
-        difficulty: 2,
-        tag: 2,
-        status: 2,
-        price: 299.99
-      },
-    ];
+    
   }
 
   onSubmit(): void {
@@ -66,7 +42,7 @@ export class SearchToursComponent implements OnInit {
     }
     
     this.tourService.getNearbyTours(location).subscribe((tours: PagedResult<Tour>) => {
-      // this.tours = tours.results;
+      this.tours = tours.results;
       console.log(tours);
     });
   }
