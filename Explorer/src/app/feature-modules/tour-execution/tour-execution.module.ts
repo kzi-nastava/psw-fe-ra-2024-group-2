@@ -20,9 +20,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SearchToursComponent } from './search-tours/search-tours.component';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { TourIssueManagementComponent } from './tour-issue-management/tour-issue-management.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -37,7 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TourIssueReportComponent,
     TourReportingComponent,
     ReportFormComponent,
-    SearchToursComponent
+    SearchToursComponent,
     TourIssueManagementComponent
   ],
   imports: [
@@ -50,7 +47,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
@@ -67,7 +64,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TourIssueReportComponent,
     TourReportingComponent,
     ReportFormComponent,
-    SearchToursComponent
+    SearchToursComponent,
     TourIssueManagementComponent
   ]
 })
