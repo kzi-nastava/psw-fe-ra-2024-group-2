@@ -39,5 +39,44 @@ export class TourReportingComponent implements OnInit {
     this.selectedTourId = tour.id
     this.selectedUserId = this.user.id
   }
-
+  getDifficulty(difficulty: number): string {
+    switch (difficulty) {
+      case 0:
+        return 'Easy';
+      case 1:
+        return 'Moderate';
+      case 2:
+        return 'Hard';
+      default:
+        return 'Unknown';
+    }
+  }
+  getTag(tag: number): string {
+    switch (tag) {
+      case 0:
+        return 'Adventure';
+      case 1:
+        return 'Relaxation';
+      case 2:
+        return 'Historical';
+      case 2:
+        return 'Cultural';
+      case 2:
+        return 'Nature';
+      default:
+        return 'Unknown';
+    }
+  }
+  getStatus(status: number): string {
+    switch (status) {
+      case 0:
+        return 'Draft';
+      case 1:
+        return 'Published';
+      case 2:
+        return 'Archived';
+      default:
+        return 'Unknown';
+    }
+  }
 }

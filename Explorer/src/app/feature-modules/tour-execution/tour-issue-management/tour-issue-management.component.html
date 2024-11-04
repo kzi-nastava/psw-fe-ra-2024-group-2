@@ -1,0 +1,142 @@
+<div class="chat-container padding">
+  <mat-toolbar class="header">
+    <div class="header-buttons">
+      <button mat-stroked-button *ngIf="user?.role === 'tourist'" 
+        (click)="openCommentOverlay()" 
+        [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Mark as done</button>
+
+        <button mat-stroked-button *ngIf="user?.role === 'tourist'" 
+        (click)="openAlertAdminOverlay()" 
+        [disabled]="isAlertDisabled || alertedAdmin">Alert admin</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseReportOverlay = true" 
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Close</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showSetFixUntilDateOverlay = true"
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Set until date</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseTourOverlay = true"
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Penalize author</button>
+    </div>
+    <h2 class="title-text-primary">{{ tour.name }}</h2>
+    <div class="header-right">
+      <span class="status text-light">Fix Until: {{ tourIssueReport.fixUntil | date:'dd-MMM-yyyy HH:mm' }}</span>
+      <span class="status text-light">status: {{ getStatus(tourIssueReport.status) }}</span>
+    </div>
+  </mat-toolbar>
+
+  <div #messageContainer class="messages-container">
+    <div class="message-list">
+      <div *ngFor="let comment of comments" 
+           class="message-wrapper"
+           [ngClass]="{'message-right': comment.userId === user?.id, 'message-left': comment.userId !== user?.id}">
+        <mat-card class="message" 
+                  [ngClass]="{
+                    'tourist-message': comment.userId === tourIssueReport.userId,
+                    'author-message': comment.userId === tour.userId,
+                    'admin-message': comment.userId !== user?.id && 
+                                   comment.userId !== tourIssueReport.userId && 
+                                   comment.userId !== tour.userId,
+                    'user-message': comment.userId === user?.id
+                  }">
+          <mat-card-header>
+            <mat-card-title class="message-sender">
+              {{
+                comment.userId === user?.id ? 'You' : 
+                (comment.userId === tourIssueReport.userId ? 'Tourist' : 
+                (comment.userId === tour.userId ? 'Author' : 'Admin'))
+              }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="comment-text">{{ comment.comment }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container" [class.disabled]="actionsDisabled">
+    <mat-form-field appearance="outline" class="message-input">
+      <input matInput placeholder="Type a message..." #commentInput [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">
+    </mat-form-field>
+    <button mat-raised-button class="postCommentButton" 
+            (click)="PostComment(commentInput.value)" [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Send</button>
+  </div>
+
+  <div *ngIf="showCommentOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Comment</h3>
+      <mat-form-field appearance="outline" class="comment-input">
+        <input matInput placeholder="Comment" [(ngModel)]="commentText" required>
+      </mat-form-field>
+      <div class="form-actions">
+        <button mat-raised-button class="postCommentButton" (click)="confirmComment()">Accept</button>
+        <button mat-raised-button color="warn" (click)="closeOverlay()">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showAlertAdminOverlay" class="overlay">
+    <div class="alert-admin-form">
+      <h3>Are you sure you want to alert the admin?</h3>
+      <div class="form-actions">
+        <button mat-raised-button class="postCommentButton" (click)="confirmAlertAdmin()">Yes</button>
+        <button mat-raised-button color="warn" (click)="closeAlertAdminOverlay()">No</button>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <div *ngIf="showSetFixUntilDateOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Pick date (time is optional)</h3>
+      
+      <mat-form-field appearance="outline" class="comment-input">
+        <input 
+          matInput [min]="today"
+          [matDatepicker]="picker" 
+          placeholder="Select date" 
+          [(ngModel)]="FixUntilDate" 
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="comment-input">
+        <input type="time" matInput placeholder="Izaberite vreme" [(ngModel)]="FixUntilTime" required>
+      </mat-form-field>
+      
+      <div class="form-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="SetFixUntilDate()">Accept</button>
+        <button 
+          mat-raised-button 
+          color="warn" 
+          (click)="showSetFixUntilDateOverlay = false">Decline</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="showCloseReportOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Do you want to close this report?</h3>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" (click)="CloseTourIssueReport()">Accept</button>
+        <button mat-raised-button color="warn" (click)="showCloseReportOverlay = false">Decline</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="showCloseTourOverlay" class="overlay">
+    <div class="comment-form">
+      <h3>Do you want to close this Tour?</h3>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" (click)="CloseTour()">Accept</button>
+        <button mat-raised-button color="warn" (click)="showCloseTourOverlay = false">Decline</button>
+      </div>
+    </div>
+  </div>
+
+
+</div>

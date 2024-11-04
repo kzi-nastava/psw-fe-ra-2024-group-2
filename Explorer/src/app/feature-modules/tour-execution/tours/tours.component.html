@@ -1,4 +1,13 @@
 <div class="container">
+  <div class="mb-4">
+    <button 
+      class="btn btn-primary" 
+      (click)="gotoTourSearch()">
+      <span class="icon">🔍</span>
+      Search Tours
+    </button>
+  </div>
+
   <div class="row">
     <div class="col-4" *ngFor="let tour of tours">
       <div class="tour-card">
