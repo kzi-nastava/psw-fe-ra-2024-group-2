@@ -52,7 +52,6 @@ export class TourIssueReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.service.getTourById(report.tourId).subscribe({
         next: (tour: Tour) => {
-          //console.log('Fetched tour:', tour); 
           resolve({
             tourName: tour.name,
             category: report.category,
