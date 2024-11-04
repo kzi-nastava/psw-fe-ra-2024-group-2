@@ -1,0 +1,13 @@
+<div class="position-selection-container">
+    <h2>Select Your Position</h2>
+    <p class="instructions">Click on the map to choose your location.</p>
+</div>
+
+<div class="map-container">
+    <xp-map 
+        (locationSelected)="onLocationSelected($event)" 
+        [touristPosition]="touristPosition"
+        [clearMarkersTrigger]="clearMarkersFlag" 
+        (markersCleared)="onMarkersCleared()">
+    </xp-map>
+</div>

@@ -1,4 +1,4 @@
-<div class="component">
+<div class="tour-table-container">
     <table>
         <thead>
             <tr>
@@ -6,16 +6,27 @@
                 <th>Category</th>
                 <th>Description</th>
                 <th>Priority</th>
-                <th>Date and Time</th>
+                <th>Created At</th>
+                <th>Fix Until</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let rp of tourIssueReportName">
+            <tr *ngFor="let rp of tourIssueReportName"
+                (click)="checkReport(rp)"
+                [ngClass]="{'row-expired': isExpired(rp.fixUntil)}">
+
                 <td>{{rp.tourName}}</td>
                 <td>{{rp.category}}</td>
                 <td>{{rp.description}}</td>
-                <td>{{rp.priority}}</td>
-                <td>{{rp.dateTime}}</td>
+                <td [ngClass]="{
+                    'priority-high': rp.priority === 'High',
+                    'priority-medium': rp.priority === 'Medium',
+                    'priority-low': rp.priority === 'Low'
+                }">{{rp.priority}}</td>
+                <td>{{rp.createdAt | date:'dd-MMM-yyyy HH:mm'}}</td>
+                <td>{{rp.fixUntil | date:'dd-MMM-yyyy HH:mm'}}</td>
+                <td>{{getStatus(rp.status)}}</td>
             </tr>
         </tbody>
     </table>

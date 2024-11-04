@@ -7,7 +7,7 @@ import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.c
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
-import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club/club.component';
+import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
 
 import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
@@ -24,6 +24,11 @@ import { BlogPostComponent } from '../../feature-modules/blog/blog-post/blog-pos
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
+import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
+import { SearchToursComponent } from 'src/app/feature-modules/tour-execution/search-tours/search-tours.component';
+import { TourIssueManagementComponent } from 'src/app/feature-modules/tour-execution/tour-issue-management/tour-issue-management.component'
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -46,10 +51,14 @@ const routes: Routes = [
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]},
+  {path: 'position-simulator', component:PositionSimulatorComponent, canActivate: [AuthGuard]},
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
+  {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
-  { path: 'blog/:id', component: CommentComponent },
+  {path: 'blog/:id', component: CommentComponent },
+  {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

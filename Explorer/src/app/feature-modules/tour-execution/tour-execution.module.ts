@@ -4,12 +4,26 @@ import { TourReviewComponent } from './tour-review/tour-review.component';
 import { ToursComponent } from './tours/tours.component';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 import { TourIssueReportComponent } from './tour-issue-report/tour-issue-report.component';
 import { TourReportingComponent } from './tour-reporting/tour-reporting.component';
 import { ReportFormComponent } from './report-form/report-form.component';
 import { FormsModule } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms';
+import { SearchToursComponent } from './search-tours/search-tours.component';
+import { MapComponent } from 'src/app/shared/map/map.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { MatTableModule } from '@angular/material/table';
+import { TourIssueManagementComponent } from './tour-issue-management/tour-issue-management.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -19,19 +33,39 @@ import { ReactiveFormsModule } from '@angular/forms';
     TourReviewFormComponent,
     TourIssueReportComponent,
     TourReportingComponent,
-    ReportFormComponent
+    ReportFormComponent,
+    SearchToursComponent,
+    TourIssueManagementComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports:[
     TourReviewComponent,
     ToursComponent,
     TourIssueReportComponent,
     TourReportingComponent,
-    ReportFormComponent
+    ReportFormComponent,
+    SearchToursComponent,
+    TourIssueManagementComponent
   ]
 })
 export class TourExecutionModule { }

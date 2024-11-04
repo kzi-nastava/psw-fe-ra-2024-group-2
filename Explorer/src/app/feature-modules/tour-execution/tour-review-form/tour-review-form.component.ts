@@ -8,7 +8,7 @@ import { Router } from '@angular/router'; // Import Router here
 @Component({
   selector: 'xp-tour-review-form',
   templateUrl: './tour-review-form.component.html',
-  styleUrls: ['./tour-review-form.component.css']
+  styleUrls: ['./tour-review-form.component.scss']
 })
 export class TourReviewFormComponent implements OnInit {
   tourReviewForm: FormGroup;
@@ -73,6 +73,7 @@ export class TourReviewFormComponent implements OnInit {
         image: this.tourReviewForm.value.image,  // Include the image data
         reviewDate: this.tourReviewForm.value.reviewDate,
         visitDate: this.tourReviewForm.value.visitDate,
+        progress: 0
       };
 
       this.service.addReview(review).subscribe({

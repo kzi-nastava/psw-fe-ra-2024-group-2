@@ -1,29 +1,46 @@
-<div>
-  <table>
-    <th>
-      <tr>Select Equipment</tr>
-    </th>
-    <tbody>
-        <tr *ngFor="let equipment of equipmentsTotal">
-          <td>
-          <input 
-            type="checkbox" 
-            [value]="equipment.id" 
-            [checked]="isEquipmentSelected(equipment.id)"
-            (change)="onSelectEquipment($event, equipment)"/>
+<!-- equipment-map.component.html -->
+<div class="page-container">
+  <div class="equipment-section">
+    <div class="equipment-card">
+      <h2 class="equipment-header">Select Equipment</h2>
+      <div class="equipment-list">
+        <div class="equipment-item" *ngFor="let equipment of equipmentsTotal">
+          <div class="checkbox-container">
+            <input type="checkbox" [id]="'equipment-' + equipment.id" [value]="equipment.id"
+              [checked]="isEquipmentSelected(equipment.id)" (change)="onSelectEquipment($event, equipment)"
+              class="equipment-checkbox" />
+            <label [for]="'equipment-' + equipment.id" class="equipment-label">
+              <span class="equipment-name">{{ equipment.name }}</span>
+              <span class="equipment-description">{{ equipment.description }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+            <div class="price-input-container">
+              <label for="tour-price" class="price-label">Tour Price:</label>
+              <input type="number" id="tour-price" [(ngModel)]="tour.price" min="0" class="price-input" />
+            </div>
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="updateTour()">
+          Update Equipment
+        </button>
+        <!-- Publish Tour Button: enabled only if price > 0 -->
+        <button *ngIf="tour.status === 0 || tour.status === 2" mat-raised-button color="accent" 
+                (click)="publishTour()" [disabled]="!tour.price || tour.price <= 0">
+          Publish Tour
+        </button>              
+        
+        <!-- Archive Tour Button: visible only if tour status is 1 -->
+        <button *ngIf="tour.status === 1" mat-raised-button color="warn" (click)="archiveTour()">
+          Archive Tour
+        </button>
+      </div>
+    </div>
+  </div>
 
-            <label>{{ equipment.name }}</label> 
-            <label> - </label>
-            <label>{{ equipment.description }}</label>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <br>
-    <button style="margin-left: 4%;" color="primary" mat-raised-button (click)="updateTour()">Update Equipment</button>
+  <div class="map-section">
+    <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"
+      [checkpointObjectCollection]="tourCheckpointObjects">
+    </xp-map>
+  </div>
 </div>
-<div>
-  <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints" [checkpointObjectCollection]="tourCheckpointObjects"></xp-map>
-</div>
-  
