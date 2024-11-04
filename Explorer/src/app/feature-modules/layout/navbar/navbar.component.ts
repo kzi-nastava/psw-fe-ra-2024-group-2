@@ -32,6 +32,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/mytours'])
   }
 
+  showSimulator(): void{
+    this.router.navigate(['/position-simulator'])
+  }
+
   showAllTours(): void{
     this.router.navigate(['/alltours'])
   }

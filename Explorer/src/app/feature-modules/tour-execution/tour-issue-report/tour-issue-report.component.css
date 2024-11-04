@@ -1,38 +1,86 @@
-p {
-    font-size: 20px;
-}
-
-table {
+/* Tour Table Styles */
+.tour-table-container {
+    overflow-x: auto;
+    margin: 1rem 0;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  table {
+    width: 100%;
     border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
+    background-color: var(--white);
+    font-family: 'Roboto', sans-serif;
+  }
+  .row-expired {
+    background-color: #df9292;
+  }
+  .row-expired:hover{
+    background-color: #dfa3a3 !important;
+  }
+  thead {
+    background-color: var(--lighter-brown);
+  }
+  
+  th {
+    color: var(--dark-brown);
+    font-weight: 600;
+    padding: 1rem;
     text-align: left;
-}
+    border-bottom: 2px solid var(--light-brown);
+  }
+  
+  td {
+    color: var(--text-light);
+    padding: 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
 
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: rgba(210, 180, 140, 0.1);
+  }
+  
+  tbody tr:hover {
+    background-color: rgba(144, 238, 144, 0.1);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  /* Priority Column Styling */
+  td:nth-child(4) {
+    font-weight: 500;
+  }
+  
+  /* Date Column Styling */
+  td:nth-child(5) {
+    white-space: nowrap;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .tour-table-container {
+      margin: 0.5rem 0;
+      border-radius: 4px;
+    }
+    
+    th, td {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Optional: Add these classes to style different priority levels */
+  .priority-high {
+    color: var(--error);
+  }
+  
+  .priority-medium {
+    color: var(--primary-brown);
+  }
+  
+  .priority-low {
+    color: var(--dark-green);
+  }

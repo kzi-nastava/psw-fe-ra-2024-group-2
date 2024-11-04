@@ -1,0 +1,290 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../infrastructure/auth/auth.service';
+import { TourExecutionService } from '../tour-execution.service';
+import { Router, ActivatedRoute  } from '@angular/router';
+import { TourIssueComment } from '../model/tour-issue-comment.model';
+import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
+import { TourIssueReport } from '../model/tour-issue-report.model';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { Tour } from '../model/tour-model';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ViewChild, ElementRef } from '@angular/core';
+
+
+@Component({
+  selector: 'xp-tour-issue-management',
+  templateUrl: './tour-issue-management.component.html',
+  styleUrls: ['./tour-issue-management.component.css']
+})
+export class TourIssueManagementComponent implements OnInit{
+  user: any;
+  comments: TourIssueComment[] = [];
+  tourIssueReportId: number;
+  tourIssueReport: TourIssueReport;
+  tour: Tour;
+  showCommentOverlay: boolean = false; 
+  commentText: string = ''; 
+  actionsDisabled: boolean = false;
+  showAlertAdminOverlay: boolean = false;
+  alertedAdmin: boolean = false;
+  isAlertDisabled: boolean = true;
+  showSetFixUntilDateOverlay: boolean;
+  showCloseReportOverlay: boolean;
+  showCloseTourOverlay: boolean;
+  FixUntilDate: Date;
+  FixUntilTime: string; // Promenljiva za vreme u formatu "HH:mm"
+  today: Date = new Date();
+  
+  @ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+
+  constructor(private authService: AuthService, private service: TourExecutionService, 
+              private router: Router, private route: ActivatedRoute){ }
+  
+  async ngOnInit(): Promise<void> {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('tourIssueReportId');
+      if (id !== null) {
+        this.tourIssueReportId = +id;
+      } else {
+        this.tourIssueReportId = 0; 
+      }
+    });
+    try {
+      await this.getTourIssueReport();
+      await this.getTour(); 
+      await this.getComments(); 
+      this.isAlertDisabled = this.isAlertAdminDisabled();
+      this.scrollToBottom();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  openCommentOverlay() {
+    this.showCommentOverlay = true;
+  }
+
+  closeOverlay() {
+    this.showCommentOverlay = false;
+    this.commentText = '';
+  }
+
+  openAlertAdminOverlay() {
+    this.showAlertAdminOverlay = true;
+  }
+
+  closeAlertAdminOverlay() {
+    this.showAlertAdminOverlay = false;
+  }
+
+  isAlertAdminDisabled(): boolean {
+    if (!this.tourIssueReport) {
+        return true;
+    }
+    const isStatusOne = this.tourIssueReport.status === 1;
+    const isFixUntilExpired = new Date(this.tourIssueReport.fixUntil) < new Date();
+    return isStatusOne || isFixUntilExpired;
+  }
+
+  async confirmComment(): Promise<void> {
+    if (this.commentText.trim()) {
+      const newComment: TourIssueComment = {
+        id: 0,
+        userId: this.user.id,
+        comment: "Problem resolved: " + this.commentText,
+        publishedAt: new Date().toISOString(),
+        tourIssueReportId: this.tourIssueReportId
+      };
+
+      const addComment$ = this.service.addTourIssueComment(newComment, this.user.id).pipe(
+        tap((result) => {
+          this.comments.push(result); 
+          this.scrollToBottom();
+        })
+      );
+
+      const markAsDone$ = this.service.markAsDone(this.tourIssueReport).pipe(
+        map((response) => {
+          this.tourIssueReport.status = response.status; 
+        })
+      );
+
+      forkJoin([addComment$, markAsDone$]).subscribe({
+        next: () => {
+          this.closeOverlay();
+          this.actionsDisabled = true;
+          this.disableActions();
+          this.isAlertDisabled = this.isAlertAdminDisabled();
+        },
+        error: (err) => {
+          console.log("Error adding comment or updating status: ", err);
+        }
+      });
+    }
+  }
+
+  disableActions() {
+    this.showCommentOverlay = false;
+    document.querySelector(".header-buttons button")?.setAttribute("disabled", "true");
+    document.querySelector(".input-container")?.classList.add("disabled");
+  }
+
+ confirmAlertAdmin(): void {
+    if (!this.alertedAdmin) {
+        this.service.alertAdmin(this.tourIssueReport).subscribe({
+        next: () => {
+          this.alertedAdmin = true;
+          this.isAlertDisabled = this.isAlertAdminDisabled();
+          this.closeAlertAdminOverlay();
+        },
+        error: (err) => {
+          console.log("Error alerting admin:", err);
+        }
+      });
+    }
+  }
+
+  async getComments(): Promise<void> {
+    try {
+      const result = await this.service.getTourIssueComments(this.tourIssueReportId).toPromise();
+      if (result && result.results) {
+        this.comments = result.results;
+        this.comments.sort((a, b) => {
+          const dateA = new Date(a.publishedAt).getTime();
+          const dateB = new Date(b.publishedAt).getTime();
+          return dateA - dateB;
+        });
+      } else {
+        console.log("No comments found or result is undefined.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+  async getTourIssueReport(): Promise<void> {
+    try {
+      const result = await this.service.getTourIssueReportById(this.tourIssueReportId).toPromise();
+      if (result) {
+        this.tourIssueReport = result;
+        this.isAlertDisabled = this.isAlertAdminDisabled();
+      } else {
+        console.log("Tour issue report not found or result is undefined.");
+      }    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+  async getTour(): Promise<void> {
+    try {
+      if (this.tourIssueReport && this.tourIssueReport.tourId) {
+        const result = await this.service.getTourById(this.tourIssueReport.tourId).toPromise();
+        if (result) {
+          this.tour = result;
+        } else {
+          console.log("Tour not found or result is undefined.");
+        }
+      } else {
+        console.log("Tour ID is undefined in tourIssueReport.");
+      }    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async PostComment(commentText: string): Promise<void> {
+    if (commentText.trim()) {
+      const newComment: TourIssueComment = {
+        id: 0,
+        userId: this.user.id,
+        comment: commentText,
+        publishedAt: new Date().toISOString(),
+        tourIssueReportId: this.tourIssueReportId
+      };
+  
+      //this.comments.push(newComment);
+
+      this.service.addTourIssueComment(newComment, this.user.id).subscribe({
+        next: async (result) => {
+          await this.comments.push(result);
+          this.commentInput.nativeElement.value = '';
+          this.scrollToBottom();
+        },
+        error: (err) => {
+          console.log("Error posting comment:", err);
+        },
+      });
+    }
+  }
+
+  getStatus(status: number): string{
+    switch (status) {
+      case 0:
+        return 'Open';
+      case 1:
+        return 'Closed';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  async CloseTourIssueReport(): Promise<void>{
+    await this.service.closeTourIssueReport(this.tourIssueReport).subscribe({
+      next: (result) => {
+        this.tourIssueReport.status = result.status
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
+    this.showCloseReportOverlay = false
+  }
+
+  async SetFixUntilDate(): Promise<void>{
+    if (this.FixUntilDate && this.FixUntilTime) 
+    {
+      const [hours, minutes] = this.FixUntilTime.split(':');
+      const combinedDateTime = new Date(this.FixUntilDate);
+      combinedDateTime.setHours(+hours);
+      combinedDateTime.setMinutes(+minutes);
+      this.tourIssueReport.fixUntil = combinedDateTime.toISOString()
+    }
+    else if(this.FixUntilDate)
+    {
+      this.tourIssueReport.fixUntil = this.FixUntilDate.toISOString()
+    }
+    
+    await this.service.setReportFixUntilDate(this.tourIssueReport, this.user.id).subscribe({
+      next: (result) => {
+        this.tourIssueReport.fixUntil = result.fixUntil
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
+
+    this.showSetFixUntilDateOverlay = false
+  }
+
+  async CloseTour(): Promise<void>{
+    await this.service.closeTour(this.tour.id).subscribe({
+      next: (result) => {
+        this.router.navigate(['/tourIssueReport'])
+      },
+      error: (err) => {
+        console.log("Error posting comment:", err);
+      },
+    });
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    }, 0);
+}
+}

@@ -7,7 +7,7 @@ import { Tour } from '../model/tour-model';
 @Component({
   selector: 'xp-tours',
   templateUrl: './tours.component.html',
-  styleUrls: ['./tours.component.css']
+  styleUrls: ['./tours.component.scss']
 })
 export class ToursComponent implements OnInit {
 
@@ -31,5 +31,49 @@ export class ToursComponent implements OnInit {
   // Method to navigate to the review form for a specific tour
   goToReviewForm(tourId: number): void {
     this.router.navigate(['/reviewform', tourId]); // Pass tourId as a route parameter
+  }
+
+  gotoTourSearch() {
+    this.router.navigate(['/alltours/search']); // Navigate to the search tours
+  }
+  
+  startTour(tourId: number): void {
+    console.log('Starting tour:', tourId);
+    this.service.startTour(tourId).subscribe({
+      next: (response) => {
+        console.log('Tour started successfully!', response);
+        this.router.navigate(['/position-simulator']); // Navigate on success
+      },
+      error: (error) => {
+        console.error('Failed to start the tour:', error); // Handle error
+        // Optionally, show a user-friendly message or retry logic
+      }
+    });
+  }
+
+  getDifficultyLabel(difficulty: number): string {
+    switch (difficulty) {
+      case 0:
+        return 'Easy';
+      case 1:
+        return 'Moderate';
+      case 2:
+        return 'Difficult';
+      default:
+        return 'Unknown';
+    }
+  }
+  
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case 0:
+        return 'Draft';
+      case 1:
+        return 'Published';
+      case 2:
+        return 'Archived';
+      default:
+        return 'Unknown';
+    }
   }
 }

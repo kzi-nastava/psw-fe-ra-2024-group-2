@@ -1,18 +1,91 @@
-<div class="review-container" *ngFor="let review of reviews">
-    <div class="review-header">
-      <h3 class="review-user">User ID: {{ review.userId }}</h3>
-      <div class="review-rating">Rating: {{ review.grade }} / 5</div>
+<div class="mat-card review-container" *ngFor="let review of reviews">
+  <!-- Review Header Section -->
+  <div class="mat-card-header">
+    <div class="review-header-content">
+      <h3 class="mat-card-title">
+        User {{ review.userId }}
+        <span class="rating-badge" *ngIf="!review.isEditing">
+          {{ review.grade }}/5
+        </span>
+      </h3>
+    <button class="btn-edit" (click)="toggleEdit(review)" *ngIf="!review.isEditing">
+      <i class="material-icons">edit</i>
+      Edit
+    </button>
+      <div class="mat-card-subtitle review-dates">
+        <span class="date-item">
+          <i class="material-icons">rate_review</i>
+          Reviewed {{ review.reviewDate | date: 'longDate' }}
+        </span>
+        <span class="date-item">
+          <i class="material-icons">event</i>
+          Visited {{ review.visitDate | date: 'longDate' }}
+        </span>
+      </div>
     </div>
-  
-    <div class="review-dates">
-      <small>Reviewed on: {{ review.reviewDate | date: 'longDate' }}</small><br>
-      <small>Visited on: {{ review.visitDate | date: 'longDate' }}</small>
-    </div>
-  
-    <p class="review-comment">{{ review.comment }}</p>
-  
-    <!-- Conditionally render the image if it exists 
-    <div class="review-image-container" *ngIf="review.image">
-      <img [src]="review.image.url" [alt]="review.image.altText" class="review-image" />
-    </div>-->
   </div>
+
+  <div class="mat-card-content">
+    <!-- View Mode -->
+    <p class="review-comment" *ngIf="!review.isEditing">{{ review.comment }}</p>
+
+    <!-- Edit Mode -->
+    <form [formGroup]="editReviewForm" (ngSubmit)="onEditSubmit(review)" *ngIf="review.isEditing" class="edit-form">
+      <div class="form-group">
+        <label class="form-label" for="grade">
+          <span class="icon">★</span> Grade (1-5)
+        </label>
+        <input 
+          id="grade" 
+          type="number" 
+          class="form-control" 
+          [ngClass]="{'error': isFieldInvalid(editReviewForm, 'grade')}"
+          formControlName="grade" 
+          min="1" 
+          max="5" 
+          required
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(editReviewForm, 'grade')">
+          <span class="icon">⚠</span>
+          <small>Grade must be between 1 and 5</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="comment">
+          <span class="icon">✎</span> Comment
+        </label>
+        <textarea 
+          id="comment" 
+          class="form-control"
+          [ngClass]="{'error': isFieldInvalid(editReviewForm, 'comment')}"
+          formControlName="comment" 
+          required
+        ></textarea>
+        <div class="error-message" *ngIf="isFieldInvalid(editReviewForm, 'comment')">
+          <span class="icon">⚠</span>
+          <small>Comment is required</small>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn-submit"
+          [disabled]="editReviewForm.invalid"
+        >
+          <span class="icon">✓</span>
+          Submit
+        </button>
+        <button 
+          type="button" 
+          class="btn-cancel"
+          (click)="cancelEdit(review)"
+        >
+          <span class="icon">✕</span>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,269 @@
+.page-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.location-form-container {
+  flex: 0 0 800px;
+  background-color: var(--white);
+  border-radius: 8px;
+
+  .map-container {
+    width: 100%;
+    height: 400px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--lighter-brown);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .radius-input {
+    width: 100%;
+    margin-top: 1rem;
+
+    ::ng-deep .mat-form-field-wrapper {
+      padding-bottom: 0.5rem;
+    }
+  }
+}
+
+.tour-table-container {
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 8px;
+
+  .table-filter {
+    margin-bottom: 1rem;
+
+    .mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .tour-table {
+    width: 100%;
+    
+    .description-cell {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mat-column-status {
+      width: 100px;
+    }
+
+    .mat-column-difficulty {
+      width: 100px;
+    }
+
+    .mat-column-price {
+      width: 100px;
+      text-align: right;
+    }
+  }
+
+  .difficulty-indicator {
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    &.difficulty-1 {
+      background-color: var(--light-green);
+      color: var(--dark-green);
+    }
+
+    &.difficulty-2 {
+      background-color: var(--lighter-brown);
+      color: var(--dark-brown);
+    }
+
+    &.difficulty-3 {
+      background-color: var(--error);
+      color: var(--white);
+    }
+  }
+
+  mat-chip {
+    &.status-active {
+      background-color: var(--light-green) !important;
+      color: var(--dark-green) !important;
+    }
+
+    &.status-pending {
+      background-color: var(--lighter-brown) !important;
+      color: var(--dark-brown) !important;
+    }
+
+    &.status-cancelled {
+      background-color: var(--error) !important;
+      color: var(--white) !important;
+    }
+  }
+}
+
+mat-card {
+  padding: 1.5rem;
+  height: 100%;
+  
+  mat-card-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--dark-brown);
+  }
+
+  mat-card-content {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: var(--light-brown);
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-outline-thick {
+    color: var(--primary-brown);
+  }
+
+  .mat-form-field-hint {
+    color: var(--text-light);
+  }
+}
+
+@media (max-width: 1200px) {
+  .page-container {
+    flex-direction: column;
+  }
+
+  .location-form-container {
+    flex: none;
+    width: 100%;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-container button {
+  background-color: var(--primary-brown) !important;
+  color: var(--white) !important;
+  padding: 0.5rem 1.5rem !important;
+  transition: all 0.3s ease !important;
+}
+
+
+.button-container {
+  button {
+    &:disabled {
+      background-color: var(--text-light) !important;
+      opacity: 0.7;
+    }
+  }
+}
+
+.button-container button:hover {
+  background-color: var(--dark-brown) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.tour-table-container {
+  margin: 1rem;
+}
+
+.tour-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.tour-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tour-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tour-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.badge-difficulty-easy {
+  background-color: #4caf50;
+}
+
+.badge-difficulty-medium {
+  background-color: #ff9800;
+}
+
+.badge-difficulty-hard {
+  background-color: #f44336;
+}
+
+.tour-details {
+  margin: 1rem 0;
+}
+
+.tour-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.tour-footer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.tour-footer button {
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}

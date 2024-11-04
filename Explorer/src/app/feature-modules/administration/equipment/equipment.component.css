@@ -6,8 +6,18 @@
 #equipment-details {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 50px; 
     align-items: flex-start;
+    justify-content: center; 
+}
+
+.equipment-table {
+    border: 1px solid #ccc; 
+    padding: 20px; 
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); 
+    min-width: 300px; 
+    text-align: center;
 }
 
 p {
@@ -18,8 +28,7 @@ table {
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
 }
 
 thead tr {

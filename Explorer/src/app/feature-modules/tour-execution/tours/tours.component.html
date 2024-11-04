@@ -1,29 +1,78 @@
-<div class="tour-container" *ngFor="let tour of tours">
-  <h2 class="tour-name">{{ tour.name }}</h2>
-
-  <p class="tour-description">{{ tour.description }}</p>
-
-  <div class="tour-details">
-    <div><strong>Difficulty:</strong> {{ tour.difficulty }}</div>
-    <div><strong>Price:</strong> ${{ tour.price }}</div>
-    <div><strong>Status:</strong> {{ tour.status }}</div>
+<div class="container">
+  <div class="mb-4">
+    <button 
+      class="btn btn-primary" 
+      (click)="gotoTourSearch()">
+      <span class="icon">🔍</span>
+      Search Tours
+    </button>
   </div>
 
-  <!-- Conditionally display equipment if any are available -->
-  <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
-    <h4>Equipment:</h4>
-    <ul>
-      <li *ngFor="let equipmentId of tour.equipment">Equipment ID: {{ equipmentId }}</li>
-    </ul>
-  </div>
-  
-  <div class="tour-tag">
-    <strong>Tag ID:</strong> {{ tour.tag }}
-  </div>
+  <div class="row">
+    <div class="col-4" *ngFor="let tour of tours">
+      <div class="tour-card">
+        <div class="tour-header">
+          <h3 class="tour-title">{{ tour.name }}</h3>
+          <div class="tour-meta">
+            <div class="badge-container">
+              <span class="badge" [ngClass]="'badge-difficulty-' + tour.difficulty">
+                <span class="icon">⚡</span>
+                {{ getDifficultyLabel(tour.difficulty) }}
+              </span>
+            </div>
+            <div class="badge-container">
+              <span class="badge" [ngClass]="'badge-status-' + tour.status">
+                <span class="icon">●</span>
+                {{ getStatusLabel(tour.status) }}
+              </span>
+            </div>
+          </div>
+        </div>
 
-  <!-- Pass tour.id as an argument to showReviews() -->
-  <button color="primary" mat-raised-button (click)="showReviews(tour.id)">Show Reviews</button>
+        <div class="tour-content">
+          <div class="tour-price">
+            <div class="price-amount">${{ tour.price }}</div>
+            <div class="price-label">per person</div>
+          </div>
 
-  <!-- New button to redirect to the review form -->
-  <button color="accent" mat-raised-button (click)="goToReviewForm(tour.id)">Submit a Review</button>
+          <div class="tour-description">
+            {{ tour.description }}
+          </div>
+
+          <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
+            <div class="section-title">
+              <span class="icon">⚒</span>
+              Included Equipment
+            </div>
+            <div class="equipment-list">
+              <div class="equipment-item" *ngFor="let equipmentId of tour.equipment">
+                <span class="icon">✓</span>
+                {{ equipmentId }}
+              </div>
+            </div>
+          </div>
+
+          <div class="tour-tag">
+            <span class="icon">🏷</span>
+            Tour ID: {{ tour.tag }}
+          </div>
+        </div>
+
+        <div class="tour-actions">
+          <button class="btn btn-primary" (click)="showReviews(tour.id)">
+            <span class="icon">★</span>
+            Reviews
+          </button>
+          <button class="btn btn-accent" (click)="goToReviewForm(tour.id)">
+            <span class="icon">✎</span>
+            Write Review
+          </button>
+          <button class="btn btn-accent" (click)="startTour(tour.id)">
+            <span class="icon">✎</span>
+            Start Tour
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

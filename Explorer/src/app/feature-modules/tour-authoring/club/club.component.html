@@ -1,0 +1,119 @@
+<div class="clubs-container">
+  <h1 class="page-title">Clubs</h1>
+  
+  <div class="clubs-layout">
+    <!-- Table Section (8 columns) -->
+    <div class="table-section">
+      <table class="clubs-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let club of clubs" (click)="showClubClick(club)" class="clickable-row">
+            <td>{{ club.name }}</td>
+            <td>{{ club.description }}</td>
+            <td>
+              <button class="btn-action" (click)="editClub(club)">
+                <span class="icon">✎</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="clubs.length === 0" class="empty-state">
+        <p>No clubs available.</p>
+      </div>
+    </div>
+
+    <!-- Form Section (4 columns) -->
+    <div class="form-section">
+      <!-- Create Club Form -->
+      <form [formGroup]="clubForm" *ngIf="!shouldEdit" class="club-form">
+        <div class="form-header">
+          <h2>Create Club</h2>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input 
+            class="form-control" 
+            formControlName="name" 
+            type="text" 
+            placeholder="Enter club name"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea 
+            class="form-control"
+            formControlName="description"
+            placeholder="Enter club description"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Image ID</label>
+          <input 
+            class="form-control" 
+            formControlName="imageId" 
+            type="text" 
+            placeholder="Enter Image Id"
+          />
+        </div>
+        <div class="form-actions">
+          <button 
+            class="btn-submit" 
+            type="submit" 
+            (click)="addClub()"
+          >
+            Create Club
+          </button>
+        </div>
+      </form>
+
+      <!-- Update Club Form -->
+      <form [formGroup]="clubForm" *ngIf="shouldEdit" class="club-form">
+        <div class="form-header">
+          <h2>Update Club</h2>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input 
+            class="form-control" 
+            formControlName="name" 
+            type="text" 
+            placeholder="Enter club name"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea 
+            class="form-control"
+            formControlName="description"
+            placeholder="Enter club description"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Image ID</label>
+          <input 
+            class="form-control" 
+            formControlName="imageId" 
+            type="number" 
+            placeholder="Enter Image Id"
+          />
+        </div>
+        <div class="form-actions">
+          <button 
+            class="btn-submit" 
+            type="submit" 
+            (click)="updateClub()"
+          >
+            Update Club
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

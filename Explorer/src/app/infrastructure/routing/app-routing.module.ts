@@ -7,23 +7,31 @@ import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.c
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
-import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club/club.component';
+import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club.component';
 import { EditTourComponent } from 'src/app/feature-modules/tour-authoring/edittour/edittour.component';
 
-import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
+
 import { MyToursComponent } from 'src/app/feature-modules/tour-authoring/mytours/mytours.component';
 import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/object.component';
-import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
+
 import { TourIssueReportComponent } from 'src/app/feature-modules/tour-execution/tour-issue-report/tour-issue-report.component';
 import { TourReportingComponent } from 'src/app/feature-modules/tour-execution/tour-reporting/tour-reporting.component';
-import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
-import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
-import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tours.component';
+
 import { BlogComponentComponent } from '../../feature-modules/blog/blog-component/blog-component.component';
 import { BlogPostComponent } from '../../feature-modules/blog/blog-post/blog-post.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { ToursComponent } from 'src/app/feature-modules/tour-execution/tours/tours.component';
+import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
+import { TourReviewFormComponent } from 'src/app/feature-modules/tour-execution/tour-review-form/tour-review-form.component';
+import { ObjectsManagementComponent } from 'src/app/feature-modules/tour-authoring/objects-management/objects-management.component';
+import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
+import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
+import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
+import { SearchToursComponent } from 'src/app/feature-modules/tour-execution/search-tours/search-tours.component';
+import { TourIssueManagementComponent } from 'src/app/feature-modules/tour-execution/tour-issue-management/tour-issue-management.component'
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -46,9 +54,13 @@ const routes: Routes = [
   {path: 'tourReporting', component: TourReportingComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueReport', component: TourIssueReportComponent, canActivate: [AuthGuard]},
   {path: 'objectsTable', component:ObjectsManagementComponent, canActivate: [AuthGuard]},
+  {path: 'position-simulator', component:PositionSimulatorComponent, canActivate: [AuthGuard]},
   {path: 'rateApp', component:RateAppFormComponent, canActivate: [AuthGuard]},
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
+  {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
+  {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
+  {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]}
   { path: 'blog/:id', component: CommentComponent },
 ];
 

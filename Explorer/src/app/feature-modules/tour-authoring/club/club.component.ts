@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ClubService } from '../../club.service';
-import { Club } from '../../model/club.model';
-import { PagedResult } from '../../shared/model/tour.module';
+import { ClubService } from '../club.service';
+import { Club } from '../model/club.model';
+import { PagedResult } from '../shared/model/tour.module';
 
 @Component({
   selector: 'xp-club',
   templateUrl: './club.component.html',
-  styleUrls: ['./club.component.css']
+  styleUrls: ['./club.component.scss']
 })
 export class ClubComponent implements OnInit {
 
@@ -49,6 +49,7 @@ addClub(): void {
     this.service.addClub(clubData).subscribe({
       next: (response) => {
         console.log('Club added successfully!');
+        window.location.reload();
       },
       error: (err) => {
         console.log('Error adding club:', err);

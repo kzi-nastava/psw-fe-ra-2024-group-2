@@ -1,0 +1,70 @@
+<div class="page-container">
+  <!-- Location Form -->
+  <div class="location-form-container mat-elevation-z2">
+    <mat-card>
+      <mat-card-title>Location Selection</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+          <!-- Map Component -->
+          <div class="map-container margin-bottom">
+            <xp-map (locationSelected)="onLocationSelected($event)"></xp-map>
+          </div>
+
+          <!-- Radius Input -->
+          <mat-form-field appearance="outline" class="radius-input">
+            <mat-label>Radius (km)</mat-label>
+            <input matInput type="number" formControlName="radius" min="0" max="100" placeholder="Enter radius">
+            <mat-hint>Select a radius between 0 and 100 km</mat-hint>
+            <mat-error *ngIf="locationForm.get('radius')?.hasError('required')">
+              Radius is required
+            </mat-error>
+            <mat-error *ngIf="locationForm.get('radius')?.hasError('min')">
+              Radius must be greater than 0
+            </mat-error>
+            <mat-error *ngIf="locationForm.get('radius')?.hasError('max')">
+              Radius cannot exceed 100 km
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Submit Button -->
+          <div class="button-container">
+            <button mat-raised-button type="submit" [disabled]="!locationForm.valid || !longitude || !latitude">
+              Confirm Location
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tour Table -->
+  <div class="tour-table-container mat-elevation-z2">
+    <mat-card>
+      <mat-card-title>Available Tours</mat-card-title>
+      <mat-card-content>
+        <div class="tour-cards-grid">
+          <!-- Each tour item as a card -->
+          <div class="tour-card" *ngFor="let tour of tours">
+            <div class="tour-header">
+              <h3 class="tour-title">{{ tour.name }}</h3>
+            </div>
+  
+            <div class="tour-details">
+              <p>{{ tour.description }}</p>
+              <div class="tour-info">
+                <div class="info-item">
+                  <span class="icon">💵</span>
+                  <span>{{ tour.price | currency }}</span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="tour-footer">
+              <button mat-button color="primary">Book Now</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
