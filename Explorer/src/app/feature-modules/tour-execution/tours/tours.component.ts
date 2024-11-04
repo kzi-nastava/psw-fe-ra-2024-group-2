@@ -32,6 +32,10 @@ export class ToursComponent implements OnInit {
   goToReviewForm(tourId: number): void {
     this.router.navigate(['/reviewform', tourId]); // Pass tourId as a route parameter
   }
+
+  gotoTourSearch() {
+    this.router.navigate(['/alltours/search']); // Navigate to the search tours
+  }
   
   startTour(tourId: number): void {
     console.log('Starting tour:', tourId);
