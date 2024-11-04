@@ -10,6 +10,8 @@ import { map, catchError } from 'rxjs/operators';
 import { Tour } from '../model/tour-model';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ViewChild, ElementRef } from '@angular/core';
+
 
 @Component({
   selector: 'xp-tour-issue-management',
@@ -34,6 +36,9 @@ export class TourIssueManagementComponent implements OnInit{
   FixUntilDate: Date;
   FixUntilTime: string; // Promenljiva za vreme u formatu "HH:mm"
   today: Date = new Date();
+  
+  @ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   constructor(private authService: AuthService, private service: TourExecutionService, 
               private router: Router, private route: ActivatedRoute){ }
@@ -55,6 +60,7 @@ export class TourIssueManagementComponent implements OnInit{
       await this.getTour(); 
       await this.getComments(); 
       this.isAlertDisabled = this.isAlertAdminDisabled();
+      this.scrollToBottom();
     } catch (err) {
       console.log(err);
     }
@@ -96,9 +102,10 @@ export class TourIssueManagementComponent implements OnInit{
         tourIssueReportId: this.tourIssueReportId
       };
 
-      const addComment$ = this.service.addTourIssueComment(newComment).pipe(
+      const addComment$ = this.service.addTourIssueComment(newComment, this.user.id).pipe(
         tap((result) => {
           this.comments.push(result); 
+          this.scrollToBottom();
         })
       );
 
@@ -202,9 +209,11 @@ export class TourIssueManagementComponent implements OnInit{
   
       //this.comments.push(newComment);
 
-      this.service.addTourIssueComment(newComment).subscribe({
+      this.service.addTourIssueComment(newComment, this.user.id).subscribe({
         next: async (result) => {
           await this.comments.push(result);
+          this.commentInput.nativeElement.value = '';
+          this.scrollToBottom();
         },
         error: (err) => {
           console.log("Error posting comment:", err);
@@ -272,4 +281,10 @@ export class TourIssueManagementComponent implements OnInit{
       },
     });
   }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    }, 0);
+}
 }

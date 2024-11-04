@@ -90,6 +90,9 @@ export class TourIssueReportComponent implements OnInit {
   }
 
   public isExpired(fixUntil: string): boolean {
-    return fixUntil ? new Date(fixUntil) < this.today : false;
+    if(this.user.role === 'administrator'){
+      return fixUntil ? new Date(fixUntil) < this.today : false;
+    }
+    return false
   }
 }

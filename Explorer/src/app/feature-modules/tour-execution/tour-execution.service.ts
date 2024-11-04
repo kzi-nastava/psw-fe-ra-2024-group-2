@@ -27,8 +27,8 @@ export class TourExecutionService {
     return this.http.put<TourIssueReport>('https://localhost:44333/api/administration/tourIssueReportReview/setFixUntilDate/'+adminId, tourIssueReport)
   }
 
-  addTourIssueComment(tourIssueComment: TourIssueComment): Observable<TourIssueComment>{
-    return this.http.post<TourIssueComment>('https://localhost:44333/api/tourIssueComment/comment', tourIssueComment)
+  addTourIssueComment(tourIssueComment: TourIssueComment, userId: number): Observable<TourIssueComment>{
+    return this.http.post<TourIssueComment>('https://localhost:44333/api/tourIssueComment/comment/'+userId, tourIssueComment)
   }
 
   getTourIssueReportById(tourIssueReportId: number): Observable<TourIssueReport>{

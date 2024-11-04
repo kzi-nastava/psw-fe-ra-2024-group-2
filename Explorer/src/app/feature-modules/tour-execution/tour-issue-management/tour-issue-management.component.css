@@ -83,8 +83,9 @@
   }
 
   .message-sender {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.25rem;
+    font-weight: 700;
   }
 
   .mat-card-content {
@@ -100,20 +101,25 @@
 }
 
 .user-message {
-  background-color: var(--light-green);
-  color: var(--white);
+  background-color: var(--coyote) !important;
+  color: var(--white) !important;
 
   .mat-card-title {
-    color: var(--white);
+    color: var(--white) !important;
   }
 }
 
 .tourist-message {
-  background-color: var(--lighter-brown);
+  background-color: var(--camel);
+  color: var(--white) !important;
+
+  .mat-card-title {
+    color: var(--white) !important;
+  }
 }
 
 .admin-message {
-  background-color: var(--primary-brown);
+  background-color: var(--camel);
   color: var(--white);
 
   .mat-card-title {
@@ -122,13 +128,21 @@
 }
 
 .author-message {
-  background-color: var(--dark-brown);
+  background-color: var(--camel);
   color: var(--white);
 
   .mat-card-title {
     color: var(--white);
   }
 }
+
+.comment-text {
+  color: var(--white) !important;
+  white-space: pre-wrap; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+
 
 .input-container {
   display: flex;
