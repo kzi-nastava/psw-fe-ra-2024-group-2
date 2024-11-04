@@ -1,1 +1,33 @@
-<p>tour-notification works!</p>
+<div class="notification-dropdown">
+    <div class="notification-header">
+      Notifications
+    </div>
+    
+    <div class="notification-list" (scroll)="onScroll($event)">
+      <div *ngIf="notifications.length === 0" class="notification-empty">
+        No new notifications
+      </div>
+      
+      <div *ngFor="let notification of notifications" class="notification-item" (click)="goToNotification(notification)">
+        <div class="notification-content">
+          From User: {{ notification.fromUserId }}
+        </div>
+        <div class="notification-meta">
+          Status: 
+          <span class="notification-status" [ngClass]="{
+            'status-pending': notification.status === 'Pending',
+            'status-resolved': notification.status === 'Resolved',
+            'status-unresolved': notification.status === 'Unresolved'
+          }">
+            {{ notification.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="notification-footer">
+      <button class="mark-all-read" (click)="MarkAllAsRead()">
+        Mark all as read
+      </button>
+    </div>
+</div>

@@ -1,4 +1,3 @@
-/* navbar.component.css */
 .navbar {
     background-color: var(--primary-brown);
     position: fixed;
@@ -73,12 +72,13 @@
     border-top: 4px solid var(--white);
 }
 
+/* Show dropdown content on hover */
 .nav-item.dropdown:hover .dropdown-content {
     display: block;
 }
 
 .dropdown-content {
-    display: none;
+    display: none; /* Default to hidden */
     position: absolute;
     top: 100%;
     left: 0;
