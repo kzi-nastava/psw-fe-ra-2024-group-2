@@ -18,12 +18,12 @@ import { TourIssueManagementComponent } from './tour-issue-management/tour-issue
 import { SearchToursComponent } from './search-tours/search-tours.component';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -35,8 +35,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TourReportingComponent,
     ReportFormComponent,
     SearchToursComponent,
-    TourIssueManagementComponent,
-    SearchToursComponent
+    TourIssueManagementComponent
   ],
   imports: [
     CommonModule,
@@ -49,21 +48,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatIconModule,
     MatListModule,
-    FormsModule,
     SharedModule,
-    MatInputModule,
-    MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCardModule,
     MatTableModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatListModule,
     MatDatepickerModule,
     MatNativeDateModule
   ],
@@ -74,8 +60,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TourReportingComponent,
     ReportFormComponent,
     SearchToursComponent,
-    TourIssueManagementComponent,
-    SearchToursComponent
+    TourIssueManagementComponent
   ]
 })
 export class TourExecutionModule { }
