@@ -4,6 +4,12 @@ export interface Image {
     mimeType: string; 
 }
 
+export interface Rating {
+    username: string;
+    createdAt: string;              
+    ratingType: "Upvote" | "Downvote";
+}
+
 export interface Blog {
     id: number;
     title: string;
@@ -12,4 +18,7 @@ export interface Blog {
     status: string;
     authorId: number;
     images: Image[];
+    ratings: Rating[];
+    userVote?: 'Upvote' | 'Downvote' | null; // Add userVote here
+
 }
