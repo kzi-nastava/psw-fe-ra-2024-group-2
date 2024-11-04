@@ -8,6 +8,8 @@ import { Tour } from '../tour-authoring/model/tour.model';
 import { TourReview } from './model/tour-review.model';
 import { environment } from 'src/env/environment';
 import { TourExecution } from './model/tourExecution-model';
+import { TouristPosition } from '../stakeholders/model/tourist-position';
+import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -69,6 +71,19 @@ export class TourExecutionService {
 
   updateReview(review: TourReview): Observable<TourReview>{
     return this.http.put<TourReview>('https://localhost:44333/api/tour/reviews/update/review', review);
+  }
+  checkTouristPosition(tourist : TouristPosition): Observable<TourExecution>{
+    return this.http.post<TourExecution>('https://localhost:44333/api/tour/execution/checkTouristPosition', tourist);
+  }
+  loadTourExecution(tourId: number): Observable<TourExecution>{
+    return this.http.get<TourExecution>(`https://localhost:44333/api/tour/execution/load`);
+  }
+
+  getTourCheckpoints(checkpointIds: number[]): Observable<PagedResult<Checkpoint>> {
+    return this.http.post<PagedResult<Checkpoint>>('https://localhost:44333/api/tour/execution/checkpoints/getSome', checkpointIds);
+  }
+  endTour(tour: TourExecution): Observable<TourExecution>{
+    return this.http.post<TourExecution>('https://localhost:44333/api/tour/execution/end',tour);
   }
 
   getTourIssueComments(tourIssueReportId: number) : Observable<PagedResult<TourIssueComment>>{
