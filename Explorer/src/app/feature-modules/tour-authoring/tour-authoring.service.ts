@@ -7,6 +7,7 @@ import { Equipment } from '../administration/model/equipment.model';
 import { Checkpoint } from './model/checkpoint.model';
 import { Object } from './model/object.model';
 import { ObjectFormComponent } from './object-form/object-form.component';
+import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
 
 
@@ -88,5 +89,9 @@ export class TourAuthoringService {
 
   getTourCheckpoints(checkpointIds: number[]): Observable<PagedResult<Checkpoint>> {
     return this.http.post<PagedResult<Checkpoint>>('https://localhost:44333/api/author/checkpoint/checkpoints/getSome', checkpointIds);
+  }
+
+  getNearbyTours(location: LocationDto): Observable<PagedResult<Tour>> {
+    return this.http.post<PagedResult<Tour>>('https://localhost:44333/api/tourist/tour/nearby', location);
   }
 }
