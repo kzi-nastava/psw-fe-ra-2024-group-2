@@ -11,6 +11,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 export class NavbarComponent implements OnInit {
 
   user: User | undefined;
+  notificationsVisible: boolean = false; // Track visibility of notifications dropdown
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -23,7 +24,9 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     this.authService.logout();
   }
-
+  toggleNotifications(): void {
+    this.notificationsVisible = !this.notificationsVisible; // Toggle visibility
+  }
   showProfile(): void {
     this.router.navigate(['/profile']);
   }
