@@ -64,7 +64,6 @@ export class TourExecutionService {
   }
 
   startTour(tourId: number): Observable<TourExecution>{
-    console.log("Tour Id je :",tourId)
     return this.http.post<TourExecution>(`https://localhost:44333/api/tour/execution/${tourId}`, {});
   }
 
