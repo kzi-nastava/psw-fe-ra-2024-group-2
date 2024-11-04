@@ -37,13 +37,26 @@ export class ReportFormComponent implements OnChanges {
       return;
     }
 
+    const category = this.reportForm.value.category;
+    const description = this.reportForm.value.description;
+    const priority = this.reportForm.value.priority;
+  
+    // Check if any field is empty or missing
+    if (!category || !description || !priority) {
+      alert('All fields are required! Please fill out category, description, and priority.');
+      return;
+    }
+
     const newTourIssueReport: TourIssueReport = {
+      id: 0,
       category: this.reportForm.value.category || "",
       description: this.reportForm.value.description || "",
       priority: this.reportForm.value.priority || "",
-      dateTime: new Date().toISOString(), 
+      createdAt: new Date().toISOString(), 
+      fixUntil: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
+      status: 0,
       tourId: this.tourId,
-      userId: this.userId, 
+      userId: this.userId,
     };
 
     // Poziv servisa za dodavanje izveštaja

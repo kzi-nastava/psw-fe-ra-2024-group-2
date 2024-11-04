@@ -1,8 +1,9 @@
 /* Tour Table Styles */
 .tour-table-container {
-    width: 100%;
     overflow-x: auto;
     margin: 1rem 0;
+    margin-left: 10vw;
+    margin-right: 10vw;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
@@ -13,7 +14,12 @@
     background-color: var(--white);
     font-family: 'Roboto', sans-serif;
   }
-  
+  .row-expired {
+    background-color: #df9292;
+  }
+  .row-expired:hover{
+    background-color: #dfa3a3 !important;
+  }
   thead {
     background-color: var(--lighter-brown);
   }
@@ -30,6 +36,7 @@
     color: var(--text-light);
     padding: 1rem;
     border-bottom: 1px solid var(--lighter-brown);
+
   }
   
   tbody tr:nth-child(even) {
@@ -39,6 +46,7 @@
   tbody tr:hover {
     background-color: rgba(144, 238, 144, 0.1);
     transition: background-color 0.3s ease;
+    cursor: pointer;
   }
   
   /* Priority Column Styling */
