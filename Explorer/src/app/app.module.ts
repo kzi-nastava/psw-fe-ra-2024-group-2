@@ -15,6 +15,13 @@ import { AuthModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -36,6 +43,13 @@ import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     {
