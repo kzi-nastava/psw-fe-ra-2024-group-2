@@ -16,6 +16,7 @@ export class TourIssueReportComponent implements OnInit {
   tourIssueReport: TourIssueReport[] = [];
   tourIssueReportName: TourIssueReportName[] = [];
   user: any;
+  today: Date = new Date();
 
   constructor(private service: TourExecutionService, private router: Router, private authService: AuthService) {}
 
@@ -37,7 +38,6 @@ export class TourIssueReportComponent implements OnInit {
       error: (err: any) => console.error('Failed to load reports', err)
     });
   }
-
   private fetchTourNames(): void {
     const tourRequests = this.tourIssueReport.map(report => this.fetchTourName(report));
     
@@ -47,12 +47,11 @@ export class TourIssueReportComponent implements OnInit {
       console.log('Updated Tour Issue Report Names:', this.tourIssueReportName); 
     });
   }
-
+  
   private fetchTourName(report: TourIssueReport): Promise<TourIssueReportName> {
     return new Promise((resolve, reject) => {
       this.service.getTourById(report.tourId).subscribe({
         next: (tour: Tour) => {
-          //console.log('Fetched tour:', tour); 
           resolve({
             tourName: tour.name,
             category: report.category,
@@ -87,5 +86,12 @@ export class TourIssueReportComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+
+  public isExpired(fixUntil: string): boolean {
+    if(this.user.role === 'administrator'){
+      return fixUntil ? new Date(fixUntil) < this.today : false;
+    }
+    return false
   }
 }

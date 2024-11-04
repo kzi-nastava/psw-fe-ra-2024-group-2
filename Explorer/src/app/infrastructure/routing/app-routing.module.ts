@@ -56,6 +56,7 @@ const routes: Routes = [
   {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
   {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
+  {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]}
 ];

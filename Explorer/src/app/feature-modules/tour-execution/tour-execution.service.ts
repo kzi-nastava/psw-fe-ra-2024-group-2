@@ -15,8 +15,20 @@ export class TourExecutionService {
 
   constructor(private http: HttpClient) { }
 
-  addTourIssueComment(tourIssueComment: TourIssueComment): Observable<TourIssueComment>{
-    return this.http.post<TourIssueComment>('https://localhost:44333/api/tourIssueComment/comment', tourIssueComment)
+  closeTour(tourId: number): Observable<string> {
+    return this.http.delete<string>('https://localhost:44333/api/administration/tourIssueReportReview/deleteTour/' + tourId);
+  }
+
+  closeTourIssueReport(tourIssueReport: TourIssueReport): Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/administration/tourIssueReportReview/closeReport', tourIssueReport)
+  }
+
+  setReportFixUntilDate(tourIssueReport: TourIssueReport, adminId: number): Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/administration/tourIssueReportReview/setFixUntilDate/'+adminId, tourIssueReport)
+  }
+
+  addTourIssueComment(tourIssueComment: TourIssueComment, userId: number): Observable<TourIssueComment>{
+    return this.http.post<TourIssueComment>('https://localhost:44333/api/tourIssueComment/comment/'+userId, tourIssueComment)
   }
 
   getTourIssueReportById(tourIssueReportId: number): Observable<TourIssueReport>{
@@ -63,6 +75,13 @@ export class TourExecutionService {
     return this.http.get<PagedResult<TourIssueComment>>('https://localhost:44333/api/tourIssueComment/comments/'+tourIssueReportId);
   }
 
+  markAsDone(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/resolvedReport', tourIssueReport)
+  }
+
+  alertAdmin(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
+    return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/alertAdmin', tourIssueReport)
+  }
 }
 
 

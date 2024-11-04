@@ -22,6 +22,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import { MatTableModule } from '@angular/material/table';
     TourIssueReportComponent,
     TourReportingComponent,
     ReportFormComponent,
+    SearchToursComponent,
     TourIssueManagementComponent,
     SearchToursComponent
   ],
@@ -53,7 +56,16 @@ import { MatTableModule } from '@angular/material/table';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports:[
     TourReviewComponent,
@@ -61,6 +73,7 @@ import { MatTableModule } from '@angular/material/table';
     TourIssueReportComponent,
     TourReportingComponent,
     ReportFormComponent,
+    SearchToursComponent,
     TourIssueManagementComponent,
     SearchToursComponent
   ]
