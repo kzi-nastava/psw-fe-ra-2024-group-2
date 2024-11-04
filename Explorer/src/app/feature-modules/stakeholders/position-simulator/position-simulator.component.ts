@@ -7,6 +7,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
 import { TourExecution } from '../../tour-execution/model/tourExecution-model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -22,7 +23,7 @@ export class PositionSimulatorComponent {
   clearMarkersFlag: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
   intervalId: any;
-  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService) {}
+  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -160,6 +161,7 @@ export class PositionSimulatorComponent {
         console.log('Tour ended:', execution);
         this.tourExecution = execution;
         this.updateCheckpoints();
+        this.router.navigate(['/']); // Navigate on success
       },
       error: (error) => {
         console.error('Error ending tour:', error);
