@@ -10,8 +10,10 @@
         [disabled]="isAlertDisabled || alertedAdmin">Alert admin</button>
       <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseReportOverlay = true" 
               [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Close</button>
-      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showSetFixUntilDateOverlay = true">Set until date</button>
-      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseTourOverlay = true">Penalize author</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showSetFixUntilDateOverlay = true"
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Set until date</button>
+      <button mat-stroked-button *ngIf="user?.role === 'administrator'" (click)="showCloseTourOverlay = true"
+              [disabled]="tourIssueReport ? tourIssueReport.status === 1 : true">Penalize author</button>
     </div>
     <h2 class="title text-primary">NAZIV TURE</h2>
     <div class="header-right">
