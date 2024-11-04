@@ -24,7 +24,6 @@ export class NotificationComponent {
   loadNotifications():void{
     this.service.getNotifications(this.user.id).subscribe(result =>{
       this.notifications=result.results;
-      console.log(this.user.id)
     });
   }
   markAsResolved(notification: TourIssueNotification) {
@@ -57,18 +56,10 @@ export class NotificationComponent {
   onScroll(event: Event): void {
     const target = event.target as HTMLElement;
     const isAtBottom = target.scrollHeight - target.scrollTop === target.clientHeight;
-
-    // If at the bottom, disable scrolling by preventing default behavior
     if (this.atBottom) {
       event.preventDefault();
       return;
     }
-
-    // Update the atBottom property based on scroll position
     this.atBottom = isAtBottom;
-
-    if (this.atBottom) {
-      console.log('You are at the bottom of the notifications.');
-    }
 }
 }

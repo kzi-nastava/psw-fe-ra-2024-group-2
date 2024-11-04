@@ -23,7 +23,6 @@ export class ToursitClubComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     this.currentUserId = this.authService.getCurrentUser().id;
-    console.log('Current User:', this.currentUser);
     this.loadTourists();
   }
 
@@ -35,45 +34,27 @@ export class ToursitClubComponent implements OnInit {
     }
 
     this.touristService.getFilteredTourists(this.page, this.pageSize).subscribe(touristData => {
-      const tourists: AccountDTO[] = touristData.results; // Array of tourists
-      console.log('Tourist Data:', touristData);
+      const tourists: AccountDTO[] = touristData.results;
 
       this.touristService.getClubInvites(this.page, this.pageSize).subscribe(inviteData => {
-        const clubInvites = inviteData.results; // Array of club invites
-        console.log('Club Invites Data:', inviteData);
+        const clubInvites = inviteData.results;
 
         // Create a set for faster lookup
         const memberTouristIds = clubInvites
           .filter(invite => invite.status === 1)
           .map(invite => invite.touristId);
-        console.log('List of member touristIds (status 1):', memberTouristIds);
         const memberTouristIdSet = new Set<number>(memberTouristIds);
         const invitedTouristIdSet = new Set<number>(clubInvites.map(invite => invite.touristId));
-        console.log("Invited IDs Set:", invitedTouristIdSet);
-        console.log("Member IDs Set:", memberTouristIdSet);
-        console.log("Current User ID:", this.currentUserId);
 
-        // Filter out members: tourists who have an invite status of 1
         this.members = tourists.filter(tourist => memberTouristIdSet.has(tourist.userId));
-        console.log('Members:', this.members);
-
-        // Extract all touristIds from inviteData
         const invitedTouristIds = clubInvites.map(invite => invite.touristId);
-        console.log('List of all invited touristIds:', invitedTouristIds);
 
-        // Create a set for faster lookup
-        console.log("Invited IDs Set:", invitedTouristIdSet);
-        console.log("Current User ID:", this.currentUserId);
 
-        // Filter out non-members: tourists who are not invited and not the current user
         this.nonMembers = tourists.filter(tourist => {
           const isNotInvited = !invitedTouristIdSet.has(tourist.userId);
-          const isNotCurrentUser = tourist.userId !== this.currentUserId; // Check if the tourist is not the current user
-          console.log(`Tourist userId: ${tourist.userId}, Invited: ${!isNotInvited}, Current User: ${!isNotCurrentUser}`);
-          return isNotInvited && isNotCurrentUser; // Only include non-invited and not current user
+          const isNotCurrentUser = tourist.userId !== this.currentUserId;
+          return isNotInvited && isNotCurrentUser;
         });
-
-        console.log('Non-members:', this.nonMembers);
       });
     });
   }
