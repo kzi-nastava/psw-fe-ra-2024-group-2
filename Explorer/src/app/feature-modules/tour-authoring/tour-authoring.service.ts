@@ -67,6 +67,7 @@ export class TourAuthoringService {
   }
 
   getTourCheckpoints(checkpointIds: number[]): Observable<PagedResult<Checkpoint>> {
+    console.log("Testic:" ,checkpointIds);
     return this.http.post<PagedResult<Checkpoint>>('https://localhost:44333/api/author/checkpoint/checkpoints/getSome', checkpointIds);
   }
 }
