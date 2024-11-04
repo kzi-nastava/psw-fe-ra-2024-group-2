@@ -1,10 +1,14 @@
+<div class="component">
+    <p></p>
+    <p></p>
+</div>
 <div class="tourist-management">
   <div class="column">
       <h3>Club Members</h3>
       <ul>
           <li *ngFor="let member of members">
               {{ member.username }} ({{ member.email }})
-              <button (click)="removeMember(member)">Remove</button>
+              <button (click)="removeMember(member.userId)">Remove</button>
           </li>
       </ul>
   </div>
