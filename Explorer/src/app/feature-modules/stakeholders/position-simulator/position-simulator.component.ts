@@ -123,8 +123,16 @@ export class PositionSimulatorComponent {
 
   onLocationSelected(event: { lat: number; lng: number }): void {
     const { lat, lng } = event;
-    this.touristPosition = { latitude: lat, longitude: lng };    
+
+    if(!this.touristPosition)
+    {
+      this.touristPosition = { latitude: lat, longitude: lng };
+      this.updateTouristPosition();
+    }
+
+    this.touristPosition = { latitude: lat, longitude: lng };
     console.log('Tourist position updated locally:', this.touristPosition);
+
   }
 
   updateTouristPosition(): void {

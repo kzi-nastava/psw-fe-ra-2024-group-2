@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TourExecutionService } from '../tour-execution.service';
 import { TourReview } from '../model/tour-review.model';
-import { Router } from '@angular/router'; // Import Router here
+import { Router } from '@angular/router'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour-review-form',
@@ -16,7 +17,7 @@ export class TourReviewFormComponent implements OnInit {
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private service: TourExecutionService,  private router: Router) {
+  constructor( private snackBar: MatSnackBar,private fb: FormBuilder, private route: ActivatedRoute, private service: TourExecutionService,  private router: Router) {
     this.tourReviewForm = this.fb.group({
       grade: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required],
@@ -82,7 +83,13 @@ export class TourReviewFormComponent implements OnInit {
           this.router.navigate(['/alltours']); // Redirect to the tours view after submission
         },
         error: (err) => {
-          console.error('Error adding review:', err);
+          if (err.status === 400) {
+            this.snackBar.open('You are not able to leave a review', 'Close', {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+            });
+          }
+          console.error('You do not have qualifications to update review for this tour.', err);
         },
       });
     } else {
