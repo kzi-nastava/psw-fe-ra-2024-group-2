@@ -1,28 +1,32 @@
-<div class="blog-table-container">
-    <table class="blog-table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Author ID</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let blog of blogs">
-                <td>{{ blog.title }}</td>
-                <td>{{ blog.description }}</td>
-                <td>{{ blog.date | date: 'longDate' }}</td>
-                <td>{{ blog.status }}</td>
-                <td>{{ blog.authorId }}</td>
-                <td>
-                    <button (click)="goToBlog(blog)">Go to Blog</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="blog-card-container">
+    <div class="blog-card" *ngFor="let blog of blogs">
+        <div class="blog-card-header">
+            <h2>{{ blog.title }}</h2>
+            <p class="blog-description">{{ blog.description }}</p>
+        </div>
+        <div class="blog-card-body">
+            <p class="blog-date">{{ blog.date | date: 'longDate' }}</p>
+            <p class="blog-status">Status: {{ blog.status }}</p>
+            <p class="blog-author">Author ID: {{ blog.authorId }}</p>
+        </div>
+        <div class="blog-card-footer">
+            <button class="mat-button open-blog" (click)="goToBlog(blog)">Open Blog</button>
+            <div class="rating-buttons">
+                <button 
+                    class="rating-button" 
+                    (click)="upvote(blog)" 
+                    [ngClass]="{'highlighted': blog.userVote === 'Upvote'}">
+                    <img src="assets/like.png" alt="Like" class="rating-icon"> 
+                </button>
+                <button 
+                    class="rating-button" 
+                    (click)="downvote(blog)" 
+                    [ngClass]="{'highlighted': blog.userVote === 'Downvote'}">
+                    <img src="assets/dislike.png" alt="Dislike" class="rating-icon"> 
+                </button>
+            </div>
+        </div>
+    </div>
     <div>
         <button (click)="createBlog()">Create Blog</button>
     </div>

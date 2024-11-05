@@ -28,6 +28,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -55,9 +56,9 @@ const routes: Routes = [
   {path: 'ratingsApplications', component:RatingApplicationComponent, canActivate: [AuthGuard]},
   {path: 'touristEquipment', component:TouristEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
+  {path: 'blog/:id', component: CommentComponent },
   {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]},
-  {path: 'blog/:id', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'create-blog', component: CreateBlogComponent, canActivate: [AuthGuard]},
 ];
 

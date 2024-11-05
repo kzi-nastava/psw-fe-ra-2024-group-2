@@ -44,14 +44,14 @@ import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    FlexLayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatListModule,
-    FlexLayoutModule,
+    MatListModule
   ],
   providers: [
     {
