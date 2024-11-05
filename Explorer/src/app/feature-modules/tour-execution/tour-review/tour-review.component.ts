@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour-review',
@@ -17,7 +18,7 @@ export class TourReviewComponent implements OnInit{
   reviews: TourReview[] = []
   tourId!: number;  
   editReviewForm: FormGroup;
-  constructor(private service: TourExecutionService,private route: ActivatedRoute, private fb: FormBuilder)
+  constructor(private service: TourExecutionService,private route: ActivatedRoute, private fb: FormBuilder, private snackBar: MatSnackBar)
   {
     this.editReviewForm = this.fb.group({
       grade: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
@@ -63,15 +64,18 @@ export class TourReviewComponent implements OnInit{
         ...review,
         ...this.editReviewForm.value
       };
-      // Call your update service here
-      // After successful update:
       this.service.updateReview(updatedReview).subscribe({
         next: (response) => {
-          console.log('Review updated successfully:', response);
           this.loadReviews();
-              },
+        },
         error: (err) => {
-          console.error('Error adding review:', err);
+          if (err.status === 400) {
+            this.snackBar.open('You are not able to leave a review', 'Close', {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+            });
+          }
+          console.error('You do not have qualifications to update review for this tour.', err);
         },
       });
       review.isEditing = false;
