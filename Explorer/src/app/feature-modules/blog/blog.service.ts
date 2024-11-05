@@ -15,7 +15,10 @@ export class BlogService {
   getOneBlog(id: number): Observable<Blog> {
     return this.http.get<Blog>(`https://localhost:44333/api/user/blog/${id}`);
   }
-  
 
+  createBlog(blog: Blog): Observable<Blog> {
+    return this.http.post<Blog>('https://localhost:44333/api/user/blog', blog);
+  }
+  
   constructor(private http: HttpClient) { }
 }

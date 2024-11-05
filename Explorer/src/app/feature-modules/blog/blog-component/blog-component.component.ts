@@ -36,4 +36,8 @@ export class BlogComponentComponent implements OnInit {
   goToBlog(blog: Blog): void {
     this.router.navigate(['/blog', blog.id]);
   }
+
+  createBlog(): void{
+    this.router.navigate(['/create-blog']);
+  }
 }

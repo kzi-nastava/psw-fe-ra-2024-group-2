@@ -1,7 +1,7 @@
 export interface Image {
     data: string;
     uploadedAt: Date;
-    mimeType: string; 
+    mimeType: number; 
 }
 
 export interface Blog {
@@ -9,7 +9,13 @@ export interface Blog {
     title: string;
     description: string;
     date: Date;
-    status: string;
+    status: number;
     authorId: number;
     images: Image[];
 }
+
+export enum MimeType {
+    Jpeg = 0,
+    Png = 1,
+    Gif = 2
+  }
