@@ -19,7 +19,7 @@ export interface Blog {
     authorId: number;
     images: Image[];
     ratings: Rating[];
-    userVote?: 'Upvote' | 'Downvote' | null; // Add userVote here
+    userVote?: 'Upvote' | 'Downvote' | null;
 
 }
 

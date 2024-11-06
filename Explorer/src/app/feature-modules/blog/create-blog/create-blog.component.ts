@@ -52,9 +52,10 @@ export class CreateBlogComponent {
             title: formValues.title,
             description: formValues.description,
             date: new Date(),
-            status: 0,
-            authorId: 123,
-            images: images
+            status: 1,
+            authorId: 1,
+            images: images,
+            ratings: []
           };
 
           this.blogService.createBlog(newBlog).subscribe({

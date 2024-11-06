@@ -16,6 +16,10 @@ export class BlogComponentComponent implements OnInit {
   displayedColumns: string[] = ['title', 'description', 'date', 'status', 'authorId', 'action'];
   user: User = {} as User;
   rating : Rating = {} as Rating;
+
+  showActive: boolean = false;
+  showFamous: boolean = false;
+
   constructor(private blogService: BlogService,private authService: AuthService, private router: Router) {}
 
 
@@ -31,7 +35,7 @@ export class BlogComponentComponent implements OnInit {
       (data: PagedResult<Blog>) => {
         this.blogs = data.results.map((blog) => ({
           ...blog,
-        userVote: this.getUserVote(blog.ratings) as "Upvote" | "Downvote" | null // Dodali smo castovanje u odgovarajući tip
+        userVote: this.getUserVote(blog.ratings) as "Upvote" | "Downvote" | null
         }));
       },
       (error) => {
@@ -59,6 +63,24 @@ export class BlogComponentComponent implements OnInit {
         console.error("Error updating rating:", error);
       }
     );
+  }
+
+  applyFilter(): void {
+    if (!this.showActive && !this.showFamous) {
+      this.fetchBlogs();
+      return;
+    }
+  
+    this.blogs = this.blogs.filter(blog => {
+      if (this.showActive && this.showFamous) {
+        return blog.status === 2 || blog.status === 3;
+      } else if (this.showActive) {
+        return blog.status === 2;
+      } else if (this.showFamous) {
+        return blog.status === 3;
+      }
+      return true;
+    });
   }
   
   downvote(blog: Blog): void {

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BlogService } from '../blog.service';
 import { CommentService } from '../comment.service';
+import { Blog } from '../model/blog.model';
 import { Comment } from '../model/comment.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'xp-comment',
@@ -15,11 +16,24 @@ export class CommentComponent implements OnInit {
   comments: Comment[] = [];
   commentForm: FormGroup;
   shouldEdit: boolean = false;
-  currentCommentId: number | null = null;  // ID of the comment being edited
-  currentUserId: number = 1;  // Currently logged-in user ID, hardcoded for now
+  currentCommentId: number | null = null;
+  currentUserId: number = 1;
   blogId: string | null = null;
+  blog: Blog | null = null;
 
-  constructor(private fb: FormBuilder, private service: CommentService, private router: Router, private route: ActivatedRoute) {}
+  statusMap: { [key: number]: string } = {
+    0: 'Draft',
+    1: 'Published',
+    2: 'Active',
+    3: 'Famous',
+    4: 'Closed'
+  };
+
+  constructor(private fb: FormBuilder, 
+              private service: CommentService,
+              private router: Router, 
+              private route: ActivatedRoute,
+              private blogService: BlogService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -30,9 +44,25 @@ export class CommentComponent implements OnInit {
       text: ['', Validators.required]
     });
     this.getComments(Number(this.blogId));
+
+    this.fetchBlog(Number(this.blogId));
   }
 
-  // Fetch comments for a specific blog
+  showStatus(status: number): string {
+    return this.statusMap[status] || 'Unknown Status';
+  }
+
+  fetchBlog(id: number): void {
+    this.blogService.getOneBlog(id).subscribe({
+      next: (blog: Blog) => {
+        this.blog = blog;
+      },
+      error: (err) => {
+        console.error('Error fetching blog:', err);
+      }
+    });
+  }
+
   getComments(blogId: number): void {
     this.service.getCommentsByBlogId(blogId).subscribe({
       next: (comments: Comment[]) => {
@@ -48,7 +78,7 @@ export class CommentComponent implements OnInit {
     if (this.commentForm.valid) {
       const commentData = {
         ...this.commentForm.value,
-        blogId: Number(this.blogId),  // Inject blogId directly
+        blogId: Number(this.blogId),
         userId: this.currentUserId,
         createdAt: new Date(),
         lastModifiedAt: new Date()
@@ -57,8 +87,8 @@ export class CommentComponent implements OnInit {
       this.service.addComment(Number(this.blogId), commentData).subscribe({
         next: () => {
           console.log('Comment added successfully!');
-          this.getComments(Number(this.blogId));  // Reload comments after adding
-          this.commentForm.reset();  // Reset form
+          this.getComments(Number(this.blogId));
+          this.commentForm.reset();
         },
         error: (err) => {
           console.error('Error adding comment:', err);
@@ -73,15 +103,15 @@ export class CommentComponent implements OnInit {
       const updatedComment = {
         ...this.commentForm.value,
         id: this.currentCommentId,
-        userId: this.currentUserId  // Assume update is done by the current user
+        userId: this.currentUserId
       };
 
       this.service.updateComment(this.currentCommentId,Number(this.blogId), updatedComment).subscribe({
         next: () => {
           console.log('Comment updated successfully!');
-          this.getComments(Number(this.blogId));  // Reload comments after updating
-          this.commentForm.reset();  // Reset form
-          this.shouldEdit = false;  // Return to add mode
+          this.getComments(Number(this.blogId));
+          this.commentForm.reset();
+          this.shouldEdit = false;
           this.currentCommentId = null;
         },
         error: (err) => {
@@ -112,8 +142,8 @@ export class CommentComponent implements OnInit {
   
 
   onEditClick(comment: Comment): void { 
-    this.shouldEdit = true;  // Enter edit mode
-    this.currentCommentId = comment.id;  // Save the ID of the comment being edited
+    this.shouldEdit = true;
+    this.currentCommentId = comment.id;
     this.commentForm.patchValue({
       blogId: comment.blogId,
       text: comment.text
@@ -121,8 +151,8 @@ export class CommentComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    this.shouldEdit = false;  // Exit edit mode
-    this.commentForm.reset();  // Reset form
-    this.currentCommentId = null;  // Clear the current comment ID
+    this.shouldEdit = false;
+    this.commentForm.reset();
+    this.currentCommentId = null;
   }
 }

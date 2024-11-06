@@ -1,4 +1,16 @@
 <div class="blog-card-container">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" [(ngModel)]="showActive" (change)="applyFilter()" />
+            Show Active Blogs
+        </label>
+        <label>
+            <input type="checkbox" [(ngModel)]="showFamous" (change)="applyFilter()" />
+            Show Famous Blogs
+        </label>
+    </div>
+    <br>
+    <br>
     <div class="blog-card" *ngFor="let blog of blogs">
         <div class="blog-card-header">
             <h2>{{ blog.title }}</h2>
@@ -28,6 +40,8 @@
         </div>
     </div>
     <div>
-        <button (click)="createBlog()">Create Blog</button>
+        <div>
+            <button mat-raised-button color="primary" (click)="createBlog()">Create Blog</button>
+        </div>        
     </div>
 </div>

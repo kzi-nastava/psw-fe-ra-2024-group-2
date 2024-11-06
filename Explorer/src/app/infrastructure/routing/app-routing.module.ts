@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountManagementComponent } from 'src/app/feature-modules/administration/account-management/account-management.component';
 import { EquipmentComponent } from 'src/app/feature-modules/administration/equipment/equipment.component';
-import { ToursitClubComponent } from 'src/app/feature-modules/administration/toursit-club/toursit-club.component';
 import { RatingApplicationComponent } from 'src/app/feature-modules/administration/rating-application/rating-application.component';
 import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
+import { ToursitClubComponent } from 'src/app/feature-modules/administration/toursit-club/toursit-club.component';
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
-import { RatingApplicationComponent } from 'src/app/feature-modules/administration/rating-application/rating-application.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
 import { AddNewTourComponent } from 'src/app/feature-modules/tour-authoring/addNewTour/addNewTour.component';
 import { ClubComponent } from 'src/app/feature-modules/tour-authoring/club/club.component';
@@ -63,7 +62,6 @@ const routes: Routes = [
   {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
   {path: 'alltours/search', component: SearchToursComponent, canActivate: [AuthGuard]},
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
-  {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]}
   {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]},
   {path: 'create-blog', component: CreateBlogComponent, canActivate: [AuthGuard]},
 ];

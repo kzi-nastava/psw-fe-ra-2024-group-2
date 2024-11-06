@@ -1,3 +1,1 @@
-declare module 'marked' {
-    export type MarkedOptions = any;
-}
+export { Renderer as MarkedRenderer } from 'marked';
