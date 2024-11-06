@@ -29,7 +29,7 @@ export class ProfileService {
     updateTouristPosition(userId: number, positionDto: TouristPosition): Observable<Person> {
       return this.http.put<Person>(environment.apiHost + `person/${userId}/position`, positionDto);
     }
-    getTouristPosition(userId: number): Observable<TouristPosition>{
-      return this.http.get<TouristPosition>(environment.apiHost + `person/${userId}`);
+    getTouristPosition(userId: number): Observable<Person>{
+      return this.http.get<Person>(environment.apiHost + `person/${userId}`);
     }  
 }

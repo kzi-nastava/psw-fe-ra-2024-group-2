@@ -1,3 +1,22 @@
+.initial_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    flex-direction: column;
+}
+
+.map_and_button_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.action_button{
+    margin: 50px;
+}
+
+
 .position-selection-container {
     text-align: center; /* Center-align the text */
     margin-bottom: 20px; /* Add some space below */
@@ -14,6 +33,7 @@
 }
 
 .map-container {
+    width: 1000px;
     border-radius: 10px; /* Round the corners */
     overflow: hidden; /* Ensure no overflow outside the border */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
@@ -23,3 +43,35 @@ xp-map {
     width: 100%; /* Make the map take the full width */
     height: 400px; /* Set a fixed height for the map */
 }
+
+
+.btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    margin-left: 30px;
+  
+    &.btn-primary {
+      background-color: var(--primary-brown);
+      color: var(--white);
+  
+      &:hover {
+        background-color: var(--dark-brown);
+      }
+    }
+  
+    &.btn-accent {
+      background-color: var(--light-brown);
+      color: var(--dark-brown);
+  
+      &:hover {
+        background-color: var(--lighter-brown);
+      }
+    }
+  }
