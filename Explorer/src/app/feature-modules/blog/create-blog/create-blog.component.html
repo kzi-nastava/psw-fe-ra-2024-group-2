@@ -1,0 +1,67 @@
+<div class="form-section">
+    <form [formGroup]="blogForm" class="blog-form" (ngSubmit)="addBlog()">
+      <div class="form-header">
+        <h2>Create Blog</h2>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-label" for="title">Title</label>
+        <input
+          id="title"
+          class="form-control"
+          formControlName="title"
+          type="text"
+          placeholder="Enter blog title"
+          [ngClass]="{'is-invalid': isFieldInvalid('title')}"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('title')">
+          {{ getErrorMessage('title') }}
+        </div>
+      </div>
+  
+      <div class="markdown-editor">
+        <textarea
+          id="description"
+          class="form-control"
+          formControlName="description"
+          (input)="onMarkdownChange($event)"
+          placeholder="Enter blog description (supports Markdown)"
+          rows="10"
+        ></textarea>
+      
+        <div class="markdown-preview">
+          <h3>Preview:</h3>
+          <markdown [data]="markdownContent"></markdown>
+        </div>
+      </div>
+         
+      <div class="form-group">
+        <label class="form-label">Upload Images</label>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          multiple
+          accept="image/*"
+          class="form-control"
+        />
+  
+        <div class="image-preview-container" *ngIf="previewUrls.length > 0">
+          <div class="image-preview" *ngFor="let url of previewUrls; let i = index">
+            <img [src]="url" alt="Preview">
+            <button type="button" class="remove-image" (click)="removeImage(i)">×</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button
+          class="btn-submit"
+          type="submit"
+          [disabled]="blogForm.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? 'Creating...' : 'Create Blog' }}
+        </button>
+      </div>
+    </form>
+  </div>
+  

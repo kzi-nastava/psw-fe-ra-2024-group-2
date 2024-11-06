@@ -1,8 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms'; // Za reactive forme
-import { MaterialModule } from '../../infrastructure/material/material.module'; // Uveri se da imaš ispravan put ka MaterialModule
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MarkdownModule } from 'ngx-markdown';
+import { MaterialModule } from '../../infrastructure/material/material.module';
+import { BlogComponentComponent } from './blog-component/blog-component.component';
 import { CommentComponent } from './comment/comment.component';
+import { CreateBlogComponent } from './create-blog/create-blog.component';
 
 export interface PagedResult<T> {
   results: T[];
@@ -11,15 +14,20 @@ export interface PagedResult<T> {
 
 @NgModule({
   declarations: [
-    CommentComponent, // Komponente u BlogModule
+    CommentComponent,
+    BlogComponentComponent,
+    CreateBlogComponent,
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule, // Dodaj ReactiveFormsModule ako koristiš reactive forms
-    MaterialModule      // Dodaj MaterialModule ako koristiš Angular Material komponente
+    ReactiveFormsModule,
+    MaterialModule,
+    MarkdownModule.forRoot(),
+    FormsModule
   ],
   exports: [
-    CommentComponent // Eksportuješ CommentComponent ako ga koristiš van ovog modula
-  ]
+    CommentComponent
+  ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class BlogModule {}
