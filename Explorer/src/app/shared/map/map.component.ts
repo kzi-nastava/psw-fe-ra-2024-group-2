@@ -18,6 +18,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   @Input() objectCollection: Object[] | null = null;
   //@Input() checkpointCollection: any[] | null = null;
   @Input() checkpointObjectCollection: any[] | null = null;
+  @Input() checkpointCordinatesCollection: any[] | null = null;
   @Input() checkpointCollection: Checkpoint[] | null = null;
   @Input() editing: boolean = false;
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
@@ -175,8 +176,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if(this.markers.length == 0){
       if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
-        console.log(changes['touristPosition'].currentValue.position);
-        this.addTouristMarker(changes['touristPosition'].currentValue.position);
+        this.addTouristMarker(changes['touristPosition'].currentValue);
       }
     }
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
@@ -191,12 +191,26 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     if (changes['checkpointObjectCollection'] && changes['checkpointObjectCollection'].currentValue) {
       this.loadCheckpoints();
     }
+    if (changes['checkpointCordinatesCollection'] && changes['checkpointCordinatesCollection'].currentValue) {
+      this.setExecutionRoutes();
+    }
   }
+
+  private touristMarker: L.Marker | null = null; // Definišemo poseban marker za turistu
+
+
   private addTouristMarker(position: { latitude: number, longitude: number }): void {
-    // Clear existing tourist markers if any, then add a new one
-    const marker = L.marker([position.latitude, position.longitude]).addTo(this.map);
-    this.markers.push(marker);
-    marker.bindPopup('Current Tourist Position').openPopup();
+    // Ako marker već postoji, premesti ga na novu poziciju
+    if (this.touristMarker) {
+      this.touristMarker.setLatLng([position.latitude, position.longitude]);
+    } else {
+      // Ako marker ne postoji, kreiraj ga i dodaj na mapu
+      this.touristMarker = L.marker([position.latitude, position.longitude])
+        .addTo(this.map)
+        .bindPopup('Current Tourist Position')
+        .openPopup();
+      this.markers.push(this.touristMarker);
+    }
   }
 
   ngOnDestroy(): void {
@@ -207,6 +221,20 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     }
   }
   
+  private setExecutionRoutes(): void {
+    if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
+      const waypoints = this.checkpointCordinatesCollection.map(coords => 
+        L.latLng(coords.latitude, coords.longitude)
+      );
+      
+      L.Routing.control({
+        waypoints: waypoints,
+        routeWhileDragging: true,
+        router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' })
+      }).addTo(this.map);
+    }
+  }
+
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {

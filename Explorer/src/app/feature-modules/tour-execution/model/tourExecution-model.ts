@@ -7,4 +7,5 @@ export interface TourExecution {
     status: number;
     sessionEndingTime: Date;
     lastActivity: Date;
+    tourExecutionCheckpoints: any[];
   }
