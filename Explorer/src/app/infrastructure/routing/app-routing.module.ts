@@ -28,6 +28,7 @@ import { CreateBlogComponent } from '../../feature-modules/blog/create-blog/crea
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { SendMessageComponent } from 'src/app/feature-modules/stakeholders/send-message/send-message.component';
 
 
 const routes: Routes = [
@@ -64,6 +65,7 @@ const routes: Routes = [
   {path: 'addNewTour', component: AddNewTourComponent, canActivate: [AuthGuard]},
   {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]},
   {path: 'create-blog', component: CreateBlogComponent, canActivate: [AuthGuard]},
+  {path: 'profileMessaging', component: SendMessageComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

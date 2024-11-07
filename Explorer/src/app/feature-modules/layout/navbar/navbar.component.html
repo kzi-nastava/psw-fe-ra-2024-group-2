@@ -17,6 +17,15 @@
           <app-notification *ngIf="notificationsVisible"></app-notification>
         </div>
       </div>
+      <!-- Messaging Navigation -->
+    <div class="nav-item dropdown" *ngIf="user && user.role === 'tourist' 
+    || user && user.role ==='author'
+    || user && user.role==='administrator'">
+      <button class="dropdown-toggle">Messaging</button>
+      <div class="dropdown-content">
+        <button [routerLink]="['profileMessaging']">Send Message</button>
+      </div>
+    </div>
       <!-- Tourist Navigation -->
       <div class="nav-item dropdown" *ngIf="user && user.role === 'tourist'">
         <button class="dropdown-toggle">Tours & Activities</button>
