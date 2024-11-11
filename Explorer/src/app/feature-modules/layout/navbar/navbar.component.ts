@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/alltours'])
   }
   showPurchasedTours(): void{
-    this.router.navigate(['/purchasedTours'])
+    this.router.navigate(['/shopping-cart/purchasedTours'])
   }
   showReviews(): void{
     this.router.navigate(['/reviews'])

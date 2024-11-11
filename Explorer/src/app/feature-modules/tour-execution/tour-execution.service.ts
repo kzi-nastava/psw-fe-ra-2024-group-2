@@ -101,34 +101,15 @@ export class TourExecutionService {
     return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/alertAdmin', tourIssueReport)
   }
 
-  getToursForExecution(): Observable<PagedResult<ExecutionTour>> {
-    return this.http.get<PagedResult<any>>('https://localhost:44333/api/tourist/tourIssueReport')
-      .pipe(
-        map((response: any) => ({
-          ...response,
-          results: response.results.map((tour: any) => ({
-            id: tour.id,
-            userId: tour.userId,
-            name: tour.name,
-            description: tour.description,
-            difficulty: tour.difficulty,
-            tag: tour.tag,
-            status: tour.status,
-            price: tour.price,
-            equipment: tour.equipment,
-            checkpoints: tour.checkpoints,
-            tourDurationByTransportDtos: tour.tourDurationByTransportDtos?.map((dto: any) => ({
-              transportType: dto.transportType,
-              duration: dto.duration
-            }))
-          }))
-        }))
-      );
-  }
-
   addToCart(tourId: number): Observable<any> {
     return this.http.post(`https://localhost:44333/api/tourist/shopping-cart/add/${tourId}`, {});
   }
+
+  getPurchasedTours(): Observable<Tour[]> {
+    return this.http.get<Tour[]>('https://localhost:44333/api/tourist/shopping-cart/purchasedTours');
+  }
+
+  
 }
 
 

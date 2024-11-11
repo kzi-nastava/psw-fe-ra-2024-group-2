@@ -12,18 +12,23 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./purchased-tours.component.css']
 })
 export class PurchasedToursComponent implements OnInit {
-
   tours: Tour[] = [];
 
-  constructor(private service: TourExecutionService, private router: Router, private snackBar: MatSnackBar) {} 
-  
+  constructor(private service: TourExecutionService, private router: Router, private snackBar: MatSnackBar) {}
+
   ngOnInit(): void {
-    this.service.getTours().subscribe({
-      next: (result: PagedResult<Tour>) => {
-        this.tours = result.results;
+    this.service.getPurchasedTours().subscribe({
+      next: (tours: Tour[]) => {
+        console.log('Received purchased tours:', tours);
+        this.tours = tours;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error fetching purchased tours:', error);
+        this.snackBar.open('Error fetching purchased tours', 'Close', { duration: 3000 });
       }
     });
   }
+
 
   // Method to navigate to the reviews page for a specific tour
   showReviews(tourId: number): void {
@@ -74,4 +79,5 @@ export class PurchasedToursComponent implements OnInit {
         return 'Unknown';
     }
   }
+  
 }

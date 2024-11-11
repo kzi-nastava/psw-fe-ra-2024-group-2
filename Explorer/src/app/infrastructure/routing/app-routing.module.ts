@@ -67,7 +67,7 @@ const routes: Routes = [
   {path: 'tourIssueManagement/:tourIssueReportId', component: TourIssueManagementComponent, canActivate: [AuthGuard]},
   {path: 'create-blog', component: CreateBlogComponent, canActivate: [AuthGuard]},
   {path: 'profileMessaging', component: SendMessageComponent, canActivate: [AuthGuard]},
-  {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
+  {path: 'shopping-cart/purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
