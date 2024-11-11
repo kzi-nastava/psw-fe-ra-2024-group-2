@@ -10,6 +10,9 @@ import { environment } from 'src/env/environment';
 import { TourExecution } from './model/tourExecution-model';
 import { TouristPosition } from '../stakeholders/model/tourist-position';
 import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
+import { Tour as ExecutionTour } from './model/tour-model'; 
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -96,6 +99,35 @@ export class TourExecutionService {
 
   alertAdmin(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
     return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/alertAdmin', tourIssueReport)
+  }
+
+  getToursForExecution(): Observable<PagedResult<ExecutionTour>> {
+    return this.http.get<PagedResult<any>>('https://localhost:44333/api/tourist/tourIssueReport')
+      .pipe(
+        map((response: any) => ({
+          ...response,
+          results: response.results.map((tour: any) => ({
+            id: tour.id,
+            userId: tour.userId,
+            name: tour.name,
+            description: tour.description,
+            difficulty: tour.difficulty,
+            tag: tour.tag,
+            status: tour.status,
+            price: tour.price,
+            equipment: tour.equipment,
+            checkpoints: tour.checkpoints,
+            tourDurationByTransportDtos: tour.tourDurationByTransportDtos?.map((dto: any) => ({
+              transportType: dto.transportType,
+              duration: dto.duration
+            }))
+          }))
+        }))
+      );
+  }
+
+  addToCart(tourId: number): Observable<any> {
+    return this.http.post(`https://localhost:44333/api/tourist/shopping-cart/add/${tourId}`, {});
   }
 }
 

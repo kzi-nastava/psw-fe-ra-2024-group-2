@@ -3,6 +3,8 @@ import { Router } from '@angular/router'; // Import Router
 import { TourExecutionService } from '../tour-execution.service';
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { Tour } from '../model/tour-model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'xp-tours',
@@ -13,7 +15,7 @@ export class ToursComponent implements OnInit {
 
   tours: Tour[] = [];
 
-  constructor(private service: TourExecutionService, private router: Router) {} 
+  constructor(private service: TourExecutionService, private router: Router, private snackBar: MatSnackBar) {} 
   
   ngOnInit(): void {
     this.service.getTours().subscribe({
@@ -47,6 +49,27 @@ export class ToursComponent implements OnInit {
       error: (error) => {
         console.error('Failed to start the tour:', error); // Handle error
         // Optionally, show a user-friendly message or retry logic
+      }
+    });
+  }
+
+  addToCart(tourId: number): void {
+    this.service.addToCart(tourId).subscribe({
+      next: () => {
+        console.log('Successfully added to cart');
+        this.snackBar.open('Successfully added to cart!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top'
+        });
+      },
+      error: (error: any) => {  // eksplicitno definišemo tip error parametra
+        console.error('Error adding to cart:', error);
+        this.snackBar.open('Error adding to cart. Please try again.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top'
+        });
       }
     });
   }
