@@ -188,3 +188,7 @@
   align-items: center;
   justify-content: center;
 }
+.red-snackbar {
+  background-color: #f44336; /* Red background */
+  color: white; /* White text */
+}

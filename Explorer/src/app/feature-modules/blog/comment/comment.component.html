@@ -1,56 +1,57 @@
+<div class="BlogInfo">
+  <div *ngIf="blog" class="blog-details-container">
+    <h1>{{ blog.title }}</h1>
+    <p><strong>Date:</strong> {{ blog.date | date: 'longDate' }}</p>
+    <p><strong>Status:</strong> {{ showStatus(blog.status) }}</p>
+    <p><strong>Author ID:</strong> {{ blog.authorId }}</p>
+    
+    
+    <div class="blog-content">
+      <h2>Content</h2>
+      <p>{{ blog.description }}</p>
+    </div>
+  </div>
+  
+  <div *ngIf="!blog" class="error-message">
+    <p>Blog not found.</p>
+  </div>
+  
+</div>
 <div class="component">
   <h1>Comments</h1>
 
   <div class="two-column-layout">
-    <!-- Left Column - Comment Form -->
     <div class="column form-column">
       <div class="form-card">
-        <form [formGroup]="commentForm">
+        <form [formGroup]="commentForm" (ngSubmit)="addComment()">
           <div class="form-content">
-            <!-- Blog ID Field -->
-            <div class="form-field">
-              <label for="blogId">Blog ID</label>
-              <input id="blogId" type="text" formControlName="blogId" placeholder="Enter Blog ID" class="form-input">
-              <div class="error-message"
-                *ngIf="commentForm.get('blogId')?.invalid && commentForm.get('blogId')?.touched">
-                Blog ID is required
-              </div>
-            </div>
-
-            <!-- Comment Text Field -->
             <div class="form-field">
               <label for="text">Text</label>
-              <textarea id="text" formControlName="text" placeholder="Enter Comment Text" class="form-input"
-                rows="3"></textarea>
+              <textarea id="text" formControlName="text" placeholder="Enter Comment Text" class="form-input" rows="3"></textarea>
               <div class="error-message" *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
                 Comment text is required
               </div>
             </div>
-
-            <!-- Form Actions -->
+        
             <div class="form-actions">
-              <button *ngIf="!shouldEdit" type="submit" class="btn btn-primary" [disabled]="commentForm.invalid"
-                (click)="addComment()">
+              <button *ngIf="!shouldEdit" type="button" class="btn btn-primary" (click)="addComment()">
                 Add Comment
               </button>
-
-              <button *ngIf="shouldEdit" type="submit" class="btn btn-primary" [disabled]="commentForm.invalid"
-                (click)="updateComment()">
+        
+              <button *ngIf="shouldEdit" type="button" class="btn btn-primary" [disabled]="commentForm.invalid" (click)="updateComment()">
                 Update Comment
               </button>
-
+        
               <button *ngIf="shouldEdit" type="button" class="btn btn-error" (click)="cancelEdit()">
                 Cancel
               </button>
             </div>
           </div>
-        </form>
+        </form>        
       </div>
     </div>
 
-    <!-- Right Column - Table and Messages -->
     <div class="column table-column">
-      <!-- Table using regular HTML -->
       <div class="table-container">
         <table *ngIf="comments.length > 0">
           <thead>

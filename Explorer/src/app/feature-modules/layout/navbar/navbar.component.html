@@ -59,6 +59,7 @@
         <button class="dropdown-toggle"> Basics </button>
         <div class="dropdown-content">
           <button (click)="showProfile()">Profile</button>
+          <button (click)="showBlogs()">Blog</button>
           <button (click)="showComment()">Comment</button>
           <button *ngIf="user.role === 'tourist' || user.role === 'author'" [routerLink]="['rateApp']">
             Rate Application

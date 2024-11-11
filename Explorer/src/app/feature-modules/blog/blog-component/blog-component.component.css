@@ -1,0 +1,93 @@
+.checkbox{
+    width: 100%;
+}
+
+.blog-card-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.blog-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    width: calc(33.333% - 20px); /* Tri kartice po redu */
+    display: block;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px); /* Efekat dizanja pri hoveru */
+}
+
+.blog-card-header {
+    padding: 16px;
+    background-color: var(--lighter-brown);
+}
+
+.blog-card-header h2 {
+    margin: 0;
+    color: var(--dark-brown);
+}
+
+.blog-description {
+    color: var(--text-light);
+}
+
+.blog-card-body {
+    padding: 16px;
+}
+
+.blog-date,
+.blog-status,
+.blog-author {
+    color: var(--text-dark);
+    margin: 4px 0;
+}
+
+.blog-card-footer {
+    display: flex;
+    flex-direction: column; /* Postavljanje dugmadi vertikalno */
+    padding: 16px;
+    background-color: var(--white);
+    border-top: 1px solid var(--light-brown); /* Linija iznad dugmadi */
+}
+
+.open-blog {
+    margin-bottom: 10px; /* Razmak između dugmeta za otvaranje i dugmadi za ocenjivanje */
+}
+
+.rating-buttons {
+    display: flex;
+    gap: 0; /* Smanjen razmak između dugmadi */
+}
+
+.rating-button {
+    flex: 1; /* Dugmad zauzimaju jednake delove */
+    background-color: var(--primary-brown);
+    color: var(--white);
+    border: none;
+    padding: 10px; /* Unutrašnji razmak */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.rating-button:hover {
+    background-color: var(--dark-brown);
+}
+
+.rating-button.highlighted {
+    background-color: var(--dark-brown); /* Naglašena boja ako je ocenjeno */
+}
+
+.rating-icon {
+    width: 20px; /* Veličina ikone */
+    height: 20px; /* Veličina ikone */
+    margin-right: 5px; /* Razmak između ikone i teksta */
+}

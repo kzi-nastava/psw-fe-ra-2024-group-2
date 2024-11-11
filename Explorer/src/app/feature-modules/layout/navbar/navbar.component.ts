@@ -62,10 +62,14 @@ export class NavbarComponent implements OnInit {
   showObjects(): void{
     this.router.navigate(['/objects'])
   }
+
   showObjectsForUpdate(): void{
     this.router.navigate(['/objectsTable'])
   }
 
+  showBlogs(): void{
+    this.router.navigate(['/blog'])
+  }
 
   showComment(): void{
     this.router.navigate(['/comment'])
