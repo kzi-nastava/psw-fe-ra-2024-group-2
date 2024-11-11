@@ -24,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TourReportingComponent,
     ReportFormComponent,
     SearchToursComponent,
-    TourIssueManagementComponent
+    TourIssueManagementComponent,
+    PurchasedToursComponent
   ],
   imports: [
     CommonModule,
