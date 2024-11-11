@@ -54,7 +54,7 @@
 
           <div class="tour-tag">
             <span class="icon">🏷</span>
-            Tour ID: {{ tour.tag }}
+            Tour ID: {{ tour.id }}
           </div>
         </div>
 
@@ -62,14 +62,6 @@
           <button class="btn btn-primary" (click)="showReviews(tour.id)">
             <span class="icon">★</span>
             Reviews
-          </button>
-          <button class="btn btn-accent" (click)="goToReviewForm(tour.id)">
-            <span class="icon">✎</span>
-            Write Review
-          </button>
-          <button class="btn btn-accent" (click)="startTour(tour.id)">
-            <span class="icon">✎</span>
-            Start Tour
           </button>
           <button class="btn btn-accent" (click)="addToCart(tour.id)">
             <span class="icon">🛒</span>
