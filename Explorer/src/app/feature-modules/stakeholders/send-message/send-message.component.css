@@ -1,0 +1,36 @@
+/* Stil za centralizaciju kartice */
+.send-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  /* Stil za karticu */
+  mat-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+  }
+  
+  /* Razmak ispod naslova */
+  mat-card-title {
+    margin-bottom: 16px; /* Podesite prema potrebi */
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Stil za širinu form-fieldova */
+  .full-width {
+    width: 100%;
+  }
+  
+  /* Razmak iznad dugmeta za slanje */
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  

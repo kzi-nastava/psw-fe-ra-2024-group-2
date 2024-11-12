@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 @NgModule({
-  declarations: [],
+    declarations: [
+      ShoppingCartComponent
+    ],
   imports: [
     CommonModule
-  ]
-})
-export class MarketplaceModule { }
+  ],
+    exports: [
+      ShoppingCartComponent  // Mora biti exportovan
+    ]
+  })
+  export class MarketplaceModule { }
