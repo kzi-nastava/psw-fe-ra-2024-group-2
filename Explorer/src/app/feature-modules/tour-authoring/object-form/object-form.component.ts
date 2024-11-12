@@ -88,7 +88,11 @@ addObject(): void {
         this.clearForm();  
       },
       error: (err) => {
-        console.error("Error adding object:", err);
+        if (err.status === 409) { // Check if the error code is 409
+          console.error("Image already exists!");
+        } else {
+          console.error("Error adding object:", err);
+        }
       }
     });
   } else {
