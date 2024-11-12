@@ -6,6 +6,7 @@ import { Tour } from '../model/tour-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
+import { ShoppingCartService } from '../../marketplace/services/shopping-cart.service';
 
 @Component({
   selector: 'xp-tours',
@@ -19,7 +20,8 @@ export class ToursComponent implements OnInit {
   constructor(
     private service: TourExecutionService, 
     private router: Router, 
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cartService: ShoppingCartService // Uključujemo ShoppingCartService za proveru korpe
   ) {} 
   
   ngOnInit(): void {
@@ -57,31 +59,50 @@ export class ToursComponent implements OnInit {
   }
 
   addToCart(tourId: number): void {
-    this.service.addToCart(tourId).subscribe({
-      next: () => {
-        console.log('Successfully added to cart');
-        this.snackBar.open('Successfully added to cart!', 'Close', {
+    // Provera da li je stavka već u korpi
+    this.cartService.isItemInCart(tourId).subscribe(isInCart => {
+      if (isInCart) {
+        // Ako je stavka već u korpi, prikazujemo poruku i izlazimo iz metode
+        this.snackBar.open('This item is already in your cart!', 'Close', {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'top'
         });
-        // Ovde dodajemo poziv za otvaranje cart komponente
-        if (this.shoppingCart) {
-          this.shoppingCart.toggleCart();
-          this.shoppingCart.loadCartItems(); // Osvežavamo items u cart-u
-        }
-      },
-      error: (error: any) => {
-        console.error('Error adding to cart:', error);
-        this.snackBar.open('Error adding to cart. Please try again.', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
+        return;
       }
+  
+      // Ako stavka nije u korpi, dodajemo je
+      this.service.addToCart(tourId).subscribe({
+        next: () => {
+          console.log('Successfully added to cart');
+          this.snackBar.open('Successfully added to cart!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
+  
+          // Provera da li je shopping cart otvoren pre poziva toggleCart
+          if (this.shoppingCart) {
+            this.shoppingCart.loadCartItems(); // Osvežavamo stavke u korpi
+            
+            // Ako korpa nije otvorena, pozivamo toggleCart da je otvorimo
+            if (!this.shoppingCart.isOpen) {
+              this.shoppingCart.toggleCart();
+            }
+          }
+        },
+        error: (error: any) => {
+          console.error('Error adding to cart:', error);
+          this.snackBar.open('Error adding to cart. Please try again.', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
+        }
+      });
     });
   }
-
+  
   getDifficultyLabel(difficulty: number): string {
     switch (difficulty) {
       case 0:
