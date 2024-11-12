@@ -1,15 +1,15 @@
-// tour-preference.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 
 @Component({
-  selector: 'app-tour-preference',
+  selector: 'xp-tour-preference',
   templateUrl: './tour-preference.component.html',
   styleUrls: ['./tour-preference.component.css']
 })
 export class TourPreferenceComponent implements OnInit {
   preferenceForm: FormGroup;
+  currentPreferences: any = null;
   
   availableTags = [
     { id: 'adventure', name: 'Adventure' },
@@ -25,6 +25,10 @@ export class TourPreferenceComponent implements OnInit {
     private fb: FormBuilder,
     private tourPreferenceService: TourAuthoringService,
   ) {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.preferenceForm = this.fb.group({
       difficulty: ['Easy', Validators.required],
       walkRating: [0, [Validators.required, Validators.min(0), Validators.max(3)]],
@@ -42,8 +46,8 @@ export class TourPreferenceComponent implements OnInit {
   loadUserPreferences(): void {
     this.tourPreferenceService.getPreferences().subscribe({
       next: (preferences) => {
-        if (preferences) {
-          this.preferenceForm.patchValue(preferences);
+        if (preferences && preferences.results && preferences.results.length > 0) {
+          this.currentPreferences = preferences.results[0];
         }
       },
       error: (error) => {
@@ -54,14 +58,34 @@ export class TourPreferenceComponent implements OnInit {
 
   onSubmit(): void {
     if (this.preferenceForm.valid) {
-      this.tourPreferenceService.createPreference(this.preferenceForm.value).subscribe({
-        next: () => {
-          console.log('Preferences saved successfully');
-        },
-        error: (error) => {
-          console.error('Failed to save preferences:', error);
-        }
-      });
+      const preferenceData = {
+        ...this.preferenceForm.value,
+        id: this.currentPreferences?.id || 0
+      };
+      
+      if (this.currentPreferences) {
+        // Update existing preferences
+        this.tourPreferenceService.updatePreference(preferenceData).subscribe({
+          next: () => {
+            console.log('Preferences updated successfully');
+            this.loadUserPreferences(); // Refresh the display
+          },
+          error: (error) => {
+            console.error('Failed to update preferences:', error);
+          }
+        });
+      } else {
+        // Create new preferences
+        this.tourPreferenceService.createPreference(preferenceData).subscribe({
+          next: () => {
+            console.log('Preferences saved successfully');
+            this.loadUserPreferences(); // Refresh the display
+          },
+          error: (error) => {
+            console.error('Failed to save preferences:', error);
+          }
+        });
+      }
     }
   }
 

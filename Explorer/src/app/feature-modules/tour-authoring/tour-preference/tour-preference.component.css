@@ -1,10 +1,26 @@
-/* tour-preference.component.css */
-.preference-container {
+.main-container {
+    padding: 2rem;
+  }
+  
+  .preferences-content {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .preference-form,
+  .preference-display {
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .preference-container {
     background-color: #DEB887;
     border-radius: 12px;
     padding: 2rem;
     width: 100%;
-    max-width: 600px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   
@@ -27,8 +43,12 @@
   
   .form-label {
     color: #5C4033;
-    font-weight: 600;
-    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .fw-bold {
+    font-weight: 600 !important;
   }
   
   .custom-select {
@@ -54,8 +74,7 @@
   }
   
   .icon-container {
-    font-size: 2rem;
-    color: #5C4033;
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
     height: 40px;
     display: flex;
@@ -74,6 +93,56 @@
     text-align: center;
     background-color: white;
     border: 1px solid #8B7355;
+  }
+  
+  .transport-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .transport-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .transport-icon {
+    font-size: 1.2rem;
+  }
+  
+  .transport-name {
+    font-weight: 500;
+    color: #5C4033;
+  }
+  
+  .rating-badge {
+    background-color: #8B7355;
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .rating-item {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+  
+  .rating-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .rating-item.has-rating .transport-info {
+    border-color: #8B7355;
+    background-color: rgba(139, 115, 85, 0.1);
   }
   
   .tags-container {
@@ -106,6 +175,31 @@
     color: white;
   }
   
+  .tags-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .interest-tag {
+    background-color: #8B7355;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .difficulty-badge {
+    background-color: #8B7355;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
   .submit-btn {
     background-color: #8B7355;
     color: white;
@@ -124,13 +218,25 @@
     background-color: #ccc;
   }
   
+  .no-tags {
+    color: #5C4033;
+    font-style: italic;
+  }
+  
   /* Responsive adjustments */
-  @media (max-width: 576px) {
-    .preference-container {
-      margin: 1rem;
-      padding: 1.5rem;
+  @media (max-width: 1200px) {
+    .preferences-content {
+      flex-direction: column;
+      align-items: center;
     }
   
+    .preference-form,
+    .preference-display {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
     .transport-grid {
       grid-template-columns: 1fr;
       gap: 1rem;

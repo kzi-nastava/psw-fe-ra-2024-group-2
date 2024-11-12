@@ -103,4 +103,8 @@ export class TourAuthoringService {
   createPreference(preference: any): Observable<any> {
     return this.http.post('https://localhost:44333/api/tourist/tour/preferences', preference);
   }
+
+  updatePreference(preference: any): Observable<any> {
+    return this.http.put('https://localhost:44333/api/tourist/tour/preferences', preference);
+  }
 }
