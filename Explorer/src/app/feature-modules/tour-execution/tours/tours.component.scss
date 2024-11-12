@@ -241,4 +241,111 @@
       background-color: var(--lighter-brown);
     }
   }
+
+  .tour-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: var(--lighter-brown);
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  
+  .info-content {
+    flex: 1;
+  }
+  
+  .info-label {
+    font-size: 0.875rem;
+    color: var(--text-light);
+  }
+  
+  .info-value {
+    font-weight: 500;
+    color: var(--dark-brown);
+  }
+  
+  .checkpoints-section {
+    margin: 1.5rem 0;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--lighter-brown);
+  }
+  
+  .checkpoints-section h4 {
+    padding: 1rem;
+    margin: 0;
+    border-bottom: 1px solid var(--lighter-brown);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .checkpoint-list {
+    padding: 1rem;
+  }
+  
+  .checkpoint-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--lighter-brown);
+  }
+  
+  .checkpoint-item:last-child {
+    border-bottom: none;
+  }
+  
+  .checkpoint-content {
+    flex: 1;
+  }
+  
+  .checkpoint-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .checkpoint-description {
+    font-size: 0.875rem;
+    color: var(--text-light);
+  }
+  
+  .transport-times {
+    margin: 1.5rem 0;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--lighter-brown);
+  }
+  
+  .transport-times h4 {
+    padding: 1rem;
+    margin: 0;
+    border-bottom: 1px solid var(--lighter-brown);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .transport-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+  }
+  
+  .transport-item:last-child {
+    border-bottom: none;
+  }
+  
+  .transport-info {
+    flex: 1;
+  }
 }

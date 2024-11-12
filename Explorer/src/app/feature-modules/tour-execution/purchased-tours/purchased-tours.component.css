@@ -1,0 +1,128 @@
+.container {
+    padding: 1rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .col-4 {
+    flex: 0 0 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+  }
+  
+  .badge {
+    padding: 5px 15px;
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .badge-difficulty-0,
+  .badge-difficulty-1,
+  .badge-difficulty-2 {
+    background-color: #90EE90;
+    color: #006400;
+  }
+  
+  .badge-status-0,
+  .badge-status-1,
+  .badge-status-2 {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+  }
+  
+  .tour-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin: 10px;
+    padding: 15px;
+    background-color: var(--lighter-brown);
+    border: 1px solid #e0d5c7;
+  }
+  
+  .tour-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+  }
+  
+  .tour-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--lighter-brown);
+    background-color: var(--lighter-brown);
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .tour-content {
+    padding: 1.25rem;
+    flex-grow: 1;
+  }
+  
+  .tour-price {
+    background-color: var(--lighter-brown);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease;
+  }
+  
+  .tour-price:hover {
+    transform: scale(1.02);
+  }
+  
+  .tour-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .tour-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary, 
+  .btn-accent {
+    background-color: var(--light-brown);
+    color: var(--dark-brown);
+  }
+  
+  .btn-primary:hover, 
+  .btn-accent:hover {
+    background-color: var(--primary-brown);
+    color: white;
+    transform: translateY(-2px);
+  }
