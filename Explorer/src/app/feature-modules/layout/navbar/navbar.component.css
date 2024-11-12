@@ -162,3 +162,15 @@
 .justify-content-between {
     justify-content: space-between;
 }
+
+.cart-sidebar-container {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Initial state */
+    transition: right 0.3s ease;
+  }
+  
+  .cart-sidebar-container.open {
+    right: 0; /* When open */
+  }
+  

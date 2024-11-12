@@ -10,6 +10,9 @@ import { environment } from 'src/env/environment';
 import { TourExecution } from './model/tourExecution-model';
 import { TouristPosition } from '../stakeholders/model/tourist-position';
 import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
+import { Tour as ExecutionTour } from './model/tour-model'; 
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -97,6 +100,16 @@ export class TourExecutionService {
   alertAdmin(tourIssueReport: TourIssueReport) : Observable<TourIssueReport>{
     return this.http.put<TourIssueReport>('https://localhost:44333/api/tourist/tourIssueReport/alertAdmin', tourIssueReport)
   }
+
+  addToCart(tourId: number): Observable<any> {
+    return this.http.post(`https://localhost:44333/api/tourist/shopping-cart/add/${tourId}`, {});
+  }
+
+  getPurchasedTours(): Observable<Tour[]> {
+    return this.http.get<Tour[]>('https://localhost:44333/api/tourist/shopping-cart/purchasedTours');
+  }
+
+  
 }
 
 

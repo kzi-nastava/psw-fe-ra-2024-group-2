@@ -15,5 +15,12 @@
         </div>
         <button (click)="endTour()" class="btn btn-accent">
             {{ executedCheckpoints.length === 0 ? 'Finish Tour' : 'Abandon Tour' }}
-        </button>    </div>
+        </button> 
+    </div>    
+        <div class="checkpoint-secrets-container">
+            <div *ngIf="secret" class="secret-card">
+                <p>Secret: {{ secret }}</p>
+            </div>  
+        </div>
+           
 </div>

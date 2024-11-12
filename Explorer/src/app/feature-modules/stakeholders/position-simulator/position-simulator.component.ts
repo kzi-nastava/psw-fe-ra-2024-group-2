@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
 import { TourExecution } from '../../tour-execution/model/tourExecution-model';
 import { Router } from '@angular/router';
+import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -19,11 +21,14 @@ export class PositionSimulatorComponent {
   tourExecution: TourExecution; 
   executedCheckpoints : any[] = [];
   checkpointCordinates: any[] = [];
+  currentExeCheckpoints: any[] = [];
+  checkpoints: Checkpoint[] = [];
   user: User | undefined;
   clearMarkersFlag: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
   intervalId: any;
-  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router) {}
+  secret: string | null = null;
+  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef  ) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -101,10 +106,6 @@ export class PositionSimulatorComponent {
     }, 10000); 
   }
 
-
-
-
-
   clearMarkers(){
     this.clearMarkersFlag = true;
   }
@@ -146,8 +147,31 @@ export class PositionSimulatorComponent {
       this.execService.checkTouristPosition(this.touristPosition).subscribe({
         next: (currentExe: TourExecution) => {
           console.log('Current exe after saving:', currentExe);
-          this.tourExecution = currentExe;
+          // KOMPARACIJA OVDE
+          const checkpointIds = currentExe.tourExecutionCheckpoints
+          .filter(checkpoint => checkpoint.arrivalAt !== null)
+          .map(checkpoint => checkpoint.checkpointId);
+          
+        //console.log("Checkpoint IDs with null ArrivalAt:", checkpointIds);
+          this.execService.getTourCheckpoints(checkpointIds).subscribe({
+            next: (checkpoints: any) => {
+              this.currentExeCheckpoints = checkpoints.results;
+              console.log("TAJNA: ");
+              this.currentExeCheckpoints.forEach(ch => {
+                console.log(ch.secret);
+                if(this.secret != ch.secret){
+                  this.secret = ch.secret;
+                }
+              });
+              this.currentExeCheckpoints = [];
+            },
+            error: (error) => {
+              console.error('Error fetching checkpoints:', error);
+          }});
+
+          this.tourExecution = currentExe; 
           this.updateCheckpoints();
+          
         },
         error: (error) => {
           console.error('Error checking tourist position:', error);
@@ -155,6 +179,11 @@ export class PositionSimulatorComponent {
 
       });
     }
+  }
+
+  showSecret(sec: any): void{
+    this.secret = sec;
+    //this.cdr.detectChanges(); // Trigger change detection
   }
 
   endTour(): void {
