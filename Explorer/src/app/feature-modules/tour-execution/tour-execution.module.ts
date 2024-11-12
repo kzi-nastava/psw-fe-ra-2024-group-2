@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
+import { MarketplaceModule } from '../marketplace/marketplace.module';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { PurchasedToursComponent } from './purchased-tours/purchased-tours.compo
     SharedModule,
     MatTableModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MarketplaceModule
   ],
   exports:[
     TourReviewComponent,
