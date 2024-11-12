@@ -1,0 +1,47 @@
+<div class="blog-card-container">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" [(ngModel)]="showActive" (change)="applyFilter()" />
+            Show Active Blogs
+        </label>
+        <label>
+            <input type="checkbox" [(ngModel)]="showFamous" (change)="applyFilter()" />
+            Show Famous Blogs
+        </label>
+    </div>
+    <br>
+    <br>
+    <div class="blog-card" *ngFor="let blog of blogs">
+        <div class="blog-card-header">
+            <h2>{{ blog.title }}</h2>
+            <p class="blog-description">{{ blog.description }}</p>
+        </div>
+        <div class="blog-card-body">
+            <p class="blog-date">{{ blog.date | date: 'longDate' }}</p>
+            <p class="blog-status">Status: {{ blog.status }}</p>
+            <p class="blog-author">Author ID: {{ blog.authorId }}</p>
+        </div>
+        <div class="blog-card-footer">
+            <button class="mat-button open-blog" (click)="goToBlog(blog)">Open Blog</button>
+            <div class="rating-buttons">
+                <button 
+                    class="rating-button" 
+                    (click)="upvote(blog)" 
+                    [ngClass]="{'highlighted': blog.userVote === 'Upvote'}">
+                    <img src="assets/like.png" alt="Like" class="rating-icon"> 
+                </button>
+                <button 
+                    class="rating-button" 
+                    (click)="downvote(blog)" 
+                    [ngClass]="{'highlighted': blog.userVote === 'Downvote'}">
+                    <img src="assets/dislike.png" alt="Dislike" class="rating-icon"> 
+                </button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <button mat-raised-button color="primary" (click)="createBlog()">Create Blog</button>
+        </div>        
+    </div>
+</div>
