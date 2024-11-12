@@ -157,7 +157,7 @@ export class PositionSimulatorComponent {
           const checkpointIds = currentExe.tourExecutionCheckpoints
           .filter(checkpoint => checkpoint.arrivalAt !== null)
           .map(checkpoint => checkpoint.checkpointId);
-        
+          
         //console.log("Checkpoint IDs with null ArrivalAt:", checkpointIds);
           this.execService.getTourCheckpoints(checkpointIds).subscribe({
             next: (checkpoints: any) => {
@@ -165,7 +165,9 @@ export class PositionSimulatorComponent {
               console.log("TAJNA: ");
               this.currentExeCheckpoints.forEach(ch => {
                 console.log(ch.secret);
-                this.showSecret(ch.secret);
+                if(this.secret != ch.secret){
+                  this.secret = ch.secret;
+                }
               });
               this.currentExeCheckpoints = [];
             },
