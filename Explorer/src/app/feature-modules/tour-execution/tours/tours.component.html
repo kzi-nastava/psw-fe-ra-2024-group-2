@@ -1,8 +1,6 @@
 <div class="container">
   <div class="mb-4">
-    <button 
-      class="btn btn-primary" 
-      (click)="gotoTourSearch()">
+    <button class="btn btn-primary" (click)="gotoTourSearch()">
       <span class="icon">🔍</span>
       Search Tours
     </button>
@@ -10,7 +8,7 @@
 
   <div class="row">
     <div class="col-4" *ngFor="let tour of tours">
-      <div class="tour-card">
+      <div class="tour-card" *ngIf="tour.status !== 2">
         <div class="tour-header">
           <h3 class="tour-title">{{ tour.name }}</h3>
           <div class="tour-meta">
@@ -54,7 +52,7 @@
 
           <div class="tour-tag">
             <span class="icon">🏷</span>
-            Tour ID: {{ tour.tag }}
+            Tour ID: {{ tour.id }}
           </div>
         </div>
 
@@ -63,16 +61,13 @@
             <span class="icon">★</span>
             Reviews
           </button>
-          <button class="btn btn-accent" (click)="goToReviewForm(tour.id)">
-            <span class="icon">✎</span>
-            Write Review
-          </button>
-          <button class="btn btn-accent" (click)="startTour(tour.id)">
-            <span class="icon">✎</span>
-            Start Tour
+          <button class="btn btn-accent" (click)="addToCart(tour.id)">
+            <span class="icon">🛒</span>
+            Add to Cart
           </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+<xp-shopping-cart></xp-shopping-cart>

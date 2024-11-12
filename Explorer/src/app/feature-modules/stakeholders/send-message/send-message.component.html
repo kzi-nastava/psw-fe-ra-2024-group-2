@@ -1,0 +1,29 @@
+<div class="send-message-container">
+    <mat-card>
+      <mat-card-title>Send Message</mat-card-title>
+      <mat-card-content>
+        <form (ngSubmit)="sendMessage()" #messageForm="ngForm" class="message-form">
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Recipient ID</mat-label>
+            <input matInput type="number" [(ngModel)]="profileMessage.recipientId" name="recipientId" required />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Message Text</mat-label>
+            <textarea matInput rows="3" [(ngModel)]="profileMessage.text" name="text" required></textarea>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Resource</mat-label>
+            <input matInput type="text" [(ngModel)]="profileMessage.resource" name="resource" />
+          </mat-form-field>
+  
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Send Message</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

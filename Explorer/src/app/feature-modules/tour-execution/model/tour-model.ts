@@ -1,3 +1,6 @@
+import { Checkpoint } from "../../tour-authoring/model/checkpoint.model";
+import { TourDurationByTransportDtos } from "../../tour-authoring/model/tourDurationByTransportDtos.model";
+
 export interface Tour {
     id: number;
     userId: number;
@@ -8,4 +11,8 @@ export interface Tour {
     tag: number;
     status: number;
     price: number;
+    checkpoints: number[];  // List of checkpoints
+    tourDurationByTransportDtos: TourDurationByTransportDtos[];
 }
+
+
