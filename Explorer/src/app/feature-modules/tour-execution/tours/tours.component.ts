@@ -20,6 +20,7 @@ export class ToursComponent implements OnInit {
   ngOnInit(): void {
     this.service.getTours().subscribe({
       next: (result: PagedResult<Tour>) => {
+        this.tours = this.tours.filter(tour => tour.status !== 2);
         this.tours = result.results;
       }
     });

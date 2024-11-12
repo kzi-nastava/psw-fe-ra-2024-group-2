@@ -1,8 +1,6 @@
 <div class="container">
   <div class="mb-4">
-    <button 
-      class="btn btn-primary" 
-      (click)="gotoTourSearch()">
+    <button class="btn btn-primary" (click)="gotoTourSearch()">
       <span class="icon">🔍</span>
       Search Tours
     </button>
@@ -10,7 +8,7 @@
 
   <div class="row">
     <div class="col-4" *ngFor="let tour of tours">
-      <div class="tour-card">
+      <div class="tour-card" *ngIf="tour.status !== 2">
         <div class="tour-header">
           <h3 class="tour-title">{{ tour.name }}</h3>
           <div class="tour-meta">

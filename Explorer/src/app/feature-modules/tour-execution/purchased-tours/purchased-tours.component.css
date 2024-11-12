@@ -11,11 +11,36 @@
   .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 20px;
+    padding: 20px;
   }
   
   .col-4 {
-    flex: 0 0 calc(33.333% - 0.67rem);
+    flex: 0 0 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+  }
+  
+  .badge {
+    padding: 5px 15px;
+    border-radius: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .badge-difficulty-0,
+  .badge-difficulty-1,
+  .badge-difficulty-2 {
+    background-color: #90EE90;
+    color: #006400;
+  }
+  
+  .badge-status-0,
+  .badge-status-1,
+  .badge-status-2 {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
   }
   
   .tour-card {
@@ -28,6 +53,10 @@
     overflow: hidden;
     transition: all 0.3s ease;
     border: 1px solid rgba(0,0,0,0.05);
+    margin: 10px;
+    padding: 15px;
+    background-color: var(--lighter-brown);
+    border: 1px solid #e0d5c7;
   }
   
   .tour-card:hover {
@@ -60,67 +89,40 @@
     transform: scale(1.02);
   }
   
-  .tour-actions {
-    padding: 1.25rem;
+  .tour-meta {
     display: flex;
-    gap: 0.75rem;
-    border-top: 1px solid var(--lighter-brown);
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .tour-actions {
+    display: flex;
+    gap: 10px;
     margin-top: auto;
-    background-color: rgba(255,255,255,0.8);
   }
   
   .btn {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: none;
+    padding: 8px 16px;
     border-radius: 6px;
-    font-weight: 500;
+    border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 5px;
+    transition: all 0.2s ease;
   }
   
-  .btn-primary {
-    background-color: var(--primary-brown);
-    color: var(--white);
-  }
-  
-  .btn-primary:hover {
-    background-color: var(--dark-brown);
-    transform: translateY(-2px);
-  }
-  
+  .btn-primary, 
   .btn-accent {
     background-color: var(--light-brown);
     color: var(--dark-brown);
   }
   
+  .btn-primary:hover, 
   .btn-accent:hover {
-    background-color: var(--lighter-brown);
+    background-color: var(--primary-brown);
+    color: white;
     transform: translateY(-2px);
-  }
-  
-  .badge {
-    border-radius: 20px;
-    padding: 0.4rem 1rem;
-    transition: transform 0.2s ease;
-  }
-  
-  .badge:hover {
-    transform: scale(1.05);
-  }
-  
-  @media (max-width: 1200px) {
-    .col-4 {
-      flex: 0 0 calc(50% - 0.5rem);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .col-4 {
-      flex: 0 0 100%;
-    }
   }

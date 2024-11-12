@@ -21,7 +21,6 @@
           </div>
   
           <div class="tour-content">
-          
             <div class="tour-description">
               {{ tour.description }}
             </div>
@@ -42,6 +41,11 @@
             <div class="tour-tag">
               <span class="icon">🏷</span>
               Tour ID: {{ tour.id }}
+            </div>
+  
+            <div class="tour-duration" *ngFor="let duration of tour.tourDurationByTransportDtos">
+              <span class="icon">⏱</span>
+              Duration ({{ duration.transport }}): {{ duration.duration }} hours
             </div>
           </div>
   

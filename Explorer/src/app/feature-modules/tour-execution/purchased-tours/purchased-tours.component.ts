@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router';
 import { TourExecutionService } from '../tour-execution.service';
-import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { Tour } from '../model/tour-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,7 +13,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class PurchasedToursComponent implements OnInit {
   tours: Tour[] = [];
 
-  constructor(private service: TourExecutionService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(
+    private service: TourExecutionService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.service.getPurchasedTours().subscribe({
@@ -30,7 +33,6 @@ export class PurchasedToursComponent implements OnInit {
   }
 
 
-  // Method to navigate to the reviews page for a specific tour
   showReviews(tourId: number): void {
     this.router.navigate(['/reviews', tourId]); // Navigates to /reviews/:tourId
   }
@@ -79,5 +81,6 @@ export class PurchasedToursComponent implements OnInit {
         return 'Unknown';
     }
   }
+  
   
 }
