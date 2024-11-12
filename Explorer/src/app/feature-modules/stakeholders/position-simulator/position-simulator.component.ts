@@ -77,18 +77,12 @@ export class PositionSimulatorComponent {
 
   getCheckpointCoordinates(): { latitude: number, longitude: number }[] {
 
-
     if (!this.touristPosition || !this.tourExecution) {
       return [];
     }
-    //console.log("Tourist position:", this.touristPosition);
     return [
-      { latitude: this.touristPosition.latitude, longitude: this.touristPosition.longitude },
+      { latitude: this.touristPosition.latitude, longitude: this.touristPosition.longitude},
       ...this.executedCheckpoints
-        .map(checkpoint => ({
-          latitude: checkpoint.latitude,
-          longitude: checkpoint.longitude
-        }))
     ];
   }
 

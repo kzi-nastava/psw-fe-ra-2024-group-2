@@ -25,6 +25,8 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
   @Output() markerClicked = new EventEmitter<[number, number]>();
   @Input() touristPosition: { latitude: number, longitude: number } | null = null;
+  @Input() isClickDisabled: boolean = false;  
+  private routingControl: L.Routing.Control | null = null;  
 
   constructor(private mapService: MapService) {}
 
@@ -71,10 +73,17 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         });
         var markerOptions = {
           icon: customIcon,
-          draggable: true
+          draggable: false
         }
 
-        const mp = new L.Marker([element.latitude, element.longitude],markerOptions).addTo(this.map);
+        const mp = new L.Marker([element.latitude, element.longitude],markerOptions).addTo(this.map).bindPopup(`<div style="width: 200px">
+          <h2 style="margin: 0;">${element.name}</h2>
+          <p>${element.description || 'No description available.'}</p>
+          <img src="data:${element.image?.mimeType};base64,${element.image?.data}" 
+              alt="Checkpoint Image" 
+              class="checkpoint-image" 
+              style="width: 200px; max-height: 150px;">
+        </div>`).openPopup();;
       });
     }
   }
@@ -82,7 +91,8 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   private loadCheckpoints(): void{
     if (this.checkpointCollection != null) {
       this.checkpointCollection.forEach(element => {
-        const mp = new L.Marker([element.latitude, element.longitude]).addTo(this.map);
+        //const mp = new L.Marker([element.latitude, element.longitude],{draggable: false, title : element.name}).addTo(this.map).bindPopup("<h1>"+element.name+"</h1>");
+       // console.log(mp.getLatLng());
       })
     }
     this.setRoute();
@@ -139,6 +149,11 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   }
 
   registerOnClick(): void {
+
+    if (this.isClickDisabled) {
+      return;
+    }
+
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
       const lat = coord.lat;
@@ -156,7 +171,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         });
       }
       this.markers.push(mp);
-      alert(mp.getLatLng());
+      //alert(mp.getLatLng());
     });
   }
   clearMarkers(): void {
@@ -166,13 +181,15 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 this.map.removeLayer(marker);
             }
         });
-        this.markers = [];  // Clear the markers array
-        // Notify the parent that markers have been cleared
+        this.markers = [];  
+        if (this.routingControl) {
+          this.map.removeControl(this.routingControl);  
+          this.routingControl = null;  
+        }
         this.markersCleared.emit();
     }
 }
 
-  // Watch for changes in `clearMarkersTrigger` to trigger marker clearing
   ngOnChanges(changes: SimpleChanges): void {
     if(this.markers.length == 0){
       if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
@@ -182,9 +199,9 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
     }
-    if (changes['checkpointCollection'] && changes['checkpointCollection'].currentValue) {
-      this.loadCheckpoints();
-    }
+    //if (changes['checkpointCollection'] && changes['checkpointCollection'].currentValue) {
+      //this.loadCheckpoints();
+    //}
     if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
       this.clearMarkers();
     }
@@ -192,21 +209,28 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.loadCheckpoints();
     }
     if (changes['checkpointCordinatesCollection'] && changes['checkpointCordinatesCollection'].currentValue) {
+      this.clearMarkers();
       this.setExecutionRoutes();
     }
   }
 
-  private touristMarker: L.Marker | null = null; // Definišemo poseban marker za turistu
+  private touristMarker: L.Marker | null = null; 
 
 
   private addTouristMarker(position: { latitude: number, longitude: number }): void {
-    // Ako marker već postoji, premesti ga na novu poziciju
     if (this.touristMarker) {
+      // Promenite samo poziciju markera, zadrži custom ikonu
       this.touristMarker.setLatLng([position.latitude, position.longitude]);
     } else {
-      // Ako marker ne postoji, kreiraj ga i dodaj na mapu
-      this.touristMarker = L.marker([position.latitude, position.longitude])
-        .addTo(this.map)
+      // Kreiraj marker sa custom ikonom
+      this.touristMarker = L.marker([position.latitude, position.longitude], {
+        icon: L.icon({
+          iconUrl: 'https://cdn-icons-png.flaticon.com/512/15561/15561506.png',
+          iconSize: [30, 30], 
+          iconAnchor: [15, 15], 
+          popupAnchor: [0, -15]
+        })
+      }).addTo(this.map)
         .bindPopup('Current Tourist Position')
         .openPopup();
       this.markers.push(this.touristMarker);
@@ -214,22 +238,50 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up the map instance when the component is destroyed
     if (this.map) {
-      this.map.remove(); // Remove the map and its layers
-      this.map = undefined; // Clear the map reference to avoid reinitialization issues
+      this.map.remove(); 
+      this.map = undefined; 
     }
   }
   
   private setExecutionRoutes(): void {
     if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
-      const waypoints = this.checkpointCordinatesCollection.map(coords => 
-        L.latLng(coords.latitude, coords.longitude)
-      );
+      const checkpoints = this.checkpointCordinatesCollection;
       
-      L.Routing.control({
-        waypoints: waypoints,
-        routeWhileDragging: true,
+      const markers = checkpoints.map((checkpoint: Checkpoint) => {
+        const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
+          title: checkpoint.name,
+          draggable: false,
+        }).addTo(this.map);
+        return marker;
+      });
+      this.markers.push(...markers);
+      const waypoints = markers.map((marker : L.Marker) => marker.getLatLng());
+      const plan = new L.Routing.Plan(waypoints, {
+        createMarker: (i, waypoint, n) => {
+          const marker = L.marker(waypoint.latLng, {
+            draggable: false, 
+            title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
+          });
+          console.log("Testerina", marker);
+          this.markers.push(marker);
+          marker.bindPopup(`<div style="width: 200px">
+            <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+            <p>${checkpoints[i].description || 'No description available.'}</p>
+            <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+                alt="Checkpoint Image" 
+                class="checkpoint-image" 
+                style="width: 200px; max-height: 150px;">
+          </div>`).openPopup(); 
+          return marker;
+        },
+        draggableWaypoints: false,
+      });      
+      this.routingControl = L.Routing.control({
+        plan: plan,
+        routeWhileDragging: false,
+        useZoomParameter: true,
+        addWaypoints: false,
         router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' })
       }).addTo(this.map);
     }
@@ -240,17 +292,46 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.checkpointObjectCollection.forEach(tour => {
         const checkpoints = tour.checkpoints || []; 
         if (checkpoints.length > 1) {
-          const waypoints = checkpoints.map((checkpoint : Checkpoint) => 
-            L.latLng(checkpoint.latitude, checkpoint.longitude)
-          );
-          const routeControl = L.Routing.control({
-            waypoints: waypoints,
-            router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', {profile: 'mapbox/driving'}),
-            routeWhileDragging: true 
-          }).addTo(this.map);     
-  
-        } 
+          const markers = checkpoints.map((checkpoint: Checkpoint) => {
+            console.log(checkpoint);
+            const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
+              title: checkpoint.name,
+              draggable: false,
+            }).addTo(this.map)
+            return marker;
+          });
+            
+
+          const waypoints = markers.map((marker : L.Marker) => marker.getLatLng());
+          
+          const plan = new L.Routing.Plan(waypoints, {
+            createMarker: (i, waypoint, n) => {
+              const marker = L.marker(waypoint.latLng, {
+                draggable: false, 
+                title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
+              });
+              marker.bindPopup(`<div style="width: 200px">
+                <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+                <p>${checkpoints[i].description || 'No description available.'}</p>
+                <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+                    alt="Checkpoint Image" 
+                    class="checkpoint-image" 
+                    style="width: 200px; max-height: 150px;">
+              </div>`).openPopup(); 
+              return marker;
+            },
+            draggableWaypoints: false,
+          });
+          
+          L.Routing.control({
+            plan: plan,
+            routeWhileDragging: false,
+            useZoomParameter: true,
+            addWaypoints: false,
+            router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' }),
+          }).addTo(this.map);
+        }
       });
-    } 
-  }
+    }
+  }  
 }
