@@ -8,4 +8,5 @@ export interface Checkpoint{
     description: string;
     image?: Image | null;
     tours?: number[]; //Array of tour ids
+    secret : string;
 }
