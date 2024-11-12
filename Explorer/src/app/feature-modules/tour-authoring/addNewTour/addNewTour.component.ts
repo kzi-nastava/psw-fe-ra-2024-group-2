@@ -44,8 +44,8 @@ export class AddNewTourComponent implements OnInit {
         latitude: new FormControl('', [Validators.required]),
         longitude: new FormControl('', [Validators.required]),
         image: new FormControl(''),
-        tour: new FormControl(null)
-
+        tour: new FormControl(null),
+        secret: new FormControl('', [Validators.required])
     });
 
     ngOnInit(): void {
@@ -199,6 +199,7 @@ export class AddNewTourComponent implements OnInit {
                     latitude: Number(this.checkpointForm.value.latitude || 0), // Add latitude from form
                     longitude: Number(this.checkpointForm.value.longitude || 0),
                     image: image,
+                    secret: this.checkpointForm.value.secret || ""
                 };
 
                 this.checkpoints.push(checkpoint);
@@ -213,6 +214,7 @@ export class AddNewTourComponent implements OnInit {
                 description: this.checkpointForm.value.description || "",
                 latitude: Number(this.checkpointForm.value.latitude || 0), // Add latitude from form
                 longitude: Number(this.checkpointForm.value.longitude || 0),
+                secret: this.checkpointForm.value.secret || ""
             };
 
             this.checkpoints.push(checkpoint);

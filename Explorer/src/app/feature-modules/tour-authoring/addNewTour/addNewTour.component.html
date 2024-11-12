@@ -87,6 +87,13 @@
                     <img [src]="imagePreview" alt="Image Preview" class="preview-image">
                 </div>
 
+                <div class="form-group">
+                    <label for="checkpointSecret" class="form-label">Secret</label>
+                    <textarea id="checkpointSecret" class="textarea-field"
+                        placeholder="Enter checkpoint secret" formControlName="secret" rows="3"
+                        required></textarea>
+                </div>
+
                 <div class="map-container">
                     <xp-map (locationSelected)="onLocationSelected($event)" #map></xp-map>
                 </div>
@@ -112,6 +119,7 @@
                         <th>Longitude</th>
                         <th>Latitude</th>
                         <th>Image</th>
+                        <th>Secret</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,6 +133,7 @@
                                 [src]="'data:' + check.image?.mimeType + ';base64,' + check.image?.data"
                                 alt="Checkpoint Image" class="checkpoint-image">
                         </td>
+                        <td>{{ check.secret }}</td>
                     </tr>
                 </tbody>
             </table>
