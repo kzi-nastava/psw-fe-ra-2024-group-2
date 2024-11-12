@@ -5,6 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TourAuthoringModule } from '../tour-authoring/tour-authoring.module'; 
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { RouterModule } from '@angular/router';
+import { MarketplaceModule } from '../marketplace/marketplace.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MaterialModule,
     RouterModule,
-    TourAuthoringModule
+    TourAuthoringModule,
+    MarketplaceModule
   ],
   exports: [
     NavbarComponent,

@@ -1,4 +1,3 @@
-<!-- navbar.component.html -->
 <div class="navbar">
   <div class="navbar-container">
     <!-- Logo Section -->
@@ -17,15 +16,17 @@
           <app-notification *ngIf="notificationsVisible"></app-notification>
         </div>
       </div>
+
       <!-- Messaging Navigation -->
-    <div class="nav-item dropdown" *ngIf="user && user.role === 'tourist' 
-    || user && user.role ==='author'
-    || user && user.role==='administrator'">
-      <button class="dropdown-toggle">Messaging</button>
-      <div class="dropdown-content">
-        <button [routerLink]="['profileMessaging']">Send Message</button>
+      <div class="nav-item dropdown" *ngIf="user && user.role === 'tourist' 
+      || user && user.role ==='author'
+      || user && user.role==='administrator'">
+        <button class="dropdown-toggle">Messaging</button>
+        <div class="dropdown-content">
+          <button [routerLink]="['profileMessaging']">Send Message</button>
+        </div>
       </div>
-    </div>
+
       <!-- Tourist Navigation -->
       <div class="nav-item dropdown" *ngIf="user && user.role === 'tourist'">
         <button class="dropdown-toggle">Tours & Activities</button>
@@ -37,7 +38,7 @@
           <button [routerLink]="['tourReporting']">Report Tour</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button [routerLink]="['touristEquipment']">Equipment evidence</button>
-          <button (click)="showSimulator()">Simulator</button>
+          <button (click)="showSimulator()">Simulator</button>          
         </div>
       </div>
 
@@ -87,6 +88,20 @@
       <div class="nav-item" *ngIf="user && user.username === ''">
         <button class="login-btn" [routerLink]="['login']">Login</button>
       </div>
+
+      <!-- Shopping Cart Button -->
+      <div class="nav-item" *ngIf="user && user.role === 'tourist'">
+        <button class="cart-btn" (click)="toggleShoppingCart()">
+          <i class="fa fa-shopping-cart"></i>
+          <span class="icon">🛒</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar-container" [class.open]="isOpen">
+      <xp-shopping-cart></xp-shopping-cart>
+    </div>
+    
   </div>
 </div>
