@@ -166,7 +166,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       if(this.editing){
         mp.on('click', (event) => {
           const latLng = event.latlng; // Get latitude and longitude
-          console.log('Latitude:', latLng.lat, 'Longitude:', latLng.lng);
+          //console.log('Latitude:', latLng.lat, 'Longitude:', latLng.lng);
           this.markerClicked.emit([latLng.lat, latLng.lng])
         });
       }
@@ -263,7 +263,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
             draggable: false, 
             title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
           });
-          console.log("Testerina", marker);
+          //console.log("Testerina", marker);
           this.markers.push(marker);
           marker.bindPopup(`<div style="width: 200px">
             <h2 style="margin: 0;">${checkpoints[i].name}</h2>
@@ -293,7 +293,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         const checkpoints = tour.checkpoints || []; 
         if (checkpoints.length > 1) {
           const markers = checkpoints.map((checkpoint: Checkpoint) => {
-            console.log(checkpoint);
+            //console.log(checkpoint);
             const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
               title: checkpoint.name,
               draggable: false,
