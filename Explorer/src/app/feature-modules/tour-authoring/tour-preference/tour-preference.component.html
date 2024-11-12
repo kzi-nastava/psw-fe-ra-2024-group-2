@@ -1,0 +1,84 @@
+<div class="d-flex justify-content-center align-items-start mt-4">
+    <div class="preference-container">
+      <h2 class="title">Tour Preferences</h2>
+      
+      <form [formGroup]="preferenceForm" (ngSubmit)="onSubmit()">
+        <!-- Difficulty Level -->
+        <div class="section-container mb-4">
+          <label class="form-label">Difficulty Level</label>
+          <select class="form-select custom-select" formControlName="difficulty">
+            <option *ngFor="let level of difficultyLevels" [value]="level">{{level}}</option>
+          </select>
+        </div>
+  
+        <!-- Transportation Preferences -->
+        <div class="section-container mb-4">
+          <label class="form-label mb-3">Transportation Preferences (0-3)</label>
+          <div class="transport-grid">
+            <!-- Walking -->
+            <div class="transport-item">
+              <div class="icon-container">
+                👣
+              </div>
+              <span class="transport-label">Walking</span>
+              <input type="number" class="form-control rating-input" 
+                     formControlName="walkRating" min="0" max="3">
+            </div>
+  
+            <!-- Bicycle -->
+            <div class="transport-item">
+              <div class="icon-container">
+                🚲
+              </div>
+              <span class="transport-label">Bicycle</span>
+              <input type="number" class="form-control rating-input" 
+                     formControlName="bicycleRating" min="0" max="3">
+            </div>
+  
+            <!-- Car -->
+            <div class="transport-item">
+              <div class="icon-container">
+                🚗
+              </div>
+              <span class="transport-label">Car</span>
+              <input type="number" class="form-control rating-input" 
+                     formControlName="carRating" min="0" max="3">
+            </div>
+  
+            <!-- Boat -->
+            <div class="transport-item">
+              <div class="icon-container">
+                ⛵
+              </div>
+              <span class="transport-label">Boat</span>
+              <input type="number" class="form-control rating-input" 
+                     formControlName="boatRating" min="0" max="3">
+            </div>
+          </div>
+        </div>
+  
+        <!-- Tags -->
+        <div class="section-container mb-4">
+          <label class="form-label mb-3">Interested Tags</label>
+          <div class="tags-container">
+            <div class="tag-wrapper" *ngFor="let tag of availableTags">
+              <div class="tag-item">
+                <input type="checkbox" class="btn-check" 
+                       [id]="tag.id"
+                       [checked]="isTagSelected(tag.name)"
+                       (change)="toggleTag(tag.name)">
+                <label class="btn tag-btn" [for]="tag.id">
+                  {{tag.name}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="btn submit-btn w-100" 
+                [disabled]="!preferenceForm.valid">
+          Save Preferences
+        </button>
+      </form>
+    </div>
+  </div>

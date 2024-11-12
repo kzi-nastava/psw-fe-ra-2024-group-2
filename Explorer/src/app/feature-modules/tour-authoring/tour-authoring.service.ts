@@ -95,4 +95,12 @@ export class TourAuthoringService {
   getNearbyTours(location: LocationDto): Observable<PagedResult<Tour>> {
     return this.http.post<PagedResult<Tour>>('https://localhost:44333/api/tourist/tour/nearby', location);
   }
+
+  getPreferences(): Observable<any> {
+    return this.http.get('https://localhost:44333/api/tourist/tour/preferences');
+  }
+
+  createPreference(preference: any): Observable<any> {
+    return this.http.post('https://localhost:44333/api/tourist/tour/preferences', preference);
+  }
 }
