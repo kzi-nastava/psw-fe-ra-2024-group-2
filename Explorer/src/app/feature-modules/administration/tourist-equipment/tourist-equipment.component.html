@@ -1,0 +1,56 @@
+<div id="equipment">
+    <div id="equipment-details">
+        <!-- Leva tabela: Oprema koja je povezana sa turistom -->
+        <div class="equipment-table">
+            <p>Assigned Equipment</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of touristEquipment" (click)="selectEquipment(eq)">
+                        <td>{{ eq.name }}</td>
+                        <td>{{ eq.description }}</td>
+                        <td>
+                            <button color="accent" (click)="removeEquipment()" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Desna tabela: Dostupna oprema -->
+        <div class="equipment-table">
+            <p>Available Equipment</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of availableEquipment" (click)="selectAvailableEquipment(eq)">
+                        <td>{{ eq.name }}</td>
+                        <td>{{ eq.description }}</td>
+                        <td>
+                            <button color="primary" (click)="addEquipment()" mat-icon-button>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Obaveštenje -->
+        <div *ngIf="message" class="notification">
+            {{ message }}
+        </div>
+    </div>
+</div>

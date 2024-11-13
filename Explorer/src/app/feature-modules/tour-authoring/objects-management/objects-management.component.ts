@@ -37,5 +37,4 @@ export class ObjectsManagementComponent {
       data: objek 
     });
   }
-
 }

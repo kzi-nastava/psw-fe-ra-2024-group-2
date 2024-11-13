@@ -3,6 +3,10 @@ import { TourReview } from '../model/tour-review.model';
 import { TourExecutionService } from '../tour-execution.service';
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour-review',
@@ -13,10 +17,17 @@ export class TourReviewComponent implements OnInit{
    
   reviews: TourReview[] = []
   tourId!: number;  
-
-  constructor(private service: TourExecutionService,private route: ActivatedRoute){}
+  editReviewForm: FormGroup;
+  constructor(private service: TourExecutionService,private route: ActivatedRoute, private fb: FormBuilder, private snackBar: MatSnackBar)
+  {
+    this.editReviewForm = this.fb.group({
+      grade: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
+      comment: ['', Validators.required]
+    });
+  }
   
   ngOnInit(): void {
+
     // Fetch tourId from the route parameters
     this.route.paramMap.subscribe(params => {
       this.tourId = Number(params.get('tourId'));
@@ -34,5 +45,57 @@ export class TourReviewComponent implements OnInit{
     });
   }
 
+  toggleEdit(review: any) {
+    review.isEditing = true;
+    this.editReviewForm.patchValue({
+      grade: review.grade,
+      comment: review.comment
+    });
+  }
+
+  cancelEdit(review: any) {
+    review.isEditing = false;
+    this.editReviewForm.reset();
+  }
+
+  onEditSubmit(review: any) {
+    if (this.editReviewForm.valid) {
+      const updatedReview = {
+        ...review,
+        ...this.editReviewForm.value
+      };
+      this.service.updateReview(updatedReview).subscribe({
+        next: (response) => {
+          this.loadReviews();
+        },
+        error: (err) => {
+          if (err.status === 400) {
+            this.snackBar.open('You are not able to leave a review', 'Close', {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+            });
+          }
+          console.error('You do not have qualifications to update review for this tour.', err);
+        },
+      });
+      review.isEditing = false;
+      this.editReviewForm.reset();
+    }
+  }
+  private loadReviews() {
+    if (this.tourId) {
+      this.service.getReviews(this.tourId).subscribe({
+        next: (result: PagedResult<TourReview>) => {
+          this.reviews = result.results;
+        },
+        error: (err) => {
+          console.error('Error fetching reviews:', err);
+        }
+      });
+    }}
+  isFieldInvalid(form: FormGroup, fieldName: string): boolean {
+    const field = form.get(fieldName);
+    return field ? field.invalid && (field.dirty || field.touched) : false;
+  }
 
 }

@@ -1,5 +1,5 @@
 export interface AccountDTO{
-    id:number,
+    userId:number,
     username: string,
     email: string,
     role: number,

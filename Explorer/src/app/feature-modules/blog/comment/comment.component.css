@@ -1,24 +1,238 @@
+/* Component Container */
+.component {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Table Styles */
+.table-container {
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
 table {
-    width: 80%;
-    border-collapse: collapse;
-    text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+thead tr {
+  background-color: var(--lighter-brown);
+}
+
+th {
+  color: var(--dark-brown);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+}
+
+td {
+  color: var(--text-light);
+  padding: 1rem;
+  border-bottom: 1px solid var(--lighter-brown);
+}
+
+.clickable-row:hover {
+  background-color: rgba(144, 238, 144, 0.1);
+  cursor: pointer;
+}
+
+/* Message Card */
+.message-card {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Form Card */
+.form-card {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.form-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--light-brown);
+  border-radius: 4px;
+  color: var(--text-dark);
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-brown);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary-brown);
+  color: var(--white);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--dark-brown);
+}
+
+.btn-error {
+  background-color: var(--error);
+  color: var(--white);
+}
+
+.btn-error:hover {
+  opacity: 0.9;
+}
+
+/* Icon Buttons */
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.edit-button {
+  color: var(--primary-brown);
+}
+
+.delete-button {
+  color: var(--error);
+}
+
+.icon-button:hover {
+  opacity: 0.8;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .component {
+    padding: 1rem;
   }
   
   th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
+    padding: 0.75rem;
   }
   
-  tr:hover {
-    background-color: #f5f5f5;
+  .form-card {
+    padding: 1rem;
   }
   
-  .clickable-row {
-    cursor: pointer;
+  .form-actions {
+    flex-direction: column;
   }
   
-  .clickable-row:hover {
-    background-color: #d3d3d3;
+  .form-actions button {
+    width: 100%;
   }
-  
+}
+
+/* Two Column Layout */
+.two-column-layout {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.column {
+  min-width: 0; /* Prevents flex items from overflowing */
+}
+
+.form-column {
+  flex: 0 0 400px; /* Fixed width for form column */
+}
+
+.table-column {
+  flex: 1; /* Takes up remaining space */
+}
+
+/* Existing styles remain the same */
+.component {
+  padding: 2rem;
+  max-width: 1400px; /* Increased to accommodate two columns */
+  margin: 0 auto;
+}
+
+/* Form Card adjustments */
+.form-card {
+  position: sticky;
+  top: 2rem; /* Keeps form visible while scrolling */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .two-column-layout {
+    flex-direction: column;
+  }
+
+  .form-column {
+    flex: none;
+    width: 100%;
+  }
+
+  .form-card {
+    position: static;
+  }
+}
+
+/* Rest of your existing styles remain the same */

@@ -11,18 +11,22 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit,OnDestroy {
-  private map: any;
+  map: any;
   private markers: L.Marker[] = [];
 
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
   //@Input() checkpointCollection: any[] | null = null;
   @Input() checkpointObjectCollection: any[] | null = null;
+  @Input() checkpointCordinatesCollection: any[] | null = null;
   @Input() checkpointCollection: Checkpoint[] | null = null;
   @Input() editing: boolean = false;
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
   @Output() markerClicked = new EventEmitter<[number, number]>();
+  @Input() touristPosition: { latitude: number, longitude: number } | null = null;
+  @Input() isClickDisabled: boolean = false;  
+  private routingControl: L.Routing.Control | null = null;  
 
   constructor(private mapService: MapService) {}
 
@@ -69,10 +73,17 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         });
         var markerOptions = {
           icon: customIcon,
-          draggable: true
+          draggable: false
         }
 
-        const mp = new L.Marker([element.latitude, element.longitude],markerOptions).addTo(this.map);
+        const mp = new L.Marker([element.latitude, element.longitude],markerOptions).addTo(this.map).bindPopup(`<div style="width: 200px">
+          <h2 style="margin: 0;">${element.name}</h2>
+          <p>${element.description || 'No description available.'}</p>
+          <img src="data:${element.image?.mimeType};base64,${element.image?.data}" 
+              alt="Checkpoint Image" 
+              class="checkpoint-image" 
+              style="width: 200px; max-height: 150px;">
+        </div>`).openPopup();;
       });
     }
   }
@@ -80,7 +91,8 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   private loadCheckpoints(): void{
     if (this.checkpointCollection != null) {
       this.checkpointCollection.forEach(element => {
-        const mp = new L.Marker([element.latitude, element.longitude]).addTo(this.map);
+        //const mp = new L.Marker([element.latitude, element.longitude],{draggable: false, title : element.name}).addTo(this.map).bindPopup("<h1>"+element.name+"</h1>");
+       // console.log(mp.getLatLng());
       })
     }
     this.setRoute();
@@ -137,6 +149,11 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   }
 
   registerOnClick(): void {
+
+    if (this.isClickDisabled) {
+      return;
+    }
+
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
       const lat = coord.lat;
@@ -149,12 +166,12 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       if(this.editing){
         mp.on('click', (event) => {
           const latLng = event.latlng; // Get latitude and longitude
-          console.log('Latitude:', latLng.lat, 'Longitude:', latLng.lng);
+          //console.log('Latitude:', latLng.lat, 'Longitude:', latLng.lng);
           this.markerClicked.emit([latLng.lat, latLng.lng])
         });
       }
       this.markers.push(mp);
-      alert(mp.getLatLng());
+      //alert(mp.getLatLng());
     });
   }
   clearMarkers(): void {
@@ -164,52 +181,173 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 this.map.removeLayer(marker);
             }
         });
-        this.markers = [];  // Clear the markers array
-        // Notify the parent that markers have been cleared
+        this.markers = [];  
+        if (this.routingControl) {
+          this.map.removeControl(this.routingControl);  
+          this.routingControl = null;  
+        }
         this.markersCleared.emit();
     }
 }
 
-  // Watch for changes in `clearMarkersTrigger` to trigger marker clearing
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.markers.length == 0){
+      if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
+        this.addTouristMarker(changes['touristPosition'].currentValue);
+      }
+    }
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
     }
-    if (changes['checkpointCollection'] && changes['checkpointCollection'].currentValue) {
-      this.loadCheckpoints();
-    }
+    //if (changes['checkpointCollection'] && changes['checkpointCollection'].currentValue) {
+      //this.loadCheckpoints();
+    //}
     if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
       this.clearMarkers();
     }
     if (changes['checkpointObjectCollection'] && changes['checkpointObjectCollection'].currentValue) {
       this.loadCheckpoints();
     }
+    if (changes['checkpointCordinatesCollection'] && changes['checkpointCordinatesCollection'].currentValue) {
+      this.clearMarkers();
+      this.setExecutionRoutes();
+    }
+  }
+
+  private touristMarker: L.Marker | null = null; 
+
+
+  private addTouristMarker(position: { latitude: number, longitude: number }): void {
+    if (this.touristMarker) {
+      // Promenite samo poziciju markera, zadrži custom ikonu
+      this.touristMarker.setLatLng([position.latitude, position.longitude]);
+    } else {
+      // Kreiraj marker sa custom ikonom
+      this.touristMarker = L.marker([position.latitude, position.longitude]).addTo(this.map)
+        .bindPopup('Current Tourist Position')
+        .openPopup();
+      this.markers.push(this.touristMarker);
+    }
   }
 
   ngOnDestroy(): void {
-    // Clean up the map instance when the component is destroyed
     if (this.map) {
-      this.map.remove(); // Remove the map and its layers
-      this.map = undefined; // Clear the map reference to avoid reinitialization issues
+      this.map.remove(); 
+      this.map = undefined; 
     }
   }
   
+  private setExecutionRoutes(): void {
+    if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
+      const checkpoints = this.checkpointCordinatesCollection;
+      console.log(checkpoints);
+      const markers = checkpoints.map((checkpoint: Checkpoint) => {
+        const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
+          title: checkpoint.name,
+          draggable: false,
+        }).addTo(this.map);
+        return marker;
+      });
+      this.markers.push(...markers);
+      const waypoints = markers.map((marker: L.Marker) => {
+        // Set opacity to 0.0 for all markers (waypoints)
+        marker.setOpacity(0.0);
+        return marker.getLatLng();
+      });      
+      const plan = new L.Routing.Plan(waypoints, {
+        createMarker: (i, waypoint, n) => {
+
+          if(i === 0) {
+            console.log("Start");
+            const marker = L.marker(waypoint.latLng, {icon : L.icon({iconUrl : 'https://static.thenounproject.com/png/4415238-200.png',
+            iconSize: [50, 50],
+            iconAnchor: [15, 15],
+            })} ).addTo(this.map).bindPopup(`<div style="width: 200px">
+            <h2 style="margin: 0;">${checkpoints[i].name} ${checkpoints[i].surname}</h2>
+            <img src="https://img.redbull.com/images/c_fill,g_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2015/01/29/1331702269907_2/bogdan-lalovi%C4%87.jpg" 
+                alt="Checkpoint Image" 
+                class="checkpoint-image" 
+                style="width: 200px; max-height: 150px;">
+          </div>`);
+
+
+            this.markers.push(marker);
+            return marker;
+          }
+
+          const marker = L.marker(waypoint.latLng,{
+            draggable: false, 
+            title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
+          });
+          //console.log("Testerina", marker);
+          this.markers.push(marker);
+          marker.bindPopup(`<div style="width: 200px">
+            <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+            <p>${checkpoints[i].description || 'No description available.'}</p>
+            <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+                alt="Checkpoint Image" 
+                class="checkpoint-image" 
+                style="width: 200px; max-height: 150px;">
+          </div>`).openPopup(); 
+          return marker;
+        },
+        draggableWaypoints: false,
+      });      
+      this.routingControl = L.Routing.control({
+        plan: plan,
+        routeWhileDragging: false,
+        useZoomParameter: true,
+        addWaypoints: false,
+        router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' })
+      }).addTo(this.map);
+    }
+  }
+
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {
         const checkpoints = tour.checkpoints || []; 
         if (checkpoints.length > 1) {
-          const waypoints = checkpoints.map((checkpoint : Checkpoint) => 
-            L.latLng(checkpoint.latitude, checkpoint.longitude)
-          );
-          const routeControl = L.Routing.control({
-            waypoints: waypoints,
-            router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', {profile: 'mapbox/driving'}),
-            routeWhileDragging: true 
-          }).addTo(this.map);     
-  
-        } 
+          const markers = checkpoints.map((checkpoint: Checkpoint) => {
+            //console.log(checkpoint);
+            const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
+              title: checkpoint.name,
+              draggable: false,
+            }).addTo(this.map)
+            return marker;
+          });
+            
+
+          const waypoints = markers.map((marker : L.Marker) => marker.getLatLng());
+          
+          const plan = new L.Routing.Plan(waypoints, {
+            createMarker: (i, waypoint, n) => {
+              const marker = L.marker(waypoint.latLng, {
+                draggable: false, 
+                title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
+              });
+              marker.bindPopup(`<div style="width: 200px">
+                <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+                <p>${checkpoints[i].description || 'No description available.'}</p>
+                <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+                    alt="Checkpoint Image" 
+                    class="checkpoint-image" 
+                    style="width: 200px; max-height: 150px;">
+              </div>`).openPopup(); 
+              return marker;
+            },
+            draggableWaypoints: false,
+          });
+          
+          L.Routing.control({
+            plan: plan,
+            routeWhileDragging: false,
+            useZoomParameter: true,
+            addWaypoints: false,
+            router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' }),
+          }).addTo(this.map);
+        }
       });
-    } 
-  }
+    }
+  }  
 }

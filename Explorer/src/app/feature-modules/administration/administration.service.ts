@@ -48,13 +48,30 @@ export class AdministrationService {
   inviteTouristToClub(clubInviteDTO: ClubInviteDTO): Observable<any> {
     return this.http.put(`https://localhost:44333/api/tourist/clubInvite/invite`, clubInviteDTO);
   }
-
-  removeTouristFromClub(clubInviteDTO: ClubInviteDTO): Observable<any> {
-    return this.http.request('delete', `https://localhost:44333/api/tourist/clubInvite/remove`, { body: clubInviteDTO });
-  }
+removeTouristFromClub(url: string): Observable<any> {
+  return this.http.delete(url);
+}
 
   blockAccount(account: Account): Observable<Account>{
     return this.http.put<Account>('https://localhost:44333/api/administrator/account/block/', account);
   }
+
+  //anino
+  addEquipmentToTourist(equipmentId: number): Observable<any> {
+    return this.http.post<any>(`${environment.apiHost}tourist/equipment/add/${equipmentId}`, {});
+  }
+
+  removeEquipmentFromTourist(equipmentId: number): Observable<any> {
+      return this.http.delete<any>(`${environment.apiHost}tourist/equipment/remove/${equipmentId}`);
+  }
+
+  getTouristEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`${environment.apiHost}tourist/equipment`);
+  }
+
+  getEquipmentForTourist(): Observable<PagedResults<Equipment>> {
+      return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tourist/equipment/all`);
+  }
+
 
 }

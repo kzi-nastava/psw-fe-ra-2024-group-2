@@ -10,7 +10,7 @@ import { Inject } from '@angular/core';
 @Component({
   selector: 'xp-object-update',
   templateUrl: './object-update.component.html',
-  styleUrls: ['./object-update.component.css']
+  styleUrls: ['./object-update.component.scss']
 })
 export class ObjectUpdateComponent{
 @Input() objectToUpdate!: Object; // The object to update

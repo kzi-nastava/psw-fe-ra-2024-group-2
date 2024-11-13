@@ -1,137 +1,223 @@
-/* You can add global styles to this file, and also import other style files */
-
 :root {
-    --primary-color: #E57734;
-    --secondary-color: #F8EBCF;
-    --font-family: "Montserrat", sans-serif;
-    --background-color: #f8ebcf;
-    --text-color-primary: #01757A;
-    --text-color-secondary: #000;
-  }
-  
-  /* Global styles for essential HTML tags */
-  body {
-    font-family: var(--font-family);
-    background-color: #f5f5f5; 
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-  }
-  
-  /* Background image for the homepage */
-  .background {
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 110vh; 
-    position: relative; 
-    z-index: 1; 
-  }
-  
-  /* Navbar styles */
-  .mat-toolbar {
-    width: 90%;
-    margin: 1% auto;
-    background-color: rgba(248, 235, 207, 0.95); 
-    position: fixed; 
-    transition: 1s ease;
-    top: 0; 
-    left: 5%; 
-    z-index: 2; 
-  }
-  
-  /* Add margin to components to prevent overlap with navbar */
-  .component {
-    margin-top: 70px; /* Adjust this based on the height of your navbar */
-  }
-  
-  /* General container styles */
-  .container {
-    max-width: 1200px; /* Max width for your layout */
-    margin: 0 auto;
-    padding: 20px; /* Padding to ensure spacing */
-  }
-  
-  /* Specific styles for buttons to maintain consistency */
-  #buttons {
-    width: auto;
-    margin-left: auto;
-  }
-  
-  #buttons button {
-    color: #01757A;
-    background-color: transparent;
-    box-shadow: none;
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    letter-spacing: -0.1px;
-    padding: 1%;
-    border-radius: 0;
-    transition: background-color 0.3s ease; /* Smooth hover transition */
-  }
-  
-  #buttons button:hover {
-    background-color: transparent !important;
-    box-shadow: none;
-  }
-  
-  .active {
-    color: #01757A;
-    border-bottom: 2.5px solid #E57734;
-    background-color: transparent;
-    box-shadow: none;
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    letter-spacing: -0.1px;
-  }
-  
-  .logout {
-    color: #E57734 !important;
-  }
-  
-  .logo {
-    height: 30px;
-    margin-right: 20px;
-  }
-  
-  /* Additional styles for homepage components */
-  .wherever, .you-want {
-    background-color: rgba(248, 235, 207, 0.9); /* Match navbar color */
-    position: relative;
-    font-size: 4rem;
-    font-weight: bold;
-    display: block;
-    line-height: 1.0;
-  }
-  
-  .wherever {
-    left: 5%;
-  }
-  
-  .you-want {
-    left: 15%;
-    color: #E57734;
-  }
-  
-  /* Questions and related styles */
-  .questions {
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    position: relative;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* Ensure images scale correctly */
-  .questions img {
-    width: 60%;
-  }
-  
+  /* Color Variables */
+  --primary-brown: #8B7355;
+  --light-brown: #D2B48C;
+  --lighter-brown: #F5DEB3;
+  --camel: #D2B48C;
+  --coyote: #0b7480;
+  --dark-brown: #654321;
+  --primary-green: #90EE90;
+  --light-green: #98FB98;
+  --dark-green: #228B22;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --white: #FFFFFF;
+  --error: #DC3545;
+}
 
-  
-  
-  
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-dark);
+  background-color: var(--white);
+  line-height: 1.6;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-brown);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+/* Links */
+a {
+  color: var(--primary-brown);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--dark-brown);
+}
+
+/* Buttons */
+.mat-button, .mat-raised-button, .mat-flat-button, .mat-stroked-button {
+  background-color: var(--primary-brown) !important;
+  color: var(--white) !important;
+  padding: 0.5rem 1.5rem !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
+}
+
+.mat-button:hover, .mat-raised-button:hover, .mat-flat-button:hover, .mat-stroked-button:hover {
+  background-color: var(--dark-brown) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+/* Form Elements */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.mat-form-field-label {
+  color: var(--text-light) !important;
+}
+
+.mat-input-element {
+  color: var(--text-dark) !important;
+}
+
+.mat-form-field-underline {
+  background-color: var(--light-brown) !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: var(--primary-brown) !important;
+}
+
+/* Tables */
+.mat-table {
+  width: 100%;
+  background-color: var(--white) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mat-header-row {
+  background-color: var(--lighter-brown) !important;
+}
+
+.mat-header-cell {
+  color: var(--dark-brown) !important;
+  font-weight: 600 !important;
+  padding: 1rem !important;
+}
+
+.mat-cell {
+  color: var(--text-light) !important;
+  padding: 1rem !important;
+}
+
+.mat-row:nth-child(even) {
+  background-color: rgba(210, 180, 140, 0.1);
+}
+
+.mat-row:hover {
+  background-color: rgba(144, 238, 144, 0.1) !important;
+}
+
+/* Cards */
+.mat-card {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  margin-bottom: 1rem;
+}
+
+.mat-card-title {
+  color: var(--dark-brown) !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.mat-card-subtitle {
+  color: var(--text-light) !important;
+}
+
+/* Tabs */
+.mat-tab-label {
+  color: var(--text-light) !important;
+}
+
+.mat-tab-label-active {
+  color: var(--primary-brown) !important;
+}
+
+.mat-ink-bar {
+  background-color: var(--primary-brown) !important;
+}
+
+/* Lists */
+.mat-list-item {
+  color: var(--text-light) !important;
+  border-bottom: 1px solid var(--lighter-brown);
+}
+
+.mat-list-item:hover {
+  background-color: rgba(144, 238, 144, 0.1);
+}
+
+/* Checkboxes and Radio Buttons */
+.mat-checkbox-checked .mat-checkbox-background,
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--primary-brown) !important;
+}
+
+/* Progress Bars */
+.mat-progress-bar-fill::after {
+  background-color: var(--primary-brown) !important;
+}
+
+.mat-progress-bar-buffer {
+  background-color: var(--lighter-brown) !important;
+}
+
+/* Tooltips */
+.mat-tooltip {
+  background-color: var(--dark-brown) !important;
+  font-size: 14px !important;
+}
+
+/* Dialog */
+.mat-dialog-container {
+  border-radius: 8px !important;
+  padding: 1.5rem !important;
+}
+
+/* Snackbar */
+.mat-snack-bar-container {
+  background-color: var(--dark-brown) !important;
+  color: var(--white) !important;
+}
+
+/* Utilities */
+.text-primary {
+  color: var(--primary-brown) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-brown) !important;
+}
+
+.text-success {
+  color: var(--dark-green) !important;
+}
+
+.bg-success {
+  background-color: var(--light-green) !important;
+}
+
+.text-error {
+  color: var(--error) !important;
+}
+
+.margin-bottom {
+  margin-bottom: 1rem !important;
+}
+
+.padding {
+  padding: 1rem !important;
+}

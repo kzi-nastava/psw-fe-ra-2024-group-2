@@ -1,35 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Comment } from './model/comment.model';  // Corrected path based on your folder structure
-import { PagedResult } from './blog.module';  // Adjusted path for PagedResult, assuming it's in the same model folder
-
+import { Comment } from './model/comment.model';
+import { PagedResult } from './blog.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
 
-  private apiUrl = 'https://localhost:44333/api/blog/comment/';  // Adjust this URL as needed
+  private apiUrl = 'https://localhost:44333/api/blog';
 
   constructor(private http: HttpClient) { }
 
-  // Fetch all comments
-  getAllComments(): Observable<PagedResult<Comment>> {
-    return this.http.get<PagedResult<Comment>>('https://localhost:44333/api/blog/comment/')
+  // Fetch comments by blog ID
+  getCommentsByBlogId(blogId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`https://localhost:44333/api/blog/${blogId}`);
   }
 
-  // Add a new comment
-  addComment(result: Comment): Observable<any> {
-    return this.http.post('https://localhost:44333/api/blog/comment/', result);
+  // Add a new comment to a specific blog
+  addComment(blogId: number, comment: Comment): Observable<Comment> {
+    comment.blogId = blogId;
+    console.log(blogId);
+    return this.http.post<Comment>(`${this.apiUrl}/${blogId}`, comment);
   }
 
-  // Update an existing comment
-  updateComment(result: Comment): Observable<any> {
-    return this.http.put(`https://localhost:44333/api/blog/comment/${result.id}`, result);
+  // Update an existing comment by ID
+  updateComment(commentId: number, blogId: number, comment: Comment): Observable<Comment> {
+    console.log(blogId)
+    return this.http.put<Comment>(`${this.apiUrl}/${blogId}/${commentId}`, comment);
   }
 
-  deleteComment(commentId: number): Observable<any> {
-    return this.http.delete(`https://localhost:44333/api/blog/comment/${commentId}`);
+  // Delete a comment by ID
+  deleteComment(commentId: number, blogId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${blogId}/${commentId}`);
   }
 }

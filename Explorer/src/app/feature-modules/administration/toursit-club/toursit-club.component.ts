@@ -15,54 +15,63 @@ export class ToursitClubComponent implements OnInit {
   page = 1;
   pageSize = 10;
   currentUser: {};
-  clubId:1;
+  currentUserId: number = 0;
+  clubId: 1;
 
-  constructor(private touristService: AdministrationService,private authService: AuthService) { }
+  constructor(private touristService: AdministrationService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    console.log('Current User:', this.currentUser);
+    this.currentUserId = this.authService.getCurrentUser().id;
     this.loadTourists();
   }
 
   loadTourists(): void {
+    // Ensure currentUserId is set correctly
+    if (!this.currentUserId) {
+      console.log("Error: currentUserId is not set");
+      return; // Exit if currentUserId is not defined
+    }
+
     this.touristService.getFilteredTourists(this.page, this.pageSize).subscribe(touristData => {
-      const tourists: AccountDTO[] = touristData.results; 
-      console.log('Tourist Data:', touristData);
+      const tourists: AccountDTO[] = touristData.results;
 
       this.touristService.getClubInvites(this.page, this.pageSize).subscribe(inviteData => {
         const clubInvites = inviteData.results;
-        console.log('Club Invites Data:', inviteData);
-        const acceptedMemberIds = new Set<number>(
-          clubInvites
-            .filter(invite => invite.status === 1)
-            .map(invite => invite.touristId)
-        );
 
-        this.members = tourists.filter(tourist => {
-          return acceptedMemberIds.has(tourist.id);
-        });
+        // Create a set for faster lookup
+        const memberTouristIds = clubInvites
+          .filter(invite => invite.status === 1)
+          .map(invite => invite.touristId);
+        const memberTouristIdSet = new Set<number>(memberTouristIds);
+        const invitedTouristIdSet = new Set<number>(clubInvites.map(invite => invite.touristId));
+
+        this.members = tourists.filter(tourist => memberTouristIdSet.has(tourist.userId));
+        const invitedTouristIds = clubInvites.map(invite => invite.touristId);
+
 
         this.nonMembers = tourists.filter(tourist => {
-          return !acceptedMemberIds.has(tourist.id);
+          const isNotInvited = !invitedTouristIdSet.has(tourist.userId);
+          const isNotCurrentUser = tourist.userId !== this.currentUserId;
+          return isNotInvited && isNotCurrentUser;
         });
-
-        console.log('Members:', this.members);
-        console.log('Non-members:', this.nonMembers);
       });
     });
   }
 
-  removeMember(dto: ClubInviteDTO): void {
-    this.touristService.removeTouristFromClub(dto).subscribe(() => {
-      this.loadTourists(); 
+  removeMember(touristId: number): void {
+    // Construct the URL with the query parameter
+    var clubId=0;
+    const url = `https://localhost:44333/api/tourist/clubInvite/remove?touristId=${touristId}&clubId=${clubId}`;
+    
+    this.touristService.removeTouristFromClub(url).subscribe(() => {
+      this.loadTourists();
     });
   }
 
-  inviteTourist(dto: ClubInviteDTO): void {
-    dto.clubId=this.clubId;
-
-    this.touristService.inviteTouristToClub(dto).subscribe(() => {
+  inviteTourist(dto: AccountDTO): void {
+    var a: ClubInviteDTO = { userId: this.currentUserId, ownerId: this.currentUserId, touristId: dto.userId, clubId: 0, date: new Date(), status: 0 };
+    this.touristService.inviteTouristToClub(a).subscribe(() => {
       this.loadTourists();
     });
   }

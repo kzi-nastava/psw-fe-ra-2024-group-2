@@ -14,18 +14,19 @@
         <tbody>
             <tr *ngFor="let rp of tour">
                 <td>{{rp.name}}</td>
-                <td>{{rp.difficulty}}</td>
+                <td>{{getDifficulty(rp.difficulty)}}</td>
                 <td>{{rp.description}}</td>
-                <td>{{rp.tag}}</td>
-                <td>{{rp.status}}</td>
-                <td>{{rp.price}}</td>
+                <td>{{getTag(rp.tag)}}</td>
+                <td>{{getStatus(rp.status)}}</td>
+                <td>{{rp.price | currency}}</td>
                 <td><button (click)="onAddClicked(rp)">Report Tour</button></td>
             </tr>
         </tbody>
     </table>
     <xp-report-form
-    *ngIf="shouldRenderReportForm"
-    [tour]="selectedTour"
-    [tourId]="selectedTourId"
-    [userId]="selectedUserId"></xp-report-form>
+        *ngIf="shouldRenderReportForm"
+        [tour]="selectedTour"
+        [tourId]="selectedTourId"
+        [userId]="selectedUserId">
+    </xp-report-form>
 </div>

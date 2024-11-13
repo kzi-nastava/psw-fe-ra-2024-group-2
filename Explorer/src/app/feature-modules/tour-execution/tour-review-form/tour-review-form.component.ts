@@ -3,12 +3,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TourExecutionService } from '../tour-execution.service';
 import { TourReview } from '../model/tour-review.model';
-import { Router } from '@angular/router'; // Import Router here
+import { Router } from '@angular/router'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ACCESS_TOKEN, USER } from 'src/app/shared/constants';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-review-form',
   templateUrl: './tour-review-form.component.html',
-  styleUrls: ['./tour-review-form.component.css']
+  styleUrls: ['./tour-review-form.component.scss']
 })
 export class TourReviewFormComponent implements OnInit {
   tourReviewForm: FormGroup;
@@ -16,7 +19,7 @@ export class TourReviewFormComponent implements OnInit {
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private service: TourExecutionService,  private router: Router) {
+  constructor( private snackBar: MatSnackBar,private fb: FormBuilder, private route: ActivatedRoute, private serviceAuth: AuthService, private service: TourExecutionService,private router: Router) {
     this.tourReviewForm = this.fb.group({
       grade: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required],
@@ -38,8 +41,9 @@ export class TourReviewFormComponent implements OnInit {
       }
     });
 
-    const userId = 1;  // Simulating userId retrieval
+    const userId = this.serviceAuth.getCurrentUser().id;  // Simulating userId retrieval
     this.tourReviewForm.patchValue({ userId });
+    console.log(userId)
   }
 
   // Method to handle file selection and update the form with base64 image data
@@ -73,6 +77,7 @@ export class TourReviewFormComponent implements OnInit {
         image: this.tourReviewForm.value.image,  // Include the image data
         reviewDate: this.tourReviewForm.value.reviewDate,
         visitDate: this.tourReviewForm.value.visitDate,
+        progress: 0
       };
 
       this.service.addReview(review).subscribe({
@@ -81,7 +86,13 @@ export class TourReviewFormComponent implements OnInit {
           this.router.navigate(['/alltours']); // Redirect to the tours view after submission
         },
         error: (err) => {
-          console.error('Error adding review:', err);
+          if (err.status === 400) {
+            this.snackBar.open('You are not able to leave a review', 'Close', {
+              duration: 3000,
+              panelClass: ['red-snackbar']
+            });
+          }
+          console.error('You do not have qualifications to update review for this tour.', err);
         },
       });
     } else {
