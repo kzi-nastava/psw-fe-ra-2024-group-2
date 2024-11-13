@@ -156,7 +156,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         });
       }
       this.markers.push(mp);
-      alert(mp.getLatLng());
+      //alert(mp.getLatLng());
     });
   }
   clearMarkers(): void {
