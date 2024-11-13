@@ -35,14 +35,24 @@ export class BlogComponentComponent implements OnInit {
       (data: PagedResult<Blog>) => {
         this.blogs = data.results.map((blog) => ({
           ...blog,
-        userVote: this.getUserVote(blog.ratings) as "Upvote" | "Downvote" | null
+          userVote: this.getUserVote(blog.ratings) as "Upvote" | "Downvote" | null
         }));
+        console.log(this.blogs);
       },
       (error) => {
         console.error('Error fetching blogs:', error);
       }
     );
   }
+  
+
+
+  countVotes(blog: Blog): { upvotes: number; downvotes: number } {
+    const upvotes = blog.ratings.filter(rating => rating.ratingType === 'Upvote').length;
+    const downvotes = blog.ratings.filter(rating => rating.ratingType === 'Downvote').length;
+    return { upvotes, downvotes };
+  }
+
   getUserVote(ratings: Rating[]): string | null {
     const userRating = ratings.find(rating => rating.username === this.user.username);
     return userRating ? userRating.ratingType : null;
