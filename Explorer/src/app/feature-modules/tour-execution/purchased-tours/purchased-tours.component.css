@@ -1,3 +1,11 @@
+.tour-title{
+  font-weight: 600;
+}
+.tour-description{
+  font-weight: 400;
+  font-style: italic;
+}
+
 .container {
     padding: 1rem;
     margin: 0 auto;

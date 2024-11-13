@@ -5,6 +5,8 @@ import { TourExecutionService } from '../tour-execution.service';
 import { TourReview } from '../model/tour-review.model';
 import { Router } from '@angular/router'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ACCESS_TOKEN, USER } from 'src/app/shared/constants';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-review-form',
@@ -17,7 +19,7 @@ export class TourReviewFormComponent implements OnInit {
   selectedImage: File | null = null; // To store the selected image file
   imagePreview: string | ArrayBuffer | null = null; // Variable to hold the base64 preview
 
-  constructor( private snackBar: MatSnackBar,private fb: FormBuilder, private route: ActivatedRoute, private service: TourExecutionService,  private router: Router) {
+  constructor( private snackBar: MatSnackBar,private fb: FormBuilder, private route: ActivatedRoute, private serviceAuth: AuthService, private service: TourExecutionService,private router: Router) {
     this.tourReviewForm = this.fb.group({
       grade: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required],
@@ -39,8 +41,9 @@ export class TourReviewFormComponent implements OnInit {
       }
     });
 
-    const userId = 1;  // Simulating userId retrieval
+    const userId = this.serviceAuth.getCurrentUser().id;  // Simulating userId retrieval
     this.tourReviewForm.patchValue({ userId });
+    console.log(userId)
   }
 
   // Method to handle file selection and update the form with base64 image data
