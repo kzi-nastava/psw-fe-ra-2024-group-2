@@ -13,6 +13,7 @@ import { NotificationComponent } from './tour-notification/tour-notification.com
 import { ObjectUpdateComponent } from './object-update/object-update.component';
 import { PositionSimulatorComponent } from '../stakeholders/position-simulator/position-simulator.component';
 import { FormsModule } from '@angular/forms';
+import { TourPreferenceComponent } from './tour-preference/tour-preference.component';
 @NgModule({
   declarations: [
     MyToursComponent,
@@ -23,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     ObjectUpdateComponent,
     AddNewTourComponent,
     PositionSimulatorComponent,
-    NotificationComponent
+    NotificationComponent,
+    TourPreferenceComponent
   ],
   imports: [
     CommonModule,
