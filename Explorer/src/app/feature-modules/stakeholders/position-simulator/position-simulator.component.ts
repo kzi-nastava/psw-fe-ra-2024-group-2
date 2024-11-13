@@ -79,7 +79,7 @@ export class PositionSimulatorComponent {
       return [];
     }
     return [
-      { latitude: this.touristPosition.latitude, longitude: this.touristPosition.longitude},
+      { latitude: this.touristPosition.latitude, longitude: this.touristPosition.longitude, name : this.person?.name || 'Tourist', surname : this.person?.surname || '' },
       ...this.executedCheckpoints
     ];
   }

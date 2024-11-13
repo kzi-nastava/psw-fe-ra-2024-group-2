@@ -223,14 +223,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.touristMarker.setLatLng([position.latitude, position.longitude]);
     } else {
       // Kreiraj marker sa custom ikonom
-      this.touristMarker = L.marker([position.latitude, position.longitude], {
-        icon: L.icon({
-          iconUrl: 'https://cdn-icons-png.flaticon.com/512/15561/15561506.png',
-          iconSize: [30, 30], 
-          iconAnchor: [15, 15], 
-          popupAnchor: [0, -15]
-        })
-      }).addTo(this.map)
+      this.touristMarker = L.marker([position.latitude, position.longitude]).addTo(this.map)
         .bindPopup('Current Tourist Position')
         .openPopup();
       this.markers.push(this.touristMarker);
@@ -247,7 +240,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   private setExecutionRoutes(): void {
     if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
       const checkpoints = this.checkpointCordinatesCollection;
-      
+      console.log(checkpoints);
       const markers = checkpoints.map((checkpoint: Checkpoint) => {
         const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
           title: checkpoint.name,
@@ -256,10 +249,33 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         return marker;
       });
       this.markers.push(...markers);
-      const waypoints = markers.map((marker : L.Marker) => marker.getLatLng());
+      const waypoints = markers.map((marker: L.Marker) => {
+        // Set opacity to 0.0 for all markers (waypoints)
+        marker.setOpacity(0.0);
+        return marker.getLatLng();
+      });      
       const plan = new L.Routing.Plan(waypoints, {
         createMarker: (i, waypoint, n) => {
-          const marker = L.marker(waypoint.latLng, {
+
+          if(i === 0) {
+            console.log("Start");
+            const marker = L.marker(waypoint.latLng, {icon : L.icon({iconUrl : 'https://static.thenounproject.com/png/4415238-200.png',
+            iconSize: [50, 50],
+            iconAnchor: [15, 15],
+            })} ).addTo(this.map).bindPopup(`<div style="width: 200px">
+            <h2 style="margin: 0;">${checkpoints[i].name} ${checkpoints[i].surname}</h2>
+            <img src="https://img.redbull.com/images/c_fill,g_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2015/01/29/1331702269907_2/bogdan-lalovi%C4%87.jpg" 
+                alt="Checkpoint Image" 
+                class="checkpoint-image" 
+                style="width: 200px; max-height: 150px;">
+          </div>`);
+
+
+            this.markers.push(marker);
+            return marker;
+          }
+
+          const marker = L.marker(waypoint.latLng,{
             draggable: false, 
             title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
           });
