@@ -20,7 +20,6 @@ export interface Blog {
     images: Image[];
     ratings: Rating[];
     userVote?: 'Upvote' | 'Downvote' | null;
-
 }
 
 export enum MimeType {

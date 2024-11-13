@@ -13,6 +13,7 @@
           type="text"
           placeholder="Enter blog title"
           [ngClass]="{'is-invalid': isFieldInvalid('title')}"
+          maxlength="90"
         />
         <div class="error-message" *ngIf="isFieldInvalid('title')">
           {{ getErrorMessage('title') }}
@@ -26,7 +27,6 @@
           formControlName="description"
           (input)="onMarkdownChange($event)"
           placeholder="Enter blog description (supports Markdown)"
-          rows="10"
         ></textarea>
       
         <div class="markdown-preview">
