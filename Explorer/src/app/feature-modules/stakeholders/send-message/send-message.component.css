@@ -1,0 +1,81 @@
+.container {
+  padding: 20px;
+  width: 100%;
+}
+
+.centered-content {
+  max-width: 500px;  /* Ograničava širinu */
+  margin: 0 auto;    /* Centrira horizontalno */
+}
+
+.message-card {
+  background-color: #f7e6d3;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  text-align: center;
+  color: #5c4a3d;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  color: #5c4a3d;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d4c3b3;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.char-limit {
+  color: #8b7355;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.submit-button:disabled {
+  background-color: #ccb7a2;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #76614a;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 10px;
+  text-align: center;
+}
