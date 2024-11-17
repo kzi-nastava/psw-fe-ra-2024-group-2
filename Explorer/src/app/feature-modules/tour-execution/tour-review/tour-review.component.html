@@ -22,7 +22,7 @@
           Visited {{ review.visitDate | date: 'longDate' }}
         </span>
         <span class="date-item">
-          Progress: {{ review.progress }}
+          Progress: {{ review.progress * 100}}%
         </span>
       </div>
     </div>
@@ -74,7 +74,7 @@
       <div class="form-actions">
         <button 
           type="submit" 
-          class="btn-submit"
+          class="btn-edit"
           [disabled]="editReviewForm.invalid"
         >
           <span class="icon">✓</span>
@@ -82,7 +82,7 @@
         </button>
         <button 
           type="button" 
-          class="btn-cancel"
+          class="btn-edit"
           (click)="cancelEdit(review)"
         >
           <span class="icon">✕</span>

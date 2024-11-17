@@ -16,6 +16,7 @@ export class ObjectFormComponent  {
   imagePreview: string | ArrayBuffer | null = null; 
   latitude: number = 0;
   longitude: number = 0;
+  showErrorMessage = false;
 
   @Output() objectAdded = new EventEmitter<null>();
 
@@ -88,7 +89,16 @@ addObject(): void {
         this.clearForm();  
       },
       error: (err) => {
-        console.error("Error adding object:", err);
+        if (err.status === 409) { // Check if the error code is 409
+          console.error("Image already exists!");
+          this.showErrorMessage = true; 
+          setTimeout(() => {
+            this.showErrorMessage = false;
+          }, 3000);
+        
+        } else {
+          console.error("Error adding object:", err);
+        }
       }
     });
   } else {

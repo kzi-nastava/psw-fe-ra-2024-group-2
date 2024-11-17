@@ -9,36 +9,36 @@
             Show Famous Blogs
         </label>
     </div>
-    <br>
-    <br>
-    <div class="blog-card" *ngFor="let blog of blogs">
-        <div class="blog-card-header">
-            <h2>{{ blog.title }}</h2>
+    <div class="blog-card" *ngFor="let blog of blogs" (click)="goToBlog(blog)">
+        <p class="blog-date">{{ blog.date | date: 'longDate' }}</p>
+        <div class="blog-img">
+            <img src="../../../../assets/traveling-with-off-road-car.jpg" alt="">
+        </div>
+        <div class="blog-card-header" style="color: var(--coyote) !important;">
+            <p>{{ blog.title }}</p>
+        </div>
+        <div class="blog-desc">
             <p class="blog-description">{{ blog.description }}</p>
         </div>
         <div class="blog-card-body">
-            <p class="blog-date">{{ blog.date | date: 'longDate' }}</p>
-            <p class="blog-status">Status: {{ blog.status }}</p>
-            <p class="blog-author">Author ID: {{ blog.authorId }}</p>
+            <div class="blog-card-left">
+                <img src="../../../../assets/bob.jpeg" class="blog-author">
+                <p class="blog-author-name">Marko Markovic</p>
+            </div>            
+            <div class="blog-card-right">
+                <div class="vote-count">
+                    <img src="../../../../assets/heart.png" class="vote-icon"> 
+                    <span>{{ countVotes(blog).upvotes }}</span>
+                </div>
+                <div class="vote-count">
+                    <img src="../../../../assets/dislike (1).png" class="vote-icon"> 
+                    <span>{{ countVotes(blog).downvotes }}</span>
+                </div>
+            </div>            
         </div>
-        <div class="blog-card-footer">
-            <button class="mat-button open-blog" (click)="goToBlog(blog)">Open Blog</button>
-            <div class="rating-buttons">
-                <button 
-                    class="rating-button" 
-                    (click)="upvote(blog)" 
-                    [ngClass]="{'highlighted': blog.userVote === 'Upvote'}">
-                    <img src="assets/like.png" alt="Like" class="rating-icon"> 
-                </button>
-                <button 
-                    class="rating-button" 
-                    (click)="downvote(blog)" 
-                    [ngClass]="{'highlighted': blog.userVote === 'Downvote'}">
-                    <img src="assets/dislike.png" alt="Dislike" class="rating-icon"> 
-                </button>
-            </div>
-        </div>
+
     </div>
+    <br>
     <div>
         <div>
             <button mat-raised-button color="primary" (click)="createBlog()">Create Blog</button>

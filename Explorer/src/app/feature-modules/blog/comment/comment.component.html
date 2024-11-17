@@ -1,12 +1,17 @@
-<div class="BlogInfo">
-  <div *ngIf="blog" class="blog-details-container">
-    <h1>{{ blog.title }}</h1>
-    <p><strong>Date:</strong> {{ blog.date | date: 'longDate' }}</p>
-    <p><strong>Status:</strong> {{ showStatus(blog.status) }}</p>
-    <p><strong>Author ID:</strong> {{ blog.authorId }}</p>
-    
-    
-    <div class="blog-content">
+<div class="blogInfo">
+  <div *ngIf="blogImages.length > 0" class="image-gallery">
+    <div *ngFor="let image of blogImages" class="image-item">
+      <img [src]="image.data" [alt]="'Image '" class="blog-image"/>
+    </div>
+  </div>
+  
+
+  <div class="blog-parent">
+    <div *ngIf="blog" class="blog-details-container">
+      <p><strong>Date: {{ blog.date | date: 'longDate' }}</strong></p>
+      <h1>{{ blog.title }}</h1>
+    </div>
+    <div *ngIf="blog" class="blog-content">
       <h2>Content</h2>
       <p>{{ blog.description }}</p>
     </div>
@@ -15,7 +20,27 @@
   <div *ngIf="!blog" class="error-message">
     <p>Blog not found.</p>
   </div>
-  
+
+  <div class="blog-author">
+    <div class="blog-card-left">
+      <img src="../../../../assets/bob.jpeg" class="blog-author-image">
+      <p class="blog-author-name">Pera Peric</p>
+    </div>
+    <div class="rating-buttons" *ngIf="blog">
+      <button 
+          class="rating-button"  
+          (click)="upvote(blog)" 
+          [ngClass]="{'highlighted': blog.userVote === 'Upvote'}">
+          <img src="../../../../assets/heart.png"  width="30px" alt="Like" class="rating-icon"> 
+      </button>
+      <button 
+          class="rating-button" 
+          (click)="downvote(blog)" 
+          [ngClass]="{'highlighted': blog.userVote === 'Downvote'}">
+          <img src="../../../../assets/dislike (1).png" width="30px" alt="Dislike" class="rating-icon"> 
+      </button>
+  </div>
+  </div>
 </div>
 <div class="component">
   <h1>Comments</h1>

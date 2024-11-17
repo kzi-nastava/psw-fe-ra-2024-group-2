@@ -1,0 +1,172 @@
+<div class="main-container">
+    <div class="preferences-content">
+      <!-- Leva strana - forma za unos -->
+      <div class="preference-form">
+        <div class="preference-container">
+          <h2 class="title">Add Tour Preference</h2>
+          
+          <form [formGroup]="preferenceForm" (ngSubmit)="onSubmit()">
+            <!-- Difficulty Level -->
+            <div class="section-container mb-4">
+              <label class="form-label fw-bold">Difficulty Level</label>
+              <select class="form-select custom-select" formControlName="difficulty">
+                <option *ngFor="let level of difficultyLevels" [value]="level">{{level}}</option>
+              </select>
+            </div>
+  
+            <!-- Transportation Preferences -->
+            <div class="section-container mb-4">
+              <label class="form-label fw-bold mb-3">Transportation Preferences (0-3)</label>
+              <div class="transport-grid">
+                <!-- Walking -->
+                <div class="transport-item">
+                  <div class="icon-container">
+                    👣
+                  </div>
+                  <span class="transport-label">Walking</span>
+                  <input type="number" class="form-control rating-input" 
+                         formControlName="walkRating" min="0" max="3">
+                </div>
+  
+                <!-- Bicycle -->
+                <div class="transport-item">
+                  <div class="icon-container">
+                    🚲
+                  </div>
+                  <span class="transport-label">Bicycle</span>
+                  <input type="number" class="form-control rating-input" 
+                         formControlName="bicycleRating" min="0" max="3">
+                </div>
+  
+                <!-- Car -->
+                <div class="transport-item">
+                  <div class="icon-container">
+                    🚗
+                  </div>
+                  <span class="transport-label">Car</span>
+                  <input type="number" class="form-control rating-input" 
+                         formControlName="carRating" min="0" max="3">
+                </div>
+  
+                <!-- Boat -->
+                <div class="transport-item">
+                  <div class="icon-container">
+                    ⛵
+                  </div>
+                  <span class="transport-label">Boat</span>
+                  <input type="number" class="form-control rating-input" 
+                         formControlName="boatRating" min="0" max="3">
+                </div>
+              </div>
+            </div>
+  
+            <!-- Tags -->
+            <div class="section-container mb-4">
+              <label class="form-label fw-bold mb-3">Interested Tags</label>
+              <div class="tags-container">
+                <div class="tag-wrapper" *ngFor="let tag of availableTags">
+                  <div class="tag-item">
+                    <input type="checkbox" class="btn-check" 
+                           [id]="tag.id"
+                           [checked]="isTagSelected(tag.name)"
+                           (change)="toggleTag(tag.name)">
+                    <label class="btn tag-btn" [for]="tag.id">
+                      {{tag.name}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <button type="submit" class="btn submit-btn w-100" 
+                    [disabled]="!preferenceForm.valid">
+              Save Preferences
+            </button>
+          </form>
+        </div>
+      </div>
+  
+      <!-- Desna strana -->
+      <div class="preference-display" *ngIf="currentPreferences">
+        <div class="preference-container">
+          <h2 class="title">Current Preferences</h2>
+          
+          <div class="section-container mb-4">
+            <label class="form-label fw-bold mb-3">Difficulty Level</label>
+            <div class="difficulty-badge">
+              {{currentPreferences.difficulty}}
+            </div>
+          </div>
+  
+          <div class="section-container mb-4">
+            <label class="form-label fw-bold mb-3">Transport Ratings</label>
+            <div class="transport-grid">
+              <!-- Walking -->
+              <div class="rating-item" [class.has-rating]="currentPreferences.walkRating > 0">
+                <div class="transport-info">
+                  <div class="transport-header">
+                    <span class="transport-icon">👣</span>
+                    <span class="transport-name">Walking</span>
+                  </div>
+                  <div class="rating-badge">
+                    {{currentPreferences.walkRating}}/3
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Bicycle -->
+              <div class="rating-item" [class.has-rating]="currentPreferences.bicycleRating > 0">
+                <div class="transport-info">
+                  <div class="transport-header">
+                    <span class="transport-icon">🚲</span>
+                    <span class="transport-name">Bicycle</span>
+                  </div>
+                  <div class="rating-badge">
+                    {{currentPreferences.bicycleRating}}/3
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Car -->
+              <div class="rating-item" [class.has-rating]="currentPreferences.carRating > 0">
+                <div class="transport-info">
+                  <div class="transport-header">
+                    <span class="transport-icon">🚗</span>
+                    <span class="transport-name">Car</span>
+                  </div>
+                  <div class="rating-badge">
+                    {{currentPreferences.carRating}}/3
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Boat -->
+              <div class="rating-item" [class.has-rating]="currentPreferences.boatRating > 0">
+                <div class="transport-info">
+                  <div class="transport-header">
+                    <span class="transport-icon">⛵</span>
+                    <span class="transport-name">Boat</span>
+                  </div>
+                  <div class="rating-badge">
+                    {{currentPreferences.boatRating}}/3
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="section-container">
+            <label class="form-label fw-bold mb-3">Selected Interests</label>
+            <div class="tags-display">
+              <div class="interest-tag" *ngFor="let tag of currentPreferences.tags">
+                {{tag}}
+              </div>
+              <div class="no-tags" *ngIf="!currentPreferences.tags?.length">
+                No interests selected
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
