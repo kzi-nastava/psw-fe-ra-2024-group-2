@@ -76,6 +76,7 @@
           <button *ngIf="user.role === 'tourist' || user.role === 'author'" [routerLink]="['rateApp']">
             Rate Application
           </button>
+          <button [routerLink]="['faq']">FAQ</button>
           <div class="dropdown-divider"></div>
           <button (click)="onLogout()">Logout</button>
         </div>

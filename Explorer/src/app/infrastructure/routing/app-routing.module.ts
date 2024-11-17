@@ -31,7 +31,7 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { SendMessageComponent } from 'src/app/feature-modules/stakeholders/send-message/send-message.component';
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-execution/purchased-tours/purchased-tours.component';
 import { TourPreferenceComponent } from 'src/app/feature-modules/tour-authoring/tour-preference/tour-preference.component';
-
+import { FaqComponent } from 'src/app/feature-modules/administration/faq/faq.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -70,6 +70,7 @@ const routes: Routes = [
   {path: 'profileMessaging', component: SendMessageComponent, canActivate: [AuthGuard]},
   {path: 'shopping-cart/purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
   {path: 'tourPreference', component: TourPreferenceComponent, canActivate: [AuthGuard]},
+  {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
