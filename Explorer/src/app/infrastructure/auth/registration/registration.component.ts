@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Registration } from '../model/registration.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
+  passwordMismatch: boolean = false;
+  emailTouched = false;
 
   constructor(
     private authService: AuthService,
@@ -19,12 +21,20 @@ export class RegistrationComponent {
   registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     surname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
   });
 
   register(): void {
+    const password = this.registrationForm.value.password;
+    const confirmPassword = this.registrationForm.value.confirmPassword;
+    this.passwordMismatch = password !== confirmPassword;
+    if (this.passwordMismatch) {
+      return;
+    }
+
     const registration: Registration = {
       name: this.registrationForm.value.name || "",
       surname: this.registrationForm.value.surname || "",
@@ -40,5 +50,19 @@ export class RegistrationComponent {
         },
       });
     }
+  }
+
+  getEmailErrorMessage(): string {
+    const emailControl = this.registrationForm.get('email');
+    if (emailControl?.errors?.['email'] && emailControl.value !== '') {
+      return 'Invalid Email Format';
+    }
+    return '';
+  }
+  onEmailBlur() {
+    this.emailTouched = true;
+  }
+  onEmailClick(){
+    this.emailTouched = false;
   }
 }

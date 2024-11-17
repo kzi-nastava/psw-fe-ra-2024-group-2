@@ -55,6 +55,24 @@ export class AccountManagementComponent implements OnInit {
       console.log('User not found.');
     }
   }
+  unblockUser(account: Account): void {
+    const userToUnblock = this.account.find(acc => acc.userId === account.userId);
+    if (userToUnblock) {
+      userToUnblock.isBlocked = false;
+      
+      this.service.unblockAccount(userToUnblock).subscribe({
+        next: () => {
+          console.log(`User ${userToUnblock.username} has been unblocked.`);
+          this.getAccounts();
+        },
+        error: (err: any) => {
+          console.error('Error during unblocking the user:', err);
+        }
+      });
+    } else {
+      console.log('User not found.');
+    }
+  }
 
   getAccounts(): void{
     this.service.getAccount().subscribe({

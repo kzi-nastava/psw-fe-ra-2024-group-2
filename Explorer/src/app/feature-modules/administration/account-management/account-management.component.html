@@ -1,4 +1,4 @@
-<div>
+<div id="accounts" class="component">
   <table>
     <thead>
       <tr>
@@ -6,7 +6,8 @@
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
-        <th>Block</th>
+        <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -16,13 +17,22 @@
           <td>{{acc.username}}</td>
           <td>{{acc.email}}</td>
           <td>{{ getRoleName(acc.role) }}</td>
+          <td [ngClass]="acc.isBlocked ? 'status-blocked' : 'status-active'">
+            {{ acc.isBlocked ? 'Blocked' : 'Active' }}
+          </td>
           <td>
-            <ng-container *ngIf="acc.isBlocked; else notBlocked">
-              Blocked
-            </ng-container>
-            <ng-template #notBlocked>
-              <button (click)="blockUser(acc)">Block</button>
-            </ng-template>
+            <div class="action-buttons">
+              <ng-container *ngIf="acc.isBlocked; else notBlocked">
+                <button class="unblock-btn" (click)="unblockUser(acc)">
+                  Unblock
+                </button>
+              </ng-container>
+              <ng-template #notBlocked>
+                <button class="block-btn" (click)="blockUser(acc)">
+                  Block
+                </button>
+              </ng-template>
+            </div>
           </td>
         </tr>
       </ng-container>
