@@ -55,6 +55,9 @@ removeTouristFromClub(url: string): Observable<any> {
   blockAccount(account: Account): Observable<Account>{
     return this.http.put<Account>('https://localhost:44333/api/administrator/account/block/', account);
   }
+  unblockAccount(account: Account): Observable<Account>{
+    return this.http.put<Account>('https://localhost:44333/api/administrator/account/unblock/', account);
+  }
 
   //anino
   addEquipmentToTourist(equipmentId: number): Observable<any> {
