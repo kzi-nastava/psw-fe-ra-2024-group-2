@@ -1,47 +1,126 @@
-p {
-  font-size: 20px;
+:root {
+  --white: #ffffff;
+  --lighter-brown: #f5e6d3;
+  --light-brown: #d2b48c;
+  --primary-brown: #8b4513;
+  --dark-brown: #654321;
+  --dark-green: #2e7d32;
+  --error: #dc3545;
+  --text-light: #666666;
 }
 
-table {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
+#accounts {
+  padding: 1rem;
+  margin-left: 150px;
+  margin-right: 150px;
+}
+#accounts td:last-child {
+  text-align: center;
+}
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+#accounts table {
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-collapse: collapse;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  min-width: 300px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1.5rem;
 }
 
-thead tr {
-  background-color: #3f51b5;
-  color: #ffffff;
+#accounts thead {
+  background-color: var(--lighter-brown);
+}
+
+#accounts th {
+  color: var(--dark-brown);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--light-brown);
+}
+#accounts th:last-child {
+  text-align: center;
+}
+#accounts td:last-child {
   text-align: center;
 }
 
-th, td {
-  padding: 12px 15px;
-  text-align: center;
+#accounts td {
+  color: var(--text-light);
+  padding: 1rem;
+  border-bottom: 1px solid var(--lighter-brown);
 }
 
-tbody tr {
-  border-bottom: 1px solid #dddddd;
+#accounts tbody tr:nth-child(even) {
+  background-color: rgba(210, 180, 140, 0.1);
 }
 
-tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+#accounts tbody tr:hover {
+  background-color: rgba(144, 238, 144, 0.1);
+  transition: background-color 0.3s ease;
 }
 
-tbody tr:last-of-type {
-  border-bottom: 2px solid #3f51b5;
+/* Status styling */
+#accounts td:nth-child(5) {
+  font-weight: 500;
 }
 
-tbody tr.active-row {
-  font-weight: bold;
-  color: #3f51b5;
+.status-active {
+  color: var(--dark-green);
 }
 
-button{
-  background-color: red;
-  font-weight: bold;
+.status-blocked {
+  color: var(--error);
+}
+
+#accounts button {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+#accounts button:hover {
+  background-color: var(--dark-brown);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#accounts button.block-btn {
+  background-color: var(--error);
+}
+
+#accounts button.unblock-btn {
+  background-color: var(--dark-green);
+}
+
+/* Responsive design */
+@media screen and (max-width: 1024px) {
+  #accounts {
+    padding: 0.5rem;
+    overflow-x: auto;
+  }
+  
+  #accounts table {
+    min-width: 800px;
+  }
+  
+  #accounts th, 
+  #accounts td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  #accounts button {
+    padding: 0.4rem 1rem;
+  }
 }

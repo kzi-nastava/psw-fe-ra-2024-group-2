@@ -4,6 +4,7 @@ import { TourExecutionService } from '../tour-execution.service';
 import { TourIssueReport } from '../model/tour-issue-report.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-report-form',
@@ -17,7 +18,7 @@ export class ReportFormComponent implements OnChanges {
   @Input() userId: number | null = null; // Primamo userId
   @Input() tourId: number | null = null; // Primamo tourId
 
-  constructor(private service: TourExecutionService){}
+  constructor(private service: TourExecutionService, private router: Router){}
   // category: string = '';
   // description: string = '';
   // priority: string = '';
@@ -40,6 +41,14 @@ export class ReportFormComponent implements OnChanges {
     const category = this.reportForm.value.category;
     const description = this.reportForm.value.description;
     const priority = this.reportForm.value.priority;
+
+    console.log('Podaci izveštaja:', {
+      category,
+      description,
+      priority,
+      tourId: this.tourId,
+      userId: this.userId
+    });
   
     // Check if any field is empty or missing
     if (!category || !description || !priority) {
@@ -63,7 +72,10 @@ export class ReportFormComponent implements OnChanges {
     this.service.addTourIssueReport(newTourIssueReport).subscribe({
       next: () => { console.log("Uspelo")
         this.reportForm.reset();
-        
+      },
+      error: (err) => {
+        console.error('Error adding report:', err);
+        alert('Failed to add report. Please try again.');
       }
     })
   }

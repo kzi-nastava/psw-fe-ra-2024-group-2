@@ -10,6 +10,7 @@ import { Login } from '../model/login.model';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -32,6 +33,13 @@ export class LoginComponent {
         next: () => {
           this.router.navigate(['/']);
         },
+        error: (err) => {
+          if (err.status === 403) {
+            this.errorMessage = 'Your account has been blocked. Please contact support.';
+          } else {
+            this.errorMessage = 'Invalid username or password.';
+          }
+        }
       });
     }
   }
