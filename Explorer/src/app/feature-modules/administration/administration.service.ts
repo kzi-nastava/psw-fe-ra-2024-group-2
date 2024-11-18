@@ -8,6 +8,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Account } from './model/account.model';
 import { AccountDTO } from './model/accountdto.model';
 import { ClubInviteDTO } from './model/clubinvitedto.model';
+import { FAQDto } from './model/faq.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,5 +74,12 @@ removeTouristFromClub(url: string): Observable<any> {
       return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tourist/equipment/all`);
   }
 
+  getAllFAQs(): Observable<PagedResults<FAQDto>>{
+    return this.http.get<PagedResults<FAQDto>>('https://localhost:44333/api/faqView')
+  }
+
+  createFAQ(faq: FAQDto, userId: number): Observable<FAQDto>{
+    return this.http.post<FAQDto>('https://localhost:44333/api/administration/faq/'+userId, faq)
+  }
 
 }

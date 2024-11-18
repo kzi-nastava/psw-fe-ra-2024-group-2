@@ -9,6 +9,9 @@ import { AccountManagementComponent } from './account-management/account-managem
 import { ToursitClubComponent } from './toursit-club/toursit-club.component';
 import { ObjectsManagementComponent } from '../tour-authoring/objects-management/objects-management.component';
 import { TouristEquipmentComponent } from './tourist-equipment/tourist-equipment.component';
+import { FaqComponent } from './faq/faq.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -21,12 +24,15 @@ import { TouristEquipmentComponent } from './tourist-equipment/tourist-equipment
     RatingApplicationComponent,
     AccountManagementComponent,
     ObjectsManagementComponent,
-    TouristEquipmentComponent
+    TouristEquipmentComponent,
+    FaqComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserModule,
+    FormsModule
   ],
   exports: [
     EquipmentComponent,
