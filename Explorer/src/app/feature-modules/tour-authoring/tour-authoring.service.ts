@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PagedResult } from './shared/model/tour.module';
 import { Tour } from './model/tour.model';
 import { Equipment } from '../administration/model/equipment.model';
@@ -17,6 +17,15 @@ import { TourIssueNotification } from '../layout/model/tour-notification.model';
 export class TourAuthoringService {
   MarkAllAsRead(userId: number): Observable<void> {
     return this.http.put<void>(`https://localhost:44333/api/tourNotifications/markAllAsRead/${userId}`, null)
+  }
+
+  private tourDataSource = new BehaviorSubject<Tour | null>(null);
+  tourData$ = this.tourDataSource.asObservable();
+  setTourData(tour: Tour) {
+    this.tourDataSource.next(tour);
+  }
+  getTourData(): Tour | null {
+    return this.tourDataSource.getValue();
   }
 
   constructor(private http: HttpClient) { }

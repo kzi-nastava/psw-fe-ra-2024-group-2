@@ -14,6 +14,7 @@ import { ObjectUpdateComponent } from './object-update/object-update.component';
 import { PositionSimulatorComponent } from '../stakeholders/position-simulator/position-simulator.component';
 import { FormsModule } from '@angular/forms';
 import { TourPreferenceComponent } from './tour-preference/tour-preference.component';
+import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-checkpoints.component';
 @NgModule({
   declarations: [
     MyToursComponent,
@@ -25,7 +26,8 @@ import { TourPreferenceComponent } from './tour-preference/tour-preference.compo
     AddNewTourComponent,
     PositionSimulatorComponent,
     NotificationComponent,
-    TourPreferenceComponent
+    TourPreferenceComponent,
+    AddTourCheckpointsComponent
   ],
   imports: [
     CommonModule,
