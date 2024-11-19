@@ -9,6 +9,7 @@ import { Object } from './model/object.model';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { EventModel } from './model/event.model';
 
 
 @Injectable({
@@ -115,5 +116,11 @@ export class TourAuthoringService {
 
   updatePreference(preference: any): Observable<any> {
     return this.http.put('https://localhost:44333/api/tourist/tour/preferences', preference);
+  }
+  addEvent(event: EventModel): Observable<EventModel> {
+    return this.http.post<EventModel>('https://localhost:44333/api/author/event', event);
+  }
+  getEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
   }
 }

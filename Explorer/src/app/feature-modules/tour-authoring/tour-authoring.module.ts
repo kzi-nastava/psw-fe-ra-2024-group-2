@@ -14,7 +14,12 @@ import { ObjectUpdateComponent } from './object-update/object-update.component';
 import { PositionSimulatorComponent } from '../stakeholders/position-simulator/position-simulator.component';
 import { FormsModule } from '@angular/forms';
 import { TourPreferenceComponent } from './tour-preference/tour-preference.component';
+
+import { EventFormComponent } from './event-form/event-form.component';
+import { EventComponent } from './event/event.component';
+
 import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-checkpoints.component';
+
 @NgModule({
   declarations: [
     MyToursComponent,
@@ -27,6 +32,8 @@ import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-che
     PositionSimulatorComponent,
     NotificationComponent,
     TourPreferenceComponent,
+    EventFormComponent,
+    EventComponent,
     AddTourCheckpointsComponent
   ],
   imports: [

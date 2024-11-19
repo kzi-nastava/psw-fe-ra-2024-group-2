@@ -1,0 +1,159 @@
+<div class="form-container">
+    <form [formGroup]="eventForm" (ngSubmit)="addEvent()">
+      <div class="form-header">
+        <h2>Add New Event</h2>
+        <p class="form-subtitle">Fill in the details below to add a new event to the system</p>
+      </div>
+  
+      <div class="form-section">
+        <h3 class="section-title">Basic Information</h3>
+        <div class="form-grid">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name" class="required">Name</label>
+            <div class="input-container">
+              <input id="name" formControlName="name" type="text" class="form-control" placeholder="Enter event name" />
+              <div class="input-icon">
+                <i class="fas fa-cube"></i>
+              </div>
+            </div>
+            <div *ngIf="eventForm.get('name')?.invalid && eventForm.get('name')?.touched" class="error-container">
+              <small class="error"><i class="fas fa-exclamation-circle"></i> Name is required</small>
+            </div>
+          </div>
+  
+          <!-- Category Dropdown -->
+          <div class="form-group">
+            <label for="category" class="required">Category</label>
+            <div class="input-container">
+              <select id="category" formControlName="category" class="form-control">
+                <option value="">Select a category</option>
+                <option value="0">Concert</option>
+                <option value="1">MusicFestival</option>
+                <option value="2">FilmFestival</option>
+                <option value="3">FootballMatch</option>
+                <option value="4">BasketballMatch</option>
+              </select>
+              <div class="input-icon">
+                <i class="fas fa-tag"></i>
+              </div>
+            </div>
+            <div *ngIf="eventForm.get('category')?.invalid && eventForm.get('category')?.touched"
+              class="error-container">
+              <small class="error"><i class="fas fa-exclamation-circle"></i> Category is required</small>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Description Field -->
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" formControlName="description" rows="4" class="form-control"
+            placeholder="Enter detailed description of the object"></textarea>
+        </div>
+      </div>
+  
+      <div class="form-section">
+        <h3 class="section-title">Image Upload</h3>
+        <div class="upload-container">
+          <!-- File Input for Image -->
+          <div class="form-group">
+            <div class="file-upload">
+              <label for="image-upload" class="file-upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Choose an image</span>
+                <input type="file" id="image-upload" (change)="onFileSelect($event)" class="file-input"
+                  accept="image/*" />
+              </label>
+            </div>
+          </div>
+          
+
+  
+          <!-- Image Preview -->
+          <div *ngIf="imagePreview" class="image-preview-container">
+            <div class="preview-wrapper">
+              <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview" />
+              <div class="preview-overlay">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="date-fields-container">
+            <div class="form-group">
+              <label class="form-label" for="startDate">
+                <span class="icon">📅</span> Start Date
+              </label>
+              <input 
+                id="startDate" 
+                type="date" 
+                class="form-control"
+                formControlName="startDate" 
+              > 
+    
+            <div class="form-group">
+              <label class="form-label" for="endDate">
+                <span class="icon">🗓</span> End Date
+              </label>
+              <input 
+                id="endDate" 
+                type="date" 
+                class="form-control"
+                formControlName="endDate" 
+              >
+      </div>
+  
+      <div class="form-section">
+        <h3 class="section-title">Location Details</h3>
+        <div class="coordinates-grid">
+          <!-- Latitude Field -->
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <div class="input-container">
+              <input type="text" id="latitude" formControlName="latitude" class="form-control" readonly />
+              <div class="input-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+            </div>
+            <div *ngIf="eventForm.get('latitude')?.invalid && eventForm.get('latitude')?.touched"
+              class="error-container">
+              <small class="error"><i class="fas fa-exclamation-circle"></i> Latitude is required</small>
+            </div>
+          </div>
+  
+          <!-- Longitude Field -->
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <div class="input-container">
+              <input type="text" id="longitude" formControlName="longitude" class="form-control" readonly />
+              <div class="input-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+            </div>
+            <div *ngIf="eventForm.get('longitude')?.invalid && eventForm.get('longitude')?.touched"
+              class="error-container">
+              <small class="error"><i class="fas fa-exclamation-circle"></i> Longitude is required</small>
+            </div>
+          </div>
+        </div>
+  
+        <div class="map-container">
+          <xp-map (locationSelected)="onLocationSelected($event)" [clearMarkersTrigger]="clearMarkersFlag"
+            (markersCleared)="onMarkersCleared()"></xp-map>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" (click)="clearMarkers()">
+          Add Event
+        </button>
+      </div>
+      <div *ngIf="showErrorMessage" class="error-message">
+        Image already exists!
+      </div>
+    
+   
+  </div>
