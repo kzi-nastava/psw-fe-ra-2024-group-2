@@ -1,0 +1,114 @@
+<div class="page-container">
+    <section class="forms-section">
+        <div class="form-container">
+            <h2 class="form-title">Define Your Tour: Add 2 or More Checkpoints</h2>
+            <form [formGroup]="checkpointForm" class="custom-form" (ngSubmit)="addCheckpoint()">
+                <div class="form-content">
+                    <div class="form-left">
+                        <div class="form-group">
+                            <label for="checkpointName" class="form-label">Name</label>
+                            <input type="text" id="checkpointName" class="input-field" placeholder="Enter checkpoint name"
+                                formControlName="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkpointDescription" class="form-label">Description</label>
+                            <textarea id="checkpointDescription" class="textarea-field"
+                                placeholder="Enter checkpoint description" formControlName="description" rows="3"
+                                required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkpointSecret" class="form-label">Secret</label>
+                            <textarea id="checkpointSecret" class="textarea-field"
+                                placeholder="Enter checkpoint secret" formControlName="secret" rows="3"
+                                required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image" class="form-label">Image Upload</label>
+                            <div class="file-input-container">
+                                <label for="image" class="file-label">
+                                    <span class="upload-text">Choose an image</span>
+                                    <input type="file" id="image" class="file-input" (change)="onFileSelect($event)"
+                                        accept="image/*">
+                                </label>
+                            </div>
+                            <div *ngIf="imagePreview" class="image-preview">
+                                <h4 class="preview-title">Image Preview</h4>
+                                <img [src]="imagePreview" alt="Image Preview" class="preview-image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-right">
+                        <div class="map-container">
+                            <div class="map-hint">Choose Location on Map</div>
+                            <xp-map (locationSelected)="onLocationSelected($event)" #map></xp-map>
+                        </div>
+
+                        <div class="coordinates-group">
+                            <div class="form-group">
+                                <label for="latitude" class="form-label">Latitude</label>
+                                <input type="number" id="latitude" class="input-field" formControlName="latitude" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="longitude" class="form-label">Longitude</label>
+                                <input type="number" id="longitude" class="input-field" formControlName="longitude" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-button" [disabled]="checkpointForm.invalid">
+                        Add Checkpoint
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <div class="finalize-button-container">
+        <button (click)="finalizeTour()" class="submit-button finalize-button" [disabled]="checkpoints.length < 2">
+            Finalize Tour
+        </button>
+        <button (click)="cancelTour()" class="submit-button cancel-button">
+            Cancel
+        </button>
+    </div>
+
+    <section class="table-section">
+        <h2 class="form-title">Added Checkpoints</h2>
+        <div class="table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Secret</th>
+                        <th>Image</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let check of checkpoints">
+                        <td>{{ check.name }}</td>
+                        <td>{{ check.description }}</td>
+                        <td>{{ check.secret }}</td>
+                        <td>
+                            <img *ngIf="check.image?.data"
+                                [src]="'data:' + check.image?.mimeType + ';base64,' + check.image?.data"
+                                alt="Checkpoint Image" class="checkpoint-image">
+                        </td>
+                        <td>{{ check.longitude }}</td>
+                        <td>{{ check.latitude }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </section>
+</div>

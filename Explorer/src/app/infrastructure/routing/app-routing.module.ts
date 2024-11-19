@@ -34,6 +34,8 @@ import { TourPreferenceComponent } from 'src/app/feature-modules/tour-authoring/
 import { FaqComponent } from 'src/app/feature-modules/administration/faq/faq.component';
 import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
 import { EventComponent } from 'src/app/feature-modules/tour-authoring/event/event.component';
+import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-authoring/add-tour-checkpoints/add-tour-checkpoints.component';
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -74,6 +76,7 @@ const routes: Routes = [
   {path: 'tourPreference', component: TourPreferenceComponent, canActivate: [AuthGuard]},
   {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
   {path: 'events', component: EventComponent, canActivate: [AuthGuard]},
+  {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
