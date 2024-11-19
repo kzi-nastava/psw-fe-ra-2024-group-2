@@ -23,6 +23,9 @@ export class AddTourCheckpointsComponent implements OnInit {
   longitude: number = 0;
   tourId: number = 0;
   tour: Tour | null = null;
+  polyline: L.Polyline | null = null;
+  
+
 
   @ViewChild('map', { static: false }) mapComponent!: MapComponent;
 
@@ -102,10 +105,34 @@ export class AddTourCheckpointsComponent implements OnInit {
           };
 
           this.checkpoints.push(checkpoint);
-          this.checkpointForm.reset();
+          this.addRouteToMap(); // Calculate and display the route
+
+          this.resetForm();
           this.selectedImage = null;
       }
   }
+
+  addRouteToMap(): void {
+    if (this.checkpoints.length < 2) return;
+
+    const waypoints = this.checkpoints.map((checkpoint) =>
+        L.latLng(checkpoint.latitude, checkpoint.longitude)
+    );
+
+    const routingControl = L.Routing.control({
+        waypoints,
+        router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' }),
+        routeWhileDragging: false,
+        addWaypoints: false,
+    });
+
+    routingControl.addTo(this.mapComponent.map);
+    // Hide the directions box
+    const itineraryElement = document.querySelector('.leaflet-routing-container');
+    if (itineraryElement) {
+        itineraryElement.setAttribute('style', 'display: none;');
+    }
+}
 
   onLocationSelected(location: { lat: number, lng: number }) {
       this.latitude = location.lat;
