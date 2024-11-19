@@ -49,7 +49,11 @@
     transition: border-color 0.3s ease;
     background-color: var(--white);
   }
-  
+
+  .input-field::placeholder {
+    font-family: monospace;
+  }
+
   .input-field:focus,
   .select-field:focus {
     outline: none;
@@ -104,6 +108,15 @@
     overflow: hidden;
     border: 1px solid var(--light-brown);
   }
+
+  .map-hint {
+    padding: 0.5rem 0.75rem;
+    background-color: white;
+    border-bottom: 1px solid var(--light-brown);
+    color: var(--dark-brown);
+    font-size: 0.9rem;
+    text-align: center;
+}
   
   /* Table Section */
   .table-section {

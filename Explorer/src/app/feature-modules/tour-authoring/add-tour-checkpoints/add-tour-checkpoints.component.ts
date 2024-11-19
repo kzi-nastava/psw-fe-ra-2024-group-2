@@ -120,34 +120,6 @@ export class AddTourCheckpointsComponent implements OnInit {
       this.imagePreview = null;
   }
 
-  /*async finalizeTour(): Promise<void> {
-    if (this.checkpoints.length < 2) {
-        console.log('Please add at least 2 checkpoints to create a tour');
-        return;
-    }
-
-    this.service.getTourById(this.tourId).subscribe({
-        next: async (tour) => {
-            let durations = await this.findDuration();
-            tour.tourDurationByTransportDtos = durations;
-            
-            // Promena je ovde - šaljemo objekat sa tour i checkpoints
-            this.service.addTourAndCheckpoints(tour, this.checkpoints).subscribe({
-                next: (createdTour) => {
-                    console.log('Tour created:', createdTour);
-                    this.router.navigate(['/mytours']); // bolje nego window.reload()
-                },
-                error: (err) => {
-                    console.error("Error creating tour:", err);
-                }
-            });
-        },
-        error: (err) => {
-            console.error("Error getting tour:", err);
-        }
-    });
-}*/
-
   async finalizeTour(): Promise<void> {
     if (this.checkpoints.length < 2) {
         console.log('Please add at least 2 checkpoints to create a tour');
@@ -166,7 +138,7 @@ export class AddTourCheckpointsComponent implements OnInit {
     this.service.addTourAndCheckpoints(this.tour, this.checkpoints).subscribe({
         next: (createdTour) => {
             console.log('Tour created:', createdTour);
-            this.router.navigate(['/mytours']);
+            //this.router.navigate(['/mytours']); 
         },
         error: (err) => {
             console.error("Error creating tour:", err);

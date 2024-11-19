@@ -1,7 +1,7 @@
 <div class="page-container">
     <section class="forms-section">
         <div class="form-container">
-            <h2 class="form-title">Add Checkpoint</h2>
+            <h2 class="form-title">Define Your Tour: Add 2 or More Checkpoints</h2>
             <form [formGroup]="checkpointForm" class="custom-form" (ngSubmit)="addCheckpoint()">
                 <div class="form-group">
                     <label for="checkpointName" class="form-label">Name</label>
@@ -14,18 +14,6 @@
                     <textarea id="checkpointDescription" class="textarea-field"
                         placeholder="Enter checkpoint description" formControlName="description" rows="3"
                         required></textarea>
-                </div>
-
-                <div class="coordinates-group">
-                    <div class="form-group">
-                        <label for="latitude" class="form-label">Latitude</label>
-                        <input type="number" id="latitude" class="input-field" formControlName="latitude" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="longitude" class="form-label">Longitude</label>
-                        <input type="number" id="longitude" class="input-field" formControlName="longitude" readonly>
-                    </div>
                 </div>
 
                 <div class="form-group">
@@ -52,7 +40,20 @@
                 </div>
 
                 <div class="map-container">
+                    <div class="map-hint">Choose Location on Map</div>
                     <xp-map (locationSelected)="onLocationSelected($event)" #map></xp-map>
+                </div>
+
+                <div class="coordinates-group">
+                    <div class="form-group">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="number" id="latitude" class="input-field" formControlName="latitude" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="number" id="longitude" class="input-field" formControlName="longitude" readonly>
+                    </div>
                 </div>
 
                 <div class="form-actions">
