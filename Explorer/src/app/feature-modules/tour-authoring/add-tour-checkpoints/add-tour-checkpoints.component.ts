@@ -120,6 +120,10 @@ export class AddTourCheckpointsComponent implements OnInit {
       this.imagePreview = null;
   }
 
+  cancelTour(): void {
+    this.router.navigate(['/addNewTour']);
+  }
+
   async finalizeTour(): Promise<void> {
     if (this.checkpoints.length < 2) {
         console.log('Please add at least 2 checkpoints to create a tour');

@@ -17,7 +17,7 @@
     background-color: var(--white);
     border-radius: 8px;
     padding: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
@@ -103,10 +103,12 @@
   
   /* Map Container */
   .map-container {
-    margin: 1rem 0;
+    margin: 0;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--light-brown);
+    height: 100%;
+    flex-grow: 1;
   }
 
   .map-hint {
@@ -166,7 +168,18 @@
   .form-actions {
     margin-top: 1rem;
     text-align: right;
+    display: flex;
+    justify-content: center;
   }
+    /*
+    .form-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 1rem;
+    z-index: 1;
+  }
+  */
   
   .submit-button {
     background-color: var(--primary-brown);
@@ -187,6 +200,11 @@
   .submit-button:disabled {
     background-color: var(--text-light);
     cursor: not-allowed;
+  }
+
+  .form-actions .submit-button {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
   }
   
   /* Responsive Design */
@@ -309,4 +327,70 @@
   .upload-text {
     font-size: 1rem;
     color: var(--dark-brown);
+  }
+
+  .page-container {
+    flex-direction: column;
+  }
+
+  .form-content {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .form-left {
+    flex: 1;
+  }
+
+  .form-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .coordinates-group {
+    margin-top: 1rem;
+  }
+
+  .table-section {
+    margin-top: 0.5rem;
+    flex: none;
+    width: 100%;
+  }
+
+  .custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .finalize-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0.2rem;
+    gap: 3rem;
+  }
+
+  .finalize-button {
+    min-width: 20%;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .cancel-button {
+    background-color: #bd453a; 
+    font-size: 17.6px;
+  }
+
+  .cancel-button:hover {
+    background-color: #a72519;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+  }
+
+  @media (max-width: 1024px) {
+    .form-content {
+        flex-direction: column;
+    }
   }
