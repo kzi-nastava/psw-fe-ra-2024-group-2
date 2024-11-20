@@ -10,6 +10,8 @@ import { TourExecution } from '../../tour-execution/model/tourExecution-model';
 import { Router } from '@angular/router';
 import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
 import { ChangeDetectorRef } from '@angular/core';
+import { PagedResult } from '../../blog/blog.module';
+import { EventModel } from '../../tour-authoring/model/event.model';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -28,6 +30,7 @@ export class PositionSimulatorComponent {
   currentTouristPosition: TouristPosition | null = null;
   intervalId: any;
   secret: string | null = null;
+  events: any[] = [];
   constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef  ) {}
 
   ngOnInit(): void {
@@ -158,9 +161,30 @@ export class PositionSimulatorComponent {
         }
 
       });
+      this.execService.GetAllEventsWithinRange(this.touristPosition).subscribe({
+        next: (result : PagedResult<EventModel>) => {
+          console.log(result);
+          this.events = result.results;
+          console.log(this.events);
+        }
+      });
     }
   }
 
+
+  joinEvent(event: EventModel): void {
+
+    this.execService.acceptEvent(event).subscribe({
+      next: (response) => {
+        console.log('Tour started successfully!', response);
+        this.router.navigate(['/position-simulator']);
+      },
+      error: (error) => {
+        console.error('Failed to start the tour:', error);
+      }
+    });
+
+  }
   showSecret(sec: any): void{
     this.secret = sec;
     //this.cdr.detectChanges(); // Trigger change detection

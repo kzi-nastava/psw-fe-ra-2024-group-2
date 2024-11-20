@@ -12,9 +12,6 @@
     align-items: center;
     flex-direction: row;
 }
-.action_button{
-    margin: 50px;
-}
 .checkpoint-secrets-container {
   margin-bottom: 20px;
   margin-top: 20px;
@@ -67,6 +64,41 @@ xp-map {
     height: 400px; /* Set a fixed height for the map */
 }
 
+.event-card {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.event-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.event-details {
+  padding: 16px;
+}
+
+.event-name {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.event-category,
+.event-description,
+.event-dates,
+.event-id {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
 
 .btn {
     flex: 1;
