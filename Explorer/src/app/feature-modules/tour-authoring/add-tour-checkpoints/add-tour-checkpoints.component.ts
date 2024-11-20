@@ -17,14 +17,16 @@ import { Tour } from '../model/tour.model';
 
 export class AddTourCheckpointsComponent implements OnInit {
   checkpoints: Checkpoint[] = [];
+  checkpointCollection: any[] = [];
+
   selectedImage: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   latitude: number = 0;
   longitude: number = 0;
   tourId: number = 0;
   tour: Tour | null = null;
-  polyline: L.Polyline | null = null;
-  
+  routingControl: L.Routing.Control | null = null;
+  clearMarkersFlag: boolean = false;
 
 
   @ViewChild('map', { static: false }) mapComponent!: MapComponent;
@@ -91,6 +93,10 @@ export class AddTourCheckpointsComponent implements OnInit {
               };
 
               this.checkpoints.push(checkpoint);
+              this.checkpointCollection = [...this.checkpointCollection, ...this.checkpoints];
+
+              //this.addRouteToMap(); // Calculate and display the route
+
               this.resetForm();
           }
           reader.readAsDataURL(this.selectedImage);
@@ -105,7 +111,9 @@ export class AddTourCheckpointsComponent implements OnInit {
           };
 
           this.checkpoints.push(checkpoint);
-          this.addRouteToMap(); // Calculate and display the route
+          this.checkpointCollection = [...this.checkpointCollection, checkpoint];
+          console.log(this.checkpointCollection);
+          //this.addRouteToMap(); // Calculate and display the route
 
           this.resetForm();
           this.selectedImage = null;
@@ -114,25 +122,56 @@ export class AddTourCheckpointsComponent implements OnInit {
 
   addRouteToMap(): void {
     if (this.checkpoints.length < 2) return;
+    // Clear existing map layers and controls
+    this.mapComponent.map.eachLayer((layer: L.Layer) => {
+        if (!(layer instanceof L.TileLayer)) { // Keep the base tile layer
+            this.mapComponent.map.removeLayer(layer);
+        }
+    });
 
-    const waypoints = this.checkpoints.map((checkpoint) =>
-        L.latLng(checkpoint.latitude, checkpoint.longitude)
-    );
+    // Remove any existing routing control
+    if (this.routingControl) {
+        this.mapComponent.map.removeControl(this.routingControl);
+    }
 
-    const routingControl = L.Routing.control({
+    // Create an array to hold the waypoints
+    const waypoints = this.checkpoints.map((checkpoint) => {
+        // Create a marker for each checkpoint
+        const marker = L.marker([checkpoint.latitude, checkpoint.longitude]);
+        console.log("Da li udjes");
+        // Bind a popup to the marker that displays the checkpoint's name
+        marker.bindPopup(`<h5>${checkpoint.name}</h5>`);
+        // Add the marker to the map
+        marker.addTo(this.mapComponent.map);
+
+        // Return the waypoint as LatLng for routing
+        return L.latLng(checkpoint.latitude, checkpoint.longitude);
+    });
+
+        this.routingControl = L.Routing.control({
         waypoints,
         router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' }),
         routeWhileDragging: false,
         addWaypoints: false,
     });
 
-    routingControl.addTo(this.mapComponent.map);
+    this.routingControl.addTo(this.mapComponent.map);
     // Hide the directions box
     const itineraryElement = document.querySelector('.leaflet-routing-container');
     if (itineraryElement) {
         itineraryElement.setAttribute('style', 'display: none;');
     }
 }
+
+
+  clearMarkers(){
+    this.clearMarkersFlag = true;
+  }
+  onMarkersCleared(): void {
+    setTimeout(() => {
+      this.clearMarkersFlag = false; 
+    });
+  }
 
   onLocationSelected(location: { lat: number, lng: number }) {
       this.latitude = location.lat;

@@ -44,7 +44,10 @@
                     <div class="form-right">
                         <div class="map-container">
                             <div class="map-hint">Choose Location on Map</div>
-                            <xp-map (locationSelected)="onLocationSelected($event)" #map></xp-map>
+                            <xp-map (locationSelected)="onLocationSelected($event)" 
+                            [checkpointCollection]="checkpointCollection"
+                            [clearMarkersTrigger]="clearMarkersFlag" 
+                            (markersCleared)="onMarkersCleared()" #map></xp-map>
                         </div>
 
                         <div class="coordinates-group">
