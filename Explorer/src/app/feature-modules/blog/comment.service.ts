@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Comment } from './model/comment.model';
-import { PagedResult } from './blog.module';
+import { Comment, CommentWithAuthor } from './model/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +13,8 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   // Fetch comments by blog ID
-  getCommentsByBlogId(blogId: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`https://localhost:44333/api/blog/${blogId}`);
+  getCommentsByBlogId(blogId: number): Observable<CommentWithAuthor[]> {
+    return this.http.get<CommentWithAuthor[]>(`https://localhost:44333/api/blog/${blogId}`);
   }
 
   // Add a new comment to a specific blog
