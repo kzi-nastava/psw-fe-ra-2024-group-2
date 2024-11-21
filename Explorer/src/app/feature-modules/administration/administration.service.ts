@@ -6,6 +6,7 @@ import { environment } from 'src/env/environment';
 import { Account } from './model/account.model';
 import { ClubInviteDTO } from './model/clubinvitedto.model';
 import { Equipment } from './model/equipment.model';
+import { FAQDto } from './model/faq.model';
 import { RatingWithUser } from './model/rating-application.model';
 
 @Injectable({
@@ -54,6 +55,9 @@ removeTouristFromClub(url: string): Observable<any> {
   blockAccount(account: Account): Observable<Account>{
     return this.http.put<Account>('https://localhost:44333/api/administrator/account/block/', account);
   }
+  unblockAccount(account: Account): Observable<Account>{
+    return this.http.put<Account>('https://localhost:44333/api/administrator/account/unblock/', account);
+  }
 
   //anino
   addEquipmentToTourist(equipmentId: number): Observable<any> {
@@ -72,5 +76,12 @@ removeTouristFromClub(url: string): Observable<any> {
       return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tourist/equipment/all`);
   }
 
+  getAllFAQs(): Observable<PagedResults<FAQDto>>{
+    return this.http.get<PagedResults<FAQDto>>('https://localhost:44333/api/faqView')
+  }
+
+  createFAQ(faq: FAQDto, userId: number): Observable<FAQDto>{
+    return this.http.post<FAQDto>('https://localhost:44333/api/administration/faq/'+userId, faq)
+  }
 
 }

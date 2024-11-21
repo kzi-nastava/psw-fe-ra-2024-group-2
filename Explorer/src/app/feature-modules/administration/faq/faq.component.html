@@ -1,0 +1,51 @@
+<div class="faq-container">
+    <h1>Frequently Asked Questions</h1>
+  
+    <!-- Admin Form Section -->
+    <div class="add-question-card" *ngIf="user?.role === 'administrator'">
+      <div class="card-header">
+        <h2>Add New Question</h2>
+      </div>
+      <div class="card-content">
+        <div class="faq-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Question</mat-label>
+            <input matInput [(ngModel)]="questionInput" placeholder="Enter the question">
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Answer</mat-label>
+            <textarea matInput [(ngModel)]="answerInput" placeholder="Enter the answer" rows="4"></textarea>
+          </mat-form-field>
+  
+          <!-- Error message if question or answer is empty -->
+          <div *ngIf="isError" class="error-mess">
+            <p>Please fill in both the question and the answer.</p>
+          </div>
+  
+          <button type="submit" class="submit-btn" (click)="addFAQ()">
+            <i class="fas fa-plus"></i>
+            Add Question
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- FAQ List Section -->
+    <div class="faq-list">
+      <div class="faq-item" *ngFor="let faq of faqs">
+        <div class="faq-content">
+          <div class="faq-text">
+            <h3>{{faq.question}}</h3>
+            <p>{{faq.answer}}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- No Questions Message -->
+      <div class="no-questions" *ngIf="faqs.length === 0">
+        <p>There are no questions posted at the moment.</p>
+      </div>
+    </div>
+  </div>
+  
