@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { TourAuthoringService } from "../../tour-authoring/tour-authoring.service";
-
+import { TourExecutionService } from "../tour-execution.service";
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Tour } from "../model/tour-model";
@@ -22,7 +22,7 @@ export class SearchToursComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'difficulty', 'price', 'status'];
   tours: Tour[] = [];
 
-  constructor(private tourService: TourAuthoringService, private fb: FormBuilder) {
+  constructor(private tourService: TourAuthoringService, private tourExecutionService : TourExecutionService, private fb: FormBuilder) {
     this.locationForm = this.fb.group({
       radius: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
     });
@@ -51,4 +51,19 @@ export class SearchToursComponent implements OnInit {
     this.longitude = event.lng;
     this.latitude = event.lat;
   }
+
+  addToCart(tourId: number): void {
+
+    this.tourExecutionService.addToCart(tourId).subscribe({
+      next: () => {
+        console.log('Successfully added to cart');
+        alert('Tour successfully added to cart!'); 
+      },
+      error: (error: any) => {
+        console.error('Error adding to cart:', error);
+        alert('Error adding to cart. Please try again.');
+      }
+    });
+  }
+  
 }

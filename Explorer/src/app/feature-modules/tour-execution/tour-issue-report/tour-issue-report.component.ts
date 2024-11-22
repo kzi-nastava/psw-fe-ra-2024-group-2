@@ -28,7 +28,6 @@ export class TourIssueReportComponent implements OnInit {
   }
 
   private loadTourIssueReports(): void {
-    console.log(this.user.id)
     this.service.getTourIssueReport(this.user.id).subscribe({
       next: (result: PagedResult<TourIssueReport>) => {
         this.tourIssueReport = result.results;

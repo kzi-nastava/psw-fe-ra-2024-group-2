@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { BlogService } from '../blog.service';
 import { CommentService } from '../comment.service';
-import { Blog } from '../model/blog.model';
-import { Comment } from '../model/comment.model';
+import { Blog, Image as BlogImage, BlogWithUser } from '../model/blog.model';
+import { Comment, CommentWithAuthor } from '../model/comment.model';
 
 @Component({
   selector: 'xp-comment',
@@ -13,13 +15,14 @@ import { Comment } from '../model/comment.model';
 })
 export class CommentComponent implements OnInit {
 
-  comments: Comment[] = [];
+  commentsWithAuthor: CommentWithAuthor[] = [];
   commentForm: FormGroup;
   shouldEdit: boolean = false;
   currentCommentId: number | null = null;
   currentUserId: number = 1;
   blogId: string | null = null;
-  blog: Blog | null = null;
+  blogWithUser: BlogWithUser | null = null;
+  user: User = {} as User;
 
   statusMap: { [key: number]: string } = {
     0: 'Draft',
@@ -33,7 +36,11 @@ export class CommentComponent implements OnInit {
               private service: CommentService,
               private router: Router, 
               private route: ActivatedRoute,
-              private blogService: BlogService) {}
+              private blogService: BlogService,
+              private renderer: Renderer2,
+              private authService: AuthService) {
+                this.renderer.setStyle(document.body, 'background-color', 'var(--blog-background)');
+              }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -46,16 +53,26 @@ export class CommentComponent implements OnInit {
     this.getComments(Number(this.blogId));
 
     this.fetchBlog(Number(this.blogId));
+
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   showStatus(status: number): string {
     return this.statusMap[status] || 'Unknown Status';
   }
 
+  get blogImages(): BlogImage[] {
+    return this.blogWithUser?.blog.images || [];
+  }
+  
+
   fetchBlog(id: number): void {
     this.blogService.getOneBlog(id).subscribe({
-      next: (blog: Blog) => {
-        this.blog = blog;
+      next: (blog: BlogWithUser) => {
+        this.blogWithUser = blog;
+        console.log(this.blogWithUser);
       },
       error: (err) => {
         console.error('Error fetching blog:', err);
@@ -65,8 +82,8 @@ export class CommentComponent implements OnInit {
 
   getComments(blogId: number): void {
     this.service.getCommentsByBlogId(blogId).subscribe({
-      next: (comments: Comment[]) => {
-        this.comments = comments;
+      next: (commentsWithAuthor: CommentWithAuthor[]) => {
+        this.commentsWithAuthor = commentsWithAuthor;
       },
       error: (err: any) => {
         console.error('Error fetching comments:', err);
@@ -95,6 +112,30 @@ export class CommentComponent implements OnInit {
         }
       });
     }
+  }
+
+  downvote(blog: Blog): void {
+    const ratingType = "Downvote";
+    this.blogService.addRatingOnBlog(blog.id, this.user.username, ratingType).subscribe(
+      (updatedBlog) => {
+        console.log("Rating updated successfully", updatedBlog);
+      },
+      (error) => {
+        console.error("Error updating rating:", error);
+      }
+    );
+  }
+
+  upvote(blog: Blog): void {
+    const ratingType = "Upvote";
+    this.blogService.addRatingOnBlog(blog.id, this.user.username, ratingType).subscribe(
+      (updatedBlog) => {
+        console.log("Rating updated successfully", updatedBlog);
+      },
+      (error) => {
+        console.error("Error updating rating:", error);
+      }
+    );
   }
   
 

@@ -63,6 +63,7 @@ export class TourReviewComponent implements OnInit{
       const updatedReview = {
         ...review,
         ...this.editReviewForm.value
+        
       };
       this.service.updateReview(updatedReview).subscribe({
         next: (response) => {

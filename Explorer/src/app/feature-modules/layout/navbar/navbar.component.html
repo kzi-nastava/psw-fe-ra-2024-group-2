@@ -52,6 +52,7 @@
           <button (click)="showObjects()">Objects</button>
           <button (click)="showObjectsForUpdate()">Manage Objects</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
+          <button (click)="showAddEvent()">Add Event</button>
         </div>
       </div>
 
@@ -76,6 +77,7 @@
           <button *ngIf="user.role === 'tourist' || user.role === 'author'" [routerLink]="['rateApp']">
             Rate Application
           </button>
+          <button [routerLink]="['faq']">FAQ</button>
           <div class="dropdown-divider"></div>
           <button (click)="onLogout()">Logout</button>
         </div>

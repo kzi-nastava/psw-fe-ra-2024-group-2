@@ -115,4 +115,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showComment(): void {
     this.router.navigate(['/comment']);
   }
+  showAddEvent(): void {
+    this.router.navigate(['/events']);
+  }
 }

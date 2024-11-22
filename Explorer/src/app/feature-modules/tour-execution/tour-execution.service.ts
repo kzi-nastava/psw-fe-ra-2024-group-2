@@ -11,6 +11,7 @@ import { TourExecution } from './model/tourExecution-model';
 import { TouristPosition } from '../stakeholders/model/tourist-position';
 import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
 import { Tour as ExecutionTour } from './model/tour-model'; 
+import { EventModel } from '../tour-authoring/model/event.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -109,7 +110,12 @@ export class TourExecutionService {
     return this.http.get<Tour[]>('https://localhost:44333/api/tourist/shopping-cart/purchasedTours');
   }
 
-  
+  GetAllEventsWithinRange(tourist : TouristPosition): Observable<PagedResult<EventModel>> {
+    return this.http.post<PagedResult<EventModel>>('https://localhost:44333/api/tour/execution/eventsWithinRange',tourist)
+  }
+  acceptEvent(event: EventModel): Observable<any> {
+    return this.http.post('https://localhost:44333/api/tour/execution/acceptEvent', event);
+  }   
 }
 
 
