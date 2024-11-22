@@ -5,6 +5,9 @@ import { TourAuthoringService } from '../../tour-authoring/tour-authoring.servic
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { Bundle, TourStatus, TourWithPrice } from '../model/bundle.model';
 import { PaymentBundleService } from '../services/payment-bundle.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessModalComponent } from '../bundle-success-modal/success-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'xp-create-tour-bundle',
@@ -19,7 +22,9 @@ export class CreateTourBundleComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private tourService: TourAuthoringService,
-        private paymentBundleService: PaymentBundleService
+        private paymentBundleService: PaymentBundleService,
+        private dialog: MatDialog,
+        private router: Router
     ) {
         this.tourBundleForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,7 +40,6 @@ export class CreateTourBundleComponent implements OnInit {
     loadTours(): void {
         this.tourService.getTours().subscribe({
             next: (result: PagedResult<Tour>) => {
-                console.log('Tours loaded', result);
                 this.tours = result.results;
             },
             error: (err) => {
@@ -119,10 +123,10 @@ export class CreateTourBundleComponent implements OnInit {
                 status: null
             }
 
-            console.log('Creating tour bundle', bundleData);
             this.paymentBundleService.createBundle(bundleData).subscribe({
                 next: (bundle: Bundle) => {
-                    console.log('Tour bundle created', bundle);
+                    this.showSuccessModal(bundle);
+
                 },
                 error: (err) => {
                     console.error('Error creating tour bundle', err);
@@ -141,5 +145,18 @@ export class CreateTourBundleComponent implements OnInit {
             const value = control.value as Tour[];
             return value.length >= min ? null : { minimumSelectedTours: { required: min, actual: value.length } };
         };
+    }
+
+    private showSuccessModal(bundle: Bundle): void {
+        const dialogRef = this.dialog.open(SuccessModalComponent, {
+            data: { bundle },
+            width: '500px',
+            disableClose: false,
+            panelClass: 'success-modal'
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.router.navigate(['/bundles']);
+        });
     }
 }
