@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
+import { Bundle, TourStatus, TourWithPrice } from '../model/bundle.model';
+import { PaymentBundleService } from '../services/payment-bundle.service';
 
 @Component({
     selector: 'xp-create-tour-bundle',
@@ -16,7 +18,8 @@ export class CreateTourBundleComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private tourService: TourAuthoringService
+        private tourService: TourAuthoringService,
+        private paymentBundleService: PaymentBundleService
     ) {
         this.tourBundleForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
@@ -80,25 +83,51 @@ export class CreateTourBundleComponent implements OnInit {
         }
     }
 
-    createTourBundle(): void {
-        if (this.tourBundleForm.valid && this.selectedTours.length >= 3) {
-            const bundleData = {
-                ...this.tourBundleForm.value,
-                tours: this.selectedTours.map(tour => tour.id)
-            };
+    convertNumberToTourStatus(status: number): TourStatus {
+        switch (status) {
+            case 0:
+                return TourStatus.Draft;
+            case 1:
+                return TourStatus.Published;
+            case 2:
+                return TourStatus.Archived;
+            default:
+                return TourStatus.Draft;
+        }
+    }
 
-            // Implement tour bundle creation service method
-            //   this.tourService.createTourBundle(bundleData).subscribe({
-            //     next: (response) => {
-            //       console.log('Tour bundle created', response);
-            //       // Reset form and selections
-            //       this.tourBundleForm.reset();
-            //       this.selectedTours = [];
-            //     },
-            //     error: (err) => {
-            //       console.error('Error creating tour bundle', err);
-            //     }
-            //   });
+
+    createTourBundle(): void {
+        if (this.tourBundleForm.valid) {
+
+            const toursData: TourWithPrice[] = this.selectedTours.map(tour => {
+                return {
+                    tourId: tour.id,
+                    price: tour.price,
+                    tourStatus: this.convertNumberToTourStatus(tour.status)
+                };
+            });
+
+            const name: string = this.tourBundleForm.get('name')?.value;
+            const price: number = this.tourBundleForm.get('price')?.value;
+
+            const bundleData: Bundle = {
+                name,
+                price,
+                tours: toursData,
+                authorId: null,
+                status: null
+            }
+
+            console.log('Creating tour bundle', bundleData);
+            this.paymentBundleService.createBundle(bundleData).subscribe({
+                next: (bundle: Bundle) => {
+                    console.log('Tour bundle created', bundle);
+                },
+                error: (err) => {
+                    console.error('Error creating tour bundle', err);
+                }
+            });
         }
     }
 
