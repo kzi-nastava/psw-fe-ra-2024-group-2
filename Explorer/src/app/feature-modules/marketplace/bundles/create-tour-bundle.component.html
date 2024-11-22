@@ -1,0 +1,68 @@
+<!-- create-tour-bundle.component.html -->
+<div class="page-container">
+    <section class="content-section">
+        <h2 class="section-title">Create Tour Bundle</h2>
+
+        <form (ngSubmit)="createTourBundle()" class="bundle-form" [formGroup]="tourBundleForm">
+            <div class="form-group">
+                <label for="name">Bundle Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control"
+                    placeholder="Enter bundle name">
+                <div *ngIf="tourBundleForm.get('name')?.invalid && tourBundleForm.get('name')?.touched"
+                    class="error-message">
+                    Bundle name is required and must be at least 3 characters long.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Bundle Price</label>
+                <input type="number" id="price" formControlName="price" class="form-control"
+                    placeholder="Enter bundle price">
+                <div *ngIf="tourBundleForm.get('price')?.invalid && tourBundleForm.get('price')?.touched"
+                    class="error-message">
+                    Please enter a valid price.
+                </div>
+            </div>
+
+            <section class="content-section">
+                <h2 class="section-title">Available Tours</h2>
+                <div class="tours-grid">
+                    <div *ngFor="let tour of tours" class="tour-card" [class.selected]="isTourSelected(tour)"
+                        (click)="toggleTourSelection(tour)">
+                        <div class="tour-card-header">
+                            <h3 class="tour-card-title">{{ tour.name }}</h3>
+                            <span class="tour-card-price">${{ tour.price }}</span>
+                        </div>
+
+                        <p class="tour-card-description">{{ tour.description }}</p>
+
+                        <div class="tour-card-footer">
+                            <span class="badge" [ngClass]="'difficulty-' + tour.difficulty">
+                                {{ getDifficultyLabel(tour.difficulty) }}
+                            </span>
+                            <span class="badge" [ngClass]="'status-' + tour.status">
+                                {{ getStatusLabel(tour.status) }}
+                            </span>
+                        </div>
+                    </div>
+                    <div *ngIf="tours.length === 0" class="no-tours-message">
+                        No tours available.
+                    </div>
+                    <div *ngIf="tours.length === 1" class="no-tours-message">
+                        Only one tour available. Create at least one more.
+                    </div>
+                    <div *ngIf="tourBundleForm.get('tours')?.hasError('minimumSelectedTours')">
+                        <p class="error-message">
+                            At least {{ tourBundleForm.get('tours')?.getError('minimumSelectedTours')?.required }} tours are required!
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <button type="submit" class="create-bundle-btn"
+                [disabled]="selectedTours.length === 0 || tourBundleForm.invalid">
+                Create Tour Bundle
+            </button>
+        </form>
+    </section>
+</div>
