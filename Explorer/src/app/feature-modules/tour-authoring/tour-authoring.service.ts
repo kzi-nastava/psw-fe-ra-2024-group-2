@@ -10,6 +10,7 @@ import { ObjectFormComponent } from './object-form/object-form.component';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
 import { EventModel } from './model/event.model';
+import { Coupon } from './model/coupon.model';
 
 
 @Injectable({
@@ -122,5 +123,15 @@ export class TourAuthoringService {
   }
   getEvents(): Observable<PagedResult<EventModel>> {
     return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
+  }
+  //Coupons
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/author/coupon', coupon)
+  }
+  useCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/tourist/coupon', coupon)
+  }
+  getCoupons(): Observable<PagedResult<Coupon>> {
+    return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }
 }
