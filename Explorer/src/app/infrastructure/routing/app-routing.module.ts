@@ -35,7 +35,8 @@ import { FaqComponent } from 'src/app/feature-modules/administration/faq/faq.com
 import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
 import { EventComponent } from 'src/app/feature-modules/tour-authoring/event/event.component';
 import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-authoring/add-tour-checkpoints/add-tour-checkpoints.component';
-
+import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
+import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -77,6 +78,8 @@ const routes: Routes = [
   {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
   {path: 'events', component: EventComponent, canActivate: [AuthGuard]},
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
+  {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
+  {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

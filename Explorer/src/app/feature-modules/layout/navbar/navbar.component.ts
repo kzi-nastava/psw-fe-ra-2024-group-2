@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private cartService: ShoppingCartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.shoppingCart.loadCartItems();
     }
   }
-  
+
   showProfile(): void {
     this.router.navigate(['/profile']);
   }
@@ -115,7 +115,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showComment(): void {
     this.router.navigate(['/comment']);
   }
+
   showAddEvent(): void {
     this.router.navigate(['/events']);
+  }
+
+  showCreateBundle(): void {
+    this.router.navigate(['/tour/bundle/create']);
   }
 }
