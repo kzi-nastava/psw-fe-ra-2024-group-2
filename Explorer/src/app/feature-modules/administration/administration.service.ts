@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Equipment } from './model/equipment.model';
-import { RatingApplication } from './model/rating-application.model';
-import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { environment } from 'src/env/environment';
 import { Account } from './model/account.model';
-import { AccountDTO } from './model/accountdto.model';
 import { ClubInviteDTO } from './model/clubinvitedto.model';
+import { Equipment } from './model/equipment.model';
 import { FAQDto } from './model/faq.model';
+import { RatingWithUser } from './model/rating-application.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +32,8 @@ export class AdministrationService {
     return this.http.put<Equipment>(environment.apiHost + 'administration/equipment/' + equipment.id, equipment);
   }
   
-  getRatingApplication(): Observable<PagedResults<RatingApplication>> {
-    return this.http.get<PagedResults<RatingApplication>>(environment.apiHost + 'administrator/ratingApplication')
+  getRatingApplication(): Observable<PagedResults<RatingWithUser>> {
+    return this.http.get<PagedResults<RatingWithUser>>(environment.apiHost + 'administrator/ratingApplication')
   }
 
   getAccount(): Observable<PagedResults<Account>> {

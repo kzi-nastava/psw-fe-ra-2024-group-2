@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PagedResult } from '../blog.module';
 import { BlogService } from '../blog.service';
-import { Blog, Rating } from "../model/blog.model";
+import { Blog, BlogWithUser, Rating } from "../model/blog.model";
 
 @Component({
   selector: 'xp-blog-component',
@@ -32,10 +32,11 @@ export class BlogComponentComponent implements OnInit {
 
   fetchBlogs(): void {
     this.blogService.getBlogs().subscribe(
-      (data: PagedResult<Blog>) => {
-        this.blogs = data.results.map((blog) => ({
-          ...blog,
-          userVote: this.getUserVote(blog.ratings) as "Upvote" | "Downvote" | null
+      (data: PagedResult<BlogWithUser>) => {
+        this.blogs = data.results.map((blogWithUser) => ({
+          ...blogWithUser.blog,
+          author: blogWithUser.author,
+          userVote: this.getUserVote(blogWithUser.blog.ratings) as "Upvote" | "Downvote" | null
         }));
         console.log(this.blogs);
       },
@@ -45,7 +46,6 @@ export class BlogComponentComponent implements OnInit {
     );
   }
   
-
 
   countVotes(blog: Blog): { upvotes: number; downvotes: number } {
     const upvotes = blog.ratings.filter(rating => rating.ratingType === 'Upvote').length;

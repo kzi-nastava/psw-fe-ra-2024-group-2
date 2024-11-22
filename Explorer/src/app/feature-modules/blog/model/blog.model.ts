@@ -10,6 +10,19 @@ export interface Rating {
     ratingType: "Upvote" | "Downvote";
 }
 
+export interface Person {
+    id: number;
+    name: string;
+    lastName: string;
+    username: string;
+    profileImage: Image | null;
+}
+
+export interface BlogWithUser{
+    blog: Blog,
+    author: Person,
+}
+
 export interface Blog {
     id: number;
     title: string;
@@ -20,6 +33,7 @@ export interface Blog {
     images: Image[];
     ratings: Rating[];
     userVote?: 'Upvote' | 'Downvote' | null;
+    author?: Person;
 }
 
 export enum MimeType {
