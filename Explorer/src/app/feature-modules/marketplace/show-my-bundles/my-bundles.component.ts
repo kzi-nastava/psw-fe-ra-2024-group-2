@@ -1,19 +1,21 @@
-// show-all-bundles.component.ts
 import { Component, OnInit } from "@angular/core";
-import { Bundle, BundleStatus, TourStatus } from "../model/bundle.model";
+import { Bundle, BundleStatus, FullBundle } from "../model/bundle.model";
 import { PaymentBundleService } from "../services/payment-bundle.service";
 import { PagedResult } from "../../blog/blog.module";
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EditBundleDialogComponent } from "../edit-bundle-modal/edit-bundle-dialog.component";
+import { DeleteBundleDialogComponent } from "../delete-bundle-modal/delete-bundle-dialog.component";
 
 @Component({
-    selector: 'xp-show-all-bundles',
-    templateUrl: './show-all-bundles.component.html',
-    styleUrls: ['./show-all-bundles.component.css']
+    selector: 'xp-my-bundles',
+    templateUrl: './my-bundles.component.html',
+    styleUrls: ['./my-bundles.component.css']
 })
-export class ShowAllBundlesComponent implements OnInit {
-    bundles: Bundle[] = [];
-    BundleStatus = BundleStatus; // Make enum available in template
+export class MyBundlesComponent implements OnInit {
+    bundles: FullBundle[] = [];
+    BundleStatus = BundleStatus;
+    isLoading = false;
 
     constructor(
         private bundleService: PaymentBundleService,
@@ -26,15 +28,31 @@ export class ShowAllBundlesComponent implements OnInit {
     }
 
     loadBundles(): void {
-        this.bundleService.getBundles().subscribe({
-            next: (result: PagedResult<Bundle>) => {
+        this.isLoading = true;
+        this.bundleService.getMyBundles().subscribe({
+            next: (result: PagedResult<FullBundle>) => {
                 this.bundles = result.results;
-                console.log('Bundles loaded', this.bundles);
+                this.isLoading = false;
             },
             error: (err) => {
                 console.error('Error loading bundles', err);
                 this.showError('Failed to load bundles');
+                this.isLoading = false;
             }
+        });
+    }
+
+    openEditDialog(bundle: Bundle): void {
+        this.dialog.open(EditBundleDialogComponent, {
+            width: '600px',
+            data: { ...bundle }
+        });
+    }
+
+    openDeleteDialog(bundle: Bundle): void {
+        this.dialog.open(DeleteBundleDialogComponent, {
+            width: '400px',
+            data: { ...bundle }
         });
     }
 
@@ -68,11 +86,8 @@ export class ShowAllBundlesComponent implements OnInit {
         this.snackBar.open(message, 'Close', {
             duration: 3000,
             horizontalPosition: 'end',
-            verticalPosition: 'top'
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
         });
-    }
-
-    buyBundle(bundle: Bundle): void {
-        // TODO: Implement buying a bundle
     }
 }

@@ -32,6 +32,7 @@
         <button class="dropdown-toggle">Tours & Activities</button>
         <div class="dropdown-content">
           <button (click)="showAllTours()">Browse Tours</button>
+          <button (click)="showAllBundles()">Browse Bundles</button>
           <button (click)="showPurchasedTours()">Purchased Tours</button> 
           <button (click)="showClub()">Club</button>
           <button [routerLink]="['myclub']">My Club</button>
@@ -50,6 +51,7 @@
           <button (click)="showAddNewTour()">Add Tour</button>
           <button (click)="showCreateBundle()">Add bundle</button>
           <button (click)="showMyTours()">My Tours</button>
+          <button (click)="showMyBundles()">My Bundles</button>
           <button (click)="showObjects()">Objects</button>
           <button (click)="showObjectsForUpdate()">Manage Objects</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>

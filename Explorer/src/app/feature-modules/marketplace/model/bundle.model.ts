@@ -23,3 +23,12 @@ export interface Bundle {
     authorId: string | null;
     status: BundleStatus | null;
 }
+
+export interface FullBundle {
+    id: number;
+    name: string;
+    price: number;
+    tours: TourWithPrice[];
+    authorId: string | null;
+    status: BundleStatus | null;
+}

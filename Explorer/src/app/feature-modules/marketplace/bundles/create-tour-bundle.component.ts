@@ -156,7 +156,7 @@ export class CreateTourBundleComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.router.navigate(['/bundles']);
+            this.router.navigate(['/mybundles']);
         });
     }
 }

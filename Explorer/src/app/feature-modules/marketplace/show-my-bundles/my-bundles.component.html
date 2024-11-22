@@ -1,8 +1,20 @@
 <div class="bundles-container">
-    <h1>Tour Bundles</h1>
+    <header class="page-header">
+        <h1>My Tour Bundles</h1>
+        <p class="subtitle">Manage your created tour packages</p>
+    </header>
 
     <div class="bundles-grid">
         <mat-card *ngFor="let bundle of bundles" class="bundle-card">
+            <div class="bundle-actions-overlay">
+                <button mat-icon-button color="primary" (click)="openEditDialog(bundle)" class="action-button edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="openDeleteDialog(bundle)" class="action-button delete">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
             <mat-card-header>
                 <mat-card-title>{{ bundle.name }}</mat-card-title>
                 <mat-card-subtitle>
@@ -27,10 +39,17 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Buy bundle button -->
-                <button mat-raised-button color="primary" (click)="buyBundle(bundle)">Buy Bundle</button>
             </mat-card-content>
         </mat-card>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-spinner">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading && bundles.length === 0" class="empty-state">
+        <mat-icon>inventory</mat-icon>
+        <h2>No Bundles Found</h2>
+        <p>Start creating your first tour bundle!</p>
     </div>
 </div>
