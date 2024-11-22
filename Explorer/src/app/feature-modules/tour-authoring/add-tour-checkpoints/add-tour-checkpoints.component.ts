@@ -93,7 +93,7 @@ export class AddTourCheckpointsComponent implements OnInit {
               };
 
               this.checkpoints.push(checkpoint);
-              this.checkpointCollection = [...this.checkpointCollection, ...this.checkpoints];
+              this.checkpointCollection = [...this.checkpointCollection, checkpoint];
 
               //this.addRouteToMap(); // Calculate and display the route
 
@@ -112,12 +112,19 @@ export class AddTourCheckpointsComponent implements OnInit {
 
           this.checkpoints.push(checkpoint);
           this.checkpointCollection = [...this.checkpointCollection, checkpoint];
-          console.log(this.checkpointCollection);
-          //this.addRouteToMap(); // Calculate and display the route
-
           this.resetForm();
           this.selectedImage = null;
       }
+  }
+
+  handleCheckpointRemoved(index: number): void {
+    if (index >= 0 && index < this.checkpoints.length) {
+      console.log(this.checkpoints);
+      this.checkpoints.splice(index, 1);
+      this.checkpointCollection = [...this.checkpoints];
+      console.log("------");
+      console.log(this.checkpoints);
+    }
   }
 
   addRouteToMap(): void {
@@ -208,7 +215,7 @@ export class AddTourCheckpointsComponent implements OnInit {
     this.service.addTourAndCheckpoints(this.tour, this.checkpoints).subscribe({
         next: (createdTour) => {
             console.log('Tour created:', createdTour);
-            //this.router.navigate(['/mytours']); 
+            this.router.navigate(['/mytours']); 
         },
         error: (err) => {
             console.error("Error creating tour:", err);

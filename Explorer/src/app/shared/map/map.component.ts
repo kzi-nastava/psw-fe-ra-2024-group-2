@@ -16,7 +16,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
 
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
-  //@Input() checkpointCollection: any[] | null = null;
+  @Input() addedCheckpointCollection: any[] | null = null;
   @Input() checkpointObjectCollection: any[] | null = null;
   @Input() checkpointCordinatesCollection: any[] | null = null;
   @Input() checkpointCollection: any[] | null = null;
@@ -24,6 +24,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
   @Output() markerClicked = new EventEmitter<[number, number]>();
+  @Output() checkpointRemoved = new EventEmitter<number>(); // EventEmitter for checkpoint removal
   @Input() touristPosition: { latitude: number, longitude: number } | null = null;
   @Input() isClickDisabled: boolean = false;  
   private routingControl: L.Routing.Control | null = null;  
@@ -89,21 +90,24 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   }
 
   private loadCheckpoints(): void{
-    //if (this.checkpointCollection != null) {
-      //this.checkpointCollection.forEach(element => {
+    if (this.checkpointCollection != null) {
+      this.checkpointCollection.forEach(element => {
         //const mp = new L.Marker([element.latitude, element.longitude],{draggable: false, title : element.name}).addTo(this.map).bindPopup("<h1>"+element.name+"</h1>");
        // console.log(mp.getLatLng());
-      //})
-    //}
-    //this.setRoute();// IZMENJENO
-    if (this.checkpointCollection != null && this.checkpointCollection.length > 1) {
+      })
+    }
+    this.setRoute();
+  }
+
+  loadAddedCheckpoints(): void{
+    if (this.addedCheckpointCollection != null) {
       // Add route logic here when there are at least 2 checkpoints
       this.addRouteToMap();
     }
   }
 
   private addRouteToMap(): void {
-    if (this.checkpointCollection && this.checkpointCollection.length > 1) {
+    if (this.addedCheckpointCollection) {
     // Clear existing map layers and controls
     this.map.eachLayer((layer: L.Layer) => {
       if (!(layer instanceof L.TileLayer)) { // Keep the base tile layer
@@ -115,15 +119,17 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     if (this.routingControl) {
       this.map.removeControl(this.routingControl);
     }
-    const checkpoints = this.checkpointCollection;
+    const checkpoints = this.addedCheckpointCollection;
     const markers = checkpoints.map((checkpoint: Checkpoint) => {
       const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
         title: checkpoint.name,
         draggable: false,
-      }).addTo(this.map);
+      })
+      .addTo(this.map);
       return marker;
     });
     this.markers.push(...markers);
+    if(this.addedCheckpointCollection.length >= 1){
     const waypoints = markers.map((marker: L.Marker) => {
       // Set opacity to 0.0 for all markers (waypoints)
       marker.setOpacity(0.0);
@@ -131,9 +137,6 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     });
     const plan = new L.Routing.Plan(waypoints, {
       createMarker: (i, waypoint, n) => {
-
-        
-
         const marker = L.marker(waypoint.latLng,{
           draggable: false, 
           title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
@@ -142,23 +145,27 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         this.markers.push(marker);
         marker.bindPopup(`<div style="width: 200px">
           <h2 style="margin: 0;">${checkpoints[i].name}</h2>
-          <button class="remove-btn" data-index="${i}" style="margin-top: 10px;">Remove</button>
+          <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+                    alt="Checkpoint Image" 
+                    class="checkpoint-image" 
+                    style="width: 200px; max-height: 150px;">
+          <button class="mat-button" type="button" data-index="${i}" style="margin-top: 10px;">Remove</button>
         </div>`).openPopup();
         // Add event listener to the "Remove" button inside the popup
         marker.on('popupopen', () => {
           const removeButton = document.querySelector(`button[data-index="${i}"]`);
           if (removeButton) {
             removeButton.addEventListener('click', (e) => {
-              this.removeCheckpoint(i); // Remove the checkpoint when the button is clicked
-              this.map.removeLayer(marker); // Remove the marker from the map
-              marker.closePopup(); // Close the popup after removal
+              this.checkpointRemoved.emit(i); // Emit the checkpoint index
+                this.map.removeLayer(marker); // Remove the marker from the map
+                marker.closePopup(); // Close the popup after removal
             });
           }
         });
         return marker;
       },
       draggableWaypoints: false,
-    });      
+    });
     this.routingControl = L.Routing.control({
       plan: plan,
       routeWhileDragging: false,
@@ -174,17 +181,8 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       itineraryElement.setAttribute('style', 'display: none;');
     }
     }
+    }
   }
-  
-  // Method to remove a checkpoint from the collection
-  private removeCheckpoint(index: number): void {
-  // Remove the checkpoint from the checkpointCollection array
-  if(this.checkpointCollection){
-    this.checkpointCollection.splice(index, 1);
-  }
-  // Optionally, you might want to update the route after removal
-  this.addRouteToMap(); // Re-add the route with the updated checkpoint collection
-}
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -286,15 +284,13 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     if (changes['objectCollection'] && changes['objectCollection'].currentValue) {
       this.loadObjects();
     }
-    if (changes['checkpointCollection'] && !changes['checkpointCollection'].firstChange) {
+    if (changes['addedCheckpointCollection'] && !changes['addedCheckpointCollection'].firstChange) {
       // Remove existing markers from the map
       if(this.markers.length > 1) {
-        console.log(this.markers);
         this.clearMarkers();
-        console.log(this.markers);
         console.log("OBRISANI");
       }
-      this.loadCheckpoints(); // Update route when checkpointCollection changes
+      this.loadAddedCheckpoints(); // Update route when checkpointCollection changes
     }
     if (changes['clearMarkersTrigger'] && changes['clearMarkersTrigger'].currentValue) {
       this.clearMarkers();

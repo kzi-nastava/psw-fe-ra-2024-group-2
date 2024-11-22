@@ -45,8 +45,9 @@
                         <div class="map-container">
                             <div class="map-hint">Choose Location on Map</div>
                             <xp-map (locationSelected)="onLocationSelected($event)" 
-                            [checkpointCollection]="checkpointCollection"
+                            [addedCheckpointCollection]="checkpointCollection"
                             [clearMarkersTrigger]="clearMarkersFlag" 
+                            (checkpointRemoved)="handleCheckpointRemoved($event)"
                             (markersCleared)="onMarkersCleared()" #map></xp-map>
                         </div>
 
