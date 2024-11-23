@@ -3,6 +3,7 @@ import { MapComponent } from 'src/app/shared/map/map.component';
 import { TouristPosition } from '../model/tourist-position';
 import { ProfileService } from '../profile.service';
 import { Person } from '../model/person';
+import { Chapter } from '../../tour-execution/model/chapter.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
@@ -31,6 +32,14 @@ export class PositionSimulatorComponent {
   intervalId: any;
   secret: string | null = null;
   events: any[] = [];
+  personalDiaryId: number | null = null;
+  newChapter: Chapter = {
+    chapterId: 0,
+    title: '',
+    createdAt: new Date(),
+    text: '',
+    personalDairyId: 0,
+  };
   constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef  ) {}
 
   ngOnInit(): void {
@@ -52,6 +61,7 @@ export class PositionSimulatorComponent {
           this.tourExecution = execution;
           this.updateCheckpoints();
         }});
+        this.getDiaryForUser();
       } else {
         console.error('User ID is not defined.');
       }
@@ -202,6 +212,63 @@ export class PositionSimulatorComponent {
       }
     });
   }
+  getDiaryForUser() {
+    if (this.user?.id !== undefined) {
+      this.execService.getDiaryForExecution(this.user.id).subscribe({
+        next: (data) => {
+          if (data && data.length > 0) { // Proveravamo da li niz ima podatke
+            const diary = data[0]; // Pristupamo prvom elementu niza
+            this.personalDiaryId = diary.id;
+            console.log('Dnevnik ID:', this.personalDiaryId);
+          } else {
+            console.error('API je vratio prazan niz!');
+          }
+        },
+        error: (err) => {
+          console.error('Greška prilikom poziva API-ja:', err);
+        }
+      });
+    }
+  }
+  
+  
+
+  submitChapter() {
+    if (!this.personalDiaryId) {
+      alert('Dnevnik nije pronađen za trenutnog korisnika!');
+      alert(this.personalDiaryId);
+      return;
+    }
+  
+    this.newChapter.personalDairyId = this.personalDiaryId;
+  
+    this.execService.addChapter(this.personalDiaryId, this.newChapter).subscribe({
+      next: (response) => {
+        console.log('Poglavlje uspešno dodato:', response);
+        alert('Poglavlje je dodato u dnevnik!');
+        this.resetFields();
+      },
+      error: (err) => {
+        console.error('Greška prilikom dodavanja poglavlja:', err);
+        alert('Došlo je do greške!');
+      },
+    });
+  }
+  /*resetForm(form: any): void {
+    this.newChapter = {
+      chapterId: 0,
+      title: '',
+      createdAt: new Date(),
+      text: '',
+      personalDairyId: 0,
+    };
+
+    form.reset();  // Resetuje samu formu
+  }*/
+    resetFields(): void {
+      this.newChapter.title = '';
+      this.newChapter.text = '';
+    }
 
   ngOnDestroy(): void {
     if (this.intervalId) {

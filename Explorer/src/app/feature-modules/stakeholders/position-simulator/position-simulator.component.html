@@ -48,6 +48,21 @@
               </div>
         </div>
     </div>
+    <form #chapterForm="ngForm" (ngSubmit)="submitChapter()">
+        <div>
+          <label for="title">Naslov</label>
+          <input type="text" id="title" name="title" [(ngModel)]="newChapter.title" required />
+        </div>
+      
+        <div>
+          <label for="text">Tekst</label>
+          <textarea id="text" name="text" [(ngModel)]="newChapter.text" required></textarea>
+        </div>
+        
+        <button type="submit" [disabled]="!chapterForm.form.valid">Dodaj Poglavlje</button>
+        <button type="button" (click)="resetFields()">Resetuj Polja</button> <!-- Dugme za resetovanje samo polja -->
+      </form>
+      
     <ng-template #noEvents>
         <p>No events available.</p>
     </ng-template>
