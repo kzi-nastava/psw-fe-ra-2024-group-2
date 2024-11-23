@@ -1,10 +1,11 @@
 // show-all-bundles.component.ts
 import { Component, OnInit } from "@angular/core";
-import { Bundle, BundleStatus, TourStatus } from "../model/bundle.model";
+import { Bundle, BundleStatus, FullBundle, TourStatus } from "../model/bundle.model";
 import { PaymentBundleService } from "../services/payment-bundle.service";
 import { PagedResult } from "../../blog/blog.module";
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ShoppingCartService } from "../services/shopping-cart.service";
 
 @Component({
     selector: 'xp-show-all-bundles',
@@ -12,11 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrls: ['./show-all-bundles.component.css']
 })
 export class ShowAllBundlesComponent implements OnInit {
-    bundles: Bundle[] = [];
+    bundles: FullBundle[] = [];
     BundleStatus = BundleStatus; // Make enum available in template
 
     constructor(
         private bundleService: PaymentBundleService,
+        private shoppingCartService: ShoppingCartService,
         private dialog: MatDialog,
         private snackBar: MatSnackBar
     ) { }
@@ -27,8 +29,8 @@ export class ShowAllBundlesComponent implements OnInit {
 
     loadBundles(): void {
         this.bundleService.getBundles().subscribe({
-            next: (result: PagedResult<Bundle>) => {
-                this.bundles = result.results;
+            next: (result: PagedResult<FullBundle>) => {
+                this.bundles = result.results.filter(b => b.status == BundleStatus.Published);
                 console.log('Bundles loaded', this.bundles);
             },
             error: (err) => {
@@ -72,7 +74,24 @@ export class ShowAllBundlesComponent implements OnInit {
         });
     }
 
-    buyBundle(bundle: Bundle): void {
-        // TODO: Implement buying a bundle
+    private showSuccess(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['success-snackbar']
+        });
+    }
+
+    buyBundle(bundle: FullBundle): void {
+        this.shoppingCartService.buyBundle(bundle.id).subscribe({
+            next: () => {
+                this.showSuccess('Bundle purchased successfully');
+            },
+            error: (err) => {
+                console.error('Error buying bundle', err);
+                this.showError('Failed to buy bundle');
+            }
+        });
     }
 }

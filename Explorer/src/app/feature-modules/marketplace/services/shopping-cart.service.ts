@@ -9,7 +9,7 @@ import { environment } from 'src/env/environment';
 export class ShoppingCartService {
   private orderItemsCache: any[] = []; // Cache za stavke kako bismo izbegli više zahteva
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Metoda za dohvaćanje stavki iz korpe sa keširanjem
   getOrderItems(): Observable<any[]> {
@@ -63,5 +63,10 @@ export class ShoppingCartService {
         this.orderItemsCache = [];
       })
     );
+  }
+
+  buyBundle(id: number): Observable<any> {
+    debugger
+    return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, null);
   }
 }
