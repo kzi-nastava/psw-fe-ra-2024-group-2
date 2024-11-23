@@ -13,7 +13,11 @@ export class FaqComponent implements OnInit {
   user: any;
   questionInput: string = '';
   answerInput: string = '';
-  isError: boolean = false;  // Dodato za grešku
+  questionInputEdit: string = '';
+  answerInputEdit: string = '';
+  isError: boolean = false; 
+  isEditError: boolean = false;
+  editModeIndex: number | null = null;
 
   constructor(private service: AdministrationService, private authService: AuthService) {}
 
@@ -35,15 +39,15 @@ export class FaqComponent implements OnInit {
   }
 
   addFAQ(): void {
-    // Provera da li su oba polja prazna
     if (!this.questionInput || !this.answerInput) {
-      this.isError = true;  // Ako nisu popunjena, postavite grešku
-      return;  // Prekida izvršavanje funkcije dok se ne popune
+      this.isError = true;  
+      return; 
     }
 
-    this.isError = false;  // Resetovanje greške ako su oba polja popunjena
+    this.isError = false; 
 
     const newFAQ: FAQDto = {
+      id: 0,
       question: this.questionInput,
       answer: this.answerInput,
       createdDate: new Date().toISOString(),
@@ -56,6 +60,53 @@ export class FaqComponent implements OnInit {
         this.answerInput = '';
       },
       error: (err: any) => console.error('Failed to add FAQ', err),
+    });
+  }
+
+  toggleEditMode(index: number | null): void {
+    this.editModeIndex = index;
+
+    if (index !== null) {
+      const faqToEdit = this.faqs[index];
+      this.questionInputEdit = faqToEdit.question;
+      this.answerInputEdit = faqToEdit.answer;
+    } else {
+
+      this.questionInputEdit = '';
+      this.answerInputEdit = '';
+      this.isEditError = false;
+    }
+  }
+
+  saveEdit(index: number): void {
+    if (!this.answerInputEdit || !this.questionInputEdit) {
+      this.isEditError = true;
+      return; 
+    }
+  
+    this.isEditError = false;
+  
+    const editedFAQ: FAQDto = {
+      ...this.faqs[index],
+      question: this.questionInputEdit,
+      answer: this.answerInputEdit,
+      lastUpdatedDate: new Date().toISOString(),
+    };
+  
+    const faqId = this.faqs[index].id; 
+    this.editFAQ(editedFAQ, faqId);
+    this.toggleEditMode(null);
+  }
+
+  editFAQ(editedFAQ: FAQDto, faqId: number): void {
+    this.service.editFAQ(editedFAQ, this.user.id, faqId).subscribe({
+      next: (updatedFAQ: FAQDto) => {
+        const index = this.faqs.findIndex(faq => faq.id === updatedFAQ.id);
+        if (index !== -1) {
+          this.faqs[index] = updatedFAQ;
+        }
+      },
+      error: (err: any) => console.error('Failed to edit FAQ', err),
     });
   }
 }
