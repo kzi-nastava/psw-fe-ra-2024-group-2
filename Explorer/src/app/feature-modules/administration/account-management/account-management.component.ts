@@ -19,6 +19,7 @@ export class AccountManagementComponent implements OnInit {
     this.getAccounts();
     this.authService.user$.subscribe(user => {
       this.user = user;
+      console.log(this.user)
     });
   }
 
