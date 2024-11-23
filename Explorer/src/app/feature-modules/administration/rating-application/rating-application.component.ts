@@ -1,7 +1,7 @@
-import { Component , OnInit } from '@angular/core';
-import { AdministrationService } from '../administration.service';
-import { RatingApplication } from '../model/rating-application.model';
+import { Component, OnInit } from '@angular/core';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { AdministrationService } from '../administration.service';
+import { RatingWithUser } from '../model/rating-application.model';
 
 @Component({
   selector: 'xp-rating-application',
@@ -10,7 +10,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 })
 export class RatingApplicationComponent implements OnInit {
 
-  ratingApplication: RatingApplication[] = [];
+  ratingWithUser: RatingWithUser[] = [];
 
   constructor(private service: AdministrationService) { }
 
@@ -20,8 +20,8 @@ export class RatingApplicationComponent implements OnInit {
 
   getRatingApplication(): void {
     this.service.getRatingApplication().subscribe({
-      next: (result: PagedResults<RatingApplication>) => {
-        this.ratingApplication = result.results;
+      next: (result: PagedResults<RatingWithUser>) => {
+        this.ratingWithUser = result.results;
       },
       error: () => {
       }

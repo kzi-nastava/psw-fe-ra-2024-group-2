@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PagedResult } from './shared/model/tour.module';
 import { Tour } from './model/tour.model';
 import { Equipment } from '../administration/model/equipment.model';
@@ -9,6 +9,7 @@ import { Object } from './model/object.model';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { EventModel } from './model/event.model';
 
 
 @Injectable({
@@ -17,6 +18,15 @@ import { TourIssueNotification } from '../layout/model/tour-notification.model';
 export class TourAuthoringService {
   MarkAllAsRead(userId: number): Observable<void> {
     return this.http.put<void>(`https://localhost:44333/api/tourNotifications/markAllAsRead/${userId}`, null)
+  }
+
+  private tourDataSource = new BehaviorSubject<Tour | null>(null);
+  tourData$ = this.tourDataSource.asObservable();
+  setTourData(tour: Tour) {
+    this.tourDataSource.next(tour);
+  }
+  getTourData(): Tour | null {
+    return this.tourDataSource.getValue();
   }
 
   constructor(private http: HttpClient) { }
@@ -106,5 +116,11 @@ export class TourAuthoringService {
 
   updatePreference(preference: any): Observable<any> {
     return this.http.put('https://localhost:44333/api/tourist/tour/preferences', preference);
+  }
+  addEvent(event: EventModel): Observable<EventModel> {
+    return this.http.post<EventModel>('https://localhost:44333/api/author/event', event);
+  }
+  getEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
   }
 }

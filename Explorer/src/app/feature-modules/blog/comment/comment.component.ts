@@ -5,8 +5,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { BlogService } from '../blog.service';
 import { CommentService } from '../comment.service';
-import { Blog, Image as BlogImage } from '../model/blog.model';
-import { Comment } from '../model/comment.model';
+import { Blog, Image as BlogImage, BlogWithUser } from '../model/blog.model';
+import { Comment, CommentWithAuthor } from '../model/comment.model';
 
 @Component({
   selector: 'xp-comment',
@@ -15,13 +15,13 @@ import { Comment } from '../model/comment.model';
 })
 export class CommentComponent implements OnInit {
 
-  comments: Comment[] = [];
+  commentsWithAuthor: CommentWithAuthor[] = [];
   commentForm: FormGroup;
   shouldEdit: boolean = false;
   currentCommentId: number | null = null;
   currentUserId: number = 1;
   blogId: string | null = null;
-  blog: Blog | null = null;
+  blogWithUser: BlogWithUser | null = null;
   user: User = {} as User;
 
   statusMap: { [key: number]: string } = {
@@ -64,14 +64,15 @@ export class CommentComponent implements OnInit {
   }
 
   get blogImages(): BlogImage[] {
-    return this.blog?.images || [];
+    return this.blogWithUser?.blog.images || [];
   }
   
 
   fetchBlog(id: number): void {
     this.blogService.getOneBlog(id).subscribe({
-      next: (blog: Blog) => {
-        this.blog = blog;
+      next: (blog: BlogWithUser) => {
+        this.blogWithUser = blog;
+        console.log(this.blogWithUser);
       },
       error: (err) => {
         console.error('Error fetching blog:', err);
@@ -81,8 +82,8 @@ export class CommentComponent implements OnInit {
 
   getComments(blogId: number): void {
     this.service.getCommentsByBlogId(blogId).subscribe({
-      next: (comments: Comment[]) => {
-        this.comments = comments;
+      next: (commentsWithAuthor: CommentWithAuthor[]) => {
+        this.commentsWithAuthor = commentsWithAuthor;
       },
       error: (err: any) => {
         console.error('Error fetching comments:', err);
