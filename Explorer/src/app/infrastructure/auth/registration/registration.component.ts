@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Registration } from '../model/registration.model';
+import { Registration, UserRole } from '../model/registration.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class RegistrationComponent {
   passwordMismatch: boolean = false;
   emailTouched = false;
+  readonly UserRole = UserRole;
 
   constructor(
     private authService: AuthService,
@@ -25,6 +26,7 @@ export class RegistrationComponent {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
+    userRole: new FormControl('', [Validators.required]),
   });
 
   register(): void {
@@ -41,6 +43,7 @@ export class RegistrationComponent {
       email: this.registrationForm.value.email || "",
       username: this.registrationForm.value.username || "",
       password: this.registrationForm.value.password || "",
+      userRole: Number(this.registrationForm.value.userRole) as UserRole || UserRole.Tourist,
     };
 
     if (this.registrationForm.valid) {
