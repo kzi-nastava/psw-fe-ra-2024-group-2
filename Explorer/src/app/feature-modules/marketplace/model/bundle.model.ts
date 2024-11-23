@@ -14,6 +14,7 @@ export interface TourWithPrice {
     tourId: number;
     price: number;
     tourStatus: TourStatus;
+    tourName: string;
 }
 
 export interface Bundle {

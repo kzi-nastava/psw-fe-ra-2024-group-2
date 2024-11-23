@@ -108,7 +108,8 @@ export class CreateTourBundleComponent implements OnInit {
                 return {
                     tourId: tour.id,
                     price: tour.price,
-                    tourStatus: this.convertNumberToTourStatus(tour.status)
+                    tourStatus: this.convertNumberToTourStatus(tour.status),
+                    tourName: tour.name
                 };
             });
 

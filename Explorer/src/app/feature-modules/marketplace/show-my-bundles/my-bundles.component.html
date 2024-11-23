@@ -1,16 +1,31 @@
-<div class="bundles-container">
+<div class="bundles-container" [@fadeInOut]>
     <header class="page-header">
-        <h1>My Tour Bundles</h1>
-        <p class="subtitle">Manage your created tour packages</p>
+        <div class="header-content">
+            <h1>My Tour Bundles</h1>
+            <p class="subtitle">Create and manage your tour packages</p>
+        </div>
     </header>
 
-    <div class="bundles-grid">
-        <mat-card *ngFor="let bundle of bundles" class="bundle-card">
+    <div class="sort-controls" *ngIf="bundles.length > 0">
+        <button mat-button [class.active]="currentSort === 'name'" (click)="toggleSort('name')">
+            Name
+            <mat-icon>{{ currentSort === 'name' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') :
+                'unfold_more' }}</mat-icon>
+        </button>
+        <button mat-button [class.active]="currentSort === 'price'" (click)="toggleSort('price')">
+            Price
+            <mat-icon>{{ currentSort === 'price' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') :
+                'unfold_more' }}</mat-icon>
+        </button>
+    </div>
+
+    <div class="bundles-grid" [@fadeInOut]>
+        <mat-card *ngFor="let bundle of bundles" class="bundle-card" [@slideIn]>
             <div class="bundle-actions-overlay">
-                <button mat-icon-button color="primary" (click)="openEditDialog(bundle)" class="action-button edit">
+                <button mat-mini-fab color="primary" (click)="openEditDialog(bundle)" class="action-button edit">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="openDeleteDialog(bundle)" class="action-button delete">
+                <button mat-mini-fab color="warn" (click)="openDeleteDialog(bundle)" class="action-button delete">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
@@ -26,15 +41,27 @@
 
             <mat-card-content>
                 <div class="price-section">
-                    <span class="price-label">Bundle Price</span>
-                    <span class="price-value">{{ bundle.price | currency }}</span>
+                    <div class="price-info">
+                        <span class="price-label">Bundle Price</span>
+                        <span class="price-value">{{ bundle.price | currency }}</span>
+                    </div>
+                    <div class="tours-count">
+                        <mat-icon>map</mat-icon>
+                        <span>{{ getTotalTours(bundle) }} Tours</span>
+                    </div>
                 </div>
 
                 <div class="tours-section">
-                    <h3>Included Tours</h3>
+                    <h3>
+                        <mat-icon>tour</mat-icon>
+                        Included Tours
+                    </h3>
                     <div class="tour-list">
                         <div *ngFor="let tour of bundle.tours" class="tour-item">
-                            <span class="tour-id">Tour #{{ tour.tourId }}</span>
+                            <div class="tour-info">
+                                <span class="tour-id">Tour #{{ tour.tourId }}</span>
+                                <span class="tour-name">{{ tour.tourName }}</span>
+                            </div>
                             <span class="tour-price">{{ tour.price | currency }}</span>
                         </div>
                     </div>
@@ -43,13 +70,7 @@
         </mat-card>
     </div>
 
-    <div *ngIf="isLoading" class="loading-spinner">
-        <mat-spinner diameter="40"></mat-spinner>
-    </div>
-
-    <div *ngIf="!isLoading && bundles.length === 0" class="empty-state">
-        <mat-icon>inventory</mat-icon>
-        <h2>No Bundles Found</h2>
-        <p>Start creating your first tour bundle!</p>
+    <div *ngIf="isLoading" class="loading-spinner" [@fadeInOut]>
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
     </div>
 </div>

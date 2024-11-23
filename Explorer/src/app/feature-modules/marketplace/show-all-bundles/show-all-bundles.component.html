@@ -2,35 +2,42 @@
     <h1>Tour Bundles</h1>
 
     <div class="bundles-grid">
-        <mat-card *ngFor="let bundle of bundles" class="bundle-card">
-            <mat-card-header>
-                <mat-card-title>{{ bundle.name }}</mat-card-title>
-                <mat-card-subtitle>
-                    <span class="status-badge" [style.background-color]="getStatusColor(bundle.status)">
-                        {{ getStatusLabel(bundle.status) }}
-                    </span>
-                </mat-card-subtitle>
-            </mat-card-header>
+        <!-- Bundle Card -->
+        <div class="bundle-card" *ngFor="let bundle of bundles">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h2 class="card-title">{{ bundle.name }}</h2>
+                <span class="status-badge" [style.backgroundColor]="getStatusColor(bundle.status)">
+                    {{ getStatusLabel(bundle.status) }}
+                </span>
+            </div>
 
-            <mat-card-content>
-                <div class="price-section">
-                    <span class="price-label">Bundle Price</span>
-                    <span class="price-value">{{ bundle.price | currency }}</span>
-                </div>
+            <!-- Card Content -->
+            <div class="price-section">
+                <span class="price-label">Bundle Price</span>
+                <span class="price-value">{{ bundle.price | currency }}</span>
+            </div>
 
-                <div class="tours-section">
-                    <h3>Included Tours</h3>
-                    <div class="tour-list">
-                        <div *ngFor="let tour of bundle.tours" class="tour-item">
-                            <span class="tour-id">Tour #{{ tour.tourId }}</span>
-                            <span class="tour-price">{{ tour.price | currency }}</span>
-                        </div>
+            <div class="tours-section">
+                <h3>Included Tours</h3>
+                <div class="tour-list">
+                    <div class="tour-item" *ngFor="let tour of bundle.tours">
+                        <span class="tour-id"> {{ tour.tourName }} </span>
+                        <span class="tour-price">{{ tour.price | currency }}</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Buy bundle button -->
-                <button mat-raised-button color="primary" (click)="buyBundle(bundle)">Buy Bundle</button>
-            </mat-card-content>
-        </mat-card>
+            <!-- Button Container -->
+            <div class="button-container">
+                <button 
+                    class="bundle-button" 
+                    (click)="buyBundle(bundle)">
+                    Buy Bundle
+                </button>
+            </div>
+        </div>
     </div>
 </div>
+
+<xp-shopping-cart></xp-shopping-cart>

@@ -45,14 +45,23 @@ export class ShoppingCartService {
     );
   }
 
-  removeItem(tourId: number): Observable<any> {
-    console.log('Uklanjanje stavke s tourId:', tourId);
-    return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove/${tourId}`).pipe(
-      tap(() => {
-        // Ažuriramo keš tako što uklonimo stavku
-        this.orderItemsCache = this.orderItemsCache.filter(item => item.id !== tourId);
-      })
-    );
+  removeItem(item: any): Observable<any> {
+    console.log('Brišemo stavku iz korpe:', item);
+
+    if(item.bundleId) {
+      return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove-bundle/${item.bundleId}`).pipe(
+        tap(() => {
+          // Ažuriramo keš tako što uklonimo stavku
+          this.orderItemsCache = this.orderItemsCache.filter(i => i.bundleId !== item.bundleId);
+        }));
+    } else {
+      return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove/${item.tourId}`).pipe(
+        tap(() => {
+          // Ažuriramo keš tako što uklonimo stavku
+          this.orderItemsCache = this.orderItemsCache.filter(i => i.tourId !== item.tourId);
+        })
+      );
+    }
   }
 
   checkout(): Observable<any> {
@@ -66,7 +75,6 @@ export class ShoppingCartService {
   }
 
   buyBundle(id: number): Observable<any> {
-    debugger
-    return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, null);
+    return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
   }
 }

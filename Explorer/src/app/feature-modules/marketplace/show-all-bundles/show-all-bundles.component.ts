@@ -1,11 +1,12 @@
 // show-all-bundles.component.ts
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Bundle, BundleStatus, FullBundle, TourStatus } from "../model/bundle.model";
 import { PaymentBundleService } from "../services/payment-bundle.service";
 import { PagedResult } from "../../blog/blog.module";
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShoppingCartService } from "../services/shopping-cart.service";
+import { ShoppingCartComponent } from "../shopping-cart/shopping-cart.component";
 
 @Component({
     selector: 'xp-show-all-bundles',
@@ -15,6 +16,8 @@ import { ShoppingCartService } from "../services/shopping-cart.service";
 export class ShowAllBundlesComponent implements OnInit {
     bundles: FullBundle[] = [];
     BundleStatus = BundleStatus; // Make enum available in template
+
+    @ViewChild(ShoppingCartComponent) shoppingCart!: ShoppingCartComponent;
 
     constructor(
         private bundleService: PaymentBundleService,
@@ -30,8 +33,8 @@ export class ShowAllBundlesComponent implements OnInit {
     loadBundles(): void {
         this.bundleService.getBundles().subscribe({
             next: (result: PagedResult<FullBundle>) => {
+                console.log('Bundles loaded', result);
                 this.bundles = result.results.filter(b => b.status == BundleStatus.Published);
-                console.log('Bundles loaded', this.bundles);
             },
             error: (err) => {
                 console.error('Error loading bundles', err);
@@ -87,10 +90,18 @@ export class ShowAllBundlesComponent implements OnInit {
         this.shoppingCartService.buyBundle(bundle.id).subscribe({
             next: () => {
                 this.showSuccess('Bundle purchased successfully');
+
+                if (this.shoppingCart) {
+                    this.shoppingCart.loadCartItems();
+                }
+
+                if (!this.shoppingCart.isOpen) {
+                    this.shoppingCart.toggleCart();
+                }
             },
             error: (err) => {
-                console.error('Error buying bundle', err);
-                this.showError('Failed to buy bundle');
+                console.log('Error buying bundle', err);
+                this.showError(err.error?.message || 'Failed to buy bundle');
             }
         });
     }
