@@ -33,11 +33,38 @@
   
     <!-- FAQ List Section -->
     <div class="faq-list">
-      <div class="faq-item" *ngFor="let faq of faqs">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index">
         <div class="faq-content">
           <div class="faq-text">
             <h3>{{faq.question}}</h3>
             <p>{{faq.answer}}</p>
+          </div>
+          <!-- Edit Icon -->
+          <div class="faq-actions" *ngIf="user?.role === 'administrator'">
+            <button class="edit-btn" (click)="toggleEditMode(i)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </div>
+        </div>
+    
+        <!-- Edit Form -->
+        <div class="faq-edit-form" *ngIf="editModeIndex === i">
+          <mat-form-field appearance="outline">
+            <mat-label>Question</mat-label>
+            <input matInput [(ngModel)]="questionInputEdit" placeholder="Edit the question">
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline">
+            <mat-label>Answer</mat-label>
+            <textarea matInput [(ngModel)]="answerInputEdit" placeholder="Edit the answer" rows="4"></textarea>
+          </mat-form-field>
+
+          <div *ngIf="isEditError" class="error-mess">
+            <p>Please fill in both the question and the answer.</p>
+          </div>
+          <div class="edit-actions">
+            <button class="save-btn" (click)="saveEdit(i)">Save</button>
+            <button class="cancel-btn" (click)="toggleEditMode(null)">Cancel</button>
           </div>
         </div>
       </div>
