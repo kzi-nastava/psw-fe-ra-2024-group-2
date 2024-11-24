@@ -13,6 +13,7 @@ import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
 import { ChangeDetectorRef } from '@angular/core';
 import { PagedResult } from '../../blog/blog.module';
 import { EventModel } from '../../tour-authoring/model/event.model';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -33,14 +34,20 @@ export class PositionSimulatorComponent {
   secret: string | null = null;
   events: any[] = [];
   personalDiaryId: number | null = null;
+  selectedImage: File | null = null;
   newChapter: Chapter = {
     chapterId: 0,
     title: '',
     createdAt: new Date(),
     text: '',
     personalDairyId: 0,
+    /*image: {
+      data: '',
+      uploadedAt: new Date(),
+      mimeType : 0
+    }*/
   };
-  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef  ) {}
+  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef, private datePipe: DatePipe  ) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -233,13 +240,51 @@ export class PositionSimulatorComponent {
   
   
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+  
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        if (reader.result) {
+          const base64String = reader.result.toString();
+          this.newChapter.image = {
+            data: base64String.split(',')[1],
+            uploadedAt : new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!),
+            mimeType: this.getMimeType(file.type),
+          };
+        }
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  getMimeType(fileType: string): number {
+    switch (fileType) {
+      case 'image/jpeg':
+        return 0; 
+      case 'image/png':
+        return 1; 
+      case 'image/gif':
+        return 2; 
+      default:
+        throw new Error('Unsupported file type');
+    }
+  }
+  
   submitChapter() {
     if (!this.personalDiaryId) {
       alert('Dnevnik nije pronađen za trenutnog korisnika!');
-      alert(this.personalDiaryId);
       return;
     }
-  
+    this.newChapter.createdAt = new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
+
+    // Logovanje podataka pre slanja
+    console.log('Poslati podaci:', this.newChapter);
+    
     this.newChapter.personalDairyId = this.personalDiaryId;
   
     this.execService.addChapter(this.personalDiaryId, this.newChapter).subscribe({
@@ -254,6 +299,8 @@ export class PositionSimulatorComponent {
       },
     });
   }
+  
+  
   /*resetForm(form: any): void {
     this.newChapter = {
       chapterId: 0,
@@ -268,8 +315,14 @@ export class PositionSimulatorComponent {
     resetFields(): void {
       this.newChapter.title = '';
       this.newChapter.text = '';
+      this.newChapter.image = undefined; // Resetovanje slike
+      this.selectedImage = null; // Resetovanje izabrane datoteke
+    
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Resetuje prikaz datoteke u input polju
+      }
     }
-
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
