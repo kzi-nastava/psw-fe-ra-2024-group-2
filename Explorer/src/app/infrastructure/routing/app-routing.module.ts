@@ -38,6 +38,7 @@ import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-author
 import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
 import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
+import { ShowWalletComponent } from 'src/app/feature-modules/marketplace/show-wallet/show-wallet.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -81,7 +82,8 @@ const routes: Routes = [
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
   {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
   {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
-  {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]}
+  {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},
+  {path: 'mywallet', component: ShowWalletComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
