@@ -1,0 +1,43 @@
+<div class="bundles-container">
+    <h1>Tour Bundles</h1>
+
+    <div class="bundles-grid">
+        <!-- Bundle Card -->
+        <div class="bundle-card" *ngFor="let bundle of bundles">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h2 class="card-title">{{ bundle.name }}</h2>
+                <span class="status-badge" [style.backgroundColor]="getStatusColor(bundle.status)">
+                    {{ getStatusLabel(bundle.status) }}
+                </span>
+            </div>
+
+            <!-- Card Content -->
+            <div class="price-section">
+                <span class="price-label">Bundle Price</span>
+                <span class="price-value">{{ bundle.price | currency }}</span>
+            </div>
+
+            <div class="tours-section">
+                <h3>Included Tours</h3>
+                <div class="tour-list">
+                    <div class="tour-item" *ngFor="let tour of bundle.tours">
+                        <span class="tour-id"> {{ tour.tourName }} </span>
+                        <span class="tour-price">{{ tour.price | currency }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Container -->
+            <div class="button-container">
+                <button 
+                    class="bundle-button" 
+                    (click)="buyBundle(bundle)">
+                    Buy Bundle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<xp-shopping-cart></xp-shopping-cart>

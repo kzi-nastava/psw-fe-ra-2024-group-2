@@ -78,7 +78,8 @@
 }
 
 .dropdown-content {
-    display: none; /* Default to hidden */
+    display: none;
+    /* Default to hidden */
     position: absolute;
     top: 100%;
     left: 0;
@@ -166,11 +167,12 @@
 .cart-sidebar-container {
     position: fixed;
     top: 0;
-    right: -400px; /* Initial state */
+    right: -400px;
+    /* Initial state */
     transition: right 0.3s ease;
-  }
-  
-  .cart-sidebar-container.open {
-    right: 0; /* When open */
-  }
-  
+}
+
+.cart-sidebar-container.open {
+    right: 0;
+    /* When open */
+}

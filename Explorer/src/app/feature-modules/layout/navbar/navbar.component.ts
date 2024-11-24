@@ -72,12 +72,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/mytours']);
   }
 
+  showMyBundles(): void {
+    this.router.navigate(['/mybundles']);
+  }
+
   showSimulator(): void {
     this.router.navigate(['/position-simulator']);
   }
 
   showAllTours(): void {
     this.router.navigate(['/alltours']);
+  }
+
+  showAllBundles(): void {
+    this.router.navigate(['/bundles']);
   }
 
   showPurchasedTours(): void {

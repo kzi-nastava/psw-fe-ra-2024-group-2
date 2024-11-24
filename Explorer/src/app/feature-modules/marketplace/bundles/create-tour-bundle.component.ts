@@ -108,7 +108,8 @@ export class CreateTourBundleComponent implements OnInit {
                 return {
                     tourId: tour.id,
                     price: tour.price,
-                    tourStatus: this.convertNumberToTourStatus(tour.status)
+                    tourStatus: this.convertNumberToTourStatus(tour.status),
+                    tourName: tour.name
                 };
             });
 
@@ -156,7 +157,7 @@ export class CreateTourBundleComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.router.navigate(['/bundles']);
+            this.router.navigate(['/mybundles']);
         });
     }
 }
