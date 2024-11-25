@@ -3,6 +3,7 @@ import { MapComponent } from 'src/app/shared/map/map.component';
 import { TouristPosition } from '../model/tourist-position';
 import { ProfileService } from '../profile.service';
 import { Person } from '../model/person';
+import { Chapter } from '../../tour-execution/model/chapter.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
@@ -12,6 +13,7 @@ import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
 import { ChangeDetectorRef } from '@angular/core';
 import { PagedResult } from '../../blog/blog.module';
 import { EventModel } from '../../tour-authoring/model/event.model';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -31,7 +33,21 @@ export class PositionSimulatorComponent {
   intervalId: any;
   secret: string | null = null;
   events: any[] = [];
-  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef  ) {}
+  personalDiaryId: number | null = null;
+  selectedImage: File | null = null;
+  newChapter: Chapter = {
+    chapterId: 0,
+    title: '',
+    createdAt: new Date(),
+    text: '',
+    personalDairyId: 0,
+    /*image: {
+      data: '',
+      uploadedAt: new Date(),
+      mimeType : 0
+    }*/
+  };
+  constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef, private datePipe: DatePipe  ) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -52,6 +68,7 @@ export class PositionSimulatorComponent {
           this.tourExecution = execution;
           this.updateCheckpoints();
         }});
+        this.getDiaryForUser();
       } else {
         console.error('User ID is not defined.');
       }
@@ -202,7 +219,110 @@ export class PositionSimulatorComponent {
       }
     });
   }
+  getDiaryForUser() {
+    if (this.user?.id !== undefined) {
+      this.execService.getDiaryForExecution(this.user.id).subscribe({
+        next: (data) => {
+          if (data && data.length > 0) { // Proveravamo da li niz ima podatke
+            const diary = data[0]; // Pristupamo prvom elementu niza
+            this.personalDiaryId = diary.id;
+            console.log('Dnevnik ID:', this.personalDiaryId);
+          } else {
+            console.error('API je vratio prazan niz!');
+          }
+        },
+        error: (err) => {
+          console.error('Greška prilikom poziva API-ja:', err);
+        }
+      });
+    }
+  }
+  
+  
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+  
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        if (reader.result) {
+          const base64String = reader.result.toString();
+          this.newChapter.image = {
+            data: base64String.split(',')[1],
+            uploadedAt : new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!),
+            mimeType: this.getMimeType(file.type),
+          };
+        }
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  getMimeType(fileType: string): number {
+    switch (fileType) {
+      case 'image/jpeg':
+        return 0; 
+      case 'image/png':
+        return 1; 
+      case 'image/gif':
+        return 2; 
+      default:
+        throw new Error('Unsupported file type');
+    }
+  }
+  
+  submitChapter() {
+    if (!this.personalDiaryId) {
+      alert('Dnevnik nije pronađen za trenutnog korisnika!');
+      return;
+    }
+    this.newChapter.createdAt = new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
+
+    // Logovanje podataka pre slanja
+    console.log('Poslati podaci:', this.newChapter);
+    
+    this.newChapter.personalDairyId = this.personalDiaryId;
+  
+    this.execService.addChapter(this.personalDiaryId, this.newChapter).subscribe({
+      next: (response) => {
+        console.log('Poglavlje uspešno dodato:', response);
+        alert('Poglavlje je dodato u dnevnik!');
+        this.resetFields();
+      },
+      error: (err) => {
+        console.error('Greška prilikom dodavanja poglavlja:', err);
+        alert('Došlo je do greške!');
+      },
+    });
+  }
+  
+  
+  /*resetForm(form: any): void {
+    this.newChapter = {
+      chapterId: 0,
+      title: '',
+      createdAt: new Date(),
+      text: '',
+      personalDairyId: 0,
+    };
+
+    form.reset();  // Resetuje samu formu
+  }*/
+    resetFields(): void {
+      this.newChapter.title = '';
+      this.newChapter.text = '';
+      this.newChapter.image = undefined; // Resetovanje slike
+      this.selectedImage = null; // Resetovanje izabrane datoteke
+    
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Resetuje prikaz datoteke u input polju
+      }
+    }
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);

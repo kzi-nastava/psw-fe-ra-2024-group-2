@@ -48,6 +48,40 @@
               </div>
         </div>
     </div>
+    <form #chapterForm="ngForm" (ngSubmit)="submitChapter()">
+        <div>
+          <label for="title">Naslov</label>
+          <input type="text" id="title" name="title" [(ngModel)]="newChapter.title" required />
+        </div>
+      
+        <div>
+          <label for="text">Tekst</label>
+          <textarea id="text" name="text" [(ngModel)]="newChapter.text" required></textarea>
+        </div>
+        <div>
+            <label for="image">Dodajte sliku:</label>
+            <input
+            type="file"
+            id="image"
+            accept="image/jpeg, image/png, image/gif"
+            (change)="onFileSelected($event)"
+            />
+        </div>
+
+        <!-- Prikaz odabrane slike -->
+        <div *ngIf="newChapter.image?.data" class="preview">
+            <h4>Pregled slike:</h4>
+            <img
+            [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
+            alt="Pregled slike"
+            style="max-width: 300px; max-height: 300px;"
+            />
+        </div>
+        
+        <button type="submit" [disabled]="!chapterForm.form.valid">Dodaj Poglavlje</button>
+        <button type="button" (click)="resetFields()">Resetuj Polja</button> <!-- Dugme za resetovanje samo polja -->
+      </form>
+      
     <ng-template #noEvents>
         <p>No events available.</p>
     </ng-template>

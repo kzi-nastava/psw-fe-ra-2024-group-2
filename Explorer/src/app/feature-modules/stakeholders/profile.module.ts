@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms"; // Dodajte FormsModule
 import { ReactiveFormsModule } from "@angular/forms";
@@ -21,6 +21,7 @@ import { SendMessageComponent } from './send-message/send-message.component';
         FormsModule,          // Dodato FormsModule
         ReactiveFormsModule
     ],
+    providers: [DatePipe],
     exports: [
         ProfileComponent,
         ProfileFormComponent,

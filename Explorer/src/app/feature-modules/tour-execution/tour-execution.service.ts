@@ -13,6 +13,8 @@ import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
 import { Tour as ExecutionTour } from './model/tour-model'; 
 import { EventModel } from '../tour-authoring/model/event.model';
 import { map } from 'rxjs/operators';
+import { PersonalDairy } from './model/personalDiary.model'
+import { Chapter } from './model/chapter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -115,6 +117,18 @@ export class TourExecutionService {
   }
   acceptEvent(event: EventModel): Observable<any> {
     return this.http.post('https://localhost:44333/api/tour/execution/acceptEvent', event);
+  }
+
+  getDiaryForExecution(userId: number): Observable<PersonalDairy[]> {
+    return this.http.get<PersonalDairy[]>(`https://localhost:44333/api/user/personal-dairy/${userId}`);
+  }
+
+  createDiary(diary: PersonalDairy): Observable<PersonalDairy> {
+    return this.http.post<PersonalDairy>('https://localhost:44333/api/user/personal-dairy', diary);
+  }
+
+  addChapter(diaryId: number, chapter: Chapter): Observable<Chapter> {
+    return this.http.post<Chapter>(`https://localhost:44333/api/user/personal-dairy/${diaryId}/chapters`, chapter);
   }   
 }
 
