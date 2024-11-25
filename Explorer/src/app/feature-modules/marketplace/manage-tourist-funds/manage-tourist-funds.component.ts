@@ -73,8 +73,8 @@ export class ManageTouristFundsComponent implements OnInit {
   addFunds(account: Account): void {
     const amount = prompt(`Enter the amount of funds to add for ${account.username}:`);
     if (amount) {
-      const parsedAmount = parseInt(amount, 10); // string u long (integer)
-      if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      const parsedAmount = Number(amount); // Pretvori string u broj
+      if (isNaN(parsedAmount) || parsedAmount <= 0 || !Number.isInteger(parsedAmount)) {
         alert('Invalid amount. Please enter a positive whole number.');
         return;
       }
