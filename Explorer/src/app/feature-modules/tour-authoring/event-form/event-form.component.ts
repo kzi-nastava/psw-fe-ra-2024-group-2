@@ -74,6 +74,7 @@ this.eventForm.markAllAsTouched();
 
 if (this.eventForm.valid) {
   const ev: EventModel = {
+    id: 0,
     name: this.eventForm.value.name || "",
     description: this.eventForm.value.description || "",
     image: this.eventForm.value.image, 
