@@ -1,29 +1,41 @@
 <div id="accounts" class="component">
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Wallet Balance</th>
-          <th>Action</th>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Wallet Balance</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let acc of account">
+        <tr *ngIf="acc.role === 2 && acc.username !== user?.username">
+          <td>{{ acc.username }}</td>
+          <td>{{ acc.email }}</td>
+          <td>{{ walletBalances[acc.userId] }}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="add-funds-btn" (click)="openModal(acc)">
+                Add Funds
+              </button>
+            </div>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let acc of account">
-          <tr *ngIf="acc.role === 2 && acc.username !== user?.username">
-            <td>{{ acc.username }}</td>
-            <td>{{ acc.email }}</td>
-            <td>{{ walletBalances[acc.userId] }}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="add-funds-btn" (click)="addFunds(acc)">
-                  Add Funds
-                </button>
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" [ngClass]="{ 'show': isModalOpen }">
+  <div class="modal-content">
+    <h2>Add Funds</h2>
+    <label for="amount">Enter amount (in Adventure Coins AC):</label>
+    <input id="amount" type="number" [(ngModel)]="modalAmount" />
+    <div class="modal-actions">
+      <button (click)="closeModal()">Cancel</button>
+      <button (click)="confirmAddFunds()">Add</button>
+    </div>
   </div>
-  
+</div>

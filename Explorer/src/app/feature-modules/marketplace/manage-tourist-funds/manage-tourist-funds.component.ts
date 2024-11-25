@@ -14,6 +14,9 @@ export class ManageTouristFundsComponent implements OnInit {
   account: Account[] = [];
   user: any;
   walletBalances: { [userId: number]: number } = {}; // mapa userId -> balans
+  isModalOpen: boolean = false;
+  modalAmount: number | null = null; // uneti adventure coins
+  selectedAccount: Account | null = null;
 
   constructor(
     private service: AdministrationService,
@@ -59,7 +62,7 @@ export class ManageTouristFundsComponent implements OnInit {
         this.service.getWalletBalance(acc.userId).subscribe({
           next: (wallet: Wallet) => {
             console.log('Wallet response for user', acc.userId, wallet);
-            this.walletBalances[acc.userId] = wallet.adventureCoinsBalance; 
+            this.walletBalances[acc.userId] = wallet.adventureCoinsBalance;
           },
           error: (err) => {
             console.error(`Error fetching wallet balance for user ${acc.userId}:`, err);
@@ -68,21 +71,36 @@ export class ManageTouristFundsComponent implements OnInit {
         });
       }
     });
-  }  
+  }
 
-  addFunds(account: Account): void {
-    const amount = prompt(`Enter the amount of funds to add for ${account.username}:`);
-    if (amount) {
-      const parsedAmount = Number(amount); // Pretvori string u broj
-      if (isNaN(parsedAmount) || parsedAmount <= 0 || !Number.isInteger(parsedAmount)) {
-        alert('Invalid amount. Please enter a positive whole number.');
-        return;
-      }
-  
-      this.service.addFunds(account.userId, parsedAmount).subscribe({
+  openModal(account: Account): void {
+    this.isModalOpen = true;
+    this.selectedAccount = account;
+    this.modalAmount = null; // unos resetovan
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedAccount = null;
+    this.modalAmount = null;
+  }
+
+  confirmAddFunds(): void {
+    if (this.modalAmount === null || this.modalAmount <= 0 || !Number.isInteger(this.modalAmount)) {
+      alert('Invalid amount. Please enter a positive whole number.');
+      return;
+    }
+
+    if (this.selectedAccount) {
+      this.service.addFunds(this.selectedAccount.userId, this.modalAmount).subscribe({
         next: () => {
-          this.snackBar.open(`Successfully added ${parsedAmount} AC to ${account.username}.`, 'Close', { duration: 3000 });
-          this.walletBalances[account.userId] += parsedAmount; 
+          this.snackBar.open(
+            `Successfully added ${this.modalAmount} AC to ${this.selectedAccount?.username}.`,
+            'Close',
+            { duration: 3000 }
+          );
+          this.walletBalances[this.selectedAccount!.userId] += this.modalAmount!;
+          this.closeModal();
         },
         error: (err) => {
           console.error('Error adding funds:', err);
@@ -91,5 +109,4 @@ export class ManageTouristFundsComponent implements OnInit {
       });
     }
   }
-  
 }

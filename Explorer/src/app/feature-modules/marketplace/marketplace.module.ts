@@ -22,6 +22,7 @@ import { DeleteBundleDialogComponent } from './delete-bundle-modal/delete-bundle
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShowWalletComponent } from './show-wallet/show-wallet.component';
 import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-tourist-funds.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-touri
     MatSelectModule,
     MatOptionModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   exports: [
     ShoppingCartComponent,
