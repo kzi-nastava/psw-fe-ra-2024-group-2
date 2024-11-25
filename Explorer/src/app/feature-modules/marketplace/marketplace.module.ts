@@ -21,6 +21,7 @@ import { EditBundleDialogComponent } from './edit-bundle-modal/edit-bundle-dialo
 import { DeleteBundleDialogComponent } from './delete-bundle-modal/delete-bundle-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShowWalletComponent } from './show-wallet/show-wallet.component';
+import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-tourist-funds.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ShowWalletComponent } from './show-wallet/show-wallet.component';
     MyBundlesComponent,
     EditBundleDialogComponent,
     DeleteBundleDialogComponent,
-    ShowWalletComponent
+    ShowWalletComponent,
+    ManageTouristFundsComponent
   ],
   imports: [
     CommonModule,

@@ -71,7 +71,7 @@ export class ShoppingCartComponent implements OnInit {
         this.isOpen = false;
       },
       error: () => {
-        this.snackBar.open('Error during checkout', 'Close', { duration: 3000 });
+        this.snackBar.open('Error during checkout, Insufficient funds.', 'Close', { duration: 3000 });
       }
     });
   }
