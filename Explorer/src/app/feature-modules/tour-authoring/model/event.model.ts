@@ -10,7 +10,7 @@ export enum EventCategory {
   
   
   export interface EventModel {
-    id?: number,
+    id: number,
     name: string;
     description: string;
     image: Image | null; 

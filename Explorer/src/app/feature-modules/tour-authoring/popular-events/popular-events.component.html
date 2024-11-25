@@ -1,0 +1,43 @@
+<div class="component">
+    <div class="container">
+        <div class="table-section">
+            <div class="table-title">
+                Popular Events
+            </div>
+            <div class="table-description">
+                This section showcases the 3 most popular events based on the number of interested tourists. You can check the details.
+            </div>
+            <div class="cards-container">
+                <div *ngFor="let ev of events; let i = index" class="event-card">
+                    <div class="card-header">
+                        <h3>{{ ev.name }}</h3>
+                        <i *ngIf="i === 0" class="fa fa-trophy trophy-icon" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-body">
+                        <p class="description">{{ ev.description }}</p>
+                        <p class="category">Category: <strong>{{ ev.category }}</strong></p>
+                        
+                        <!-- Start and End Date -->
+                        <p class="category">
+                            <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br>
+                            <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
+                        </p>
+                        
+                        <img 
+                            *ngIf="ev.image?.data" 
+                            [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" 
+                            alt="Event Image" 
+                            class="event-image">
+                    </div>
+                    <div class="card-footer">
+                        <button 
+                            class="show-details-btn"
+                            (click)="goToEventDetails(ev.id)">
+                            Show Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

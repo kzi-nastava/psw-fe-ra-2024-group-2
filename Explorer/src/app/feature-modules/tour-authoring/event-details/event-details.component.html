@@ -1,0 +1,66 @@
+<div class="container">
+    <!-- Header explaining the nearby tours -->
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-info">
+          <h4>Explore Nearby Tours</h4>
+          <p>Here are some tours nearby the event you selected. Check out these exciting options to enhance your experience!</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tours list -->
+    <div class="row">
+      <div class="col-4" *ngFor="let tour of tours">
+        <div class="tour-card">
+          <div class="tour-header">
+            <h3 class="tour-title">{{ tour.name }}</h3>
+            <div class="tour-meta">
+              <div class="badge-container">
+                <span class="badge" [ngClass]="'badge-difficulty-' + tour.difficulty">
+                  <span class="icon">⚡</span>
+                  {{ (tour.difficulty) }}
+                </span>
+              </div>
+              <div class="badge-container">
+                <span class="badge" [ngClass]="'badge-status-' + tour.status">
+                  <span class="icon">●</span>
+                  {{ (tour.status) }}
+                </span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="tour-content">
+            <div class="tour-description">
+              {{ tour.description }}
+            </div>
+  
+            <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
+              <div class="section-title">
+                <span class="icon">⚒</span>
+                Included Equipment
+              </div>
+              <div class="equipment-list">
+                <div class="equipment-item" *ngFor="let equipmentId of tour.equipment">
+                  <span class="icon">✓</span>
+                  {{ equipmentId }}
+                </div>
+              </div>
+            </div>
+  
+            <div class="tour-tag">
+              <span class="icon">🏷</span>
+              Tour ID: {{ tour.id }}
+            </div>
+  
+            <div class="tour-duration" *ngFor="let duration of tour.tourDurationByTransportDtos">
+              <span class="icon">⏱</span>
+              Duration ({{ duration.transport }}): {{ duration.duration }} hours
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

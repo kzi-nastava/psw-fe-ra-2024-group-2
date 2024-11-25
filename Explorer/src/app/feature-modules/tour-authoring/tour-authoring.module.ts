@@ -19,6 +19,9 @@ import { EventFormComponent } from './event-form/event-form.component';
 import { EventComponent } from './event/event.component';
 
 import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-checkpoints.component';
+import { EventAnalyticsComponent } from './event-analytics/event-analytics.component';
+import { PopularEventsComponent } from './popular-events/popular-events.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-che
     TourPreferenceComponent,
     EventFormComponent,
     EventComponent,
-    AddTourCheckpointsComponent
+    AddTourCheckpointsComponent,
+    EventAnalyticsComponent,
+    PopularEventsComponent,
+    EventDetailsComponent
   ],
   imports: [
     CommonModule,
