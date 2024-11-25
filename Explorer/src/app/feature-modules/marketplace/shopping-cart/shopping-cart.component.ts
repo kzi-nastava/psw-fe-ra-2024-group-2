@@ -67,7 +67,7 @@ export class ShoppingCartComponent implements OnInit {
       next: () => {
         this.orderItems = [];
         this.totalPrice = 0;
-        this.snackBar.open('Checkout successful!', 'Close', { duration: 3000 });
+        this.snackBar.open('Checkout successful! New tour(s) added to your collection.', 'Close', { duration: 4000 });
         this.isOpen = false;
       },
       error: () => {
