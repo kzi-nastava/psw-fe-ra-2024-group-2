@@ -3,25 +3,26 @@
     --dark-brown: #5D4037;
     --light-brown: #F4D7BE;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --accent-gold: #B8860B;
 }
 
-.wallet-container {
+.adventure-coins-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 400px;
+    padding: 20px;
 }
 
 .wallet-card {
     background: linear-gradient(135deg, var(--light-brown) 0%, var(--primary-brown) 100%);
     border-radius: 12px;
     padding: 40px;
-    width: 450px;
-    height: 270px;
+    width: 100%;
+    max-width: 1000px;
     box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-.wallet-card h2 {
+.wallet-header h2 {
     color: var(--dark-brown);
     text-align: center;
     margin-bottom: 40px;
@@ -37,6 +38,7 @@
     align-items: center;
     gap: 20px;
     height: 100px;
+    margin-bottom: 30px;
 }
 
 .coin-icon {
@@ -60,4 +62,62 @@
     font-weight: bold;
     font-size: 32px;
     color: var(--dark-brown);
+}
+
+.adventure-coins-section {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.coins-overview h3 {
+    color: var(--dark-brown);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.coins-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.coin-info-card {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.coin-info-card:hover {
+    transform: scale(1.05);
+}
+
+.card-icon {
+    background: var(--accent-gold);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.card-icon i {
+    color: white;
+    font-size: 36px;
+}
+
+.coin-info-card h4 {
+    color: var(--dark-brown);
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.coin-info-card p {
+    color: var(--dark-brown);
+    font-size: 16px;
 }
