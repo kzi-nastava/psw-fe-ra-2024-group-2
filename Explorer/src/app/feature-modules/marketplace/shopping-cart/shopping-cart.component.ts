@@ -2,14 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../services/shopping-cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  bundleId?: number;
+  tourId?: number;
+}
+
 @Component({
   selector: 'xp-shopping-cart',
   templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.css']
+  styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
   isOpen = false;
-  orderItems: any[] = [];
+  orderItems: CartItem[] = [];
   totalPrice: number = 0;
 
   constructor(
@@ -19,6 +27,14 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit() {
     this.loadCartItems();
+  }
+
+  get bundleItems(): CartItem[] {
+    return this.orderItems.filter(item => item.bundleId);
+  }
+
+  get tourItems(): CartItem[] {
+    return this.orderItems.filter(item => item.tourId);
   }
 
   loadCartItems() {
@@ -34,8 +50,8 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  removeItem(tourId: number) {
-    this.cartService.removeItem(tourId).subscribe({
+  removeItem(item: CartItem) {
+    this.cartService.removeItem(item).subscribe({
       next: () => {
         this.loadCartItems();
         this.snackBar.open('Item removed from cart', 'Close', { duration: 3000 });
@@ -65,5 +81,9 @@ export class ShoppingCartComponent implements OnInit {
     if (this.isOpen) {
       this.loadCartItems();
     }
+  }
+
+  getItemsTotal(items: CartItem[]): number {
+    return items.reduce((sum, item) => sum + item.price, 0);
   }
 }

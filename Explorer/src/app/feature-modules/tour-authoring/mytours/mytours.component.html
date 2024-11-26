@@ -1,3 +1,126 @@
+<div class="page-container">
+  <section class="coupon-section">
+    <div class="form-and-table">
+      <!-- Coupons Form -->
+      <div class="form-container">
+        <h2 class="section-title">Create Coupon</h2>
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+        <div *ngIf="unsuccessMessage" class="unsuccess-message">
+          {{ unsuccessMessage }}
+        </div>
+        <form (ngSubmit)="createCoupon()" #couponForm="ngForm">
+          <table class="coupon-grid">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="couponDiscount">Discount (%)</label>
+                </td>
+                <td>
+                  <input type="number" id="couponDiscount" name="couponDiscount" class="form-input"
+                    [(ngModel)]="coupon.discount" min="1" max="100" required>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="applyToAll">Apply to All</label>
+                </td>
+                <td>
+                  <div class="checkbox-wrapper">
+                    <input type="checkbox" id="applyToAll" name="applyToAll" class="form-checkbox"
+                      [(ngModel)]="applyToAll" (change)="onApplyToAllChange()">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="couponTour">Select Tour</label>
+                </td>
+                <td>
+                  <select id="couponTour" name="couponTour" class="form-input" [(ngModel)]="coupon.tourId"
+                    [disabled]="applyToAll">
+                    <option *ngFor="let tour of tours" [value]="tour.id">
+                      {{ tour.name }}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="action-row">
+            <button type="submit" class="btn" [disabled]="couponForm.invalid">
+              Create Coupon
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Coupons Table -->
+      <div class="coupons-table-container">
+        <h2 class="section-title">Coupons</h2>
+        <div class="table-wrapper">
+          <table class="coupons-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Discount (%)</th>
+                <th>Tour ID</th>
+                <th>Apply to All</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let coupon of coupons">
+                <td>{{ coupon.code }}</td>
+                <td>{{ coupon.discountPercentage }}</td>
+                <td>{{ getNameOfTourForCoupon(coupon.tourId) }}</td>
+                <td>{{ coupon.allToursDiscount ? 'Yes' : 'No' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="table-container">
+      <h2 class="section-title">Available Tours</h2>
+      <div class="table-wrapper">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Difficulty</th>
+              <th>Status</th>
+              <th>Tag</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tour of tours" (click)="showTourClick(tour)" class="interactive-row">
+              <td>{{ tour.name }}</td>
+              <td>{{ tour.description }}</td>
+              <td>
+                <span class="badge" [ngClass]="'difficulty-' + tour.difficulty">
+                  {{ getDifficultyLabel(tour.difficulty) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="'status-' + tour.status">
+                  {{ getStatusLabel(tour.status) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="'tag-' + tour.tag">
+                  {{ getTagLabel(tour.tag) }}
+                </span>
+              </td>
+              <td class="price-column">{{ tour.price }}</td>
+            </tr>
+          </tbody>
+        </table>
 <div class="card-grid">
   <!-- Kartice za ture -->
   <div class="card" *ngFor="let tour of tours">
@@ -45,3 +168,4 @@
     </div>
   </div>
 </div>
+

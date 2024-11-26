@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { PagedResult } from './shared/model/tour.module';
-import { Tour } from './model/tour.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Equipment } from '../administration/model/equipment.model';
-import { Checkpoint } from './model/checkpoint.model';
-import { Object } from './model/object.model';
-import { ObjectFormComponent } from './object-form/object-form.component';
-import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { LocationDto } from '../tour-execution/model/location.model';
+import { Checkpoint } from './model/checkpoint.model';
+import { Coupon } from './model/coupon.model';
 import { EventModel } from './model/event.model';
+import { Object } from './model/object.model';
+import { Tour } from './model/tour.model';
+import { PagedResult } from './shared/model/tour.module';
 
 
 @Injectable({
@@ -122,6 +122,16 @@ export class TourAuthoringService {
   }
   getEvents(): Observable<PagedResult<EventModel>> {
     return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
+  }
+  //Coupons
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/author/coupon', coupon)
+  }
+  useCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/tourist/coupon', coupon)
+  }
+  getCoupons(): Observable<PagedResult<Coupon>> {
+    return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }
   getEventsSorted(): Observable<PagedResult<EventModel>> {
     return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/sorted')

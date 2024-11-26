@@ -9,7 +9,7 @@ import { environment } from 'src/env/environment';
 export class ShoppingCartService {
   private orderItemsCache: any[] = []; // Cache za stavke kako bismo izbegli više zahteva
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Metoda za dohvaćanje stavki iz korpe sa keširanjem
   getOrderItems(): Observable<any[]> {
@@ -45,14 +45,23 @@ export class ShoppingCartService {
     );
   }
 
-  removeItem(tourId: number): Observable<any> {
-    console.log('Uklanjanje stavke s tourId:', tourId);
-    return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove/${tourId}`).pipe(
-      tap(() => {
-        // Ažuriramo keš tako što uklonimo stavku
-        this.orderItemsCache = this.orderItemsCache.filter(item => item.id !== tourId);
-      })
-    );
+  removeItem(item: any): Observable<any> {
+    console.log('Brišemo stavku iz korpe:', item);
+
+    if(item.bundleId) {
+      return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove-bundle/${item.bundleId}`).pipe(
+        tap(() => {
+          // Ažuriramo keš tako što uklonimo stavku
+          this.orderItemsCache = this.orderItemsCache.filter(i => i.bundleId !== item.bundleId);
+        }));
+    } else {
+      return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove/${item.tourId}`).pipe(
+        tap(() => {
+          // Ažuriramo keš tako što uklonimo stavku
+          this.orderItemsCache = this.orderItemsCache.filter(i => i.tourId !== item.tourId);
+        })
+      );
+    }
   }
 
   checkout(): Observable<any> {
@@ -63,5 +72,9 @@ export class ShoppingCartService {
         this.orderItemsCache = [];
       })
     );
+  }
+
+  buyBundle(id: number): Observable<any> {
+    return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
   }
 }
