@@ -20,6 +20,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditBundleDialogComponent } from './edit-bundle-modal/edit-bundle-dialog.component';
 import { DeleteBundleDialogComponent } from './delete-bundle-modal/delete-bundle-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ShowWalletComponent } from './show-wallet/show-wallet.component';
+import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-tourist-funds.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ShowAllBundlesComponent,
     MyBundlesComponent,
     EditBundleDialogComponent,
-    DeleteBundleDialogComponent
+    DeleteBundleDialogComponent,
+    ShowWalletComponent,
+    ManageTouristFundsComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +50,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSelectModule,
     MatOptionModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   exports: [
     ShoppingCartComponent,

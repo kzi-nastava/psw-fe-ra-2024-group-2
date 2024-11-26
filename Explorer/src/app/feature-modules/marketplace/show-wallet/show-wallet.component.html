@@ -1,0 +1,13 @@
+<div class="wallet-container">
+    <div class="wallet-card" *ngIf="wallet">
+      <h2>My Wallet</h2>
+      <div class="balance-container">
+        <div class="coin-icon">
+          <i class="bi bi-coin"></i>
+        </div>
+        <div class="balance-text">
+          {{ wallet.adventureCoinsBalance }} AC
+        </div>
+      </div>
+    </div>
+  </div>
