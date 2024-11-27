@@ -15,7 +15,7 @@
             <!-- Card Content -->
             <div class="price-section">
                 <span class="price-label">Bundle Price</span>
-                <span class="price-value">{{ bundle.price | currency }}</span>
+                <span class="price-value"><i class="bi bi-coin"></i> {{ bundle.price }}</span>
             </div>
 
             <div class="tours-section">
@@ -30,9 +30,7 @@
 
             <!-- Button Container -->
             <div class="button-container">
-                <button 
-                    class="bundle-button" 
-                    (click)="buyBundle(bundle)">
+                <button class="bundle-button" (click)="buyBundle(bundle)">
                     Buy Bundle
                 </button>
             </div>

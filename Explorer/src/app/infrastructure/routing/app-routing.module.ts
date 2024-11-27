@@ -9,8 +9,10 @@ import { ToursitClubComponent } from 'src/app/feature-modules/administration/tou
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
+import { ManageTouristFundsComponent } from 'src/app/feature-modules/marketplace/manage-tourist-funds/manage-tourist-funds.component';
 import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
+import { ShowWalletComponent } from 'src/app/feature-modules/marketplace/show-wallet/show-wallet.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
@@ -40,6 +42,7 @@ import { CreateBlogComponent } from '../../feature-modules/blog/create-blog/crea
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -85,7 +88,9 @@ const routes: Routes = [
   {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]},
   {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
   {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
-  {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]}
+  {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},
+  {path: 'mywallet', component: ShowWalletComponent, canActivate: [AuthGuard]},
+  {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

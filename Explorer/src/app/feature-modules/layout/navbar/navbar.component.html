@@ -69,6 +69,7 @@
           <button [routerLink]="['ratingsApplications']">All Ratings</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button [routerLink]="['account']">Manage Accounts</button>
+          <button [routerLink]="['manageTouristFunds']">Manage Tourist Funds</button>
         </div>
       </div>
 
@@ -77,6 +78,9 @@
         <button class="dropdown-toggle"> Basics </button>
         <div class="dropdown-content">
           <button (click)="showProfile()">Profile</button>
+          <button *ngIf="user.role === 'tourist'" [routerLink]="['mywallet']">
+            My Wallet
+          </button>
           <button (click)="showBlogs()">Blog</button>
           <button (click)="showComment()">Comment</button>
           <button *ngIf="user.role === 'tourist' || user.role === 'author'" [routerLink]="['rateApp']">

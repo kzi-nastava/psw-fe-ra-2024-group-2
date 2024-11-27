@@ -43,7 +43,7 @@
                 <div class="price-section">
                     <div class="price-info">
                         <span class="price-label">Bundle Price</span>
-                        <span class="price-value">{{ bundle.price | currency }}</span>
+                        <span class="price-value"><i class="bi bi-coin"></i> {{ bundle.price | currency }}</span>
                     </div>
                     <div class="tours-count">
                         <mat-icon>map</mat-icon>
@@ -61,7 +61,7 @@
                             <div class="tour-info">
                                 <span class="tour-name">{{ tour.tourName }}</span>
                             </div>
-                            <span class="tour-price">{{ tour.price | currency }}</span>
+                            <span class="tour-price"><i class="bi bi-coin"></i> {{ tour.price | currency }}</span>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { environment } from 'src/env/environment';
+import { Wallet } from '../marketplace/model/wallet.model';
 import { Account } from './model/account.model';
 import { ClubInviteDTO } from './model/clubinvitedto.model';
 import { Equipment } from './model/equipment.model';
@@ -84,6 +85,13 @@ removeTouristFromClub(url: string): Observable<any> {
     return this.http.post<FAQDto>('https://localhost:44333/api/administration/faq/'+userId, faq)
   }
 
+  addFunds(touristId: number, amount: number): Observable<void> {
+    return this.http.post<void>(`${environment.apiHost}admin/wallet/add-ac?touristId=${touristId}`, amount);
+  }
+  
+  getWalletBalance(touristId: number): Observable<Wallet> {
+    return this.http.get<Wallet>(`${environment.apiHost}admin/wallet?touristId=${touristId}`);
+  }   
   editFAQ(faq: FAQDto, userId: number, faqId: number): Observable<FAQDto>{
     return this.http.put<FAQDto>(`https://localhost:44333/api/administration/faq/editFAQ/${faqId}/${userId}`, faq);
   }
