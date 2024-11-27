@@ -38,6 +38,8 @@ import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-author
 import { EventAnalyticsComponent } from 'src/app/feature-modules/tour-authoring/event-analytics/event-analytics.component';
 import { PopularEventsComponent } from 'src/app/feature-modules/tour-authoring/popular-events/popular-events.component';
 import { EventDetailsComponent } from 'src/app/feature-modules/tour-authoring/event-details/event-details.component';
+import { DiariesComponent } from 'src/app/feature-modules/stakeholders/personal-diaries/personal-diaries.component';
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -80,7 +82,8 @@ const routes: Routes = [
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
   {path: 'eventAnalytics', component: EventAnalyticsComponent, canActivate: [AuthGuard]},  
   {path: 'popularEvents', component: PopularEventsComponent, canActivate: [AuthGuard]},
-  {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]}
+  {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'diaries/:userId', component: DiariesComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({
