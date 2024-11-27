@@ -24,12 +24,12 @@
   <div class="blog-author">
     <div class="blog-card-left" *ngIf="blogWithUser">
       <img 
-      [src]="blogWithUser.author?.profileImage?.data?.startsWith('data:image/jpeg;base64,') 
+      [src]="blogWithUser.author.profileImage?.data?.startsWith('data:image/jpeg;base64,') 
               ? blogWithUser.author.profileImage?.data 
               : 'data:image/jpeg;base64,' + blogWithUser.author.profileImage?.data" 
       class="blog-author-image">
       <p class="blog-author-name">
-        {{  blogWithUser.author?.name || 'Unknown'}} {{ blogWithUser.author?.lastName || 'Author'}}
+        {{  blogWithUser.author.name || 'Unknown'}} {{ blogWithUser.author.lastName || 'Author'}}
       </p>
     </div>    
     <div class="rating-buttons" *ngIf="blogWithUser">
@@ -98,7 +98,7 @@
           <tbody>
             <tr *ngFor="let commentWithAuthor of commentsWithAuthor" class="clickable-row">
               <td>{{ commentWithAuthor.comment.text }}</td>
-              <td>{{ commentWithAuthor.author?.username }}</td>
+              <td>{{ commentWithAuthor.author.username }}</td>
               <td>{{ commentWithAuthor.comment.createdAt | date: 'short' }}</td>
               <td>{{ commentWithAuthor.comment.lastModifiedAt | date: 'short' }}</td>
               <td>

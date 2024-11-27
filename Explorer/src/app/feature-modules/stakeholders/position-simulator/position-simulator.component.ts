@@ -12,6 +12,7 @@ import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
 import { ChangeDetectorRef } from '@angular/core';
 import { PagedResult } from '../../blog/blog.module';
 import { EventModel } from '../../tour-authoring/model/event.model';
+import { EventAcception } from '../../tour-authoring/model/eventAcception.model';
 @Component({
   selector: 'xp-position-simulator',
   templateUrl: './position-simulator.component.html',
@@ -24,6 +25,7 @@ export class PositionSimulatorComponent {
   executedCheckpoints : any[] = [];
   checkpointCordinates: any[] = [];
   currentExeCheckpoints: any[] = [];
+  eventCordinates: any[] = [];
   checkpoints: Checkpoint[] = [];
   user: User | undefined;
   clearMarkersFlag: boolean = false;
@@ -166,11 +168,23 @@ export class PositionSimulatorComponent {
           console.log(result);
           this.events = result.results;
           console.log(this.events);
+          this.eventCordinates = this.events
+          .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
+          .map(event => ({
+            latitude: event.latitude,
+            longitude: event.longitude,
+            name: event.name,
+            category: event.category,
+            image: event.image
+          }));
         }
       });
     }
   }
 
+  hasUserAcceptedEvent(event: EventModel): boolean {
+    return event.eventAcceptances.some(acceptance => acceptance.touristId === this.user?.id);
+  }
 
   joinEvent(event: EventModel): void {
 
@@ -178,6 +192,11 @@ export class PositionSimulatorComponent {
       next: (response) => {
         console.log('Tour started successfully!', response);
         this.router.navigate(['/position-simulator']);
+
+        if (this.user?.id) {
+          event.eventAcceptances.push({ touristId: this.user.id, acceptedAt: new Date() });
+        }
+
       },
       error: (error) => {
         console.error('Failed to start the tour:', error);
