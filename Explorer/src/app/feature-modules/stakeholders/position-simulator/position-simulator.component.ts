@@ -4,6 +4,7 @@ import { TouristPosition } from '../model/tourist-position';
 import { ProfileService } from '../profile.service';
 import { Person } from '../model/person';
 import { Chapter } from '../../tour-execution/model/chapter.model';
+import { Diary } from '../../tour-execution/model/diary.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from 'src/app/feature-modules/tour-execution/tour-execution.service';
@@ -27,14 +28,30 @@ export class PositionSimulatorComponent {
   checkpointCordinates: any[] = [];
   currentExeCheckpoints: any[] = [];
   checkpoints: Checkpoint[] = [];
+  chapters: Chapter[] = [];
   user: User | undefined;
   clearMarkersFlag: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
   intervalId: any;
+  isNewChapterModalOpen = false;
+  createDiaryModal = false;
   secret: string | null = null;
   events: any[] = [];
-  personalDiaryId: number | null = null;
   selectedImage: File | null = null;
+  isModalOpen: boolean = false;
+  isEditingTitle = false; // Da li se uređuje naslov
+  editedTitle: string = ''; // Privremeni naslov za uređivanje
+  editedChapterIndex: number | null = null; // Trenutno uređivano poglavlje
+  diary: Diary ={
+    id:0,
+    tourExecutionId: 0,
+    userId: 0,
+    tourId: 0,
+    title: '',
+    createdAt: new Date(),
+    closedAt: new Date(),
+    
+  };
   newChapter: Chapter = {
     chapterId: 0,
     title: '',
@@ -47,6 +64,7 @@ export class PositionSimulatorComponent {
       mimeType : 0
     }*/
   };
+  
   constructor(private service: ProfileService, private authService: AuthService, private execService: TourExecutionService, private router: Router,  private cdr: ChangeDetectorRef, private datePipe: DatePipe  ) {}
 
   ngOnInit(): void {
@@ -66,15 +84,183 @@ export class PositionSimulatorComponent {
         });
         this.execService.loadTourExecution(this.user.id).subscribe({next: (execution: TourExecution) => {
           this.tourExecution = execution;
+          this.loadDiary();
           this.updateCheckpoints();
         }});
-        this.getDiaryForUser();
       } else {
         console.error('User ID is not defined.');
       }
     });
   }
+  loadDiary(): void {
+    const tourExecutionId = this.tourExecution.id;
 
+    if (tourExecutionId) {
+      this.execService.getDiaryByTourExecutionId(tourExecutionId).subscribe({
+        next: (response: any) => {
+          // Mapiranje odgovora na Diary model
+          this.diary = {
+            tourExecutionId: response.tourExecutionId,
+            id:response.id,
+            userId: response.userId,
+            tourId: response.tourId,
+            title: response.title,
+            createdAt: new Date(response.createdAt),
+            closedAt: new Date(response.closedAt)
+          };
+
+        },
+        error: (err) => {
+          console.error('Greška prilikom preuzimanja dnevnika:', err);
+        }
+      });
+    } else {
+      console.error('tourExecutionId nije definisan.');
+    }
+  }
+  getChaptersForDiary(): void {
+    this.execService.getChaptersForDiary(this.diary.id).subscribe({
+      next: (chapterss: any) => {
+        console.log('API Response:', chapterss);
+
+        // Ispisivanje samo rezultata (ako je 'results' deo odgovora)
+        console.log('Chapters:', chapterss);
+        this.chapters = chapterss;
+      },
+      error: (error) => {
+        console.error('Error fetching chapters:', error);
+      }});
+    }
+    openModal(): void {
+      this.getChaptersForDiary();
+      this.isModalOpen = true; 
+  }
+  openModalCreate(): void {
+    this.createDiaryModal=true;
+  }
+  closeCreateDiaryModal(): void {
+    this.createDiaryModal = false;
+    this.diary.title='';
+  
+  }
+  submitDiaryForm(): void {
+    this.diary.tourExecutionId= this.tourExecution.id;
+    this.diary.userId= this.tourExecution.userId;
+    this.diary.tourId= this.tourExecution.tourId;
+    this.diary.createdAt= new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
+    this.execService.createDiary(this.diary).subscribe({
+      next: (response) => {
+        this.loadDiary();
+        this.createDiaryModal = false;
+        this.openModal();
+      },
+      error: (err) => {
+        console.error('Greška prilikom dodavanja poglavlja:', err);
+        alert('Došlo je do greške!');
+      },
+    });
+
+  }
+
+  editTitle() {
+    this.isEditingTitle = true;
+    this.editedTitle = this.diary.title;
+  }
+
+  saveTitle() {
+    if (this.editedTitle.trim()) {
+      this.diary.title = this.editedTitle.trim();
+      this.isEditingTitle = false;
+    }
+
+    this.execService.editDiary( this.diary).subscribe({
+      next: (response) => {
+        // IZMENIO SI DNEVNIK
+      },
+      error: (err) => {
+        console.error('Greška prilikom izmene dnevnika:', err);
+        alert('Došlo je do greške!');
+      },
+    });
+    
+
+
+
+  }
+
+  cancelEditTitle() {
+    this.isEditingTitle = false;
+    this.editedTitle = '';
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.editedChapterIndex = null; // Resetujemo uređivanje
+  }
+  addNewChapter(): void {
+    this.isNewChapterModalOpen = true;
+  }
+
+  closeNewChapterForm() {
+    this.isNewChapterModalOpen = false;
+  }
+
+  deleteDiary(): void {
+    if (confirm('Da li ste sigurni da želite da obrišete dnevnik?')) {
+
+      this.execService.deleteDiary( this.diary).subscribe({
+        next: (response) => {
+          this.isModalOpen = false; 
+          this.diary.id=0;
+        this.getChaptersForDiary();
+              },
+        error: (err) => {
+          console.error('Greška prilikom izbrisa dnevnik:', err);
+          alert('Došlo je do greške!');
+        },
+      });
+
+
+      this.closeModal();
+    }
+  }
+
+  editChapter(index: number): void {
+    this.editedChapterIndex = index;
+  }
+
+  saveChapter(index: number): void {
+    const chapter = this.chapters[index];
+    this.execService.editChapter( chapter).subscribe({
+      next: (response) => {
+        // IZMENIO SI poglavlje
+      },
+      error: (err) => {
+        console.error('Greška prilikom izmene poglavlja:', err);
+        alert('Došlo je do greške!');
+      },
+    });
+      this.editedChapterIndex = null; // Završeno uređivanje
+  }
+
+  cancelEdit(): void {
+    this.editedChapterIndex = null; // Otkaži uređivanje
+  }
+
+  deleteChapter(index: number): void {
+    if (confirm(`Da li ste sigurni da želite da obrišete poglavlje ${index + 1}?`)) {
+      const chapter = this.chapters[index];
+      this.execService.deleteChapter( chapter).subscribe({
+        next: (response) => {
+        this.getChaptersForDiary();
+              },
+        error: (err) => {
+          console.error('Greška prilikom izbrisa poglavlja:', err);
+          alert('Došlo je do greške!');
+        },
+      });
+    }
+  }
   updateCheckpoints(): void {
     const checkpointIds = this.tourExecution.tourExecutionCheckpoints
           .filter(checkpoint => checkpoint.arrivalAt === null)
@@ -219,26 +405,7 @@ export class PositionSimulatorComponent {
       }
     });
   }
-  getDiaryForUser() {
-    if (this.user?.id !== undefined) {
-      this.execService.getDiaryForExecution(this.user.id).subscribe({
-        next: (data) => {
-          if (data && data.length > 0) { // Proveravamo da li niz ima podatke
-            const diary = data[0]; // Pristupamo prvom elementu niza
-            this.personalDiaryId = diary.id;
-            console.log('Dnevnik ID:', this.personalDiaryId);
-          } else {
-            console.error('API je vratio prazan niz!');
-          }
-        },
-        error: (err) => {
-          console.error('Greška prilikom poziva API-ja:', err);
-        }
-      });
-    }
-  }
-  
-  
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -276,42 +443,21 @@ export class PositionSimulatorComponent {
   }
   
   submitChapter() {
-    if (!this.personalDiaryId) {
-      alert('Dnevnik nije pronađen za trenutnog korisnika!');
-      return;
-    }
+    this.newChapter.personalDairyId= this.diary.id;
     this.newChapter.createdAt = new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
-
-    // Logovanje podataka pre slanja
-    console.log('Poslati podaci:', this.newChapter);
-    
-    this.newChapter.personalDairyId = this.personalDiaryId;
-  
-    this.execService.addChapter(this.personalDiaryId, this.newChapter).subscribe({
+    this.execService.addChapter( this.newChapter.personalDairyId, this.newChapter).subscribe({
       next: (response) => {
-        console.log('Poglavlje uspešno dodato:', response);
-        alert('Poglavlje je dodato u dnevnik!');
         this.resetFields();
+        this.getChaptersForDiary();
+        this.isNewChapterModalOpen = false;
       },
       error: (err) => {
         console.error('Greška prilikom dodavanja poglavlja:', err);
         alert('Došlo je do greške!');
       },
     });
+    
   }
-  
-  
-  /*resetForm(form: any): void {
-    this.newChapter = {
-      chapterId: 0,
-      title: '',
-      createdAt: new Date(),
-      text: '',
-      personalDairyId: 0,
-    };
-
-    form.reset();  // Resetuje samu formu
-  }*/
     resetFields(): void {
       this.newChapter.title = '';
       this.newChapter.text = '';
