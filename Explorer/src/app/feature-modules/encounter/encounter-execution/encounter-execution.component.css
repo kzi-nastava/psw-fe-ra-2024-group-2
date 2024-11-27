@@ -1,0 +1,25 @@
+.position-selection-container {
+    text-align: center; /* Center-align the text */
+    margin-bottom: 20px; /* Add some space below */
+}
+
+.position-selection-container h2 {
+    font-size: 24px; /* Increase the font size for the heading */
+    color: #333; /* Set a color for the heading */
+}
+
+.instructions {
+    font-size: 16px; /* Set a smaller font size for instructions */
+    color: #666; /* Set a softer color for the instructions */
+}
+
+.map-container {
+    border-radius: 10px; /* Round the corners */
+    overflow: hidden; /* Ensure no overflow outside the border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+xp-map {
+    width: 100%; /* Make the map take the full width */
+    height: 400px; /* Set a fixed height for the map */
+}

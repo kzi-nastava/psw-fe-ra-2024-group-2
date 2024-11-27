@@ -35,6 +35,7 @@ import { FaqComponent } from 'src/app/feature-modules/administration/faq/faq.com
 import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
 import { EventComponent } from 'src/app/feature-modules/tour-authoring/event/event.component';
 import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-authoring/add-tour-checkpoints/add-tour-checkpoints.component';
+import { EncounterExecutionComponent } from 'src/app/feature-modules/encounter/encounter-execution/encounter-execution.component';
 
 
 const routes: Routes = [
@@ -77,6 +78,7 @@ const routes: Routes = [
   {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
   {path: 'events', component: EventComponent, canActivate: [AuthGuard]},
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
+  {path: 'encounter-execution', component: EncounterExecutionComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

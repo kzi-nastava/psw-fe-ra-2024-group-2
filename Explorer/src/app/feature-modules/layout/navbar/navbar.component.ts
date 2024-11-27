@@ -63,6 +63,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.shoppingCart.loadCartItems();
     }
   }
+
+  showEncounterExecution(): void{
+    this.router.navigate(['/encounter-execution'])
+  }
   
   showProfile(): void {
     this.router.navigate(['/profile']);

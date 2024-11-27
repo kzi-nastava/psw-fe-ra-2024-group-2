@@ -23,10 +23,16 @@ import { AuthModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
+import { EncounterExecutionComponent } from './feature-modules/encounter/encounter-execution/encounter-execution.component';
+import { MapEncounterComponent } from './feature-modules/encounter/map-encounter/map-encounter.component';
+import { EncountersComponent } from './feature-modules/encounter/encounters/encounters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    EncounterExecutionComponent,
+    MapEncounterComponent,
+    EncountersComponent,
   ],
   imports: [
     BrowserModule,
