@@ -1,5 +1,5 @@
 export class Chapter {
-    chapterId: number; // ID poglavlja
+    chapterId: number; // ID poglavljaa
     title: string;
     createdAt: Date;
     text: string;
