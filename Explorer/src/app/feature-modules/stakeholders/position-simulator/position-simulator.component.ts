@@ -445,11 +445,13 @@ export class PositionSimulatorComponent {
   submitChapter() {
     this.newChapter.personalDairyId= this.diary.id;
     this.newChapter.createdAt = new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
+    console.log('Poslati podaci:', this.newChapter.text);
     this.execService.addChapter( this.newChapter.personalDairyId, this.newChapter).subscribe({
       next: (response) => {
-        this.resetFields();
+        console.log('Poglavlje uspešno dodato:', response);
         this.getChaptersForDiary();
         this.isNewChapterModalOpen = false;
+        this.resetFields();
       },
       error: (err) => {
         console.error('Greška prilikom dodavanja poglavlja:', err);

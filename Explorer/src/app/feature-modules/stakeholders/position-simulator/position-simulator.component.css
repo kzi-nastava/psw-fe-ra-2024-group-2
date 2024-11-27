@@ -646,3 +646,24 @@ xp-map {
   color: white;
 }
 
+/* Ograničavanje visine kontejnera i omogućavanje skrolovanja */
+.scrollable-container {
+  max-height: 70vh; /* Maksimalna visina 70% visine viewport-a */
+  overflow-y: auto; /* Vertikalno skrolovanje */
+  padding-right: 10px; /* Prostor za skrol bar */
+  scrollbar-width: thin; /* Stilizacija skrola za moderne browsere */
+}
+
+/* Stil skrol bara za moderan izgled (opciono) */
+.scrollable-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}

@@ -123,6 +123,9 @@ export class TourExecutionService {
   getDiaryForExecution(userId: number): Observable<PersonalDairy[]> {
     return this.http.get<PersonalDairy[]>(`https://localhost:44333/api/user/personal-dairy/${userId}`);
   }
+  getDiaryForUser(userId: number): Observable<Diary[]> {
+    return this.http.get<Diary[]>(`https://localhost:44333/api/user/personal-dairy/${userId}`);
+  }
 
   createDiary(diary: Diary): Observable<Diary> {
     return this.http.post<Diary>('https://localhost:44333/api/user/personal-dairy', diary);
