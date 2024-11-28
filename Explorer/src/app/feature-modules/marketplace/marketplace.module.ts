@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShowWalletComponent } from './show-wallet/show-wallet.component';
 import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-tourist-funds.component';
 import { FormsModule } from '@angular/forms';
+import { SaleComponent } from './sale/sale.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     EditBundleDialogComponent,
     DeleteBundleDialogComponent,
     ShowWalletComponent,
-    ManageTouristFundsComponent
+    ManageTouristFundsComponent,
+    SaleComponent
   ],
   imports: [
     CommonModule,

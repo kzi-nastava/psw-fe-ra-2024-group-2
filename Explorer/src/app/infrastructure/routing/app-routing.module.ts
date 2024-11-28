@@ -10,6 +10,7 @@ import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.c
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
 import { ManageTouristFundsComponent } from 'src/app/feature-modules/marketplace/manage-tourist-funds/manage-tourist-funds.component';
+import { SaleComponent } from 'src/app/feature-modules/marketplace/sale/sale.component';
 import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
 import { ShowWalletComponent } from 'src/app/feature-modules/marketplace/show-wallet/show-wallet.component';
@@ -90,7 +91,8 @@ const routes: Routes = [
   {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
   {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},
   {path: 'mywallet', component: ShowWalletComponent, canActivate: [AuthGuard]},
-  {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]}
+  {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]},
+  {path: 'sale', component: SaleComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

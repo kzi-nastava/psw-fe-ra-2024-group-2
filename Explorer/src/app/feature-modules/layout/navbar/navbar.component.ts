@@ -137,4 +137,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showPopularEvents(): void {
    this.router.navigate(['/popularEvents']);
   }
+
+  showSales(): void {
+    this.router.navigate(['/sale']);
+   }
 }

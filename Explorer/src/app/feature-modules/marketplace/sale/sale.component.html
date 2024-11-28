@@ -1,0 +1,20 @@
+<p>Sale works!</p>
+
+<div *ngIf="sales.length > 0; else noSales">
+  <div *ngFor="let sale of sales" class="sale-item">
+    <h3>{{ sale.name }}</h3>
+    <p>Discount: {{ sale.discountPercentage }}%</p>
+    <p>Ends on: {{ sale.endDate | date }}</p>
+    <p>Tours:</p>
+    <ul>
+      <li *ngFor="let tour of sale.tours">
+        {{ tour.name }}
+      </li>
+    </ul>
+    <hr />
+  </div>
+</div>
+
+<ng-template #noSales>
+  <p>No sales available at the moment.</p>
+</ng-template>
