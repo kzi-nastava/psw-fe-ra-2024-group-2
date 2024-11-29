@@ -122,4 +122,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showAddEvent(): void {
     this.router.navigate(['/events']);
   }
+  showEventAnalytics(): void {
+    this.router.navigate(['/eventAnalytics']);
+  }
+  showPopularEvents(): void {
+   this.router.navigate(['/popularEvents']);
+  }
 }

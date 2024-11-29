@@ -39,7 +39,9 @@
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button [routerLink]="['touristEquipment']">Equipment evidence</button>
           <button (click)="showSimulator()">Simulator</button>
-          <button [routerLink]="['tourPreference']">Tour preference</button>
+          <button [routerLink]="['tourPreference']">Tour preference</button>     
+          <button (click)="showPopularEvents()">Popular Events</button>
+          <button [routerLink]="['encounters']">Create encounter</button>
           <button (click)="showEncounterExecution()">Encounter execution</button>          
         </div>
       </div>
@@ -54,6 +56,7 @@
           <button (click)="showObjectsForUpdate()">Manage Objects</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button (click)="showAddEvent()">Add Event</button>
+          <button (click)="showEventAnalytics()">Event analytics</button>
         </div>
       </div>
 

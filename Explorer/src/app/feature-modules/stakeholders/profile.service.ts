@@ -47,4 +47,5 @@ export class ProfileService {
     sendMessage(message: ProfileMessage): Observable<ProfileMessage> {
       return this.http.post<ProfileMessage>(environment.apiHost + 'profile/messaging/new/message', message);
     }
+
 }

@@ -123,4 +123,13 @@ export class TourAuthoringService {
   getEvents(): Observable<PagedResult<EventModel>> {
     return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
   }
+  getEventsSorted(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/sorted')
+  }
+  getPopularEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/top')
+  }
+  getEventDetails(eventId: number): Observable<PagedResult<Tour>> {
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/event/details/' + eventId)
+  }
 }
