@@ -23,10 +23,11 @@ import { AuthModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
+import { EncountersModule } from './feature-modules/encounters/encounter.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
     LayoutModule,
     BrowserAnimationsModule,
     MaterialModule,
+    EncountersModule,
     AdministrationModule,
     ProfileModule,
     BlogModule,
