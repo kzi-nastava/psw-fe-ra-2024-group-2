@@ -1,6 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EncounterService } from '../encounter.service';
+import { HiddenLocationEncounterDto, MiscEncounterDto, SocialEncounterDto } from '../model/encounter.model';
+
+interface Image {
+  data: string;
+  uploadedAt: string;
+  mimeType: string;
+}
 
 @Component({
   selector: 'app-encounter',
@@ -14,7 +22,7 @@ export class EncounterComponent {
   selectedLocation: { lat: number, lng: number } | null = null;
   imagePreview: string | ArrayBuffer | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private encounterService: EncounterService) {
     this.encounterForm = this.createBaseForm();
   }
 
@@ -41,13 +49,19 @@ export class EncounterComponent {
       // Create a URL for the selected image file
       const reader = new FileReader();
       reader.onload = () => {
+        // Convert the file to an Image object
+        const image: Image = {
+          data: reader.result as string, // Base64 string
+          uploadedAt: new Date().toISOString(), // Current timestamp
+          mimeType: file.type // Mime type of the file
+        };
+
         this.imagePreview = reader.result; // Set the image preview
+        // Update the form control with the Image object
+        this.encounterForm.patchValue({ image });
+        this.encounterForm.get('image')?.updateValueAndValidity();
       };
       reader.readAsDataURL(file);
-
-      // Update the form control with the file
-      this.encounterForm.patchValue({ image: file });
-      this.encounterForm.get('image')?.updateValueAndValidity();
     }
   }
 
@@ -61,8 +75,12 @@ export class EncounterComponent {
 
   updateFormForType(type: string) {
     this.selectedType = type;
-    const baseForm = this.createBaseForm();
 
+
+    this.imagePreview = null;
+    this.encounterForm.patchValue({ image: null }); // Clear the image in the form
+
+    const baseForm = this.createBaseForm();
     // Removing the image control if it's present in the form for other types
     this.removeControls(['image']);
 
@@ -107,15 +125,72 @@ export class EncounterComponent {
   onSubmit(): void {
     if (this.encounterForm.valid && this.selectedLocation) {
       const formValue = this.encounterForm.value;
-      const encounter = {
-        ...formValue,
-        latitude: this.selectedLocation.lat,
-        longitude: this.selectedLocation.lng
-      };
-      console.log('Encounter to save:', encounter);
-      // Add API call here
+      let encounterDto: SocialEncounterDto | HiddenLocationEncounterDto | MiscEncounterDto | null = null;
+
+      // Build the DTO based on the selected type
+      switch (this.selectedType) {
+        case 'social':
+          encounterDto = {
+            name: formValue.name,
+            description: formValue.description,
+            requiredPeople: formValue.requiredPeople,
+            rangeInMeters: formValue.rangeInMeters,
+            lattitude: this.selectedLocation.lat,
+            longitude: this.selectedLocation.lng
+          } as SocialEncounterDto;
+          break;
+
+        case 'hidden':
+          encounterDto = {
+            name: formValue.name,
+            description: formValue.description,
+            image: formValue.image as Image,
+            targetLatitude: formValue.targetLatitude,
+            targetLongitude: formValue.targetLongitude,
+            rangeInMeters: formValue.rangeInMeters,
+            lattitude: this.selectedLocation.lat,
+            longitude: this.selectedLocation.lng
+          } as HiddenLocationEncounterDto;
+          break;
+
+        case 'misc':
+          encounterDto = {
+            name: formValue.name,
+            description: formValue.description,
+            actionDescription: formValue.actionDescription,
+            lattitude: this.selectedLocation.lat,
+            longitude: this.selectedLocation.lng
+          } as MiscEncounterDto;
+          break;
+
+        default:
+          console.error('Invalid encounter type');
+          return;
+      }
+
+      // Call the service to save the encounter
+      this.encounterService.createEncounter(encounterDto).subscribe({
+        next: (response) => {
+          console.log('Encounter saved successfully:', response);
+          // refresh the current page
+          this.resetForm();
+          window.location.reload();
+          // Handle success (e.g., show a success message or redirect)
+        },
+        error: (error) => {
+          console.error('Error saving encounter:', error);
+          // Handle error (e.g., show an error message)
+        }
+      });
     } else {
       console.error('Form is invalid or location not selected.');
     }
+  }
+  resetForm(): void {
+    this.encounterForm.reset();
+    this.selectedType = '';
+    this.selectedLocation = null;
+    this.imagePreview = null;
+    this.encounterForm.patchValue({ type: '' }); // Reset the type field
   }
 }

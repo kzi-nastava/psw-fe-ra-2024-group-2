@@ -7,11 +7,10 @@
     <div class="map-container">
       <xp-map (locationSelected)="onLocationSelected($event)">
       </xp-map>
-      <p class="location-message" *ngIf="!selectedLocation">
-        You need to select a location for the encounter.
-      </p>
+      <div *ngIf="!selectedLocation" class="location-message">
+        <p>You need to select the location</p>
+      </div>
     </div>
-
     <div class="form-container">
       <mat-card>
         <mat-card-title>Create Encounter</mat-card-title>

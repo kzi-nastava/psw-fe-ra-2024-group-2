@@ -131,3 +131,21 @@ button[type="submit"]:disabled {
   border: 1px solid #ccc;
   padding: 5px;
 }
+.success-message {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 1s ease-out;
+  opacity: 1;
+}
+
+.success-message.ng-leave {
+  opacity: 0;
+}
