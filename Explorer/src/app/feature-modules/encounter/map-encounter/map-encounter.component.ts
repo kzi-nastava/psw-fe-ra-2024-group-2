@@ -80,8 +80,6 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
 
       // Add the new marker
       this.marker = new L.Marker([lat, lng]).addTo(this.map)
-      .bindPopup('Current Tourist Position')
-      .openPopup();
       if (this.editing) {
         this.marker.on('click', (event) => {
           const latLng = event.latlng; // Get latitude and longitude
@@ -109,6 +107,15 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.markers.length == 0 && !this.marker){
+      if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
+        this.addTouristMarker(changes['touristPosition'].currentValue);
+      }
+      }else{
+        this.clearMarkers();
+      }
+  }
   private touristMarker: L.Marker | null = null; 
 
 
