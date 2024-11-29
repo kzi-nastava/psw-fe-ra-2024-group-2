@@ -40,7 +40,7 @@ import { PopularEventsComponent } from 'src/app/feature-modules/tour-authoring/p
 import { EventDetailsComponent } from 'src/app/feature-modules/tour-authoring/event-details/event-details.component';
 import { DiariesComponent } from 'src/app/feature-modules/stakeholders/personal-diaries/personal-diaries.component';
 import { EncounterComponent } from 'src/app/feature-modules/encounters/encounter/encounter.component';
-import { EncounterExecutionComponent } from 'src/app/feature-modules/encounter/encounter-execution/encounter-execution.component';
+import { EncounterExecutionComponent } from 'src/app/feature-modules/encounters/encounter-execution/encounter-execution.component';
 
 
 const routes: Routes = [

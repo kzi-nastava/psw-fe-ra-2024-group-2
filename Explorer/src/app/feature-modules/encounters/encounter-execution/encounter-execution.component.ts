@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MapComponent } from 'src/app/shared/map/map.component';
 import { TouristPosition } from '../../stakeholders/model/tourist-position';
 import { ProfileService } from '../../stakeholders/profile.service';
 import { Person } from '../../stakeholders/model/person';
