@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, Output, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, Output, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
 import { EncounterMapService } from './map-encounter.service';
 import { EncounterService } from '../encounter.service'; // Import EncounterService
 import * as L from 'leaflet';
@@ -9,11 +9,11 @@ import { Input } from '@angular/core';
   templateUrl: './map-encounter.component.html',
   styleUrls: ['./map-encounter.component.css']
 })
-export class MapEncounterComponent implements AfterViewInit, OnDestroy {
+export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
   map: any;
   private markers: L.Marker[] = [];
-  private hiddenMarkers: Set<string> = new Set(); // Track hidden markers already added
   private persistentMarkers: L.Marker[] = []; // Markers for non-hidden encounters
+  private hiddenLocationMarkers: L.Marker[] = []; // Markers for hidden locations
 
   @Output() markerClicked = new EventEmitter<[number, number]>();
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
@@ -26,10 +26,21 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
   private routingControl: L.Routing.Control | null = null;
   private marker: L.Marker | null = null;
 
+  private positionCheckInterval: any; // For periodically checking the tourist position
+
   constructor(
     private mapService: EncounterMapService,
     private encounterService: EncounterService // Inject EncounterService
   ) {}
+
+  ngOnInit(): void {
+    // Start periodic position check when the component is initialized
+    this.positionCheckInterval = setInterval(() => {
+      if (this.touristPosition) {
+        this.checkHiddenLocationMarkers(this.touristPosition);
+      }
+    }, 5000); // Check every 5 seconds (adjust as needed)
+  }
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -116,14 +127,10 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
     if (this.markers.length === 0 && !this.marker) {
       if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
         this.addTouristMarker(changes['touristPosition'].currentValue);
+        this.checkHiddenLocationMarkers(changes['touristPosition'].currentValue);
       }
     } else {
       this.clearMarkers();
-    }
-
-    // Check for updates to hidden encounters
-    if (changes['touristPosition']) {
-      this.updateHiddenEncounters();
     }
   }
 
@@ -140,77 +147,39 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private updateHiddenEncounters(): void {
-    if (!this.touristPosition?.latitude || !this.touristPosition?.longitude) {
-      return; // Exit if tourist position is not available
-    }
+  private checkHiddenLocationMarkers(position: { latitude: number, longitude: number }): void {
+    const touristLatLng = L.latLng(position.latitude, position.longitude);
   
-    this.encounterService.getAllEncounters().subscribe((encounters: any[]) => {
-      encounters.forEach(encounter => {
-        if (encounter.type === 'HiddenLocation') {
-          const lat = encounter.latitude;
-          const lng = encounter.longitude;
+    this.hiddenLocationMarkers.forEach((marker) => {
+      const encounter = (marker.options as any).encounter; // Access the stored encounter data
+      console.log(encounter);
+      
   
-          if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-            const distance = this.calculateDistance(
-              this.touristPosition!.latitude,
-              this.touristPosition!.longitude,
-              lat,
-              lng
-            );
+      if (encounter) {
+        const rangeInMeters = encounter.hiddenLocationRangeInMeters || 200; // Default to 200 meters if range isn't set
+        console.log(rangeInMeters);
   
-            if (distance <= encounter.range && !this.isMarkerAlreadyAdded(lat, lng)) {
-              this.addEncounterMarker(encounter, lat, lng); // Add marker only if it hasn't been added yet
-            }
+        const distance = touristLatLng.distanceTo(marker.getLatLng());
+  
+        if (distance <= rangeInMeters) {
+          if (!this.map.hasLayer(marker)) {
+            marker.addTo(this.map); // Add marker if within range
+          }
+        } else {
+          if (this.map.hasLayer(marker)) {
+            this.map.removeLayer(marker); // Remove marker if out of range
           }
         }
-      });
+      }
     });
   }
   
 
-  private isMarkerAlreadyAdded(lat: number, lng: number): boolean {
-    const key = `${lat}-${lng}`;
-    if (this.hiddenMarkers.has(key)) {
-      return true;
-    }
-    this.hiddenMarkers.add(key);
-    return false;
-  }
-
-  private addEncounterMarker(encounter: any, lat: number, lng: number): void {
-    const marker = L.marker([lat, lng]).addTo(this.map)
-      .bindPopup(`
-        <b>${encounter.name}</b><br>
-        <i>${encounter.description}</i><br>
-        <small>Lat: ${lat}, Lng: ${lng}</small><br>
-        ${encounter.actionDescription ? `<small>Action: ${encounter.actionDescription}</small><br>` : ''}
-        ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
-      `);
-        console.log(encounter); 
-    if (encounter.type === 'HiddenLocation') {
-      this.markers.push(marker); // Add dynamic markers for hidden locations
-    } else {
-      this.persistentMarkers.push(marker); // Keep persistent markers for other types
-    }
-  }
-
-  private calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
-    const R = 6371e3; // Earth's radius in meters
-    const φ1 = lat1 * Math.PI / 180;
-    const φ2 = lat2 * Math.PI / 180;
-    const Δφ = (lat2 - lat1) * Math.PI / 180;
-    const Δλ = (lng2 - lng1) * Math.PI / 180;
-
-    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) *
-      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c;
-  }
-
   ngOnDestroy(): void {
+    if (this.positionCheckInterval) {
+      clearInterval(this.positionCheckInterval); // Stop the position check interval
+    }
+
     if (this.map) {
       this.map.remove();
       this.map = undefined;
@@ -222,21 +191,47 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy {
       encounters.forEach(encounter => {
         const lat = encounter.latitude;
         const lng = encounter.longitude;
-  
+
         if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-          if (encounter.type === 'HiddenLocation') {
-            // Don't add hidden location markers immediately
-            // They will be added dynamically based on tourist position later
-            this.hiddenMarkers.add(`${lat}-${lng}`);
-          } else {
-            // Add persistent markers for non-hidden locations
+          // Only process non-HiddenLocation encounters initially
+          if (encounter.encounterType !== 'HiddenLocation') {
             this.addEncounterMarker(encounter, lat, lng);
+          } else {
+            // Add the marker to hiddenLocationMarkers list
+            this.addHiddenLocationMarker(encounter, lat, lng);
           }
         }
       });
     });
   }
-  
+
+  private addEncounterMarker(encounter: any, lat: number, lng: number): void {
+    const marker = L.marker([lat, lng]).addTo(this.map)
+      .bindPopup(`
+        <b>${encounter.name}</b><br>
+        <i>${encounter.description}</i><br>
+        <small>Lat: ${lat}, Lng: ${lng}</small><br>
+        ${encounter.actionDescription ? `<small>Action: ${encounter.actionDescription}</small><br>` : ''}
+        ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
+      `);
+    
+    this.persistentMarkers.push(marker); // Add all markers for non-hidden encounters
+  }
+
+  private addHiddenLocationMarker(encounter: any, lat: number, lng: number): void {
+    const marker = L.marker([lat, lng]).bindPopup(`
+      <b>${encounter.name}</b><br>
+      <i>${encounter.description}</i><br>
+      <small>Lat: ${lat}, Lng: ${lng}</small><br>
+      ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
+    `);
+
+      // Store custom data on marker.options
+    (marker.options as any).encounter = encounter; // Using `any` to bypass TypeScript's type checks
+    
+    this.hiddenLocationMarkers.push(marker); // Store the hidden location marker
+  }
+
 
 
 }
