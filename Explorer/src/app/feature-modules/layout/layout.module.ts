@@ -6,11 +6,13 @@ import { TourAuthoringModule } from '../tour-authoring/tour-authoring.module';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { RouterModule } from '@angular/router';
 import { MarketplaceModule } from '../marketplace/marketplace.module';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { MarketplaceModule } from '../marketplace/marketplace.module';
   ],
   exports: [
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ]
 })
 export class LayoutModule { }

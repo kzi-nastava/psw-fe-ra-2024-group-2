@@ -36,6 +36,14 @@
                     Passwords do not match
                 </label>
             </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Select Role</mat-label>
+                <select matNativeControl formControlName="userRole" name="userRole">
+                    <option value="" disabled selected>Select Role</option>
+                    <option [value]="UserRole.Tourist">Tourist</option>
+                    <option [value]="UserRole.Author">Author</option>
+                </select>
+            </mat-form-field>
         </div>
 
         <button color="primary" type="submit" mat-raised-button

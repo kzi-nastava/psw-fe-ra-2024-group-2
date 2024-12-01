@@ -1,445 +1,85 @@
-  <div class="background">
-    <div class="div-bg"></div>
-    <div class="wherever"><p>WHEREVER</p></div>
-    <div class="you-want"><p>YOU WANT.</p></div>
-    <div class="questions">
+<div class="background">
+  <div class="div-bg"></div>
+  <div class="wherever"><p>WHEREVER</p></div>
+  <div class="you-want"><p>YOU WANT.</p></div>
+  <div class="questions">
       <div class="question-item">
-        <div class="circle">
-          <img src="../../../../assets/support1.png" alt="Icon 1">
-        </div>
+          <div class="circle">
+              <img src="../../../../assets/support1.png" alt="Icon 1">
+          </div>
           <span class="text">SUPPORT 24/7</span>
       </div>
       <div class="question-item">
-        <div class="circle">
-          <img src="../../../../assets/user1.png" alt="Icon 1">
-        </div>
+          <div class="circle">
+              <img src="../../../../assets/user1.png" alt="Icon 1">
+          </div>
           <span class="text">A LOT OF VISITORS</span>
       </div>
       <div class="question-item">
-        <div class="circle">
-          <img src="../../../../assets/calendar.png" alt="Icon 1">
-        </div>
+          <div class="circle">
+              <img src="../../../../assets/calendar.png" alt="Icon 1">
+          </div>
           <span class="text">FREE CANCELATION</span>
       </div>
   </div>
-  
-  </div>
-    <div class="image-container">
-  </div>
+</div>
 
-  <div class="best-tours" fxLayout="row" fxLayoutAlign="space-evenly center">
-    <div class="tours-header">
-      <div class="tours-title">
-        <p>Popular tours</p>
-        <div></div>
-      </div>
-      <div class="buttons">
-        <button (click)="nextTours()" class="next"><img src="../../../../assets/next.png"></button>
-        <button (click)="previousTours()" class="previous"><img src="../../../../assets/previous.png"></button>
-      </div>
-    </div>
-    <div class="tours">
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
+<div class="image-container"></div>
 
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
+<div class="slider-container" *ngIf="user.role.toLowerCase() === 'author' || user.role.toLowerCase() === 'tourist'">
+  <div class="slider-header">
+      <div class="title-container">
+          <h2 class="slider-title" *ngIf="user.role.toLowerCase() === 'author'">Your tours</h2>
+          <h2 class="slider-title" *ngIf="user.role.toLowerCase() === 'tourist'">Popular tours</h2>
+          <div class="title-underline"></div>
       </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
+      <div class="navigation-buttons">
+          <button (click)="slideLeft()" [disabled]="isFirstSlide()" class="nav-button">
+              <img src="../../../../assets/next.png" alt="Previous" [class.disabled]="isFirstSlide()">
+          </button>
+          <button (click)="slideRight()" [disabled]="isLastSlide()" class="nav-button">
+              <img src="../../../../assets/previous.png" alt="Next" [class.disabled]="isLastSlide()">
+          </button>
       </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-
-    <div class="tour">
-      <div class="tour-image">
-        <img src="../../../../assets/traveling-with-off-road-car.jpg">
-      </div>
-      <div>
-        <p class="tour-title">
-          Explore mountains with Bob
-        </p>
-        <p class="tour-text">
-          Get ready for an unforgettable adventure tour that combines the thrill of mountain hiking with the excitement of river trekking. 
-          This full-day excursion is designed for adventure seekers looking to immerse themselves in nature and push their limits.
-          We begin early in the morning, with a hike up the rugged mountain trails. 
-        </p>
-      </div>
-      <div class="tour-footer">
-      <div class="tour-person">
-        <div class="tour-person-image">
-            <img src="../../../../assets/bob.jpg" alt="Bob Parkin">
-        </div>
-        <span class="tour-person-name">
-            <p> Bob Parkin</p>
-        </span>
-    </div>
-    <div class="footer-button">
-        <button class="link-button">Book</button>
-    </div>
-    </div>
-    <div class="tour-review">
-      <div>
-        <img src="../../../../assets/heart.png" alt="">
-        <p>250</p>
-      </div>
-      <div>
-        <img src="../../../../assets/users.png" alt="">
-        <p>2500</p>
-      </div>
-    </div>
-    <div class="tour-filters">
-      <div class="tour-tag">
-        <img src="../../../../assets/mountain1.png">
-        <p>Adventure</p>
-      </div>
-      <div class="tour-dificulty">
-        <img src="../../../../assets/volume1.png">
-        <p>Hard</p>
-      </div>
-    </div>
-    </div>
-
-    </div>
-  </div>
-  <div>
-    
   </div>
 
+  <div class="slider-wrapper">
+      <h2 *ngIf="user.role.toLowerCase() === 'author' && tours.length == 0">You haven't made your first tour!</h2>
+      <div class="slider-track" [style.transform]="getSliderStyle().transform" [style.width]="getSliderStyle().width">
+          <div class="tour-card" *ngFor="let tour of tours" (click)="showTourClick(tour)">
+              <div class="tour-image">
+                  <img src="../../../../assets/traveling-with-off-road-car.jpg" [alt]="tour.name">
+                  <div class="tour-stats">
+                      <div class="stat-badge">
+                          <img src="../../../../assets/heart.png" alt="likes">
+                          <span>100</span>
+                      </div>
+                      <div class="stat-badge">
+                          <img src="../../../../assets/users.png" alt="visitors">
+                          <span>200</span>
+                      </div>
+                  </div>
+              </div>
 
-    
+              <div class="tour-content">
+                  <h3 class="tour-title">{{tour.name}}</h3>
+                  <p class="tour-description">{{tour.description}}</p>
+                  <div class="card-price">
+                      <span class="price">${{ tour.price }}</span> per person
+                  </div>
+              </div>
 
-
-  
-  
+              <div class="tour-tags">
+                  <div class="tag">
+                      <img src="../../../../assets/mountain1.png" alt="tag">
+                      <span>{{getTagLabel(tour.tag)}}</span>
+                  </div>
+                  <div class="difficulty">
+                      <img src="../../../../assets/volume1.png" alt="difficulty">
+                      <span>{{getDifficultyLabel(tour.difficulty)}}</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

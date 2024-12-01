@@ -30,7 +30,6 @@ export class EventFormComponent {
       longitude: new FormControl('', [Validators.required]), // For lng
       startDate: new FormControl(''),
       endDate: new FormControl('')
-
   });
 }
 clearMarkers(): void {
@@ -74,6 +73,7 @@ this.eventForm.markAllAsTouched();
 
 if (this.eventForm.valid) {
   const ev: EventModel = {
+    id: 0,
     name: this.eventForm.value.name || "",
     description: this.eventForm.value.description || "",
     image: this.eventForm.value.image, 
@@ -82,6 +82,7 @@ if (this.eventForm.valid) {
     longitude: this.eventForm.value.longitude || 0,
     startDate:this.eventForm.value.startDate,
     endDate: this.eventForm.value.endDate,
+    eventAcceptances: []
   };
 
   //console.log(obj)

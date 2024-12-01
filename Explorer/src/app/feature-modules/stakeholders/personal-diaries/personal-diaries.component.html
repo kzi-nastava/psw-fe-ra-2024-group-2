@@ -1,0 +1,184 @@
+<div class="diaries-container">
+  <div class="diary-wrapper" *ngFor="let diary of diaries">
+    <div class="diary-header">
+      <h3>{{ diary.title }}</h3>
+      <button class="new-chapter-btn" *ngIf="isAllowed(diary)" (click)="openAddChapterModal(diary)">New chapter</button>
+    </div>
+    <div class="diary-content">
+      <p><strong>Tour ID:</strong> {{ diary.tourId }}</p>
+      <p><strong>User ID:</strong> {{ diary.userId }}</p>
+      <p><strong>Created At:</strong> {{ diary.createdAt | date: 'short' }}</p>
+      <p><strong>Ending tour execution:</strong> {{ diary.closedAt | date: 'short' }}</p>
+    </div>
+    <button class="new-chapter-btn" (click)="openAllChapterModal(diary)">See all chapters</button>
+  </div>
+</div>
+
+<!-- Modal za dodavanje poglavlja -->
+<div class="modal" *ngIf="isNewChapterModalOpen">
+  <div class="modal-content">
+    <h2>Add Chapter to "{{ selectedDiary?.title }}"</h2>
+    <form [formGroup]="chapterForm" (ngSubmit)="submitChapter()">
+      <div class="form-group">
+        <label for="chapter-title">Chapter Title:</label>
+        <input
+          type="text"
+          id="chapter-title"
+          formControlName="title"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="chapter-text">Content:</label>
+        <textarea
+          id="chapter-text"
+          formControlName="text"
+          required
+        ></textarea>
+      </div>
+      <div>
+        <label for="image">Dodajte sliku:</label>
+        <input
+          type="file"
+          id="image"
+          accept="image/jpeg, image/png, image/gif"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+
+      <!-- Prikaz odabrane slike -->
+      <div *ngIf="newChapter.image?.data" class="preview">
+        <h4>Pregled slike:</h4>
+        <img
+          [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
+          alt="Pregled slike"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!chapterForm.valid" class="submit-btn">Create Chapter</button>
+        <button type="button" (click)="resetChapterForm()" class="reset-btn">Reset Field</button>
+        <button type="button" class="btn btn-secondary" (click)="closeNewChapterForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="book-overlay" *ngIf="isAllChapterModalOpen">
+  <div class="book">
+    <!-- Naslov knjige -->
+    <div class="book-title">
+      <!-- Provera da li se uređuje naslov -->
+      <div *ngIf="!isEditingTitle; else editTitleForm">
+        <h1 style="font-size: 30px; margin-top: 10px;">{{ selectedDiary?.title }}</h1>
+        <button  *ngIf="isAllowed(selectedDiary)" class="edit-btn" (click)="editTitle()">
+          ✎ <!-- Ikonica za uređivanje -->
+        </button>
+        <button  *ngIf="isAllowed(selectedDiary)" class="delete-btn" (click)="deleteDiary()">
+          🗑 <!-- Ikonica za brisanje -->
+        </button>
+      </div>
+    
+      <ng-template #editTitleForm>
+        <div class="title-edit">
+          <input [(ngModel)]="editedTitle" placeholder="Unesite novi naslov..." />
+          
+          <!-- Dugmadi za sačuvaj i otkaži sa ikonama -->
+          <div class="title-edit-actions">
+            <button class="save-btn" (click)="saveTitle()">
+              ✔ <!-- Ikonica za sačuvaj -->
+            </button>
+            <button class="cancel-btn" (click)="cancelEditTitle()">
+              ✖ <!-- Ikonica za otkaži -->
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      
+
+
+    </div>
+    
+   
+    
+    <!-- Poglavlja kao stranice knjige -->
+    <div class="book-content scrollable-container">
+      <div *ngFor="let chapter of chapters; let i = index" class="book-page">
+        <!-- Poglavlje - naslov -->
+        <div class="page-header">
+          <h2>Chapter {{ i + 1 }}: {{ chapter.title }}</h2>
+          <div class="chapter-actions">
+            <button *ngIf="isAllowed(selectedDiary)" class="edit-btn" title="Edit chapter" (click)="editChapter(i)">✎</button>
+            <button *ngIf="isAllowed(selectedDiary)" class="delete-btn" title="Delete chapter" (click)="deleteChapter(i)">🗑</button>
+          </div>
+        </div>
+    
+        <!-- Poglavlje - forma za uređivanje ili prikaz -->
+        <div *ngIf="editedChapterIndex === i; else chapterView" class="page-edit">
+          <form (submit)="saveChapter(i)">
+            <label for="title">Title:</label>
+            <input id="title" [(ngModel)]="chapter.title" name="title" />
+    
+            <label for="text">Text:</label>
+            <textarea id="text" [(ngModel)]="chapter.text" name="text"></textarea>
+    
+            <button type="submit" class="save-btn">Save</button>
+            <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+          </form>
+        </div>
+    
+        <!-- Prikaz poglavlja -->
+        <ng-template #chapterView>
+          <div class="page-content">
+            <img
+              [src]="chapter.image?.data ? 'data:image/jpeg;base64,' + chapter.image?.data : 'https://via.placeholder.com/150'"
+              alt="Slika poglavlja"
+              class="chapter-image"
+            />
+            <p>{{ chapter.text }}</p>
+          </div>
+          <div class="page-footer">
+            <p><strong>Created:</strong> {{ chapter.createdAt | date: 'short' }}</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    
+    <!-- Dugme za zatvaranje knjige -->
+    <button class="close-book-btn" (click)="closeModal()">✖</button>
+    
+  </div>
+</div>
+
+
+
+
+<!-- Modal za kreiranje novog poglavlja 
+<div *ngIf="isNewChapterModalOpen" class="new-chapter-modal">
+  <div class="modal-content">
+    <h2 class="modal-title">Add new chapter</h2>
+    <button class="close-btn" (click)="closeNewChapterForm()">✖</button>
+  </div>
+</div>-->
+
+<!-- Modal za unos naziva dnevnika
+<div *ngIf="createDiaryModal" class="modal">
+  <div class="modal-content">
+    <h3>Create New Diary</h3>
+    <form (ngSubmit)="submitDiaryForm()">
+      <label for="diaryTitle">Diary Title:</label>
+      <input
+        id="diaryTitle"
+        type="text"
+        [(ngModel)]="diary.title"
+        name="diaryTitle"
+        required
+      />
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="closeCreateDiaryModal()">Cancel</button>
+        <button type="submit" class="btn btn-next" [disabled]="!diary.title">Next</button>
+      </div>
+    </form>
+  </div>
+</div>-->

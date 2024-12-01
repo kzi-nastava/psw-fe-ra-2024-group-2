@@ -35,6 +35,11 @@ import { FaqComponent } from 'src/app/feature-modules/administration/faq/faq.com
 import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
 import { EventComponent } from 'src/app/feature-modules/tour-authoring/event/event.component';
 import { AddTourCheckpointsComponent } from 'src/app/feature-modules/tour-authoring/add-tour-checkpoints/add-tour-checkpoints.component';
+import { EventAnalyticsComponent } from 'src/app/feature-modules/tour-authoring/event-analytics/event-analytics.component';
+import { PopularEventsComponent } from 'src/app/feature-modules/tour-authoring/popular-events/popular-events.component';
+import { EventDetailsComponent } from 'src/app/feature-modules/tour-authoring/event-details/event-details.component';
+import { DiariesComponent } from 'src/app/feature-modules/stakeholders/personal-diaries/personal-diaries.component';
+import { EncounterComponent } from 'src/app/feature-modules/encounters/encounter/encounter.component';
 import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
 import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
@@ -81,6 +86,11 @@ const routes: Routes = [
   {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
   {path: 'events', component: EventComponent, canActivate: [AuthGuard]},
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
+  {path: 'eventAnalytics', component: EventAnalyticsComponent, canActivate: [AuthGuard]},  
+  {path: 'popularEvents', component: PopularEventsComponent, canActivate: [AuthGuard]},
+  {path: 'encounters', component: EncounterComponent, canActivate: [AuthGuard]},
+  {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'diaries/:userId', component: DiariesComponent,canActivate: [AuthGuard]},
   {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
   {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
   {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},

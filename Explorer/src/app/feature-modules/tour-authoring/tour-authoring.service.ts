@@ -9,7 +9,8 @@ import { Object } from './model/object.model';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
-import { EventModel } from './model/event.model';
+import { EventCategory, EventModel } from './model/event.model';
+import { EventSubscription } from './model/eventSubscription.model';
 import { Coupon } from './model/coupon.model';
 
 
@@ -53,6 +54,9 @@ export class TourAuthoringService {
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
 
+  
+
+
   updateTour(result: Tour) {
     console.log(result)
     return this.http.put('https://localhost:44333/api/author/tour/equipment', result)
@@ -94,6 +98,22 @@ export class TourAuthoringService {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
   }
 
+  subscribeEvent(subscription: number[]): Observable<PagedResult<EventModel>>  {
+    return this.http.post<PagedResult<EventModel>>('https://localhost:44333/api/eventsubscription', subscription)
+  }
+
+  loadSubscribedEvents(subscription: number[]): Observable<PagedResult<EventModel>> {
+    return this.http.post<PagedResult<EventModel>>('https://localhost:44333/api/eventsubscription/load', subscription)
+  }
+  
+
+  GetSubscriptions(): Observable<number[]> {
+    return this.http.get<number[]>('https://localhost:44333/api/eventsubscription/getSubscriptions')
+  }
+  unsubscribeEvent(): Observable<void> {
+    return this.http.delete<void>('https://localhost:44333/api/eventsubscription')
+  }
+
   addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour> {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', { tour, checkpoints });
   }
@@ -123,6 +143,15 @@ export class TourAuthoringService {
   }
   getEvents(): Observable<PagedResult<EventModel>> {
     return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
+  }
+  getEventsSorted(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/sorted')
+  }
+  getPopularEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/top')
+  }
+  getEventDetails(eventId: number): Observable<PagedResult<Tour>> {
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/event/details/' + eventId)
   }
   //Coupons
   createCoupon(coupon: Coupon): Observable<Coupon> {

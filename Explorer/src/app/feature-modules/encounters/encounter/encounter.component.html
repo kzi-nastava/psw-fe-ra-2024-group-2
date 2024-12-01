@@ -1,0 +1,85 @@
+<div class="encounters-container">
+  <header>
+    <h1>Encounters</h1>
+  </header>
+
+  <div class="content">
+    <div class="map-container">
+      <xp-map (locationSelected)="onLocationSelected($event)">
+      </xp-map>
+      <div *ngIf="!selectedLocation" class="location-message">
+        <p>You need to select the location</p>
+      </div>
+    </div>
+    <div class="form-container">
+      <mat-card>
+        <mat-card-title>Create Encounter</mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="encounterForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+              <mat-label>Select Type</mat-label>
+              <mat-select formControlName="type" (selectionChange)="updateFormForType($event.value)">
+                <mat-option value="social">Social</mat-option>
+                <mat-option value="hidden">Hidden</mat-option>
+                <mat-option value="misc">Misc</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
+            <ng-container *ngIf="selectedType === 'social'">
+              <mat-form-field appearance="fill">
+                <mat-label>Required People</mat-label>
+                <input matInput type="number" min="1" formControlName="requiredPeople" (keydown)="numberOnly($event)">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Range in Meters</mat-label>
+                <input matInput type="number" min="0" formControlName="rangeInMeters" (keydown)="numberOnly($event)">
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf="selectedType === 'hidden'">
+              <mat-form-field appearance="fill">
+                <mat-label>Range in Meters</mat-label>
+                <input matInput type="number" min="0" formControlName="rangeInMeters" (keydown)="numberOnly($event)">
+              </mat-form-field>
+
+              <div class="file-input">
+                <label class="mat-button">
+                  Choose Image
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
+                </label>
+              </div>
+
+              <!-- Image Preview -->
+              <div *ngIf="imagePreview">
+                <img [src]="imagePreview" alt="Image preview" class="image-preview" />
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="selectedType === 'misc'">
+              <mat-form-field appearance="fill">
+                <mat-label>Action Description</mat-label>
+                <textarea matInput formControlName="actionDescription" rows="3"></textarea>
+              </mat-form-field>
+            </ng-container>
+
+            <button mat-raised-button type="submit"
+              [disabled]="!encounterForm.valid || !selectedLocation || (selectedType === 'hidden' && !imagePreview)">
+              Create Encounter
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
