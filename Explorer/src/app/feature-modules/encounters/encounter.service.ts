@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SocialEncounterDto, HiddenLocationEncounterDto, MiscEncounterDto } from './model/encounter.model';
+import { SocialEncounterDto, HiddenLocationEncounterDto, MiscEncounterDto, UnifiedEncounterDto } from './model/encounter.model';
+import { UserLevelDto } from './model/userLevel.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EncounterService {
-  private apiUrl = 'https://localhost:44333/api/encounters'; // Adjust API URL as per your setup
+  private apiUrl = 'https://localhost:44333/api/encounters';
+  private levelUrl = 'https://localhost:44333/api/userLevels'; 
 
   constructor(private http: HttpClient) {}
 
@@ -66,5 +68,24 @@ export class EncounterService {
     getAllEncounters(): Observable<any[]> {
       return this.http.get<any[]>(this.apiUrl); 
     }
+
+  // Method to update the Misc Encounter
+  updateMiscEncounter(encounter: UnifiedEncounterDto): Observable<UnifiedEncounterDto> {
+    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/misc`, encounter);
+  }
+
+  updateUserLevel(userLevelDto: UserLevelDto): Observable<any> {
+    const url = `${this.levelUrl}`;
+    console.log(userLevelDto);
+    return this.http.put<UserLevelDto>(url, userLevelDto); // PUT request with UserLevel object in the body
+  }
+  
+  
+
+
+  getUserLevel(userId: number): Observable<UserLevelDto> {
+    const url = `${this.levelUrl}/${userId}`;
+    return this.http.get<UserLevelDto>(url);
+  }
 
 }

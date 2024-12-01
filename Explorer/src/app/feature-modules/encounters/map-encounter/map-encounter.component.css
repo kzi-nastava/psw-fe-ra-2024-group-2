@@ -6,3 +6,42 @@
     height: 600px;
   }
   
+ /* Custom Button Styles */
+.custom-button {
+  background-color: var(--primary-brown) !important; /* Use primary brown color */
+  color: var(--white) !important; /* White text */
+  padding: 0.5rem 1.5rem; /* Adjust padding */
+  border-radius: 4px; /* Rounded corners */
+  font-family: var(--font); /* Use Montserrat font */
+  font-size: 16px; /* Adjust font size */
+  font-weight: bold; /* Bold text */
+  text-transform: uppercase; /* Capitalize text */
+  transition: all 0.3s ease; /* Smooth transition for hover and focus states */
+  border: none; /* Remove border */
+  display: flex; /* Use flexbox to center the text */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Hover and Focus States */
+.custom-button:hover {
+  background-color: var(--dark-brown) !important; /* Darken on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Add shadow on hover */
+}
+
+.custom-button:focus {
+  outline: none; /* Remove outline on focus */
+  box-shadow: 0 0 10px 3px rgba(0, 123, 255, 0.5); /* Add focus shadow */
+}
+
+/* Optional Disabled State */
+.custom-button:disabled {
+  background-color: var(--light-brown) !important; /* Light brown when disabled */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+
+  
+  
+  

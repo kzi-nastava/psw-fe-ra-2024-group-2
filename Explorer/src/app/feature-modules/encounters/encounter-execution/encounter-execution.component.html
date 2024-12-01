@@ -3,13 +3,19 @@
     <p class="instructions">Click on the map to choose your location.</p>
 </div>
 
+<div *ngIf="showCompleteButton">
+    <button class="mat-raised-button" (click)="onCompleteChallenge()">Complete Challenge</button>
+</div>
+
 <div class="map-container">
     <div class="xp-map-container">
         <xp-map-encounter 
             (locationSelected)="onLocationSelected($event)" 
             [touristPosition]="touristPosition"
             [clearMarkersTrigger]="clearMarkersFlag" 
-            (markersCleared)="onMarkersCleared()">
+            (markersCleared)="onMarkersCleared()"
+            (proximityToMiscEncounter)="onProximityToMiscEncounter($event)">
         </xp-map-encounter>
     </div>
 </div>
+
