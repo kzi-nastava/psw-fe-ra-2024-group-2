@@ -11,6 +11,7 @@ import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
 import { EventCategory, EventModel } from './model/event.model';
 import { EventSubscription } from './model/eventSubscription.model';
+import { Coupon } from './model/coupon.model';
 
 
 @Injectable({
@@ -151,5 +152,12 @@ export class TourAuthoringService {
   }
   getEventDetails(eventId: number): Observable<PagedResult<Tour>> {
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/event/details/' + eventId)
+  }
+  //Coupons
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/author/coupon', coupon)
+  }
+  getCoupons(): Observable<PagedResult<Coupon>> {
+    return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }
 }

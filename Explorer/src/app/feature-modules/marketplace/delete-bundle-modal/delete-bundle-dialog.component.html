@@ -1,0 +1,16 @@
+<h2 mat-dialog-title class="delete-dialog-title">
+    <mat-icon color="warn">warning</mat-icon>
+    Delete Bundle
+</h2>
+
+<mat-dialog-content>
+    <p>Are you sure you want to delete the bundle "<strong>{{ data.name }}</strong>"?</p>
+    <p class="warning-text">This action cannot be undone.</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="onConfirm()">
+        Delete Bundle
+    </button>
+</mat-dialog-actions>

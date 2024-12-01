@@ -1,0 +1,75 @@
+<div class="bundles-container" [@fadeInOut]>
+    <header class="page-header">
+        <div class="header-content">
+            <h1>My Tour Bundles</h1>
+            <p class="subtitle">Create and manage your tour packages</p>
+        </div>
+    </header>
+
+    <div class="sort-controls" *ngIf="bundles.length > 0">
+        <button mat-button [class.active]="currentSort === 'name'" (click)="toggleSort('name')">
+            Name
+            <mat-icon>{{ currentSort === 'name' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') :
+                'unfold_more' }}</mat-icon>
+        </button>
+        <button mat-button [class.active]="currentSort === 'price'" (click)="toggleSort('price')">
+            Price
+            <mat-icon>{{ currentSort === 'price' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') :
+                'unfold_more' }}</mat-icon>
+        </button>
+    </div>
+
+    <div class="bundles-grid" [@fadeInOut]>
+        <mat-card *ngFor="let bundle of bundles" class="bundle-card" [@slideIn]>
+            <div class="bundle-actions-overlay">
+                <button mat-mini-fab color="primary" (click)="openEditDialog(bundle)" class="action-button edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="openDeleteDialog(bundle)" class="action-button delete">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            <mat-card-header>
+                <mat-card-title>{{ bundle.name }}</mat-card-title>
+                <mat-card-subtitle>
+                    <span class="status-badge" [style.background-color]="getStatusColor(bundle.status)">
+                        {{ getStatusLabel(bundle.status) }}
+                    </span>
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="price-section">
+                    <div class="price-info">
+                        <span class="price-label">Bundle Price</span>
+                        <span class="price-value"><i class="bi bi-coin"></i> {{ bundle.price | currency }}</span>
+                    </div>
+                    <div class="tours-count">
+                        <mat-icon>map</mat-icon>
+                        <span>{{ getTotalTours(bundle) }} Tours</span>
+                    </div>
+                </div>
+
+                <div class="tours-section">
+                    <h3>
+                        <mat-icon>tour</mat-icon>
+                        Included Tours
+                    </h3>
+                    <div class="tour-list">
+                        <div *ngFor="let tour of bundle.tours" class="tour-item">
+                            <div class="tour-info">
+                                <span class="tour-name">{{ tour.tourName }}</span>
+                            </div>
+                            <span class="tour-price"><i class="bi bi-coin"></i> {{ tour.price | currency }}</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-spinner" [@fadeInOut]>
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+    </div>
+</div>

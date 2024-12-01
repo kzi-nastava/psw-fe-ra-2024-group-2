@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private cartService: ShoppingCartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.shoppingCart.loadCartItems();
     }
   }
-  
+
   showProfile(): void {
     this.router.navigate(['/profile']);
   }
@@ -72,12 +72,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/mytours']);
   }
 
+  showMyBundles(): void {
+    this.router.navigate(['/mybundles']);
+  }
+
   showSimulator(): void {
     this.router.navigate(['/position-simulator']);
   }
 
   showAllTours(): void {
     this.router.navigate(['/alltours']);
+  }
+
+  showAllBundles(): void {
+    this.router.navigate(['/bundles']);
   }
 
   showPurchasedTours(): void {
@@ -115,6 +123,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showComment(): void {
     this.router.navigate(['/comment']);
   }
+
   showAddEvent(): void {
     this.router.navigate(['/events']);
   }
@@ -123,5 +132,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   showPopularEvents(): void {
    this.router.navigate(['/popularEvents']);
+  }
+
+  showCreateBundle(): void {
+    this.router.navigate(['/tour/bundle/create']);
   }
 }

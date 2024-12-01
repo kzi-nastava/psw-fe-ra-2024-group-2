@@ -29,7 +29,7 @@
 
         <div class="tour-content">
           <div class="tour-price">
-            <div class="price-amount">${{ tour.price }}</div>
+            <div class="price-amount"><i class="bi bi-coin"></i> {{ tour.price }}</div>
             <div class="price-label">per person</div>
           </div>
 
@@ -48,11 +48,6 @@
                 {{ equipmentId }}
               </div>
             </div>
-          </div>
-
-          <div class="tour-tag">
-            <span class="icon">🏷</span>
-            Tour ID: {{ tour.id }}
           </div>
         </div>
         <div class="tour-actions">

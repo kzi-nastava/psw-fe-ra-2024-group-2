@@ -32,6 +32,7 @@
         <button class="dropdown-toggle">Tours & Activities</button>
         <div class="dropdown-content">
           <button (click)="showAllTours()">Browse Tours</button>
+          <button (click)="showAllBundles()">Browse Bundles</button>
           <button (click)="showPurchasedTours()">Purchased Tours</button> 
           <button (click)="showClub()">Club</button>
           <button [routerLink]="['myclub']">My Club</button>
@@ -50,7 +51,9 @@
         <button class="dropdown-toggle">Tour Management</button>
         <div class="dropdown-content">
           <button (click)="showAddNewTour()">Add Tour</button>
+          <button (click)="showCreateBundle()">Add Bundle</button>
           <button (click)="showMyTours()">My Tours</button>
+          <button (click)="showMyBundles()">My Bundles</button>
           <button (click)="showObjects()">Objects</button>
           <button (click)="showObjectsForUpdate()">Manage Objects</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
@@ -67,6 +70,7 @@
           <button [routerLink]="['ratingsApplications']">All Ratings</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button [routerLink]="['account']">Manage Accounts</button>
+          <button [routerLink]="['manageTouristFunds']">Manage Tourist Funds</button>
         </div>
       </div>
 
@@ -75,6 +79,9 @@
         <button class="dropdown-toggle"> Basics </button>
         <div class="dropdown-content">
           <button (click)="showProfile()">Profile</button>
+          <button *ngIf="user.role === 'tourist'" [routerLink]="['mywallet']">
+            My Wallet
+          </button>
           <button (click)="showBlogs()">Blog</button>
           <button (click)="showComment()">Comment</button>
           <button *ngIf="user.role === 'tourist' || user.role === 'author'" [routerLink]="['rateApp']">
@@ -98,8 +105,7 @@
       <!-- Shopping Cart Button -->
       <div class="nav-item" *ngIf="user && user.role === 'tourist'">
         <button class="cart-btn" (click)="toggleShoppingCart()">
-          <i class="fa fa-shopping-cart"></i>
-          <span class="icon">🛒</span>
+          🛒
         </button>
       </div>
     </div>

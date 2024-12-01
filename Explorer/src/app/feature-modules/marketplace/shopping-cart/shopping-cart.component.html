@@ -1,35 +1,85 @@
 <div class="cart-wrapper" [class.open]="isOpen">
-    <div class="cart-sidebar">
-      <div class="cart-header">
-        <h2>Shopping Cart</h2>
-        <button class="close-btn" (click)="toggleCart()">×</button>
-      </div>
-  
-      <div class="cart-items">
-        <div *ngFor="let item of orderItems" class="cart-item">
+  <div class="cart-sidebar">
+    <div class="cart-header">
+      <h2>Shopping Cart</h2>
+      <button class="close-btn" (click)="toggleCart()">×</button>
+    </div>
+    <div class="cart-items">
+      <!-- Bundles Section -->
+      <div class="cart-section" *ngIf="bundleItems.length > 0">
+        <h3 class="section-title">
+          <span>Bundles</span>
+          <span class="section-total">
+            <i class="bi bi-coin"></i> {{ getItemsTotal(bundleItems) }}
+          </span>
+        </h3>
+        <div *ngFor="let item of bundleItems" class="cart-item">
           <div class="item-details">
-            <h3>{{ item.tourName }}</h3>
-            <p class="price">${{ item.price }}</p>
+            <h4>{{ item.name }}</h4>
+            <p class="price price-container">
+              <i class="bi bi-coin"></i> {{ item.price }}
+            </p>
           </div>
-          <button class="remove-btn" (click)="removeItem(item.tourId)">Remove</button>
-        </div>
-  
-        <div *ngIf="orderItems.length === 0" class="empty-cart">
-          Your cart is empty
+          <button class="remove-btn" (click)="removeItem(item)">
+            <span class="remove-icon">×</span>
+          </button>
         </div>
       </div>
-  
-      <div class="cart-footer">
-        <div class="total">
-          <span>Total:</span>
-          <span class="total-price">${{ totalPrice }}</span>
+
+      <!-- Tours Section -->
+      <div class="cart-section" *ngIf="tourItems.length > 0">
+        <h3 class="section-title">
+          <span>Tours</span>
+          <span class="section-total">
+            <i class="bi bi-coin"></i> {{ getItemsTotal(tourItems) }}
+          </span>
+        </h3>
+        <div *ngFor="let item of tourItems" class="cart-item">
+          <div class="item-details">
+            <h4>{{ item.name }}</h4>
+            <p class="price price-container">
+              <i class="bi bi-coin"></i> {{ item.price | number:'1.2-2'}}
+            </p>
+          </div>
+          <button class="remove-btn" (click)="removeItem(item)">
+            <span class="remove-icon">×</span>
+          </button>
         </div>
-        <button 
-          class="checkout-btn" 
-          (click)="checkout()" 
-          [disabled]="orderItems.length === 0">
-          Checkout
-        </button>
+      </div>
+
+      <div *ngIf="orderItems.length === 0" class="empty-cart">
+        <span class="empty-message">Your cart is empty</span>
+        <p class="empty-subtitle">Add some tours or bundles to get started!</p>
       </div>
     </div>
+    <div class="cart-footer">
+      <!-- New Coupon Input Section -->
+      <div class="coupon-section">
+        <input 
+          type="text" 
+          class="coupon-input" 
+          placeholder="Enter coupon code" 
+          [(ngModel)]="couponCode"
+          (input)="couponError = ''"
+        >
+        <button class="apply-coupon-btn" (click)="applyCoupon()" [disabled]="!couponCode">Apply</button>
+      </div>
+      <div *ngIf="couponError" class="coupon-error">
+        {{ couponError }}
+      </div>
+      <div class="total">
+        <span>Total Amount</span>
+        <span class="total-price">
+          <i class="bi bi-coin"></i> {{ (getItemsTotal(tourItems) + getItemsTotal(bundleItems)) | number:'1.2-2' }}
+        </span>
+      </div>
+      <button 
+        class="checkout-btn" 
+        (click)="checkout()" 
+        [disabled]="orderItems.length === 0"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
   </div>
+</div>

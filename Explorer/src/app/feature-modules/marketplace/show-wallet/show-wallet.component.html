@@ -1,0 +1,65 @@
+<div class="adventure-coins-container">
+  <div class="wallet-card" *ngIf="wallet">
+    <div class="wallet-header">
+      <h2>My Wallet</h2>
+      <div class="balance-container">
+        <div class="coin-icon">
+          <i class="bi bi-coin"></i>
+        </div>
+        <div class="balance-text">
+          {{ wallet.adventureCoinsBalance | number:'1.2-2' }} AC
+        </div>
+      </div>
+    </div>
+
+    <div class="adventure-coins-section">
+      <div class="coins-overview">
+        <h3>Adventure Coins (AC): Your Journey's Currency</h3>
+
+        <div class="coins-grid">
+          <div class="coin-info-card">
+            <div class="card-icon">
+              <i class="bi bi-trophy"></i>
+            </div>
+            <h4>What are Adventure Coins?</h4>
+            <p>Adventure Coins are our exclusive digital currency, designed to transform your exploration experience.
+              Each coin represents a gateway to unique adventures, premium tours, and extraordinary experiences.</p>
+          </div>
+
+          <div class="coin-info-card">
+            <div class="card-icon">
+              <i class="bi bi-lightning"></i>
+            </div>
+            <h4>How to Earn</h4>
+            <p>Adventure Coins can be acquired through various exciting methods:
+              • Completing milestone challenges
+              • Participating in special expedition events
+              • Receiving administrative rewards
+              • Engaging in platform activities</p>
+          </div>
+
+          <div class="coin-info-card">
+            <div class="card-icon">
+              <i class="bi bi-globe"></i>
+            </div>
+            <h4>Spending Your Coins</h4>
+            <p>Use your Adventure Coins to:
+              • Unlock exclusive tour packages
+              • Purchase adventure bundles
+              • Access premium content
+              • Upgrade your explorer profile</p>
+          </div>
+
+          <div class="coin-info-card">
+            <div class="card-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h4>Coin Management</h4>
+            <p>Adventure Coins are securely managed by our expedition team. Each coin's value is carefully curated to
+              ensure fair and exciting opportunities for all explorers in our community.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
