@@ -61,4 +61,10 @@ export class EncounterService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }
+
+    // Fetch all encounters
+    getAllEncounters(): Observable<any[]> {
+      return this.http.get<any[]>(this.apiUrl); 
+    }
+
 }

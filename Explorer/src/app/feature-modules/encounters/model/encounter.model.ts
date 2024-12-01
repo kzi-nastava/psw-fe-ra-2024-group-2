@@ -25,3 +25,27 @@ export interface HiddenLocationEncounterDto extends EncounterDto {
 export interface MiscEncounterDto extends EncounterDto {
     actionDescription: string; // Description of the action for this encounter
 }
+
+// Unified Encounter Model that holds all types
+export interface UnifiedEncounterDto {
+    id: number;             // Encounter ID
+    name: string;           // Encounter Name
+    description: string;    // Encounter Description
+    lattitude: number;      // Latitude of the encounter location
+    longitude: number;      // Longitude of the encounter location
+    encounterType: 'Social' | 'HiddenLocation' | 'Misc';  // Encounter type
+
+    // Social Encounter properties (optional)
+    requiredPeople?: number | null;
+    rangeInMeters?: number | null;
+    touristIds?: number[] | null;
+
+    // Hidden Location Encounter properties (optional)
+    targetLatitude?: number | null;
+    targetLongitude?: number | null;
+    hiddenLocationRangeInMeters?: number | null;
+    image?: Image | null;
+
+    // Misc Encounter properties (optional)
+    actionDescription?: string | null;
+}
