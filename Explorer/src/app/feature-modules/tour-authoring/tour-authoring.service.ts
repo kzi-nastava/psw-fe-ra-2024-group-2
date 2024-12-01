@@ -157,9 +157,6 @@ export class TourAuthoringService {
   createCoupon(coupon: Coupon): Observable<Coupon> {
     return this.http.post<Coupon>('https://localhost:44333/api/author/coupon', coupon)
   }
-  useCoupon(coupon: Coupon): Observable<Coupon> {
-    return this.http.post<Coupon>('https://localhost:44333/api/tourist/coupon', coupon)
-  }
   getCoupons(): Observable<PagedResult<Coupon>> {
     return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }

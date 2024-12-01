@@ -348,7 +348,7 @@
   .coupons-table-container {
     flex: 1;
     max-width: 50%; /* Ensure it takes half of the row */
-    height: 340px;
+    height: 285px;
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc;
     padding: 10px;
@@ -379,3 +379,13 @@
     background-color: #f1f1f1;
   }
   
+  .coupon-error {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9em;
+  }
+  
+  .apply-coupon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
