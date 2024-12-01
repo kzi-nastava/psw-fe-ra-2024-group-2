@@ -30,7 +30,6 @@ export class EventFormComponent {
       longitude: new FormControl('', [Validators.required]), // For lng
       startDate: new FormControl(''),
       endDate: new FormControl('')
-
   });
 }
 clearMarkers(): void {
@@ -83,6 +82,7 @@ if (this.eventForm.valid) {
     longitude: this.eventForm.value.longitude || 0,
     startDate:this.eventForm.value.startDate,
     endDate: this.eventForm.value.endDate,
+    eventAcceptances: []
   };
 
   //console.log(obj)

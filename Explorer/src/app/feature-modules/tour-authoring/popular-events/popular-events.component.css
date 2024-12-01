@@ -190,3 +190,209 @@
     outline: none; /* Remove default focus outline */
     box-shadow: 0 0 5px  /* Soft shadow for focus effect */
 }
+
+.subscription-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #fff7e6; /* Svetla pozadina */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.subscription-section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-dark-brown);
+    margin-bottom: 1rem;
+}
+
+.subscription-section p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.category-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--primary-dark-brown);
+}
+
+.category-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.subscribe-btn, .unsubscribe-btn {
+    background-color: #754405; /* Svetlo braon */
+    color: #fbf7f4; /* Tamno braon */
+    border: 2px solid var(--primary-dark-brown);
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0.5rem;
+}
+
+.subscribe-btn:hover, .unsubscribe-btn:hover {
+    background-color: #3a2002;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.confirmation-message {
+    margin-top: 2rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: left;
+}
+
+.confirmation-message ul {
+    list-style: disc;
+    margin: 0 auto;
+    max-width: 300px;
+    text-align: left;
+    padding-left: 1.5rem;
+}
+
+.filter-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #fff7e6; /* Svetla pozadina */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.filter-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.filter-label {
+    font-size: 1.2rem;
+    color: var(--primary-dark-brown);
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.category-select {
+    width: 60%;
+    max-width: 400px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid var(--primary-dark-brown);
+    border-radius: 8px;
+    background-color: var(--white);
+    color: var(--primary-dark-brown);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-select:hover {
+    border-color: var(--text-secondary);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.upcoming-events-section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-dark-brown);
+    margin-bottom: 1.5rem;
+   
+}
+
+/* Raspored u dva stupca */
+.two-column-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.subscription-section {
+    flex: 1; /* Levi stupac */
+    padding: 1rem;
+    background: #fff7e6;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.subscription-section h2 {
+    font-size: 1.5rem; /* Manji naslov */
+    color: var(--primary-dark-brown);
+    margin-bottom: 1rem;
+}
+
+.subscription-section p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-section {
+    flex: 2; /* Desni stupac */
+    padding: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.filter-header {
+    margin-bottom: 1.5rem;
+}
+
+.category-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid var(--primary-dark-brown);
+    border-radius: 8px;
+    background-color: var(--white);
+    color: var(--primary-dark-brown);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-select:hover {
+    border-color: var(--text-secondary);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.upcoming-events-section {
+    margin-top: 2rem;
+}
+
+.upcoming-events-section h2 {
+    font-size: 1.5rem;
+    color: var(--primary-dark-brown);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

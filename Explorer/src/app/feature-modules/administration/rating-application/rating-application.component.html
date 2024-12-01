@@ -4,7 +4,7 @@
     <div id="rating-application-details">
         <div *ngFor="let ra of ratingWithUser" class="rating-card">
             <div class="card-header">
-                <h3>Username: {{ ra.account?.username }}</h3>
+                <h3>Username: {{ ra.account.username }}</h3>
                 <div class="rating-icon">{{ '⭐'.repeat(ra.ratingApplication.grade) }}</div>
             </div>
             <div class="card-content">

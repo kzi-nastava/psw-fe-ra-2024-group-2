@@ -12,26 +12,31 @@
     <!-- Tours list -->
     <div class="row">
       <div class="col-4" *ngFor="let tour of tours">
-        <div class="tour-card">
+        <div class="tour-card" *ngIf="tour.status !== 2">
           <div class="tour-header">
             <h3 class="tour-title">{{ tour.name }}</h3>
             <div class="tour-meta">
               <div class="badge-container">
                 <span class="badge" [ngClass]="'badge-difficulty-' + tour.difficulty">
                   <span class="icon">⚡</span>
-                  {{ (tour.difficulty) }}
+                  {{ getDifficultyLabel(tour.difficulty) }}
                 </span>
               </div>
               <div class="badge-container">
                 <span class="badge" [ngClass]="'badge-status-' + tour.status">
                   <span class="icon">●</span>
-                  {{ (tour.status) }}
+                  {{ getStatusLabel(tour.status) }}
                 </span>
               </div>
             </div>
           </div>
   
           <div class="tour-content">
+            <div class="tour-price">
+              <div class="price-amount">${{ tour.price }}</div>
+              <div class="price-label">per person</div>
+            </div>
+  
             <div class="tour-description">
               {{ tour.description }}
             </div>
@@ -48,16 +53,20 @@
                 </div>
               </div>
             </div>
-  
             <div class="tour-tag">
               <span class="icon">🏷</span>
               Tour ID: {{ tour.id }}
             </div>
-  
-            <div class="tour-duration" *ngFor="let duration of tour.tourDurationByTransportDtos">
-              <span class="icon">⏱</span>
-              Duration ({{ duration.transport }}): {{ duration.duration }} hours
-            </div>
+          </div>
+          <div class="tour-actions">
+            <button class="btn btn-primary" (click)="showReviews(tour.id)">
+              <span class="icon">★</span>
+              Reviews
+            </button>
+            <button class="btn btn-accent" (click)="addToCart(tour.id)">
+              <span class="icon">🛒</span>
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

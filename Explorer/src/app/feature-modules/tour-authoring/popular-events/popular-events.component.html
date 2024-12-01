@@ -40,4 +40,74 @@
             </div>
         </div>
     </div>
+    <div class="component">
+        <div class="container">
+            <div class="two-column-layout">
+                <!-- Sekcija za pretplatu na kategorije -->
+                <div class="subscription-section">
+                    <h2>Subscribe</h2>
+                    <p>Select the categories of events you'd like to receive notifications about:</p>
+    
+                    <div class="category-list">
+                        <label class="category-item" *ngFor="let category of eventCategories">
+                          <input
+                            type="checkbox"
+                            [value]="category.value"
+                            (change)="onCheckboxChange($event)"
+                          />
+                          {{ category.label }}
+                        </label>
+                      </div>
+                    <button class="subscribe-btn" (click)="subscribeToCategories()">Subscribe</button>
+                    <button class="unsubscribe-btn" (click)="unsubscribeFromCategories()">Unsubscribe</button>
+    
+                    <div class="confirmation-message" *ngIf="subscriptionSuccess">
+                        <p>You have successfully updated your subscriptions. Current categories:</p>
+                        <ul>
+                            <li *ngFor="let category of selectedCategories">{{ getCategoryLabel(category) }}</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <!-- Sekcija za događaje u pretplaćenim kategorijama -->
+                <div class="filter-section" *ngIf="subscriptionSuccess && selectedCategories.length > 0">
+                    <div class="upcoming-events-section">
+                        <h2>Events in the Subscribed Category</h2>
+                        <div class="cards-container">
+                            <div *ngFor="let ev of filteredEvents" class="event-card">
+                                <div class="card-header">
+                                    <h3>{{ ev.name }}</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p class="description">{{ ev.description }}</p>
+                                    <p class="category">Category: <strong>{{ ev.category }}</strong></p>
+                                    <p class="event-dates">
+                                        <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br>
+                                        <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
+                                    </p>
+                                    <img 
+                                        *ngIf="ev.image?.data" 
+                                        [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" 
+                                        alt="Event Image" 
+                                        class="event-image">
+                                </div>
+                                <div class="card-footer">
+                                    <button 
+                                        class="show-details-btn"
+                                        (click)="goToEventDetails(ev.id)">
+                                        Show Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="no-events-message" *ngIf="filteredEvents.length === 0">
+                        <p>No events found in the selected category for the next 7 days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
