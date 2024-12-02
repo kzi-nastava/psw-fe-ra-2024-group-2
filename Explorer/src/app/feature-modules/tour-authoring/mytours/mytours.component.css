@@ -131,3 +131,261 @@
     background-color: #00777c;
   }
   
+    /* font-size: 0.875rem;
+    font-weight: 500;
+} */
+
+/* Difficulty Badges */
+.difficulty-easy {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.difficulty-moderate {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+}
+
+.difficulty-hard {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error);
+}
+
+/* Status Badges */
+.status-active {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.status-inactive {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: var(--text-light);
+}
+
+/* Tag Badges */
+.tag-adventure,
+.tag-relaxation,
+.tag-historical,
+.tag-cultural,
+.tag-nature {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+}
+
+/* Price Column */
+.price-column {
+    font-weight: 500;
+    color: var(--dark-brown);
+    text-align: right;
+}
+
+/* Map Section */
+.map-section {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.coupon-grid td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+}
+
+.coupon-grid td:first-child {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+    font-weight: 600;
+    width: 120px;
+    white-space: nowrap;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--lighter-brown);
+    border-radius: 4px;
+    background-color: var(--white);
+    color: var(--dark-brown);
+    font-size: 0.875rem;
+}
+
+.form-input:disabled {
+    background-color: rgba(210, 180, 140, 0.1);
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.action-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    background-color: var(--lighter-brown);
+    border-radius: 0 0 8px 8px;
+}
+
+.btn {
+    background: linear-gradient(to bottom, var(--dark-brown), #5d4037);
+    color: var(--white);
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+}
+
+.btn:hover {
+    background: linear-gradient(to bottom, #5d4037, var(--dark-brown));
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.success-message {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+    padding: 0.75rem;
+    margin: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+.unsuccess-message {
+    background-color: var(--error);
+    color: var(--dark-brown);
+    padding: 0.75rem;
+    margin: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .page-container {
+        padding: 1rem;
+    }
+
+    .section-title {
+        padding: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .table-wrapper {
+        padding: 0 1rem 1rem;
+    }
+
+    .map-section {
+        height: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .custom-table th,
+    .custom-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .badge {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .map-section {
+        height: 250px;
+    }
+}
+
+/* Flex container to place form and table in the same row */
+.form-and-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%; /* Ensure it takes up the full width of the screen */
+    box-sizing: border-box;
+  }
+  
+  /* Style for the coupon form */
+  .form-container {
+    flex: 1;
+    max-width: 50%; /* Ensure it takes half of the row */
+    box-sizing: border-box; /* Include padding and borders in the width calculation */
+  }
+  
+  /* Style for the coupons table */
+  .coupons-table-container {
+    flex: 1;
+    max-width: 50%; /* Ensure it takes half of the row */
+    height: 285px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and borders in the width calculation */
+  }
+  
+  /* Coupons table styling */
+  .coupons-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .coupons-table th, .coupons-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .coupons-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .coupons-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .coupons-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .coupon-error {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9em;
+  }
+  
+  .apply-coupon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }

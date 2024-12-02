@@ -40,6 +40,11 @@ import { PopularEventsComponent } from 'src/app/feature-modules/tour-authoring/p
 import { EventDetailsComponent } from 'src/app/feature-modules/tour-authoring/event-details/event-details.component';
 import { DiariesComponent } from 'src/app/feature-modules/stakeholders/personal-diaries/personal-diaries.component';
 import { EncounterComponent } from 'src/app/feature-modules/encounters/encounter/encounter.component';
+import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
+import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
+import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
+import { ShowWalletComponent } from 'src/app/feature-modules/marketplace/show-wallet/show-wallet.component';
+import { ManageTouristFundsComponent } from 'src/app/feature-modules/marketplace/manage-tourist-funds/manage-tourist-funds.component';
 import { EncounterExecutionComponent } from 'src/app/feature-modules/encounters/encounter-execution/encounter-execution.component';
 
 
@@ -88,6 +93,11 @@ const routes: Routes = [
   {path: 'encounters', component: EncounterComponent, canActivate: [AuthGuard]},
   {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]},
   {path: 'diaries/:userId', component: DiariesComponent,canActivate: [AuthGuard]},
+  {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
+  {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
+  {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},
+  {path: 'mywallet', component: ShowWalletComponent, canActivate: [AuthGuard]},
+  {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]},
   {path: 'encounter-execution', component: EncounterExecutionComponent, canActivate: [AuthGuard]},
 ];
 

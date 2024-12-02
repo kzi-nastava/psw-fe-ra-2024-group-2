@@ -9,6 +9,7 @@
                 (locationSelected)="onLocationSelected($event)" 
                 [touristPosition]="touristPosition"
                 [clearMarkersTrigger]="clearMarkersFlag" 
+                [eventsCollection]="eventCordinates"
                 (markersCleared)="onMarkersCleared()"
                 [checkpointCordinatesCollection]="checkpointCordinates">
             </xp-map>
@@ -45,7 +46,12 @@
                   </p>
                 </div>
                 <div class="event-actions">
-                    <button class="btn btn-accent" (click)="joinEvent(event)"  >Interested</button>
+                    <button 
+                      *ngIf="!hasUserAcceptedEvent(event)" 
+                      class="btn btn-accent" 
+                      (click)="joinEvent(event)">
+                      Interested
+                    </button>
                   </div>
               </div>
         </div>
