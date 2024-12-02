@@ -150,7 +150,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
 ngOnChanges(changes: SimpleChanges): void {
   if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
     this.checkHiddenLocationMarkers(changes['touristPosition'].currentValue);
-
+    this.addTouristMarker(changes['touristPosition'].currentValue);
     // If the tourist marker exists, update its position
     if (this.touristMarker) {
       this.touristMarker.setLatLng([
@@ -234,14 +234,52 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 
   private addEncounterMarker(encounter: any, lat: number, lng: number): void {
-    const marker = L.marker([lat, lng]).addTo(this.map)
-      .bindPopup(`
-        <b>${encounter.name}</b><br>
-        <i>${encounter.description}</i><br>
-        <small>Lat: ${lat}, Lng: ${lng}</small><br>
-        ${encounter.actionDescription ? `<small>Action: ${encounter.actionDescription}</small><br>` : ''}
-        ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
-      `);
+    // Definišemo različite ikonice za različite tipove encounter-a
+    const socialIcon = L.icon({
+      iconUrl: 'assets/people.png', // Putanja do ikonice za Social
+      iconSize: [32, 32], // Dimenzije ikonice
+      iconAnchor: [16, 32], // Tačka gde se ikonica "kači" na mapu
+      popupAnchor: [0, -32], // Pozicija popup-a u odnosu na ikonicu
+    });
+    const miscIcon = L.icon({
+      iconUrl: 'assets/misc.png', // Putanja do ikonice za Misc
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32],
+    });
+  
+    const defaultIcon = L.icon({
+      iconUrl: 'assets/misc.png', // Putanja do podrazumevane ikonice
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32],
+    });
+    // Postavljamo ikonicu na osnovu encounterType
+    const markerIcon = encounter.encounterType === 'Social' ? socialIcon
+                        //: encounter.encounterType === 'Misc' ? miscIcon
+                        : miscIcon;
+
+    const marker = L.marker([lat, lng], {icon: markerIcon}).addTo(this.map)
+    .bindPopup(`
+      <div style="font-family: 'Georgia', sans-serif; color: #333; padding: 10px; border: 1px solid #D2B48C; border-radius: 8px; background-color: #F5F5DC;">
+        <h3 style="margin: 0; font-size: 20px; color: #8B4513;">${encounter.name}</h3>
+        <p style="margin: 5px 0; font-size: 18px; color: #5D3A1A;"><i>${encounter.description}</i></p>
+        <p style="margin: 5px 0; font-size: 14px; color: #8B4513;">
+          <small><strong>Coordinates:</strong> Lat: ${lat}, Lng: ${lng}</small>
+        </p>
+        ${encounter.actionDescription 
+          ? `<p style="margin: 5px 0; font-size: 14px; color: #5D3A1A;">
+               <small><strong>Action:</strong> ${encounter.actionDescription}</small>
+             </p>` 
+          : ''}
+        ${encounter.image?.data 
+          ? `<div style="text-align: center; margin-top: 10px;">
+               <img src="${encounter.image.data}" alt="Encounter Image" style="width: 100px; height: 100px; border-radius: 4px; border: 1px solid #D2B48C;" />
+             </div>` 
+          : ''}
+      </div>
+    `);
+    
 
       (marker.options as any).encounter = encounter; // Using `any` to bypass TypeScript's type checks
     
@@ -249,7 +287,13 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 
   private addHiddenLocationMarker(encounter: any, lat: number, lng: number): void {
-    const marker = L.marker([lat, lng]).bindPopup(`
+    const hiddenIcon = L.icon({
+      iconUrl: 'assets/exclamation.png', // Putanja do ikonice za Misc
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32],
+    });
+    const marker = L.marker([lat, lng], {icon: hiddenIcon}).bindPopup(`
       <b>${encounter.name}</b><br>
       <i>${encounter.description}</i><br>
       <small>Lat: ${lat}, Lng: ${lng}</small><br>
