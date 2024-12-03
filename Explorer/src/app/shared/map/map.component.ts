@@ -291,7 +291,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       // Remove existing markers from the map
       if(this.markers.length > 1) {
         this.clearMarkers();
-        console.log("OBRISANI");
+        //console.log("OBRISANI");
       }
       this.loadAddedCheckpoints(); // Update route when checkpointCollection changes
     }
@@ -311,7 +311,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   }
 
   private loadEvents(): void {
-    console.log("Cigan",this.eventsCollection); 
+    //console.log("Kolekcija",this.eventsCollection); 
     if (this.eventsCollection) {
       this.eventsCollection.forEach(event => {
         const mp = new L.Marker([event.latitude, event.longitude]).addTo(this.map).bindPopup(`<div style="width: 200px">
@@ -351,7 +351,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   private setExecutionRoutes(): void {
     if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
       const checkpoints = this.checkpointCordinatesCollection;
-      console.log(checkpoints);
+      //console.log(checkpoints);
       const markers = checkpoints.map((checkpoint: Checkpoint) => {
         const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
           title: checkpoint.name,
@@ -369,7 +369,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         createMarker: (i, waypoint, n) => {
 
           if(i === 0) {
-            console.log("Start");
+            //console.log("Start");
             const marker = L.marker(waypoint.latLng, {icon : L.icon({iconUrl : 'https://static.thenounproject.com/png/4415238-200.png',
             iconSize: [50, 50],
             iconAnchor: [15, 15],

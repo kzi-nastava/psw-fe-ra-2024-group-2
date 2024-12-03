@@ -46,7 +46,7 @@ export class PopularEventsComponent {
       this.selectedCategories = this.selectedCategories.filter((v) => v !== value); // Uklanja iz niza
     }
   
-    console.log('Updated selected categories:', this.selectedCategories); // Za debagovanje
+    //console.log('Updated selected categories:', this.selectedCategories); // Za debagovanje
   }
   
   
