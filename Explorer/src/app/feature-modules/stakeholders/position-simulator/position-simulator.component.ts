@@ -123,10 +123,10 @@ export class PositionSimulatorComponent {
   getChaptersForDiary(): void {
     this.execService.getChaptersForDiary(this.diary.id).subscribe({
       next: (chapterss: any) => {
-        console.log('API Response:', chapterss);
+        //console.log('API Response:', chapterss);
 
         // Ispisivanje samo rezultata (ako je 'results' deo odgovora)
-        console.log('Chapters:', chapterss);
+        //console.log('Chapters:', chapterss);
         this.chapters = chapterss;
       },
       error: (error) => {
@@ -368,9 +368,9 @@ export class PositionSimulatorComponent {
       });
       this.execService.GetAllEventsWithinRange(this.touristPosition).subscribe({
         next: (result : PagedResult<EventModel>) => {
-          console.log(result);
+          //console.log(result);
           this.events = result.results;
-          console.log(this.events);
+          //console.log(this.events);
           this.eventCordinates = this.events
           .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
           .map(event => ({
@@ -393,7 +393,7 @@ export class PositionSimulatorComponent {
 
     this.execService.acceptEvent(event).subscribe({
       next: (response) => {
-        console.log('Tour started successfully!', response);
+        //console.log('Tour started successfully!', response);
         this.router.navigate(['/position-simulator']);
 
         if (this.user?.id) {
@@ -464,10 +464,10 @@ export class PositionSimulatorComponent {
   submitChapter() {
     this.newChapter.personalDairyId= this.diary.id;
     this.newChapter.createdAt = new Date(this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSZ')!);
-    console.log('Poslati podaci:', this.newChapter.text);
+    //console.log('Poslati podaci:', this.newChapter.text);
     this.execService.addChapter( this.newChapter.personalDairyId, this.newChapter).subscribe({
       next: (response) => {
-        console.log('Poglavlje uspešno dodato:', response);
+        //console.log('Poglavlje uspešno dodato:', response);
         this.getChaptersForDiary();
         this.isNewChapterModalOpen = false;
         this.resetFields();
