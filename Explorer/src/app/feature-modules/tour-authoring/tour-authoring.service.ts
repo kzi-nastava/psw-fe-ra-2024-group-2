@@ -11,7 +11,8 @@ import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
 import { EventCategory, EventModel } from './model/event.model';
 import { EventSubscription } from './model/eventSubscription.model';
-import { AdventureCoinNotification } from '../marketplace/model/adventureCoinNotification.model';
+import { AdventureCoinNotification } from './model/adventureCoinNotification.model';
+
 import { Coupon } from './model/coupon.model';
 
 
@@ -166,11 +167,8 @@ export class TourAuthoringService {
     return this.http.get<AdventureCoinNotification[]>('https://localhost:44333/api/tourist/notifications');
   }
   
-  markCoinNotificationAsRead(notificationId: number) {
-    return this.http.put(`https://localhost:44333/api/adventure-coin-notifications/${notificationId}/mark-read`, {});
-  }
   
-  markAllCoinNotificationsAsRead(touristId: number) {
+  markAllCoinNotificationsAsRead() {
     return this.http.post(`https://localhost:44333/api/tourist/notifications/mark-all-as-read`, {});
   }
   

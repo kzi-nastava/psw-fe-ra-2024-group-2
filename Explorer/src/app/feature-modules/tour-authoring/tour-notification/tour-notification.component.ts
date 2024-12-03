@@ -3,13 +3,7 @@ import { TourIssueNotification, TourIssueNotificationStatus } from '../../layout
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourAuthoringService } from '../tour-authoring.service';
-
-interface AdventureCoinNotification {
-  id: number;
-  touristId: number;
-  isRead: boolean;
-  sentAt: Date;
-}
+import { AdventureCoinNotification } from '../model/adventureCoinNotification.model';
 
 @Component({
   selector: 'app-notification',
@@ -36,13 +30,11 @@ export class NotificationComponent implements OnInit {
     console.log("Fetching notifications for user ID:", this.user?.id);
     this.service.getNotifications(this.user.id).subscribe(result => {
       console.log("Notifications API response:", result);
-
       if (result && result.results) {
         this.notifications = result.results;
       } else {
         this.notifications = [];
       }
-
       console.log("Loaded notifications:", this.notifications);
     }, error => {
       console.error("Error loading notifications:", error);
@@ -52,6 +44,7 @@ export class NotificationComponent implements OnInit {
   loadCoinNotifications(): void {
     this.service.getAdventureCoinNotifications().subscribe(result => {
       this.coinNotifications = result || [];
+      this.coinNotifications = this.coinNotifications.filter(n => !n.status);
       console.log("Loaded coin notifications:", this.coinNotifications);
     }, error => {
       console.error("Error loading coin notifications:", error);
@@ -65,13 +58,6 @@ export class NotificationComponent implements OnInit {
   markAsUnresolved(notification: TourIssueNotification) {
     notification.status = TourIssueNotificationStatus.Unresolved;
   }
-
-  markCoinNotificationAsRead(notification: AdventureCoinNotification) {
-    this.service.markCoinNotificationAsRead(notification.id).subscribe(() => {
-      notification.isRead = true;
-    });
-  }
-
   getStatusClass(status: TourIssueNotificationStatus): string {
     switch (status) {
       case TourIssueNotificationStatus.Resolved:
@@ -91,7 +77,7 @@ export class NotificationComponent implements OnInit {
 
   MarkAllAsRead() {
     this.service.MarkAllAsRead(this.user.id).subscribe(() => {
-      this.service.markAllCoinNotificationsAsRead(this.user.id).subscribe(() => {
+      this.service.markAllCoinNotificationsAsRead().subscribe(() => {
         window.location.reload();
       });
     });

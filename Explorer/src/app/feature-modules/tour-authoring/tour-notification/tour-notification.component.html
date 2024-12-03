@@ -5,7 +5,7 @@
   
   <div class="notification-list" (scroll)="onScroll($event)">
     <!-- No notifications message -->
-    <div *ngIf="notifications.length === 0" class="notification-empty">
+    <div *ngIf="notifications.length === 0 && coinNotifications.length===0" class="notification-empty">
       No new notifications
     </div>
     
@@ -27,7 +27,7 @@
     </div>
     
     <!-- Coin notifications (without status display) -->
-    <div *ngFor="let coinNotification of coinNotifications" class="notification-item" (click)="markCoinNotificationAsRead(coinNotification)">
+    <div *ngFor="let coinNotification of coinNotifications" class="notification-item">
       <div class="notification-content">
         Adventure Coin Notification
       </div>
