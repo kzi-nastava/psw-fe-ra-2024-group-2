@@ -22,6 +22,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() touristPosition: { latitude: number, longitude: number } | null = null;
   @Input() isClickDisabled: boolean = false;
   @Input() editing: boolean = false;
+  @Output() proximityToHiddenEncounter = new EventEmitter<any>(); // Emit the entire encounter object
   showCompleteButton: boolean = false; // Flag to show/hide the button
 
   private routingControl: L.Routing.Control | null = null;
@@ -32,7 +33,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(
     private mapService: EncounterMapService,
     private encounterService: EncounterService // Inject EncounterService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Start periodic position check when the component is initialized
@@ -40,6 +41,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
       if (this.touristPosition) {
         this.checkHiddenLocationMarkers(this.touristPosition);
         this.checkProximityToMiscEncounter(this.touristPosition);
+        this.checkProximityToSocialEncounter(this.touristPosition);
       }
     }, 5000); // Check every 5 seconds (adjust as needed)
   }
@@ -85,25 +87,25 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.isClickDisabled) {
       return;
     }
-  
+
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-  
+
       // Reverse search or other operations
-      this.mapService.reverseSearch(lat, lng).subscribe((res) => {});
-  
+      this.mapService.reverseSearch(lat, lng).subscribe((res) => { });
+
       this.locationSelected.emit({ lat, lng });
-  
+
       // Remove the existing marker if present
       if (this.marker) {
         this.map.removeLayer(this.marker);
       }
-  
+
       // Add a new marker at the clicked location
       this.marker = L.marker([lat, lng]).addTo(this.map);
-  
+
       // Handle tourist marker: Add it after the first click, or update its position
       if (!this.touristMarker) {
         // Create and add the tourist marker for the first time
@@ -119,7 +121,8 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
           this.touristMarker.setLatLng([this.touristPosition.latitude, this.touristPosition.longitude]);
         }
       }
-  
+    
+
       // Handle marker click events if in editing mode
       if (this.editing) {
         this.marker.on('click', (event) => {
@@ -129,7 +132,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
       }
     });
   }
-  
+
 
   clearMarkers(): void {
     if (this.markers && this.markers.length > 0) {
@@ -147,19 +150,19 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-ngOnChanges(changes: SimpleChanges): void {
-  if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
-    this.checkHiddenLocationMarkers(changes['touristPosition'].currentValue);
-    this.addTouristMarker(changes['touristPosition'].currentValue);
-    // If the tourist marker exists, update its position
-    if (this.touristMarker) {
-      this.touristMarker.setLatLng([
-        changes['touristPosition'].currentValue.latitude,
-        changes['touristPosition'].currentValue.longitude,
-      ]);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['touristPosition'] && changes['touristPosition'].currentValue) {
+      this.checkHiddenLocationMarkers(changes['touristPosition'].currentValue);
+      this.addTouristMarker(changes['touristPosition'].currentValue);
+      // If the tourist marker exists, update its position
+      if (this.touristMarker) {
+        this.touristMarker.setLatLng([
+          changes['touristPosition'].currentValue.latitude,
+          changes['touristPosition'].currentValue.longitude,
+        ]);
+      }
     }
   }
-}
 
 
   private touristMarker: L.Marker | null = null;
@@ -177,21 +180,26 @@ ngOnChanges(changes: SimpleChanges): void {
 
   private checkHiddenLocationMarkers(position: { latitude: number, longitude: number }): void {
     const touristLatLng = L.latLng(position.latitude, position.longitude);
-  
+
     this.hiddenLocationMarkers.forEach((marker) => {
       const encounter = (marker.options as any).encounter; // Access the stored encounter data
       //onsole.log(encounter);
-      
-  
+
+
       if (encounter) {
+        console.log(encounter);
         const rangeInMeters = encounter.hiddenLocationRangeInMeters || 200; // Default to 200 meters if range isn't set
         console.log(rangeInMeters);
-  
+
         const distance = touristLatLng.distanceTo(marker.getLatLng());
-  
+
         if (distance <= rangeInMeters) {
           if (!this.map.hasLayer(marker)) {
-            marker.addTo(this.map); // Add marker if within range
+            marker.addTo(this.map);
+            if (distance <= 30) {
+              console.log("kYS NIGEGR")
+              this.proximityToHiddenEncounter.emit(encounter);
+            }
           }
         } else {
           if (this.map.hasLayer(marker)) {
@@ -201,7 +209,7 @@ ngOnChanges(changes: SimpleChanges): void {
       }
     });
   }
-  
+
 
   ngOnDestroy(): void {
     if (this.positionCheckInterval) {
@@ -247,7 +255,7 @@ ngOnChanges(changes: SimpleChanges): void {
       iconAnchor: [16, 32],
       popupAnchor: [0, -32],
     });
-  
+
     const defaultIcon = L.icon({
       iconUrl: 'assets/misc.png', // Putanja do podrazumevane ikonice
       iconSize: [32, 32],
@@ -256,33 +264,33 @@ ngOnChanges(changes: SimpleChanges): void {
     });
     // Postavljamo ikonicu na osnovu encounterType
     const markerIcon = encounter.encounterType === 'Social' ? socialIcon
-                        //: encounter.encounterType === 'Misc' ? miscIcon
-                        : miscIcon;
+      //: encounter.encounterType === 'Misc' ? miscIcon
+      : miscIcon;
 
-    const marker = L.marker([lat, lng], {icon: markerIcon}).addTo(this.map)
-    .bindPopup(`
+    const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(this.map)
+      .bindPopup(`
       <div style="font-family: 'Georgia', sans-serif; color: #333; padding: 10px; border: 1px solid #D2B48C; border-radius: 8px; background-color: #F5F5DC;">
         <h3 style="margin: 0; font-size: 20px; color: #8B4513;">${encounter.name}</h3>
         <p style="margin: 5px 0; font-size: 18px; color: #5D3A1A;"><i>${encounter.description}</i></p>
         <p style="margin: 5px 0; font-size: 14px; color: #8B4513;">
           <small><strong>Coordinates:</strong> Lat: ${lat}, Lng: ${lng}</small>
         </p>
-        ${encounter.actionDescription 
+        ${encounter.actionDescription
           ? `<p style="margin: 5px 0; font-size: 14px; color: #5D3A1A;">
                <small><strong>Action:</strong> ${encounter.actionDescription}</small>
-             </p>` 
+             </p>`
           : ''}
-        ${encounter.image?.data 
+        ${encounter.image?.data
           ? `<div style="text-align: center; margin-top: 10px;">
                <img src="${encounter.image.data}" alt="Encounter Image" style="width: 100px; height: 100px; border-radius: 4px; border: 1px solid #D2B48C;" />
-             </div>` 
+             </div>`
           : ''}
       </div>
     `);
-    
 
-      (marker.options as any).encounter = encounter; // Using `any` to bypass TypeScript's type checks
-    
+
+    (marker.options as any).encounter = encounter; // Using `any` to bypass TypeScript's type checks
+
     this.persistentMarkers.push(marker); // Add all markers for non-hidden encounters
   }
 
@@ -293,48 +301,68 @@ ngOnChanges(changes: SimpleChanges): void {
       iconAnchor: [16, 32],
       popupAnchor: [0, -32],
     });
-    const marker = L.marker([lat, lng], {icon: hiddenIcon}).bindPopup(`
+    const marker = L.marker([lat, lng], { icon: hiddenIcon }).bindPopup(`
       <b>${encounter.name}</b><br>
       <i>${encounter.description}</i><br>
       <small>Lat: ${lat}, Lng: ${lng}</small><br>
       ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
     `);
 
-      // Store custom data on marker.options
+    // Store custom data on marker.options
     (marker.options as any).encounter = encounter; // Using `any` to bypass TypeScript's type checks
-    
+
     this.hiddenLocationMarkers.push(marker); // Store the hidden location marker
   }
 
-// Add this @Output to emit proximity event
-@Output() proximityToMiscEncounter = new EventEmitter<any>(); // Emit the entire encounter object
-
-private checkProximityToMiscEncounter(touristPosition: { latitude: number, longitude: number }): void {
-  const touristLatLng = L.latLng(touristPosition.latitude, touristPosition.longitude);
-
-  this.persistentMarkers.forEach((marker) => {
-    const encounter = (marker.options as any).encounter; // Access the stored encounter data
-
-    if (encounter && encounter.encounterType === 'Misc') {
-      const rangeInMeters = 20; // Set the range for proximity (20 meters)
-      const distance = touristLatLng.distanceTo(marker.getLatLng()); // Calculate distance between tourist and marker
-
-      if (distance <= rangeInMeters) {
-        // Emit the entire encounter if within range
+  // Add this @Output to emit proximity event
+  @Output() proximityToMiscEncounter = new EventEmitter<any>(); // Emit the entire encounter object
+  
+  private checkProximityToMiscEncounter(touristPosition: { latitude: number, longitude: number }): void {
+    const touristLatLng = L.latLng(touristPosition.latitude, touristPosition.longitude);
+    
+    this.persistentMarkers.forEach((marker) => {
+      const encounter = (marker.options as any).encounter; // Access the stored encounter data
+      
+      if (encounter && encounter.encounterType === 'Misc') {
+        const rangeInMeters = 20; // Set the range for proximity (20 meters)
+        const distance = touristLatLng.distanceTo(marker.getLatLng()); // Calculate distance between tourist and marker
         
-        this.proximityToMiscEncounter.emit(encounter);
-      } else {
-        // Optionally, emit a null or false if out of range
-        
-        this.proximityToMiscEncounter.emit(null);  // Emit null or a suitable response when out of range
+        if (distance <= rangeInMeters) {
+          this.proximityToMiscEncounter.emit(encounter);
+        } else {
+          // Optionally, emit a null or false if out of range
+          
+          this.proximityToMiscEncounter.emit(null);  // Emit null or a suitable response when out of range
+        }
       }
+    });
+  }
+
+
+  @Output() proximityToSocialEncounter = new EventEmitter<any>();
+  @Output() noProximityToSocialEncounter = new EventEmitter<any>();
+  private checkProximityToSocialEncounter(touristPosition: { latitude: number, longitude: number }): void {
+    const touristLatLng = L.latLng(touristPosition.latitude, touristPosition.longitude);
+    
+    var found = false;
+    this.persistentMarkers.forEach((marker) => {
+      const encounter = (marker.options as any).encounter; // Access the stored encounter data
+      if (encounter && encounter.encounterType === 'Social') {
+        const rangeInMeters = 20; // Set the range for proximity (20 meters)
+        const distance = touristLatLng.distanceTo(marker.getLatLng()); // Calculate distance between tourist and marker
+        
+        if (distance <= rangeInMeters) {
+          this.proximityToSocialEncounter.emit(encounter);
+          found=true;
+        } else {
+          
+          this.proximityToSocialEncounter.emit(null);  // Emit null or a suitable response when out of range
+        }
+      }
+    });
+    if(!found){
+      console.log("KITA 4")
+      this.noProximityToSocialEncounter.emit(1);
     }
-  });
-}
-
-
-
-  
-  
-
+  }
 }

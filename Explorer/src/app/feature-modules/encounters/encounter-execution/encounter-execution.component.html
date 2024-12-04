@@ -14,7 +14,10 @@
             [touristPosition]="touristPosition"
             [clearMarkersTrigger]="clearMarkersFlag" 
             (markersCleared)="onMarkersCleared()"
-            (proximityToMiscEncounter)="onProximityToMiscEncounter($event)">
+            (proximityToMiscEncounter)="onProximityToMiscEncounter($event)"
+            (proximityToSocialEncounter)="onProximityToSocialEncounter($event)"
+            (proximityToHiddenEncounter)="onProximityToHiddenEncounter($event)"
+            (noProximityToSocialEncounter)="noProximityToSocialEncounter($event)">
         </xp-map-encounter>
     </div>
 </div>

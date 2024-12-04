@@ -77,15 +77,20 @@ export class EncounterService {
   updateUserLevel(userLevelDto: UserLevelDto): Observable<any> {
     const url = `${this.levelUrl}`;
     console.log(userLevelDto);
-    return this.http.put<UserLevelDto>(url, userLevelDto); // PUT request with UserLevel object in the body
+    return this.http.put<UserLevelDto>(url, userLevelDto);
+  }
+  updateHiddenEncounter(encounter: UnifiedEncounterDto): Observable<UnifiedEncounterDto> {
+    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/hidden-location`, encounter);
   }
   
-  
-
-
+  updateSocialEncounter(encounter: UnifiedEncounterDto): Observable<UnifiedEncounterDto> {
+    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/social`, encounter);
+  }
+  removeUserFromSocialEncounters(id: number | undefined) {
+    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/removesocial`, id);
+  }
   getUserLevel(userId: number): Observable<UserLevelDto> {
     const url = `${this.levelUrl}/${userId}`;
     return this.http.get<UserLevelDto>(url);
   }
-
 }

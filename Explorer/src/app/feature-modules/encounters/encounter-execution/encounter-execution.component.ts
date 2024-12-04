@@ -14,13 +14,15 @@ import { UserLevelDto } from '../model/userLevel.model';
 })
 export class EncounterExecutionComponent {
   touristPosition: TouristPosition | null = null;
-  person : Person | null = null;
+  person: Person | null = null;
   user: User | undefined;
   clearMarkersFlag: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
-  constructor(private profileService: ProfileService, private authService: AuthService, private encounterService: EncounterService) {}
+  constructor(private profileService: ProfileService, private authService: AuthService, private encounterService: EncounterService) { }
   showCompleteButton: boolean = false;
-  currentEncounter: any = null; // Store the current encounter
+  socialEncounter: any = null;
+  hiddenEncounter: any = null;
+  miscEncounter: any = null;
   UserLevelDto: UserLevelDto | null = null;
 
   ngOnInit(): void {
@@ -44,17 +46,17 @@ export class EncounterExecutionComponent {
     });
   }
 
-  clearMarkers(){
+  clearMarkers() {
     this.clearMarkersFlag = true;
   }
   onMarkersCleared(): void {
     console.log('Markers cleared in the map component');
     setTimeout(() => {
-      this.clearMarkersFlag = false; 
+      this.clearMarkersFlag = false;
     });
   }
 
-  onLocationSelected(event: {lat: number, lng: number}): void {
+  onLocationSelected(event: { lat: number, lng: number }): void {
     const { lat, lng } = event;
     this.touristPosition = { latitude: lat, longitude: lng };
     console.log('New Tourist Position:', this.touristPosition);
@@ -72,77 +74,141 @@ export class EncounterExecutionComponent {
     } else {
       console.error('User ID or tourist position is not defined.');
     }
-    
   }
-
+  onProximityToSocialEncounter(encounter: any): void {
+    if (encounter) {
+      console.log("KITA 2")
+      this.socialEncounter = encounter;
+      this.onCompleteChallenge();
+    } else {
+      this.socialEncounter = null;
+      console.log('No Social Encounter in proximity');
+    }
+  }
+  onProximityToHiddenEncounter(encounter: any): void {
+    if (encounter) {
+      console.log("KITA 3")
+      this.hiddenEncounter = encounter;
+      console.log('yes Hidden Encounter in proximity');
+      this.onCompleteChallenge();
+    } else {
+      this.hiddenEncounter = null;
+      console.log('No Hidden Encounter in proximity');
+    }
+  }
   onProximityToMiscEncounter(encounter: any): void {
     if (encounter) {
+      console.log("KITA 1")
       this.showCompleteButton = true;
-      this.currentEncounter = encounter; // Store the encounter for further processing
+      this.miscEncounter = encounter; // Store the encounter for further processing
       console.log('Proximity to Misc Encounter:', encounter);
     } else {
       this.showCompleteButton = false;
-      this.currentEncounter = null;
+      this.miscEncounter = null;
       console.log('No Misc Encounter in proximity');
     }
   }
-  
+  noProximityToSocialEncounter(number: any): void {
+    console.log("kita 5")
+    if(!this.user?.id){
+      console.error('User ID is not defined.');
+      return;
+    }
+    console.log('No Social Encounter in proximity');
+    this.socialEncounter = null;
+    this.encounterService.removeUserFromSocialEncounters(this.user?.id).subscribe({
+      next: () => {
+        console.log('User removed from social encounters');
+      },
+      error: (error) => {
+        console.error('Error removing user from social encounters:', error);
+      }
+    })
+  }
 
   onCompleteChallenge(): void {
-    if (!this.currentEncounter || !this.user?.id) {
+    if (!this.miscEncounter && !this.hiddenEncounter && !this.socialEncounter || !this.user?.id) {
       console.error('No encounter or user ID available to complete the challenge.');
       return;
     }
-  
+
     // Add the current user's ID to the touristIds array if not already present
-    if (!this.currentEncounter.touristIds.includes(this.user.id)) {
-      this.currentEncounter.touristIds.push(this.user.id);
-    }
-  
-    // Update the encounter on the backend
-    this.encounterService.updateMiscEncounter(this.currentEncounter).subscribe({
-      next: updatedEncounter => {
-        console.log('Encounter successfully updated:', updatedEncounter);
-        this.showCompleteButton = false;
-        this.currentEncounter = null; // Clear the current encounter
-
-        // After the encounter update, update the user's level
-        this.updateUserLevelOnChallengeCompletion();  // Call the method to update user leve
-      },
-      error: error => {
-        console.error('Error updating encounter:', error);
+    if (this.miscEncounter) {
+      if (!this.miscEncounter.touristIds.includes(this.user.id)) {
+        this.miscEncounter.touristIds.push(this.user.id);
       }
-    });
+    }
+    if (this.hiddenEncounter) {
+      if (!this.hiddenEncounter.touristIds.includes(this.user.id)) {
+        this.hiddenEncounter.touristIds.push(this.user.id);
+      }
+    }
+    if (this.socialEncounter) {
+
+      if (!this.socialEncounter.touristIds.includes(this.user.id)) {
+        this.socialEncounter.touristIds.push(this.user.id);
+      }
+    }
+
+    // Update the encounter on the backend
+    if (this.miscEncounter) {
+      this.encounterService.updateMiscEncounter(this.miscEncounter).subscribe({
+        next: updatedEncounter => {
+          console.log('Encounter successfully updated:', updatedEncounter);
+          this.showCompleteButton = false;
+          this.miscEncounter = null; // Clear the current encounter
+
+          // After the encounter update, update the user's level
+          this.updateUserLevelOnChallengeCompletion();  // Call the method to update user leve
+        },
+        error: error => {
+          console.error('Error updating encounter:', error);
+        }
+      });
+    }
+    else if (this.socialEncounter) {
+      this.encounterService.updateSocialEncounter(this.socialEncounter).subscribe({
+        next: updatedEncounter => {
+          console.log('Encounter successfully updated:', updatedEncounter);
+          this.socialEncounter = null;
+        },
+        error: error => {
+          console.error('Error updating encounter:', error);
+        }
+      });
+    }
+    else if (this.hiddenEncounter) {
+
+      this.encounterService.updateHiddenEncounter(this.hiddenEncounter).subscribe({
+        next: updatedEncounter => {
+          console.log('Encounter successfully updated:', updatedEncounter);
+          this.hiddenEncounter = null;
+
+          this.updateUserLevelOnChallengeCompletion();
+        },
+        error: error => {
+          console.error('Error updating encounter:', error);
+        }
+      });
+    }
   }
-
-
-
   updateUserLevelOnChallengeCompletion(): void {
-    console.log('1');
     if (this.user && this.user.id) {
-      console.log('9');
-      // Try fetching the current user level
       this.encounterService.getUserLevel(this.user.id).subscribe({
         next: (userLevel: UserLevelDto) => {
-          console.log('Fetched user level:', userLevel); // Log the entire userLevel object
-          
-          // Check for properties explicitly
           if (userLevel && userLevel.userId != undefined && userLevel.userId != null) {
-            // Add XP (example: adding 10 XP to the current level)
-            console.log('papak');
-            const currentXp = userLevel.xp ?? 0; // Default to 0 if xp is undefined
-            const newXp = currentXp + 10; // Adjust this as needed
-            
-            // Create a new object with the updated values
+            const currentXp = userLevel.xp ?? 0;
+            const newXp = currentXp + 10;
+
             const updatedLevelDto: UserLevelDto = {
-              userId: userLevel.userId, // Keep the existing user ID
-              id: userLevel.id,         // Keep the existing ID
-              xp: newXp,                // Set the new XP
-              level: this.calculateLevel(newXp), // Recalculate the level based on XP
+              userId: userLevel.userId,
+              id: userLevel.id,
+              xp: newXp,
+              level: this.calculateLevel(newXp),
             };
-  
+
             console.log('Updated User Level:', updatedLevelDto);
-            
+
             // Update the user level in the backend
             this.encounterService.updateUserLevel(updatedLevelDto).subscribe({
               next: (updatedLevel) => {
@@ -157,16 +223,12 @@ export class EncounterExecutionComponent {
           }
         },
         error: () => {
-          console.log('2');
-          // If the user level doesn't exist, create a new one
           this.UserLevelDto = {
-            id: undefined, // Set Id as undefined if it's a new level
-            userId: this.user!.id, // User ID
-            xp: 10,  // Default XP (can be adjusted)
-            level: this.calculateLevel(10), // Calculate level based on XP
+            id: undefined,
+            userId: this.user!.id,
+            xp: 10,
+            level: this.calculateLevel(10),
           };
-          console.log('New User Level:', this.UserLevelDto);
-          // Create a new user level in the backend
           this.encounterService.updateUserLevel(this.UserLevelDto).subscribe({
             next: (createdLevel) => {
               console.log('New user level created:', createdLevel);
@@ -179,12 +241,7 @@ export class EncounterExecutionComponent {
       });
     }
   }
-  
-  
-  // Helper method to calculate the level based on XP (if needed)
   calculateLevel(xp: number): number {
     return Math.floor(xp / 100) + 1;
   }
-  
-
 }
