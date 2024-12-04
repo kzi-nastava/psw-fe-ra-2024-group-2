@@ -47,6 +47,9 @@ import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 
+import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
+import { EncounterExecutionComponent } from 'src/app/feature-modules/encounters/encounter-execution/encounter-execution.component';
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -100,6 +103,8 @@ const routes: Routes = [
   {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]},
   {path: 'sale', component: SaleComponent, canActivate: [AuthGuard]},
   {path: 'newSale', component: NewSaleComponent, canActivate: [AuthGuard]},
+  {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]},
+  {path: 'encounter-execution', component: EncounterExecutionComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

@@ -8,9 +8,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { EncounterExecutionComponent } from './encounter-execution/encounter-execution.component';
+import { MapEncounterComponent } from './map-encounter/map-encounter.component';
 
 @NgModule({
-  declarations: [EncounterComponent],
+  declarations: [
+    EncounterComponent,
+    EncounterExecutionComponent,
+    MapEncounterComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
