@@ -1,4 +1,3 @@
-import { Checkpoint } from "./checkpoint.model";
 import { TourDurationByTransportDtos } from "./tourDurationByTransportDtos.model";
 
 export interface Tour {

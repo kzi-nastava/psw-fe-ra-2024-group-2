@@ -11,8 +11,13 @@
   --dark-green: #228B22;
   --text-dark: #333333;
   --text-light: #666666;
+  --blog-background: #F8EBCF;
+  --pumpkin: #E57734;
   --white: #FFFFFF;
+  --success: #28a745;
   --error: #DC3545;
+  --warning: #FFC107;
+  --font: "Montserrat", sans-serif;
 }
 
 /* Global Reset */

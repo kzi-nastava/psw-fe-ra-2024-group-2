@@ -15,15 +15,39 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="text" />
+                <input matInput formControlName="email" type="email" 
+                       (blur)="onEmailBlur()" (click)="onEmailClick()"/>
+                <label class="error-label" 
+                       *ngIf="emailTouched && 
+                       registrationForm.get('email')?.errors" 
+                       style="color: red;">
+                       {{ getEmailErrorMessage() }}
+                </label>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password" />
+                <input matInput formControlName="password" type="password"/>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput formControlName="confirmPassword" type="password"
+                       (input)="passwordMismatch = false"/>
+                <label *ngIf="passwordMismatch" style="color: red;">
+                    Passwords do not match
+                </label>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Select Role</mat-label>
+                <select matNativeControl formControlName="userRole" name="userRole">
+                    <option value="" disabled selected>Select Role</option>
+                    <option [value]="UserRole.Tourist">Tourist</option>
+                    <option [value]="UserRole.Author">Author</option>
+                </select>
             </mat-form-field>
         </div>
 
-        <button color="primary" type="submit" mat-raised-button>Register</button>
+        <button color="primary" type="submit" mat-raised-button
+        [disabled]="registrationForm.invalid || passwordMismatch">Register</button>
 
         <p>Already have an account?<a href="/login">Sign in</a></p>
     </form>

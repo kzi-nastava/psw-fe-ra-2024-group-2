@@ -1,0 +1,300 @@
+.faq-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+h1 {
+  color: var(--dark-brown);
+  margin-bottom: 3rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Add Question Card Styles */
+.add-question-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  margin-bottom: 3rem;
+  padding: 2rem;
+}
+
+.card-header h2 {
+  color: var(--primary-brown);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.faq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-form mat-form-field {
+  width: 100%;
+}
+
+/* Material Form Field Styles */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--light-brown) !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-outline,
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--primary-brown) !important;
+}
+
+/* Button Styles */
+.submit-btn {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  width: fit-content;
+  margin: 1rem auto 0;
+}
+
+.submit-btn:hover {
+  background-color: var(--dark-brown);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.submit-btn i {
+  font-size: 1rem;
+}
+
+/* FAQ List Styles */
+.faq-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.faq-item {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--lighter-brown);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.faq-text h3 {
+  color: var(--dark-brown);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 550;
+}
+
+.faq-text p {
+  color: var(--text-light);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* No Questions Message */
+.no-questions {
+  text-align: center;
+  padding: 3rem;
+  background: var(--lighter-brown);
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.no-questions p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Error Message Styles */
+.error-mess {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.error-mess p {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* FAQ Actions */
+.faq-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.edit-btn {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: var(--dark-brown);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.edit-btn i {
+  font-size: 1rem;
+}
+
+/* Edit Form Styles */
+.faq-edit-form {
+  margin-top: 1.5rem;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  border: 1px solid var(--lighter-brown);
+}
+
+.faq-edit-form mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.faq-edit-form .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.faq-edit-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.faq-edit-form .mat-form-field-label {
+  color: var(--primary-brown);
+}
+
+.faq-edit-form .mat-form-field-outline {
+  background-color: var(--white);
+}
+
+/* Edit Actions */
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.save-btn, 
+.cancel-btn {
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-btn {
+  background-color: var(--primary-brown);
+  color: var(--white);
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: var(--dark-brown);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cancel-btn {
+  background-color: red;
+  color: var(--white);
+  border: 2px solid red;
+}
+
+.cancel-btn:hover {
+  background-color: rgb(192, 0, 0);
+  border-color: rgb(192, 0, 0);
+  color: var(--white);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .faq-container {
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .add-question-card {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-item {
+    padding: 1.5rem;
+  }
+
+  .submit-btn,
+  .edit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .faq-edit-form {
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .edit-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .save-btn, 
+  .cancel-btn {
+    width: 100%;
+    padding: 0.875rem;
+  }
+}

@@ -1,14 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { PagedResult } from './shared/model/tour.module';
-import { Tour } from './model/tour.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Equipment } from '../administration/model/equipment.model';
-import { Checkpoint } from './model/checkpoint.model';
-import { Object } from './model/object.model';
-import { ObjectFormComponent } from './object-form/object-form.component';
-import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { AdventureCoinNotification } from './model/adventureCoinNotification.model';
+import { EventModel } from './model/event.model';
+
+import { TourSale } from '../marketplace/model/sale.model';
+import { LocationDto } from '../tour-execution/model/location.model';
+import { Checkpoint } from './model/checkpoint.model';
+import { Coupon } from './model/coupon.model';
+import { Object } from './model/object.model';
+import { Tour } from './model/tour.model';
+import { PagedResult } from './shared/model/tour.module';
 
 
 @Injectable({
@@ -17,6 +21,15 @@ import { TourIssueNotification } from '../layout/model/tour-notification.model';
 export class TourAuthoringService {
   MarkAllAsRead(userId: number): Observable<void> {
     return this.http.put<void>(`https://localhost:44333/api/tourNotifications/markAllAsRead/${userId}`, null)
+  }
+
+  private tourDataSource = new BehaviorSubject<Tour | null>(null);
+  tourData$ = this.tourDataSource.asObservable();
+  setTourData(tour: Tour) {
+    this.tourDataSource.next(tour);
+  }
+  getTourData(): Tour | null {
+    return this.tourDataSource.getValue();
   }
 
   constructor(private http: HttpClient) { }
@@ -41,6 +54,7 @@ export class TourAuthoringService {
   getAllEquipment(): Observable<PagedResult<Equipment>> {
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
+
 
   updateTour(result: Tour) {
     console.log(result)
@@ -83,6 +97,22 @@ export class TourAuthoringService {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour', tour)
   }
 
+  subscribeEvent(subscription: number[]): Observable<PagedResult<EventModel>>  {
+    return this.http.post<PagedResult<EventModel>>('https://localhost:44333/api/eventsubscription', subscription)
+  }
+
+  loadSubscribedEvents(subscription: number[]): Observable<PagedResult<EventModel>> {
+    return this.http.post<PagedResult<EventModel>>('https://localhost:44333/api/eventsubscription/load', subscription)
+  }
+  
+
+  GetSubscriptions(): Observable<number[]> {
+    return this.http.get<number[]>('https://localhost:44333/api/eventsubscription/getSubscriptions')
+  }
+  unsubscribeEvent(): Observable<void> {
+    return this.http.delete<void>('https://localhost:44333/api/eventsubscription')
+  }
+
   addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour> {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', { tour, checkpoints });
   }
@@ -107,4 +137,43 @@ export class TourAuthoringService {
   updatePreference(preference: any): Observable<any> {
     return this.http.put('https://localhost:44333/api/tourist/tour/preferences', preference);
   }
+  addEvent(event: EventModel): Observable<EventModel> {
+    return this.http.post<EventModel>('https://localhost:44333/api/author/event', event);
+  }
+  getEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event')
+  }
+  getEventsSorted(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/sorted')
+  }
+  getPopularEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event/top')
+  }
+  getEventDetails(eventId: number): Observable<PagedResult<Tour>> {
+    return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/event/details/' + eventId)
+  }
+  //Coupons
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>('https://localhost:44333/api/author/coupon', coupon)
+  }
+  getCoupons(): Observable<PagedResult<Coupon>> {
+    return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
+  }
+
+  getAdventureCoinNotifications() {
+    return this.http.get<AdventureCoinNotification[]>('https://localhost:44333/api/tourist/notifications');
+  }
+  
+  
+  markAllCoinNotificationsAsRead() {
+    return this.http.post(`https://localhost:44333/api/tourist/notifications/mark-all-as-read`, {});
+  }
+  
+  
+  
+  //Sale
+  getAllSale(): Observable<TourSale[]> {
+    return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
+  }
+  
 }

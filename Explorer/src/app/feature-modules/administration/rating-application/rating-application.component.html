@@ -2,17 +2,17 @@
     <p id="title">All ratings of application</p>
     <hr>
     <div id="rating-application-details">
-        <div *ngFor="let ra of ratingApplication" class="rating-card">
+        <div *ngFor="let ra of ratingWithUser" class="rating-card">
             <div class="card-header">
-                <h3>User ID: {{ ra.userId }}</h3>
-                <div class="rating-icon">{{ '⭐'.repeat(ra.grade) }}</div>
+                <h3>Username: {{ ra.account.username }}</h3>
+                <div class="rating-icon">{{ '⭐'.repeat(ra.ratingApplication.grade) }}</div>
             </div>
             <div class="card-content">
                 <p class="comment">
-                    <i *ngIf="ra.comment; else noComment">"{{ ra.comment }}"</i>
+                    <i *ngIf="ra.ratingApplication.comment; else noComment">"{{ ra.ratingApplication.comment }}"</i>
                     <ng-template #noComment><strong>Korisnik nije ostavio komentar!</strong></ng-template>
                 </p>          
-                      <p><strong>Rated on:</strong> {{ ra.ratingTime ? (ra.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</p>
+                      <p><strong>Rated on:</strong> {{ ra.ratingApplication.ratingTime ? (ra.ratingApplication.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</p>
             </div>
         </div>
     </div>

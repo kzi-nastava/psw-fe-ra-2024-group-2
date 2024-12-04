@@ -1,77 +1,144 @@
-/* Page Layout */
-.page-container {
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* Content Section */
-.content-section {
-    background-color: var(--white);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.section-title {
-    color: var(--dark-brown);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--lighter-brown);
-}
-
-/* Table Styles */
-.table-container {
-    overflow: hidden;
-    background-color: var(--white);
-    border-radius: 8px;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-    padding: 0 1.5rem 1.5rem;
-}
-
-.custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-}
-
-.custom-table th {
-    background-color: var(--lighter-brown);
-    color: var(--dark-brown);
-    font-weight: 600;
-    text-align: left;
+  }
+  
+  .card-header {
     padding: 1rem;
-    white-space: nowrap;
-}
-
-.custom-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--lighter-brown);
-    color: var(--text-light);
-}
-
-.interactive-row {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.interactive-row:hover {
-    background-color: rgba(210, 180, 140, 0.1);
-}
-
-/* Badges */
-.badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  
+  .card-meta {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-size: 0.875rem;
+    color: #fff;
+  }
+  
+  .badge-difficulty-0 {
+    background-color: #4caf50;
+  }
+  
+  .badge-difficulty-1 {
+    background-color: #ffc107;
+  }
+  
+  .badge-difficulty-2 {
+    background-color: #f44336;
+  }
+  
+  .badge-status-0 {
+    background-color: #9e9e9e;
+  }
+  
+  .badge-status-1 {
+    background-color: #4caf50;
+  }
+  
+  .badge-status-2 {
+    background-color: #f44336;
+  }
+  
+  .badge-tag-0 {
+    background-color: #3f51b5;
+  }
+  
+  .badge-tag-1 {
+    background-color: #03a9f4;
+  }
+  
+  .badge-tag-2 {
+    background-color: #ff9800;
+  }
+  
+  .badge-tag-3 {
+    background-color: #ff9191;
+  }
+
+  .badge-tag-4 {
+    background-color: #007b16;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-description {
+    margin-bottom: 1rem;
+  }
+  
+  .card-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-checkpoints ul {
+    padding-left: 1rem;
+    margin: 0;
+    list-style-type: disc;
+  }
+  
+  .card-footer {
+    margin-top: auto;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary {
+    background-color: #0095b7;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #00777c;
+  }
+  
+    /* font-size: 0.875rem;
     font-weight: 500;
+} */
+
+/* Difficulty Badges */
+.difficulty-easy {
+    background-color: var(--light-green);
+    color: var(--dark-green);
 }
 
 /* Difficulty Badges */
@@ -127,6 +194,107 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.coupon-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.coupon-grid td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--lighter-brown);
+}
+
+.coupon-grid td:first-child {
+    background-color: var(--lighter-brown);
+    color: var(--dark-brown);
+    font-weight: 600;
+    width: 120px;
+    white-space: nowrap;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--lighter-brown);
+    border-radius: 4px;
+    background-color: var(--white);
+    color: var(--dark-brown);
+    font-size: 0.875rem;
+}
+
+.form-input:disabled {
+    background-color: rgba(210, 180, 140, 0.1);
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.action-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    background-color: var(--lighter-brown);
+    border-radius: 0 0 8px 8px;
+}
+
+.btn {
+    background: linear-gradient(to bottom, var(--dark-brown), #5d4037);
+    color: var(--white);
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+}
+
+.btn:hover {
+    background: linear-gradient(to bottom, #5d4037, var(--dark-brown));
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.success-message {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+    padding: 0.75rem;
+    margin: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+.unsuccess-message {
+    background-color: var(--error);
+    color: var(--dark-brown);
+    padding: 0.75rem;
+    margin: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .page-container {
@@ -164,3 +332,167 @@
         height: 250px;
     }
 }
+
+/* Flex container to place form and table in the same row */
+.form-and-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%; /* Ensure it takes up the full width of the screen */
+    box-sizing: border-box;
+  }
+  
+  /* Style for the coupon form */
+  .form-container {
+    flex: 1;
+    max-width: 50%; /* Ensure it takes half of the row */
+    box-sizing: border-box; /* Include padding and borders in the width calculation */
+  }
+  
+  /* Style for the coupons table */
+  .coupons-table-container {
+    flex: 1;
+    max-width: 50%; /* Ensure it takes half of the row */
+    height: 285px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and borders in the width calculation */
+  }
+  
+  /* Coupons table styling */
+  .coupons-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .coupons-table th, .coupons-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .coupons-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .coupons-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .coupons-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .coupon-error {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9em;
+  }
+  
+  .apply-coupon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .badge-difficulty-0 {
+    background-color: #4caf50;
+  }
+  
+  .badge-difficulty-1 {
+    background-color: #ffc107;
+  }
+  
+  .badge-difficulty-2 {
+    background-color: #f44336;
+  }
+  
+  .badge-status-0 {
+    background-color: #9e9e9e;
+  }
+  
+  .badge-status-1 {
+    background-color: #4caf50;
+  }
+  
+  .badge-status-2 {
+    background-color: #f44336;
+  }
+  
+  .badge-tag-0 {
+    background-color: #3f51b5;
+  }
+  
+  .badge-tag-1 {
+    background-color: #03a9f4;
+  }
+  
+  .badge-tag-2 {
+    background-color: #ff9800;
+  }
+  
+  .badge-tag-3 {
+    background-color: #ff9191;
+  }
+
+  .badge-tag-4 {
+    background-color: #007b16;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-description {
+    margin-bottom: 1rem;
+  }
+  
+  .card-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-checkpoints ul {
+    padding-left: 1rem;
+    margin: 0;
+    list-style-type: disc;
+  }
+  
+  .card-footer {
+    margin-top: auto;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary {
+    background-color: #0095b7;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #00777c;
+  }
+  
+  .discounted-price {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .new-price {
+    color: red;
+    font-weight: bold;
+    margin-left: 8px;
+  }

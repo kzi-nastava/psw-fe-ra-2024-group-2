@@ -1,13 +1,11 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RateApp } from '../model/rate-app.model';
-import { ProfileService } from '../profile.service';
 import { Router } from '@angular/router';
+import { RatingApplication } from 'src/app/feature-modules/administration/model/rating-application.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { AdministrationService } from 'src/app/feature-modules/administration/administration.service';
-import { RatingApplication } from 'src/app/feature-modules/administration/model/rating-application.model';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { RateApp } from '../model/rate-app.model';
+import { ProfileService } from '../profile.service';
 
 @Component({
   selector: 'xp-rate-app-form',
@@ -45,8 +43,8 @@ export class RateAppFormComponent implements OnInit {
     const rate: RateApp = {
       grade: Number(this.rateAppForm.value.grade),
       comment: this.rateAppForm.value.comment || "",
-      ratingTime: new Date(),  // Postavljanje trenutnog vremena
-      userId: this.user.id  // Pretpostavljam da imaš userId iz user objekta
+      ratingTime: new Date(),
+      userId: this.user.id
     };
 
     if (this.user.role === "tourist") {

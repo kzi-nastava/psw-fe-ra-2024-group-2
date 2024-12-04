@@ -59,11 +59,9 @@ export class ToursComponent implements OnInit {
   }
 
   addToCart(tourId: number): void {
-    // Provera da li je stavka već u korpi
     this.cartService.isItemInCart(tourId).subscribe(isInCart => {
       if (isInCart) {
-        // Ako je stavka već u korpi, prikazujemo poruku i izlazimo iz metode
-        this.snackBar.open('This item is already in your cart!', 'Close', {
+        this.snackBar.open('This item is already in your carrrrt!', 'Close', {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'top'
@@ -71,38 +69,57 @@ export class ToursComponent implements OnInit {
         return;
       }
   
-      // Ako stavka nije u korpi, dodajemo je
-      this.service.addToCart(tourId).subscribe({
-        next: () => {
-          console.log('Successfully added to cart');
-          this.snackBar.open('Successfully added to cart!', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top'
-          });
+      // Check if the tour is already purchased
+      this.service.getPurchasedTours().subscribe({
+        next: (purchasedTours: Tour[]) => {
+          const purchasedTourIds = purchasedTours.map(tour => tour.id); // Extract IDs
   
-          // Provera da li je shopping cart otvoren pre poziva toggleCart
-          if (this.shoppingCart) {
-            this.shoppingCart.loadCartItems(); // Osvežavamo stavke u korpi
-            
-            // Ako korpa nije otvorena, pozivamo toggleCart da je otvorimo
-            if (!this.shoppingCart.isOpen) {
-              this.shoppingCart.toggleCart();
-            }
+          if (purchasedTourIds.includes(tourId)) {
+            this.snackBar.open('This item is already purchased!', 'Close', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top'
+            });
+            return;
           }
+  
+          // Proceed to add the item to the cart
+          this.service.addToCart(tourId).subscribe({
+            next: () => {
+              console.log('Successfully added to cart');
+              this.snackBar.open('Successfully added to cart!', 'Close', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top'
+              });
+  
+              if (this.shoppingCart) {
+                this.shoppingCart.loadCartItems();
+  
+                if (!this.shoppingCart.isOpen) {
+                  this.shoppingCart.toggleCart();
+                }
+              }
+            },
+            error: (error: any) => {
+              console.error('Error adding to cart:', error);
+              this.snackBar.open('Error adding to cart. Please try again.', 'Close', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top'
+              });
+            }
+          });
         },
         error: (error: any) => {
-          console.error('Error adding to cart:', error);
-          this.snackBar.open('Error adding to cart. Please try again.', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top'
-          });
+          console.error('Error fetching purchased tours:', error);
         }
       });
     });
   }
   
+
+    
   getDifficultyLabel(difficulty: number): string {
     switch (difficulty) {
       case 0:

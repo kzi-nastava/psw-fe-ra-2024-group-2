@@ -4,6 +4,7 @@ import { Profile } from "../model/profile.model";
 import { MatDialog } from "@angular/material/dialog";
 import { ProfileFormComponent } from "../profile-form/profile-form.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "xp-profile",
@@ -18,7 +19,7 @@ export class ProfileComponent implements OnInit {
 
     displayedColumns: string[] = ['username', 'name', 'lastName', 'email', 'biography', 'moto'];
 
-    constructor(private profileService: ProfileService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
+    constructor(private profileService: ProfileService, public dialog: MatDialog, private snackBar: MatSnackBar,private router: Router) { }
 
     ngOnInit(): void {
         this.getProfile();
@@ -78,5 +79,13 @@ export class ProfileComponent implements OnInit {
             horizontalPosition: 'right', // Positioning
             panelClass: ['snackbar-error'], // Custom CSS class
         });
+    }
+    viewMyDiaries(): void {
+        if (!this.profile?.id) {
+            this.errorMessage = "User ID is missing.";
+            return;
+        }
+        console.log('User id ' + this.profile.id);
+        this.router.navigate(['/diaries', this.profile.id]);
     }
 }

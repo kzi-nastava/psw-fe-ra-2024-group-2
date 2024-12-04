@@ -60,8 +60,9 @@
             </div>
   
             <div class="tour-footer">
-              <button mat-button color="primary">Book Now</button>
+              <button mat-button color="primary" (click)="addToCart(tour.id)">Add to cart</button>
             </div>
+            
           </div>
         </div>
       </mat-card-content>

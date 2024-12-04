@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
 import { ShoppingCartService } from '../../marketplace/services/shopping-cart.service';
-import { Subscription } from 'rxjs';
+import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
 
 @Component({
   selector: 'xp-navbar',
@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private cartService: ShoppingCartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.shoppingCart.loadCartItems();
     }
   }
-  
+
   showProfile(): void {
     this.router.navigate(['/profile']);
   }
@@ -72,12 +72,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/mytours']);
   }
 
+  showMyBundles(): void {
+    this.router.navigate(['/mybundles']);
+  }
+
   showSimulator(): void {
     this.router.navigate(['/position-simulator']);
   }
 
   showAllTours(): void {
     this.router.navigate(['/alltours']);
+  }
+
+  showAllBundles(): void {
+    this.router.navigate(['/bundles']);
   }
 
   showPurchasedTours(): void {
@@ -115,4 +123,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showComment(): void {
     this.router.navigate(['/comment']);
   }
-}
+
+  showAddEvent(): void {
+    this.router.navigate(['/events']);
+  }
+  showEventAnalytics(): void {
+    this.router.navigate(['/eventAnalytics']);
+  }
+  showPopularEvents(): void {
+   this.router.navigate(['/popularEvents']);
+  }
+  showCreateBundle(): void {
+    this.router.navigate(['/tour/bundle/create']);
+  }
+  
+  showSales(): void {
+    this.router.navigate(['/sale']);
+   }
+  }

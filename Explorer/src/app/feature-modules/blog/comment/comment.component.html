@@ -1,21 +1,52 @@
-<div class="BlogInfo">
-  <div *ngIf="blog" class="blog-details-container">
-    <h1>{{ blog.title }}</h1>
-    <p><strong>Date:</strong> {{ blog.date | date: 'longDate' }}</p>
-    <p><strong>Status:</strong> {{ showStatus(blog.status) }}</p>
-    <p><strong>Author ID:</strong> {{ blog.authorId }}</p>
-    
-    
-    <div class="blog-content">
-      <h2>Content</h2>
-      <p>{{ blog.description }}</p>
+<div class="blogInfo">
+  <div *ngIf="blogImages.length > 0" class="image-gallery">
+    <div *ngFor="let image of blogImages" class="image-item">
+      <img [src]="image.data" [alt]="'Image '" class="blog-image"/>
     </div>
   </div>
   
-  <div *ngIf="!blog" class="error-message">
-    <p>Blog not found.</p>
+
+  <div class="blog-parent">
+    <div *ngIf="blogWithUser" class="blog-details-container">
+      <p><strong>Date: {{ blogWithUser.blog.date | date: 'longDate' }}</strong></p>
+      <h1>{{ blogWithUser.blog.title }}</h1>
+    </div>
+    <div *ngIf="blogWithUser" class="blog-content">
+      <h2>Content</h2>
+      <p>{{ blogWithUser.blog.description }}</p>
+    </div>
   </div>
   
+  <div *ngIf="!blogWithUser" class="error-message">
+    <p>Blog not found.</p>
+  </div>
+
+  <div class="blog-author">
+    <div class="blog-card-left" *ngIf="blogWithUser">
+      <img 
+      [src]="blogWithUser.author.profileImage?.data?.startsWith('data:image/jpeg;base64,') 
+              ? blogWithUser.author.profileImage?.data 
+              : 'data:image/jpeg;base64,' + blogWithUser.author.profileImage?.data" 
+      class="blog-author-image">
+      <p class="blog-author-name">
+        {{  blogWithUser.author.name || 'Unknown'}} {{ blogWithUser.author.lastName || 'Author'}}
+      </p>
+    </div>    
+    <div class="rating-buttons" *ngIf="blogWithUser">
+      <button 
+          class="rating-button"  
+          (click)="upvote(blogWithUser.blog)" 
+          [ngClass]="{'highlighted': blogWithUser.blog.userVote === 'Upvote'}">
+          <img src="../../../../assets/heart.png"  width="30px" alt="Like" class="rating-icon"> 
+      </button>
+      <button 
+          class="rating-button" 
+          (click)="downvote(blogWithUser.blog)" 
+          [ngClass]="{'highlighted': blogWithUser.blog.userVote === 'Downvote'}">
+          <img src="../../../../assets/dislike (1).png" width="30px" alt="Dislike" class="rating-icon"> 
+      </button>
+  </div>
+  </div>
 </div>
 <div class="component">
   <h1>Comments</h1>
@@ -53,12 +84,11 @@
 
     <div class="column table-column">
       <div class="table-container">
-        <table *ngIf="comments.length > 0">
+        <table *ngIf="commentsWithAuthor.length > 0">
           <thead>
             <tr>
-              <th>Blog ID</th>
               <th>Text</th>
-              <th>User ID</th>
+              <th>Username</th>
               <th>Created At</th>
               <th>Last Modified At</th>
               <th>Edit</th>
@@ -66,19 +96,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let comment of comments" class="clickable-row">
-              <td>{{ comment.blogId }}</td>
-              <td>{{ comment.text }}</td>
-              <td>{{ comment.userId }}</td>
-              <td>{{ comment.createdAt | date: 'short' }}</td>
-              <td>{{ comment.lastModifiedAt | date: 'short' }}</td>
+            <tr *ngFor="let commentWithAuthor of commentsWithAuthor" class="clickable-row">
+              <td>{{ commentWithAuthor.comment.text }}</td>
+              <td>{{ commentWithAuthor.author.username }}</td>
+              <td>{{ commentWithAuthor.comment.createdAt | date: 'short' }}</td>
+              <td>{{ commentWithAuthor.comment.lastModifiedAt | date: 'short' }}</td>
               <td>
-                <button class="icon-button edit-button" (click)="onEditClick(comment)">
+                <button class="icon-button edit-button" (click)="onEditClick(commentWithAuthor.comment)">
                   <i class="icon">edit</i>
                 </button>
               </td>
               <td>
-                <button class="icon-button delete-button" (click)="onDeleteClick(comment)">
+                <button class="icon-button delete-button" (click)="onDeleteClick(commentWithAuthor.comment)">
                   <i class="icon">delete</i>
                 </button>
               </td>
@@ -88,7 +117,7 @@
       </div>
 
       <!-- No Comments Message -->
-      <div class="message-card" *ngIf="comments.length === 0">
+      <div class="message-card" *ngIf="commentsWithAuthor.length === 0">
         <p>No comments available.</p>
       </div>
     </div>
