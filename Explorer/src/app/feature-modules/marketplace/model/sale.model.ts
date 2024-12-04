@@ -6,7 +6,6 @@ export interface TourSale {
     userId: number;
     discountPercentage: number;
     tours: TourPayment[];
-    prices: TourPrice[];
   }
   
 
@@ -21,6 +20,8 @@ export interface TourPayment {
     status: number;
     price: number;
     checkpoints: number[];
+    prices: TourPrice[];
+    selected?: boolean;
   }
 
   export interface TourPrice {
