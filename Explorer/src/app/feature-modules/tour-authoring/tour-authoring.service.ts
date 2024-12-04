@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Equipment } from '../administration/model/equipment.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { AdventureCoinNotification } from './model/adventureCoinNotification.model';
+import { EventModel } from './model/event.model';
+
 import { TourSale } from '../marketplace/model/sale.model';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { Checkpoint } from './model/checkpoint.model';
 import { Coupon } from './model/coupon.model';
-import { EventModel } from './model/event.model';
 import { Object } from './model/object.model';
 import { Tour } from './model/tour.model';
 import { PagedResult } from './shared/model/tour.module';
@@ -157,6 +159,17 @@ export class TourAuthoringService {
   getCoupons(): Observable<PagedResult<Coupon>> {
     return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }
+
+  getAdventureCoinNotifications() {
+    return this.http.get<AdventureCoinNotification[]>('https://localhost:44333/api/tourist/notifications');
+  }
+  
+  
+  markAllCoinNotificationsAsRead() {
+    return this.http.post(`https://localhost:44333/api/tourist/notifications/mark-all-as-read`, {});
+  }
+  
+  
   
   //Sale
   getAll(): Observable<TourSale[]> {
