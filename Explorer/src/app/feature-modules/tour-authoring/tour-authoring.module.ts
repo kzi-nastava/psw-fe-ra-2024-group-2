@@ -22,6 +22,7 @@ import { AddTourCheckpointsComponent } from './add-tour-checkpoints/add-tour-che
 import { EventAnalyticsComponent } from './event-analytics/event-analytics.component';
 import { PopularEventsComponent } from './popular-events/popular-events.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { EncountersModule } from '../encounters/encounter.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     MaterialModule, 
     ReactiveFormsModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    EncountersModule
   ],
   exports: [
     ObjectComponent,
