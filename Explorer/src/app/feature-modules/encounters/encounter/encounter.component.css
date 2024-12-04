@@ -1,0 +1,151 @@
+.encounters-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--white);
+  
+}
+
+header {
+  padding: 1.5rem;
+  background-color: var(--lighter-brown);
+  border-bottom: 1px solid var(--light-brown);
+  display: flex;
+  justify-content: center; /* Center the header content */
+  align-items: center;
+}
+
+header h1 {
+  color: var(--dark-brown);
+  margin: 0;
+  font-family: var(--font);
+  font-weight: bold; /* Make the text bold */
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  justify-content: space-between; /* Space between map and form */
+  width: 100%;
+  padding: 1rem; /* Add padding to prevent map from touching the edges */
+}
+
+.map-container {
+  flex: 2;
+  height: calc(100vh - 160px); /* Adjust height to leave space below header */
+  position: relative;
+  text-align: center;
+  padding: 1rem;
+}
+
+.location-message {
+  text-align: center;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 0.5em;
+  font-size: 2rem;
+  color: red;
+  border-radius: 5px;
+}
+
+.form-container {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: var(--blog-background);
+  overflow-y: auto;
+  max-height: 80vh; /* Limit the max height to 80% of the viewport height */
+  min-width: 300px; /* Optional: To ensure a minimum width */
+}
+mat-card {
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+mat-card-title {
+  color: var(--dark-brown);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.file-input {
+  margin: 1rem 0;
+}
+
+.file-input label {
+  display: inline-block;
+  background-color: var(--primary-brown);
+  color: var(--white);
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-input label:hover {
+  background-color: var(--dark-brown);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button[type="submit"] {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary-brown);
+  color: var(--white);
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--dark-brown);
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc !important; /* Lighter disabled color */
+  cursor: not-allowed;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.success-message {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 1s ease-out;
+  opacity: 1;
+}
+
+.success-message.ng-leave {
+  opacity: 0;
+}

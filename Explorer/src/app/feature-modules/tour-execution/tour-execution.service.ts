@@ -13,6 +13,9 @@ import { Checkpoint } from '../tour-authoring/model/checkpoint.model';
 import { Tour as ExecutionTour } from './model/tour-model'; 
 import { EventModel } from '../tour-authoring/model/event.model';
 import { map } from 'rxjs/operators';
+import { PersonalDairy } from './model/personalDiary.model'
+import { Chapter } from './model/chapter.model';
+import { Diary } from './model/diary.model';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +118,47 @@ export class TourExecutionService {
   }
   acceptEvent(event: EventModel): Observable<any> {
     return this.http.post('https://localhost:44333/api/tour/execution/acceptEvent', event);
-  }   
+  }
+
+  getDiaryForExecution(userId: number): Observable<PersonalDairy[]> {
+    return this.http.get<PersonalDairy[]>(`https://localhost:44333/api/user/personal-dairy/${userId}`);
+  }
+  getDiaryForUser(userId: number): Observable<Diary[]> {
+    return this.http.get<Diary[]>(`https://localhost:44333/api/user/personal-dairy/${userId}`);
+  }
+
+  createDiary(diary: Diary): Observable<Diary> {
+    return this.http.post<Diary>('https://localhost:44333/api/user/personal-dairy', diary);
+  }
+
+  addChapter(diaryId: number, chapter: Chapter): Observable<Chapter> {
+    return this.http.post<Chapter>(`https://localhost:44333/api/user/personal-dairy/${diaryId}/chapters`, chapter);
+  }  
+  
+  
+  getDiaryByTourExecutionId(tourExecutionId: number): Observable<Diary>{
+    return this.http.get<Diary>('https://localhost:44333/api/user/personal-dairy/TourExecutionId/'+tourExecutionId)
+  }
+
+  getChaptersForDiary(diaryId: number) : Observable<PagedResult<Chapter>>{
+    return this.http.get<PagedResult<Chapter>>('https://localhost:44333/api/user/personal-dairy/'+diaryId+"/chapters");
+  }
+
+  editDiary(diary: Diary) : Observable<Diary>{
+    return this.http.put<Diary>('https://localhost:44333/api/user/personal-dairy/'+diary.id, diary)
+  }
+
+  deleteDiary(diary: Diary) : Observable<string>{
+    return this.http.delete<string>('https://localhost:44333/api/user/personal-dairy/'+ diary.id,  { responseType: 'text' as 'json' })
+  }
+
+  editChapter(chapter: Chapter) : Observable<Chapter>{
+    return this.http.put<Chapter>('https://localhost:44333/api/user/personal-dairy/'+chapter.personalDairyId+"/chapters/"+chapter.chapterId, chapter)
+  }
+
+  deleteChapter(chapter: Chapter) : Observable<string>{
+    return this.http.delete<string>('https://localhost:44333/api/user/personal-dairy/'+chapter.personalDairyId+"/chapters/"+chapter.chapterId,  { responseType: 'text' as 'json' })
+  }
 }
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/env/environment';
+import { Coupon } from '../../tour-authoring/model/coupon.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,17 +65,24 @@ export class ShoppingCartService {
     }
   }
 
-  checkout(): Observable<any> {
+  checkout(couponCode: string): Observable<any> {
     console.log('Započinje checkout');
-    return this.http.get(`${environment.apiHost}tourist/shopping-cart/checkout`).pipe(
+    const params = { couponCode }; // Add couponCode to query parameters
+    return this.http.get(`${environment.apiHost}tourist/shopping-cart/checkout`, { params }).pipe(
       tap(() => {
         // Očistimo keš nakon checkout-a
         this.orderItemsCache = [];
       })
     );
   }
+  
 
   buyBundle(id: number): Observable<any> {
     return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
   }
+
+  applyCoupon(code: string): Observable<Coupon> {
+    return this.http.post<Coupon>(`https://localhost:44333/api/tourist/coupon?code=${encodeURIComponent(code)}`, null);
+  }
+
 }

@@ -85,6 +85,9 @@ removeTouristFromClub(url: string): Observable<any> {
     return this.http.post<FAQDto>('https://localhost:44333/api/administration/faq/'+userId, faq)
   }
 
+  editFAQ(faq: FAQDto, userId: number, faqId: number): Observable<FAQDto>{
+    return this.http.put<FAQDto>(`https://localhost:44333/api/administration/faq/editFAQ/${faqId}/${userId}`, faq);
+  }
   addFunds(touristId: number, amount: number): Observable<void> {
     return this.http.post<void>(`${environment.apiHost}admin/wallet/add-ac?touristId=${touristId}`, amount);
   }
@@ -92,7 +95,4 @@ removeTouristFromClub(url: string): Observable<any> {
   getWalletBalance(touristId: number): Observable<Wallet> {
     return this.http.get<Wallet>(`${environment.apiHost}admin/wallet?touristId=${touristId}`);
   }   
-  editFAQ(faq: FAQDto, userId: number, faqId: number): Observable<FAQDto>{
-    return this.http.put<FAQDto>(`https://localhost:44333/api/administration/faq/editFAQ/${faqId}/${userId}`, faq);
-  }
 }

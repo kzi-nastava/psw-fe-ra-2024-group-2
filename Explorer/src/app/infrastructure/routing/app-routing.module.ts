@@ -7,6 +7,7 @@ import { RatingApplicationComponent } from 'src/app/feature-modules/administrati
 import { TouristEquipmentComponent } from 'src/app/feature-modules/administration/tourist-equipment/tourist-equipment.component';
 import { ToursitClubComponent } from 'src/app/feature-modules/administration/toursit-club/toursit-club.component';
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
+import { EncounterComponent } from 'src/app/feature-modules/encounters/encounter/encounter.component';
 import { HomeComponent } from 'src/app/feature-modules/layout/home/home.component';
 import { CreateTourBundleComponent } from 'src/app/feature-modules/marketplace/bundles/create-tour-bundle.component';
 import { ManageTouristFundsComponent } from 'src/app/feature-modules/marketplace/manage-tourist-funds/manage-tourist-funds.component';
@@ -15,6 +16,7 @@ import { SaleComponent } from 'src/app/feature-modules/marketplace/sale/sale.com
 import { ShowAllBundlesComponent } from 'src/app/feature-modules/marketplace/show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from 'src/app/feature-modules/marketplace/show-my-bundles/my-bundles.component';
 import { ShowWalletComponent } from 'src/app/feature-modules/marketplace/show-wallet/show-wallet.component';
+import { DiariesComponent } from 'src/app/feature-modules/stakeholders/personal-diaries/personal-diaries.component';
 import { PositionSimulatorComponent } from 'src/app/feature-modules/stakeholders/position-simulator/position-simulator.component';
 import { ProfileComponent } from 'src/app/feature-modules/stakeholders/profile/profile.component';
 import { RateAppFormComponent } from 'src/app/feature-modules/stakeholders/rate-app-form/rate-app-form.component';
@@ -44,6 +46,7 @@ import { CreateBlogComponent } from '../../feature-modules/blog/create-blog/crea
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -87,7 +90,9 @@ const routes: Routes = [
   {path: 'tour/:id/checkpoints', component: AddTourCheckpointsComponent, canActivate: [AuthGuard]},
   {path: 'eventAnalytics', component: EventAnalyticsComponent, canActivate: [AuthGuard]},  
   {path: 'popularEvents', component: PopularEventsComponent, canActivate: [AuthGuard]},
+  {path: 'encounters', component: EncounterComponent, canActivate: [AuthGuard]},
   {path: 'event/:id', component: EventDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'diaries/:userId', component: DiariesComponent,canActivate: [AuthGuard]},
   {path: 'tour/bundle/create', component: CreateTourBundleComponent, canActivate: [AuthGuard]},
   {path: 'bundles', component: ShowAllBundlesComponent, canActivate: [AuthGuard]},
   {path: 'mybundles', component: MyBundlesComponent, canActivate: [AuthGuard]},

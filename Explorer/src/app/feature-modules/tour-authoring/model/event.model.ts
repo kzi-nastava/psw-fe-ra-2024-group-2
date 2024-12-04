@@ -1,5 +1,5 @@
 import { Image } from "../../../shared/model/image.model";
-
+import { EventAcception } from "./eventAcception.model";
 export enum EventCategory {
     Concert = "Concert",
     MusicFestival = "MusicFestival",
@@ -19,4 +19,5 @@ export enum EventCategory {
     latitude: number;
     startDate: Date;
     endDate: Date;
+    eventAcceptances: EventAcception[];
   }

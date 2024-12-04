@@ -20,13 +20,15 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   @Input() checkpointObjectCollection: any[] | null = null;
   @Input() checkpointCordinatesCollection: any[] | null = null;
   @Input() checkpointCollection: any[] | null = null;
+  @Input() eventsCollection: any[] | null = null;
   @Input() editing: boolean = false;
   @Output() markersCleared: EventEmitter<void> = new EventEmitter<void>();
   @Output() locationSelected = new EventEmitter<{ lat: number, lng: number }>();
   @Output() markerClicked = new EventEmitter<[number, number]>();
   @Output() checkpointRemoved = new EventEmitter<number>(); // EventEmitter for checkpoint removal
   @Input() touristPosition: { latitude: number, longitude: number } | null = null;
-  @Input() isClickDisabled: boolean = false;  
+  @Input() isClickDisabled: boolean = false;
+
   private routingControl: L.Routing.Control | null = null;  
 
   constructor(private mapService: MapService) {}
@@ -219,6 +221,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     this.loadCheckpoints();
     tiles.addTo(this.map);
     this.registerOnClick();
+    this.loadEvents();
   }
 
   search(): void {
@@ -302,8 +305,26 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.clearMarkers();
       this.setExecutionRoutes();
     }
+    if (changes['eventsCollection'] && changes['eventsCollection'].currentValue) {
+      this.loadEvents();
+    }
   }
 
+  private loadEvents(): void {
+    console.log("Cigan",this.eventsCollection); 
+    if (this.eventsCollection) {
+      this.eventsCollection.forEach(event => {
+        const mp = new L.Marker([event.latitude, event.longitude]).addTo(this.map).bindPopup(`<div style="width: 200px">
+          <h2 style="margin: 0;">${event.name}</h2>
+          <p>${event.description || 'No description available.'}</p>
+          <img src="data:${event.image?.mimeType};base64,${event.image?.data}" 
+              alt="Checkpoint Image" 
+              class="checkpoint-image" 
+              style="width: 200px; max-height: 150px;">
+        </div>`).openPopup();;
+        });
+      }
+    }
   private touristMarker: L.Marker | null = null; 
 
 
