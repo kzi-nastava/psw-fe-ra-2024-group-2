@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
 import { ShoppingCartService } from '../../marketplace/services/shopping-cart.service';
-import { Subscription } from 'rxjs';
+import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
 
 @Component({
   selector: 'xp-navbar',
@@ -133,8 +133,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showPopularEvents(): void {
    this.router.navigate(['/popularEvents']);
   }
-
   showCreateBundle(): void {
     this.router.navigate(['/tour/bundle/create']);
   }
-}
+  
+  showSales(): void {
+    this.router.navigate(['/sale']);
+   }
+  }

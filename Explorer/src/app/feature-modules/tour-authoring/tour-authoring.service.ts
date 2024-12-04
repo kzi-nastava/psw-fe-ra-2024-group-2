@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { PagedResult } from './shared/model/tour.module';
-import { Tour } from './model/tour.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Equipment } from '../administration/model/equipment.model';
-import { Checkpoint } from './model/checkpoint.model';
-import { Object } from './model/object.model';
-import { ObjectFormComponent } from './object-form/object-form.component';
-import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
-import { EventCategory, EventModel } from './model/event.model';
-import { EventSubscription } from './model/eventSubscription.model';
 import { AdventureCoinNotification } from './model/adventureCoinNotification.model';
+import { EventModel } from './model/event.model';
 
+import { TourSale } from '../marketplace/model/sale.model';
+import { LocationDto } from '../tour-execution/model/location.model';
+import { Checkpoint } from './model/checkpoint.model';
 import { Coupon } from './model/coupon.model';
+import { Object } from './model/object.model';
+import { Tour } from './model/tour.model';
+import { PagedResult } from './shared/model/tour.module';
 
 
 @Injectable({
@@ -55,8 +54,6 @@ export class TourAuthoringService {
   getAllEquipment(): Observable<PagedResult<Equipment>> {
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
-
-  
 
 
   updateTour(result: Tour) {
@@ -172,5 +169,11 @@ export class TourAuthoringService {
     return this.http.post(`https://localhost:44333/api/tourist/notifications/mark-all-as-read`, {});
   }
   
+  
+  
+  //Sale
+  getAllSale(): Observable<TourSale[]> {
+    return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
+  }
   
 }

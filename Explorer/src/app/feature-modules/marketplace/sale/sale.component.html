@@ -1,0 +1,45 @@
+<div *ngIf="sales.length > 0; else noSales" class="sales-container">
+  <div
+    *ngFor="let sale of sales"
+    class="sale-card"
+    (mouseenter)="hoveredSale = sale"
+    (mouseleave)="hoveredSale = null" >
+    <h3 class="sale-title">{{ sale.name }}</h3>
+    <p class="sale-discount">💸 Discount: <strong>{{ sale.discountPercentage }}%</strong></p>
+    <p class="sale-end-date">📅 Ends on: {{ sale.endDate | date }}</p>
+    <button mat-button color="primary" (click)="editSale(sale)">Edit</button>
+    <button mat-button color="warn" (click)="deleteSale(sale.id)">Delete</button>
+    <div
+      *ngIf="hoveredSale === sale"
+      class="tooltip">
+      <p><strong>Included Tours:</strong></p>
+      <ul>
+        <li *ngFor="let tour of sale.tours">
+          {{ tour.name }}
+          <ul>
+            <li *ngFor="let price of tour.prices">
+              Old Price: {{ price.oldPrice }} - New Price: {{ price.newPrice }}
+            </li>
+          </ul>
+        </li>        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<ng-template #noSales>
+  <div class="no-sales-message">
+    <p>No sales available at the moment. Check back later!</p>
+  </div>
+</ng-template>
+
+<div class="button-container">
+  <button mat-raised-button color="primary" (click)="createNewSale()">
+    Create New Sale
+  </button>
+</div>
+
+
+<ng-template #noSales>
+  <p>No sales available at the moment.</p>
+</ng-template>

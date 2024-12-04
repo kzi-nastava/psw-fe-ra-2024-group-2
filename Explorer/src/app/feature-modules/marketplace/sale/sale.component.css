@@ -1,0 +1,85 @@
+.sales-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .sale-card {
+    position: relative; /* Potrebno za pozicioniranje tooltip-a */
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 250px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .sale-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sale-title {
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #333;
+  }
+  
+  .sale-discount {
+    font-size: 16px;
+    margin: 0 0 5px;
+    color: #28a745;
+  }
+  
+  .sale-end-date {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  /* Tooltip stilizacija */
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    padding: 10px;
+    margin-top: 10px;
+    background: #fefefe;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .tooltip::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ddd transparent;
+  }
+  
+  .tooltip ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .tooltip li {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #007bff;
+  }
+  
+  .tooltip li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
