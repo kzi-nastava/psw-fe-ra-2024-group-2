@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--white);
+  background-color: var(--lighter-brown);
   
 }
 
 header {
   padding: 1.5rem;
   background-color: var(--lighter-brown);
-  border-bottom: 1px solid var(--light-brown);
+  border-bottom: 1px solid var(--lighter-brown);
   display: flex;
   justify-content: center; /* Center the header content */
   align-items: center;
@@ -51,7 +51,7 @@ header h1 {
 .form-container {
   flex: 1;
   padding: 1.5rem;
-  background-color: var(--blog-background);
+  background-color: var(--lighter-brown);
   overflow-y: auto;
   max-height: 80vh; /* Limit the max height to 80% of the viewport height */
   min-width: 300px; /* Optional: To ensure a minimum width */
@@ -81,7 +81,7 @@ form {
 
 .file-input label {
   display: inline-block;
-  background-color: var(--primary-brown);
+  background-color: var(--lighter-brown);
   color: var(--white);
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
@@ -90,7 +90,7 @@ form {
 }
 
 .file-input label:hover {
-  background-color: var(--dark-brown);
+  background-color: var(--lighter-brown);
 }
 
 mat-form-field {

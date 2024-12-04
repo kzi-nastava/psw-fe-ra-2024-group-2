@@ -51,7 +51,22 @@ export class PurchasedToursComponent implements OnInit {
       },
       error: (error) => {
         console.error('Failed to start the tour:', error); // Handle error
-        // Optionally, show a user-friendly message or retry logic
+        // Add this to debug
+        // Extract the `detail` field from the error object
+      const errorDetail = error.error?.detail || '';
+
+      // Check if the specific message is present in the detail
+      if (errorDetail.includes('Tour is in Draft mode')) {
+        this.snackBar.open("The tour cannot be started because it is in Draft mode.", "Close", {
+          duration: 5000,
+          panelClass: ['error-snackbar'], // Optional: Add custom styling
+        });
+      } else {
+        this.snackBar.open("An unexpected error occurred. Please try again.", "Close", {
+          duration: 5000,
+          panelClass: ['error-snackbar'], // Optional: Add custom styling
+        });
+      }
       }
     });
   }
