@@ -1,4 +1,3 @@
-
 <div class="page-container" style="margin: 20px;">
   <section class="coupon-section">
     <div class="form-and-table">
@@ -112,7 +111,18 @@
     <div class="card-body">
       <p class="card-description">{{ tour.description }}</p>
       <div class="card-price">
-        <span class="price">${{ tour.price }}</span> per person
+        <!-- <span class="price">${{ tour.price }}</span> per person -->
+        <ng-container *ngIf="isOnSale(tour.id); else regularPrice">
+          <span class="price discounted-price">
+            <s>${{ tour.price }}</s>
+          </span>
+          <span class="new-price">
+            ${{ getSalePrice(tour.id) }}
+          </span>
+        </ng-container>
+        <ng-template #regularPrice>
+          <span class="price">${{ tour.price }}</span>
+        </ng-template>
       </div>
       <!-- Prikaz kontrolnih tačaka ako postoje -->
       <!-- <div *ngIf="tour.checkpoints.length > 0" class="card-checkpoints">

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { environment } from 'src/env/environment';
+import { Wallet } from '../marketplace/model/wallet.model';
 import { Account } from './model/account.model';
 import { ClubInviteDTO } from './model/clubinvitedto.model';
 import { Equipment } from './model/equipment.model';
 import { FAQDto } from './model/faq.model';
 import { RatingWithUser } from './model/rating-application.model';
-import { Wallet } from '../marketplace/model/wallet.model';
 
 @Injectable({
   providedIn: 'root'
