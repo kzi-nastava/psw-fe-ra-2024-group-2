@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Equipment } from '../administration/model/equipment.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
+import { TourSale } from '../marketplace/model/sale.model';
 import { LocationDto } from '../tour-execution/model/location.model';
 import { Checkpoint } from './model/checkpoint.model';
 import { Coupon } from './model/coupon.model';
@@ -51,8 +52,6 @@ export class TourAuthoringService {
   getAllEquipment(): Observable<PagedResult<Equipment>> {
     return this.http.get<PagedResult<Equipment>>('https://localhost:44333/api/author/tour/equipment/getAll')
   }
-
-  
 
 
   updateTour(result: Tour) {
@@ -157,6 +156,11 @@ export class TourAuthoringService {
   }
   getCoupons(): Observable<PagedResult<Coupon>> {
     return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
+  }
+  
+  //Sale
+  getAll(): Observable<TourSale[]> {
+    return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
   }
   
 }

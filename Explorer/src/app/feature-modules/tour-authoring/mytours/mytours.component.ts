@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TourAuthoringService } from '../tour-authoring.service';
-import { PagedResult } from '../shared/model/tour.module';
-import { Tour } from '../model/tour.model';
-import { Router } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { Checkpoint } from '../model/checkpoint.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ObjectUpdateComponent } from '../object-update/object-update.component';
+import { Router } from '@angular/router';
+import { Checkpoint } from '../model/checkpoint.model';
 import { Coupon } from '../model/coupon.model';
+import { Tour } from '../model/tour.model';
+import { TourSale } from '../model/tourSale.model';
+import { PagedResult } from '../shared/model/tour.module';
+import { TourAuthoringService } from '../tour-authoring.service';
 
 export enum Status {
   Draft = 0,
@@ -43,6 +42,7 @@ export class MyToursComponent implements OnInit {
   tourCheckpoints: any[] = [];
   tourCheckpointObjects: any[] = [];
   coupons: Coupon[] = [];
+  tourSales: TourSale[] = [];
 
   coupon = {
     discount: 1,
@@ -60,6 +60,7 @@ export class MyToursComponent implements OnInit {
     this.loadTourObjects();
     this.loadTourCheckpoints();
     this.loadCoupons();
+    this.loadTourSales();
   }
 
   loadTourObjects() {
@@ -193,4 +194,35 @@ export class MyToursComponent implements OnInit {
     this.coupon = { tourId: -10, discount: 1 }; // Reset form fields
     this.applyToAll = false;
   }
+
+  //Sale methods
+  loadTourSales(): void {
+    this.service.getAll().subscribe((sales) => {
+      this.tourSales = sales;
+      console.log(sales)
+    });
+  }
+
+  isOnSale(tourId: number): boolean {
+    const isOnSale = this.tourSales.some((sale) =>
+      sale.tours.some((tour) =>
+        tour.prices.some((price) => price.tourId === tourId)
+      )
+    );
+    return isOnSale;
+  }
+  
+
+  getSalePrice(tourId: number): number | null {
+    for (const sale of this.tourSales) {
+      for (const tour of sale.tours) {
+        const price = tour.prices.find((p: { tourId: number; }) => p.tourId === tourId);
+        if (price) {
+          return price.newPrice;
+        }
+      }
+    }
+    return null;
+  }
+  
 }

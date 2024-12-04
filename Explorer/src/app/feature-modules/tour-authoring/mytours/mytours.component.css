@@ -141,10 +141,6 @@
     color: var(--dark-green);
 }
 
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
 /* Difficulty Badges */
 .difficulty-easy {
     background-color: var(--light-green);
@@ -399,7 +395,6 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
-  }
   
   .badge-difficulty-0 {
     background-color: #4caf50;
@@ -491,3 +486,13 @@
     background-color: #00777c;
   }
   
+  .discounted-price {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .new-price {
+    color: red;
+    font-weight: bold;
+    margin-left: 8px;
+  }

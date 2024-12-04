@@ -1,6 +1,4 @@
-
 <div class="page-container" style="margin: 20px;">
-<div class="page-container">
   <section class="coupon-section">
     <div class="form-and-table">
       <!-- Coupons Form -->
@@ -106,64 +104,6 @@
         <span class="badge" [ngClass]="'badge-tag-' + tour.tag">
           {{ getTagLabel(tour.tag) }}
         </span>
-
-  <section class="content-section">
-    <div class="table-container">
-      <h2 class="section-title">Available Tours</h2>
-      <div class="table-wrapper">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Difficulty</th>
-              <th>Status</th>
-              <th>Tag</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let tour of tours" (click)="showTourClick(tour)" class="interactive-row">
-              <td>{{ tour.name }}</td>
-              <td>{{ tour.description }}</td>
-              <td>
-                <span class="badge" [ngClass]="'difficulty-' + tour.difficulty">
-                  {{ getDifficultyLabel(tour.difficulty) }}
-                </span>
-              </td>
-              <td>
-                <span class="badge" [ngClass]="'status-' + tour.status">
-                  {{ getStatusLabel(tour.status) }}
-                </span>
-              </td>
-              <td>
-                <span class="badge" [ngClass]="'tag-' + tour.tag">
-                  {{ getTagLabel(tour.tag) }}
-                </span>
-              </td>
-              <td class="price-column">{{ tour.price }}</td>
-            </tr>
-          </tbody>
-        </table>
-<div class="card-grid">
-  <!-- Kartice za ture -->
-  <div class="card" *ngFor="let tour of tours">
-    <!-- Header kartice -->
-    <div class="card-header">
-      <h3 class="card-title">{{ tour.name }}</h3>
-      <div class="card-meta">
-        <!-- Težina ture -->
-        <span class="badge" [ngClass]="'badge-difficulty-' + tour.difficulty">
-          {{ getDifficultyLabel(tour.difficulty) }}
-        </span>
-        <!-- Status ture -->
-        <span class="badge" [ngClass]="'badge-status-' + tour.status">
-          {{ getStatusLabel(tour.status) }}
-        </span>
-        <!-- Tag ture -->
-        <span class="badge" [ngClass]="'badge-tag-' + tour.tag">
-          {{ getTagLabel(tour.tag) }}
-        </span>
       </div>
     </div>
 
@@ -171,32 +111,18 @@
     <div class="card-body">
       <p class="card-description">{{ tour.description }}</p>
       <div class="card-price">
-        <span class="price">${{ tour.price }}</span> per person
-      </div>
-      <!-- Prikaz kontrolnih tačaka ako postoje -->
-      <!-- <div *ngIf="tour.checkpoints.length > 0" class="card-checkpoints">
-        <h4>Checkpoints:</h4>
-        <ul>
-          <li *ngFor="let checkpoint of tour.checkpoints">
-            Checkpoint ID: {{ checkpoint }}
-          </li>
-        </ul>
-      </div> -->
-    </div>
-
-    <!-- Footer kartice -->
-    <div class="card-footer">
-      <button class="btn btn-primary" (click)="showTourClick(tour)">
-        View Details
-      </button>
-    </div>
-  </div>
-
-    <!-- Sadržaj kartice -->
-    <div class="card-body">
-      <p class="card-description">{{ tour.description }}</p>
-      <div class="card-price">
-        <span class="price">${{ tour.price }}</span> per person
+        <!-- <span class="price">${{ tour.price }}</span> per person -->
+        <ng-container *ngIf="isOnSale(tour.id); else regularPrice">
+          <span class="price discounted-price">
+            <s>${{ tour.price }}</s>
+          </span>
+          <span class="new-price">
+            ${{ getSalePrice(tour.id) }}
+          </span>
+        </ng-container>
+        <ng-template #regularPrice>
+          <span class="price">${{ tour.price }}</span>
+        </ng-template>
       </div>
       <!-- Prikaz kontrolnih tačaka ako postoje -->
       <!-- <div *ngIf="tour.checkpoints.length > 0" class="card-checkpoints">
@@ -217,4 +143,3 @@
     </div>
   </div>
 </div>
-

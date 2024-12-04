@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { TourPayment, TourSale } from '../model/sale.model';
 import { SaleService } from '../services/sale.service';
 
@@ -12,7 +14,7 @@ export class NewSaleComponent {
   saleDetailsFormGroup: FormGroup;
   tours: TourPayment[] = [];
   selectedTours: TourPayment[] = [];
-  constructor(private fb: FormBuilder, private tourSaleService: SaleService) {}
+  constructor(private fb: FormBuilder, private tourSaleService: SaleService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit(): void {
     this.saleDetailsFormGroup = this.fb.group({
@@ -66,13 +68,23 @@ export class NewSaleComponent {
   
     if (sale.id > 0) {
       this.tourSaleService.updateTourSale(sale.id, sale).subscribe((updatedSale) => {
-        console.log('Sale updated:', updatedSale);
+        this.showNotification('Sale successfully updated!');
+        this.router.navigate(['/sale']);
       });
     } else {
       this.tourSaleService.createTourSale(sale).subscribe((newSale) => {
-        console.log('New sale created:', newSale);
+        this.showNotification('New sale successfully created!');
+        this.router.navigate(['/sale']);
       });
     }
+  }
+
+  showNotification(message: string): void {
+    this.snackBar.open(message, 'OK', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   populateForm(sale: TourSale): void {
