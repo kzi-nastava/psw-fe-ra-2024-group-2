@@ -172,7 +172,7 @@ export class TourAuthoringService {
   
   
   //Sale
-  getAll(): Observable<TourSale[]> {
+  getAllSale(): Observable<TourSale[]> {
     return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
   }
   

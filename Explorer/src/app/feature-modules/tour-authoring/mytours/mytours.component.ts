@@ -197,7 +197,7 @@ export class MyToursComponent implements OnInit {
 
   //Sale methods
   loadTourSales(): void {
-    this.service.getAll().subscribe((sales) => {
+    this.service.getAllSale().subscribe((sales) => {
       this.tourSales = sales;
       console.log(sales)
     });
