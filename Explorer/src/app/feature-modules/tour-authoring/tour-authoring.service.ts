@@ -11,6 +11,8 @@ import { LocationDto } from '../tour-execution/model/location.model';
 import { TourIssueNotification } from '../layout/model/tour-notification.model';
 import { EventCategory, EventModel } from './model/event.model';
 import { EventSubscription } from './model/eventSubscription.model';
+import { AdventureCoinNotification } from './model/adventureCoinNotification.model';
+
 import { Coupon } from './model/coupon.model';
 
 
@@ -160,4 +162,15 @@ export class TourAuthoringService {
   getCoupons(): Observable<PagedResult<Coupon>> {
     return this.http.get<PagedResult<Coupon>>('https://localhost:44333/api/author/coupon')
   }
+
+  getAdventureCoinNotifications() {
+    return this.http.get<AdventureCoinNotification[]>('https://localhost:44333/api/tourist/notifications');
+  }
+  
+  
+  markAllCoinNotificationsAsRead() {
+    return this.http.post(`https://localhost:44333/api/tourist/notifications/mark-all-as-read`, {});
+  }
+  
+  
 }
