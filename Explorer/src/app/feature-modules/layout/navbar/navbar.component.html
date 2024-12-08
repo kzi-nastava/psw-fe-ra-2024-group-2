@@ -7,8 +7,8 @@
 
     <!-- Navigation Items -->
     <div class="nav-section">
-      <div class="nav-item dropdown" (mouseover)="notificationsVisible = true" (mouseleave)="notificationsVisible = false" 
-      *ngIf="user && user.role === 'tourist' 
+      <div class="nav-item dropdown" (mouseover)="notificationsVisible = true"
+        (mouseleave)="notificationsVisible = false" *ngIf="user && user.role === 'tourist' 
       || user && user.role ==='author'
       || user && user.role==='administrator'">
         <button class="dropdown-toggle">Notifications</button>
@@ -33,14 +33,14 @@
         <div class="dropdown-content">
           <button (click)="showAllTours()">Browse Tours</button>
           <button (click)="showAllBundles()">Browse Bundles</button>
-          <button (click)="showPurchasedTours()">Purchased Tours</button> 
+          <button (click)="showPurchasedTours()">Purchased Tours</button>
           <button (click)="showClub()">Club</button>
           <button [routerLink]="['myclub']">My Club</button>
           <button [routerLink]="['tourReporting']">Report Tour</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
           <button [routerLink]="['touristEquipment']">Equipment evidence</button>
           <button (click)="showSimulator()">Simulator</button>
-          <button [routerLink]="['tourPreference']">Tour preference</button>     
+          <button [routerLink]="['tourPreference']">Tour preference</button>
           <button (click)="showPopularEvents()">Popular Events</button>
           <button *ngif="false" [routerLink]="['encounters']">Create encounter</button>
           <button (click)="showEncounterExecution()">Encounter execution</button>
@@ -53,8 +53,10 @@
         <div class="dropdown-content">
           <button (click)="showAddNewTour()">Add Tour</button>
           <button (click)="showCreateBundle()">Add Bundle</button>
+          <button (click)="showCreateSouvenir()">Add Souvenir</button>
           <button (click)="showMyTours()">My Tours</button>
           <button (click)="showMyBundles()">My Bundles</button>
+          <button (click)="showMySouvenirs()">My Souvenirs</button>
           <button (click)="showObjects()">Objects</button>
           <button (click)="showObjectsForUpdate()">Manage Objects</button>
           <button [routerLink]="['tourIssueReport']">Tour Reports</button>
@@ -117,6 +119,6 @@
     <div class="cart-sidebar-container" [class.open]="isOpen">
       <xp-shopping-cart></xp-shopping-cart>
     </div>
-    
+
   </div>
 </div>

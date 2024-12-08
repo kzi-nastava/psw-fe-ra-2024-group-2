@@ -46,10 +46,9 @@ import { CreateBlogComponent } from '../../feature-modules/blog/create-blog/crea
 import { AuthGuard } from '../auth/auth.guard';
 import { LoginComponent } from '../auth/login/login.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
-
-import { EventFormComponent } from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
 import { EncounterExecutionComponent } from 'src/app/feature-modules/encounters/encounter-execution/encounter-execution.component';
-
+import { CreateSouvenirsComponent } from 'src/app/feature-modules/marketplace/souvenirs/create-souvenirs.component';
+import { ShowMySouvenirsAuthorComponent } from 'src/app/feature-modules/marketplace/show-my-souvenirs-author/show-my-souvenirs.author.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -62,7 +61,6 @@ const routes: Routes = [
   {path: 'blog', component: BlogComponentComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
-  //{path: 'comment', component: CommentComponent, canActivate: [AuthGuard] },
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
@@ -105,6 +103,8 @@ const routes: Routes = [
   {path: 'newSale', component: NewSaleComponent, canActivate: [AuthGuard]},
   {path: 'manageTouristFunds', component: ManageTouristFundsComponent, canActivate: [AuthGuard]},
   {path: 'encounter-execution', component: EncounterExecutionComponent, canActivate: [AuthGuard]},
+  {path: 'souvenirs/create', component: CreateSouvenirsComponent, canActivate: [AuthGuard]},
+  {path: 'souvenirs', component: ShowMySouvenirsAuthorComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
