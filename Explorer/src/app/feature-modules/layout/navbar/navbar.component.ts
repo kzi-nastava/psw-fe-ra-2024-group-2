@@ -100,6 +100,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/bundles']);
   }
 
+  showAllSouvenirs(): void {
+    this.router.navigate(['/all-souvenirs']);
+  }
+
   showPurchasedTours(): void {
     this.router.navigate(['/shopping-cart/purchasedTours']);
   }
@@ -154,5 +158,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   showSales(): void {
     this.router.navigate(['/sale']);
+  }
+
+  showPurchasedSouvenirs(): void {
+    this.router.navigate(['/shopping-cart/purchasedSouvenirs']);
   }
 }

@@ -32,6 +32,15 @@ export class PurchasedToursComponent implements OnInit {
     });
   }
 
+  formatDuration(seconds: number): string {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    
+    if (hours > 0) {
+      return hours > 1 ? `${hours} hours ${minutes} mins` : `${hours} hour ${minutes} mins`;
+    }
+    return `${minutes} mins`;
+  }
 
   showReviews(tourId: number): void {
     this.router.navigate(['/reviews', tourId]); // Navigates to /reviews/:tourId

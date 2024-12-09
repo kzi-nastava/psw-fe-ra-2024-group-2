@@ -26,4 +26,12 @@ export class SouvenirService {
     deleteSouvenir(id: number): Observable<Souvenir> {
         return this.http.delete<Souvenir>(`${environment.apiHost}author/souvenirs?id=${id}`)
     }
+
+    showAllSouvenirs(): Observable<PagedResult<Souvenir>> {
+        return this.http.get<PagedResult<Souvenir>>(`${environment.apiHost}souvenirs`);
+    }
+
+    getBoughtSouvenirs(): Observable<Souvenir[]> {
+        return this.http.get<Souvenir[]>(`${environment.apiHost}tourist/shopping-cart/purchasedSouvenirs`);
+    }
 }

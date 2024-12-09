@@ -30,6 +30,8 @@ import { CreateSouvenirsComponent } from './souvenirs/create-souvenirs.component
 import { ShowMySouvenirsAuthorComponent } from './show-my-souvenirs-author/show-my-souvenirs.author.component';
 import { EditSouvenirDialogComponent } from './edit-souvenir-modal/edit-souvenir-modal.component';
 import { DeleteConfirmDialogComponent } from './delete-souvenir-modal/delete-confirm-souvenir-modal.component';
+import { SouvenirListComponent } from './show-all-souvenirs/souvenir-list.component';
+import { SouvenirsComponent } from './show-bought-souvenirs/souvenirs.component';
 
 export interface PagedResult<T> {
   results: T[];
@@ -52,7 +54,9 @@ export interface PagedResult<T> {
     CreateSouvenirsComponent,
     ShowMySouvenirsAuthorComponent,
     EditSouvenirDialogComponent,
-    DeleteConfirmDialogComponent
+    DeleteConfirmDialogComponent,
+    SouvenirListComponent,
+    SouvenirsComponent
   ],
   imports: [
     CommonModule,

@@ -19,5 +19,5 @@
     <button *ngIf="data.souvenirStatus != 1" mat-raised-button color="accent" (click)="onPublish()">
         Publish
     </button>
-    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    <button *ngIf="data.price >= 0 && data.count >= 0" mat-raised-button color="primary" (click)="onSave()">Save</button>
 </mat-dialog-actions>

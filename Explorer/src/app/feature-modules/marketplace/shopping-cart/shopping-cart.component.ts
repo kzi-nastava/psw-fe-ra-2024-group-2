@@ -9,6 +9,7 @@ interface CartItem {
   name: string;
   price: number;
   bundleId?: number;
+  souvenirId?: number;
   tourId?: number;
   authorId: number;
 }
@@ -43,6 +44,10 @@ export class ShoppingCartComponent implements OnInit {
     return this.orderItems.filter(item => item.tourId);
   }
 
+  get souvenirItems(): CartItem[] {
+    return this.orderItems.filter(item => item.souvenirId);
+  }
+
   loadCartItems() {
     this.cartService.getOrderItems().subscribe(items => {
       this.orderItems = items;
@@ -69,13 +74,12 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   checkout() {
-
     this.cartService.checkout(this.finalCoupon).subscribe({
       next: () => {
         this.orderItems = [];
         this.totalPrice = 0;
         console.log(this.finalCoupon);
-        this.snackBar.open('Checkout successful! New tour(s) added to your collection.', 'Close', { duration: 4000 });
+        this.snackBar.open('Checkout successful! New item(s) added to your collection.', 'Close', { duration: 4000 });
         this.isOpen = false;
         this.finalCoupon = 'empty';
         this.couponCode = '';

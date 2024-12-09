@@ -1,0 +1,33 @@
+<div class="souvenirs-container">
+    <h1 class="page-title">My Souvenirs</h1>
+
+    <div *ngIf="isLoading" class="loading-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading && souvenirs.length == 0" class="no-souvenirs">
+        <p>You haven't purchased any souvenirs yet.</p>
+    </div>
+
+    <div class="souvenirs-grid" *ngIf="!isLoading && souvenirs.length > 0">
+        <div *ngFor="let souvenir of souvenirs" class="souvenir-card mat-card">
+            <div class="souvenir-card-image">
+                <img *ngIf="souvenir.imageDto?.data" [src]="souvenir.imageDto.data" [alt]="souvenir.name">
+                <div *ngIf="!souvenir.imageDto?.data" class="placeholder-image">
+                    No Image
+                </div>
+            </div>
+
+            <div class="souvenir-card-content">
+                <h2 class="mat-card-title">{{ souvenir.name }}</h2>
+                <p class="mat-card-subtitle">{{ souvenir.description }}</p>
+
+                <div class="souvenir-details">
+                    <div class="detail-item">
+                        <strong>Price:</strong> ${{ souvenir.price.toFixed(2) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

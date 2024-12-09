@@ -49,6 +49,8 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { EncounterExecutionComponent } from 'src/app/feature-modules/encounters/encounter-execution/encounter-execution.component';
 import { CreateSouvenirsComponent } from 'src/app/feature-modules/marketplace/souvenirs/create-souvenirs.component';
 import { ShowMySouvenirsAuthorComponent } from 'src/app/feature-modules/marketplace/show-my-souvenirs-author/show-my-souvenirs.author.component';
+import { SouvenirListComponent } from 'src/app/feature-modules/marketplace/show-all-souvenirs/souvenir-list.component';
+import { SouvenirsComponent } from 'src/app/feature-modules/marketplace/show-bought-souvenirs/souvenirs.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -60,7 +62,6 @@ const routes: Routes = [
   {path: 'myclub', component: ToursitClubComponent, canActivate: [AuthGuard],},
   {path: 'blog', component: BlogComponentComponent, canActivate: [AuthGuard],},
   {path: 'mytours', component: MyToursComponent, canActivate: [AuthGuard],},
-  {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'edittours', component: EditTourComponent, canActivate: [AuthGuard]},
   {path: 'account', component: AccountManagementComponent, canActivate: [AuthGuard],},
   {path: 'reviews/:tourId', component: TourReviewComponent, canActivate: [AuthGuard] },
@@ -85,6 +86,7 @@ const routes: Routes = [
   {path: 'create-blog', component: CreateBlogComponent, canActivate: [AuthGuard]},
   {path: 'profileMessaging', component: SendMessageComponent, canActivate: [AuthGuard]},
   {path: 'shopping-cart/purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
+  {path: 'shopping-cart/purchasedSouvenirs', component: SouvenirsComponent, canActivate: [AuthGuard]},
   {path: 'tourPreference', component: TourPreferenceComponent, canActivate: [AuthGuard]},
   {path: 'faq', component: FaqComponent, canActivate: [AuthGuard]},
   {path: 'events', component: EventComponent, canActivate: [AuthGuard]},
@@ -105,6 +107,7 @@ const routes: Routes = [
   {path: 'encounter-execution', component: EncounterExecutionComponent, canActivate: [AuthGuard]},
   {path: 'souvenirs/create', component: CreateSouvenirsComponent, canActivate: [AuthGuard]},
   {path: 'souvenirs', component: ShowMySouvenirsAuthorComponent, canActivate: [AuthGuard]},
+  {path: 'all-souvenirs', component: SouvenirListComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
