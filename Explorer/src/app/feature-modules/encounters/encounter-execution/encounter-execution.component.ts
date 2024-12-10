@@ -6,6 +6,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { EncounterService } from '../encounter.service';
 import { UserLevelDto } from '../model/userLevel.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CompleteChallengeDialogComponent } from '../complete-challenge-dialog/complete-challenge-dialog.component';
 
 @Component({
   selector: 'xp-encounter-execution',
@@ -18,7 +20,12 @@ export class EncounterExecutionComponent {
   user: User | undefined;
   clearMarkersFlag: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
-  constructor(private profileService: ProfileService, private authService: AuthService, private encounterService: EncounterService) { }
+  constructor(
+    private profileService: ProfileService,
+     private authService: AuthService, 
+     private encounterService: EncounterService,
+     private dialog: MatDialog
+  ) { }
   showCompleteButton: boolean = false;
   socialEncounter: any = null;
   hiddenEncounter: any = null;
@@ -54,6 +61,14 @@ export class EncounterExecutionComponent {
     setTimeout(() => {
       this.clearMarkersFlag = false;
     });
+  }
+
+  openChallengeDialog(encounter: any): void{
+    const dialogRef = this.dialog.open(CompleteChallengeDialogComponent, {
+      width: '600px',
+      data: { ...encounter },
+      panelClass: 'custom-dialog'
+  });
   }
 
   onLocationSelected(event: { lat: number, lng: number }): void {
@@ -98,6 +113,9 @@ export class EncounterExecutionComponent {
   }
   onProximityToMiscEncounter(encounter: any): void {
     if (encounter) {
+      if(this.user?.id && !encounter.touristIds.includes(this.user.id)){
+        this.openChallengeDialog(encounter);
+      }
       console.log("KITA 1")
       this.showCompleteButton = true;
       this.miscEncounter = encounter; // Store the encounter for further processing
