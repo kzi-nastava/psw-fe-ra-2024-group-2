@@ -300,3 +300,77 @@
       font-size: 3rem;
   }
 }
+
+.wheel-section {
+  position: relative;
+  z-index: 2; /* Osigurava da Wheel bude iznad pozadine */
+}
+/* Overlay za Wheel of Fortune spin, centriran na ekranu */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Poluprovidna pozadina */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+.wheel-container {
+  background-color: transparent;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spin-result-container {
+  position: fixed;  /* Postavi je u fiksni položaj u odnosu na ekran */
+  top: 30%;         /* Pomeraj za 50% od vrha ekrana */
+  left: 50%;        /* Pomeraj za 50% od leve strane ekrana */
+  transform: translate(-50%, -50%); /* Centriranje u odnosu na visinu i širinu */
+  display: flex;
+  flex-direction: column; /* Postavi sadržaj vertikalno */
+  align-items: center;    /* Centriraj elemente horizontalno */
+  justify-content: center;/* Centriraj elemente vertikalno */
+  padding: 25px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodaj blagi senku za dubinu */
+  z-index: 9999; /* Osiguraj da je overlay iznad ostalih sadržaja */
+  width: 80%; /* Postavi širinu na 80% ekrana */
+  max-width: 500px; /* Maksimalna širina, kako bi izgledalo lepo na većim ekranima */
+}
+
+.spin-result-container p {
+  font-size: 1.5em;  /* Povećaj font za tekst */
+  font-weight: bold; /* Neka tekst bude podebljan */
+  color: #333;       /* Tamna boja teksta za dobar kontrast */
+  margin: 0;         /* Ukloni marginu oko teksta */
+  text-align: center;
+}
+
+.spin-result-container button {
+  margin-top: 20px;
+  padding: 15px 25px;
+  background-color: #fdcf3b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.7em; /* Povećaj veličinu teksta na dugmetu */
+  transition: background-color 0.3s ease; /* Glatka promena boje pozadine */
+}
+
+.spin-result-container button:hover {
+  background-color: #d4ad2b;
+}
+
+.spin-result-container button:active {
+  background-color: #b49327; /* S tamnijom bojom kada se pritisne dugme */
+}
