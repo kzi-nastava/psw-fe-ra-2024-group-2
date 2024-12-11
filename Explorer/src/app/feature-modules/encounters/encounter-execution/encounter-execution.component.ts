@@ -8,23 +8,45 @@ import { EncounterService } from '../encounter.service';
 import { UserLevelDto } from '../model/userLevel.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CompleteChallengeDialogComponent } from '../complete-challenge-dialog/complete-challenge-dialog.component';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { MatSnackBar
 
+ } from '@angular/material/snack-bar';
 @Component({
   selector: 'xp-encounter-execution',
   templateUrl: './encounter-execution.component.html',
-  styleUrls: ['./encounter-execution.component.css']
+  styleUrls: ['./encounter-execution.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+        transition(':enter', [
+            style({ opacity: 0, transform: 'translateY(20px)' }),
+            animate('0.3s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        ]),
+        transition(':leave', [
+            animate('0.3s ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
+        ])
+    ]),
+    trigger('slideIn', [
+        transition(':enter', [
+            style({ transform: 'translateX(-20px)', opacity: 0 }),
+            animate('0.3s ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+        ])
+    ])
+]
 })
 export class EncounterExecutionComponent {
   touristPosition: TouristPosition | null = null;
   person: Person | null = null;
   user: User | undefined;
   clearMarkersFlag: boolean = false;
+  dialogOpened: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
   constructor(
     private profileService: ProfileService,
      private authService: AuthService, 
      private encounterService: EncounterService,
-     private dialog: MatDialog
+     private dialog: MatDialog,
+     private snackBar: MatSnackBar,
   ) { }
   showCompleteButton: boolean = false;
   socialEncounter: any = null;
@@ -69,6 +91,22 @@ export class EncounterExecutionComponent {
       data: { ...encounter },
       panelClass: 'custom-dialog'
   });
+    this.dialogOpened = true;
+    dialogRef.afterClosed().subscribe(result => {
+      this.dialogOpened = false;
+      if(result){
+        this.showSuccess('Challenge completed!');
+      }
+    })
+  }
+
+  private showSuccess(message: string): void {
+    this.snackBar.open(message, 'Close', {
+        duration: 5000,
+        horizontalPosition: 'start',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar']
+    });
   }
 
   onLocationSelected(event: { lat: number, lng: number }): void {
@@ -94,7 +132,8 @@ export class EncounterExecutionComponent {
     if (encounter) {
       console.log("KITA 2")
       this.socialEncounter = encounter;
-      this.onCompleteChallenge();
+      //this.onCompleteChallenge();
+      this.openChallengeDialog(encounter);
     } else {
       this.socialEncounter = null;
       console.log('No Social Encounter in proximity');
@@ -113,7 +152,7 @@ export class EncounterExecutionComponent {
   }
   onProximityToMiscEncounter(encounter: any): void {
     if (encounter) {
-      if(this.user?.id && !encounter.touristIds.includes(this.user.id)){
+      if(this.user?.id && !encounter.touristIds.includes(this.user.id) && this.dialogOpened == false){
         this.openChallengeDialog(encounter);
       }
       console.log("KITA 1")

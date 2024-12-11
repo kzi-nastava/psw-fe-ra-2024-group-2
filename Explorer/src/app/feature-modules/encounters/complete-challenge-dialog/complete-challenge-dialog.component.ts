@@ -40,8 +40,19 @@ export class CompleteChallengeDialogComponent implements OnInit {
       }
     }
     // Update the encounter on the backend
-    if (this.data) {
+    if (this.data  && this.data.encounterType == 'Misc') {
       this.encounterService.updateMiscEncounter(this.data).subscribe({
+        next: updatedEncounter => {
+          console.log('Encounter successfully updated:', updatedEncounter);
+        },
+        error: error => {
+          console.error('Error updating encounter:', error);
+        }
+      });
+      this.updateUserLevelOnChallengeCompletion();
+    }
+    if (this.data && this.data.encounterType == 'Social') {
+      this.encounterService.updateSocialEncounter(this.data).subscribe({
         next: updatedEncounter => {
           console.log('Encounter successfully updated:', updatedEncounter);
         },
@@ -51,7 +62,6 @@ export class CompleteChallengeDialogComponent implements OnInit {
       });
     }
     console.log('Challenge Completed:', this.data);
-    this.updateUserLevelOnChallengeCompletion();
     this.dialogRef.close(true); // Close the dialog and return success
   }
 
