@@ -13,6 +13,7 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
 export class MapComponent implements AfterViewInit,OnDestroy {
   map: any;
   private markers: L.Marker[] = [];
+  forecastData: any[] = [];
 
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
@@ -347,10 +348,75 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.map = undefined; 
     }
   }
+  private getWeatherInfoForPopup(weatherData: any): string {
+    const dailyForecast = this.getDailyForecast(weatherData);
+    let weatherInfo = '';
   
+    dailyForecast.forEach((forecast: any, index: number) => {
+      const day = this.getDayLabel(index);  // Vraća "Danas", "Sutra", "Prekosutra"
+      const minTemp = forecast.minTemp;
+      const maxTemp = forecast.maxTemp;
+      const rainProbability = forecast.rainProbability;
+      const morningIcon = this.getWeatherIcon(forecast.morningIcon);  // Ikonica za pre podne
+      const afternoonIcon = this.getWeatherIcon(forecast.afternoonIcon);  // Ikonica za poslepodne
+  
+      weatherInfo += `
+        <h3>${day}</h3>
+        <p>Min Temp: ${minTemp}°C, Max Temp: ${maxTemp}°C</p>
+        <p>Rain Probability: ${rainProbability}%</p>
+        <p>Morning: ${morningIcon}</p>
+        <p>Afternoon: ${afternoonIcon}</p>
+        <hr/>
+      `;
+    });
+  
+    return weatherInfo;
+  }
+  private getDailyForecast(weatherData: any): any[] {
+    const dailyForecast = [];
+  
+    // Podaci dolaze na svakih 3 sata, pa ćemo ih grupisati po danima
+    for (let i = 0; i < 3; i++) {  // Pretpostavljamo da imamo podatke za 3 dana
+      const dayData = weatherData.list.slice(i * 8, (i + 1) * 8);  // 8 podataka za svaki dan
+      const minTemp = Math.min(...dayData.map((data: any) => data.main.temp));
+      const maxTemp = Math.max(...dayData.map((data: any) => data.main.temp));
+      const rainProbability = Math.max(...dayData.map((data: any) => data.pop));  // Koristiš verovatnoću padavina (pop)
+      const morningIcon = dayData[0].weather[0].icon;  // Prvi podatak za jutro
+      const afternoonIcon = dayData[4].weather[0].icon;  // Središnji podatak za popodne
+  
+      dailyForecast.push({
+        minTemp,
+        maxTemp,
+        rainProbability: rainProbability * 100,  // Pretvori u procenat
+        morningIcon,
+        afternoonIcon
+      });
+    }
+  
+    return dailyForecast;
+  }
+
+  private getDayLabel(dayIndex: number): string {
+    const days = ["Danas", "Sutra", "Prekosutra"];
+    return days[dayIndex] || "Nepoznat dan";
+  }
+  private getWeatherIcon(iconCode: string): string {
+    const iconMap: { [key: string]: string } = {
+      '01d': '☀️', '01n': '🌙', '02d': '🌤️', '02n': '🌤️',
+      '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+      '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌦️',
+      '11d': '🌩️', '11n': '🌩️', '13d': '❄️', '13n': '❄️',
+      '50d': '🌫️', '50n': '🌫️'
+    };
+    return iconMap[iconCode] || '❓';  // Ako nije prepoznat, vraća ikonu sa pitanjem
+  }
+
+
+
   private setExecutionRoutes(): void {
     if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
       const checkpoints = this.checkpointCordinatesCollection;
+
       //console.log(checkpoints);
       const markers = checkpoints.map((checkpoint: Checkpoint) => {
         const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
@@ -380,17 +446,18 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 class="checkpoint-image" 
                 style="width: 200px; max-height: 150px;">
           </div>`);
-
+              
 
             this.markers.push(marker);
             return marker;
           }
+          
 
           const marker = L.marker(waypoint.latLng,{
             draggable: false, 
             title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
           });
-          //console.log("Testerina", marker);
+          //console.log("Testerina", marker);         
           this.markers.push(marker);
           marker.bindPopup(`<div style="width: 200px">
             <h2 style="margin: 0;">${checkpoints[i].name}</h2>
@@ -399,6 +466,9 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 alt="Checkpoint Image" 
                 class="checkpoint-image" 
                 style="width: 200px; max-height: 150px;">
+            <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
+            <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
+
           </div>`).openPopup(); 
           return marker;
         },
