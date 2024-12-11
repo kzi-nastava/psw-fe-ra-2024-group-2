@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MapService {
-  private apiKey = 'e31943183e644f4a8ee21e8ab7e75192';
-  private forecastApiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
+  private apiKey = '0055a4cfdd23466bb06192705241112';
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +23,7 @@ export class MapService {
   }
 
   getWeatherForecastByDay(latitude: number, longitude: number): Observable<any> {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${this.apiKey}`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=${this.apiKey}&q=${latitude},${longitude}&days=3`;
     
     return this.http.get(url); // Ovdje samo vraćaš podatke bez obrade
   }

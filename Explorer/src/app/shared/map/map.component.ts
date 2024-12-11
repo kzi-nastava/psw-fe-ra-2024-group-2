@@ -459,6 +459,11 @@ export class MapComponent implements AfterViewInit,OnDestroy {
           });
           //console.log("Testerina", marker);         
           this.markers.push(marker);
+          console.log("Vreme: ");
+          this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude).subscribe(weatherData => {
+            console.log(weatherData);  
+          
+          });
           marker.bindPopup(`<div style="width: 200px">
             <h2 style="margin: 0;">${checkpoints[i].name}</h2>
             <p>${checkpoints[i].description || 'No description available.'}</p>
@@ -468,7 +473,8 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 style="width: 200px; max-height: 150px;">
             <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
             <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
-
+            <button (click)="getWeatherForMarker(${checkpoints[i].latitude}, ${checkpoints[i].longitude}, '${checkpoints[i].name}')">See Weather</button>
+            <button (click)="mm()">hudkd</button>
           </div>`).openPopup(); 
           return marker;
         },
@@ -484,6 +490,35 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     }
   }
 
+  mm() : void{
+    console.log("Radi");
+  }
+
+  getWeatherForMarker(latitude: number, longitude: number, checkpointName: string): void {
+    console.log("Super");
+    this.mapService.getWeatherForecastByDay(latitude, longitude).subscribe(
+      (weatherData) => {
+        console.log("Vreme: " + weatherData);
+        // Ako su podaci uspešno dobijeni, ažuriramo popup sa vremenskim informacijama
+        const weatherInfo = `
+          <div>
+            <h3>Weather for ${checkpointName}</h3>
+            <p>Temperature: ${weatherData.main.temp}°C</p>
+            <p>Weather: ${weatherData.weather[0].description}</p>
+            <p>Humidity: ${weatherData.main.humidity}%</p>
+          </div>
+        `;
+        // Pronađi marker koji odgovara ovom checkpointu i ažuriraj njegov popup
+        const marker = this.markers.find((m) => m.getLatLng().lat === latitude && m.getLatLng().lng === longitude);
+        if (marker) {
+          marker.setPopupContent(weatherInfo); // Ažuriraj sadržaj popupa
+        }
+      },
+      (error) => {
+        console.error('Error fetching weather data:', error);
+      }
+    );
+  }
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {
