@@ -78,7 +78,9 @@ export class PositionSimulatorComponent {
             this.person = per;
             this.touristPosition = per.touristPosition;
             localStorage.setItem('touristPosition', JSON.stringify(this.touristPosition));
-            this.startPositionCheckInterval(); 
+            this.startPositionCheckInterval();
+            this.FindEventsWithinRange(this.touristPosition);
+ 
           },
           error: (error) => {
             console.error('Error retrieving tourist position:', error);
@@ -366,24 +368,29 @@ export class PositionSimulatorComponent {
         }
 
       });
-      this.execService.GetAllEventsWithinRange(this.touristPosition).subscribe({
-        next: (result : PagedResult<EventModel>) => {
-          //console.log(result);
-          this.events = result.results;
-          //console.log(this.events);
-          this.eventCordinates = this.events
-          .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
-          .map(event => ({
-            latitude: event.latitude,
-            longitude: event.longitude,
-            name: event.name,
-            category: event.category,
-            image: event.image
-          }));
-        }
-      });
+      this.FindEventsWithinRange(this.touristPosition);
     }
   }
+
+  FindEventsWithinRange(touristPosition : TouristPosition): void {
+    this.execService.GetAllEventsWithinRange(touristPosition).subscribe({
+      next: (result : PagedResult<EventModel>) => {
+        //console.log(result);
+        this.events = result.results;
+        //console.log(this.events);
+        this.eventCordinates = this.events
+        .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
+        .map(event => ({
+          latitude: event.latitude,
+          longitude: event.longitude,
+          name: event.name,
+          category: event.category,
+          image: event.image
+        }));
+      }
+    });
+  }
+
 
   hasUserAcceptedEvent(event: EventModel): boolean {
     return event.eventAcceptances.some(acceptance => acceptance.touristId === this.user?.id);

@@ -321,7 +321,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
               alt="Checkpoint Image" 
               class="checkpoint-image" 
               style="width: 200px; max-height: 150px;">
-        </div>`).openPopup();;
+        </div>`);
         });
       }
     }
@@ -411,6 +411,10 @@ export class MapComponent implements AfterViewInit,OnDestroy {
         addWaypoints: false,
         router: L.routing.mapbox('pk.eyJ1IjoicHN3Z3J1cGEyIiwiYSI6ImNtMmc5OWlybTAwNHEya3F4emZrMDVoZGsifQ.aD0uouzJcAGE--8As0GFjg', { profile: 'mapbox/driving' })
       }).addTo(this.map);
+      const itineraryElement = document.querySelector('.leaflet-routing-container');
+      if (itineraryElement) {
+        itineraryElement.setAttribute('style', 'display: none;');
+      }
     }
   }
 
