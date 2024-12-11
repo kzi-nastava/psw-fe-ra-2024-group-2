@@ -194,7 +194,7 @@ export class MyToursComponent implements OnInit {
   }
 
   showTourClick(tour: Tour): void {
-    this.router.navigate(['/edittours'], { queryParams: { tour: JSON.stringify(tour) } });
+    this.router.navigate(['/edittours'], { queryParams: { tour: JSON.stringify(tour.id) } });
   }
 
   getStatusLabel(status: number): string {

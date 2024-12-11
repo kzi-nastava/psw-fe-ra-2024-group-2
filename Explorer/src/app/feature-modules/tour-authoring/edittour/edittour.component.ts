@@ -15,6 +15,8 @@ export class EditTourComponent implements OnInit {
 
   tours: Tour[] = []
   tour: Tour;
+  tourName: string = '';
+  tourDescription: string = '';
   equipmentsTotal: Equipment[] = []
   selectedEquipment: Equipment[] = [];
   checkpointsIds: number[] = [];
@@ -25,20 +27,31 @@ export class EditTourComponent implements OnInit {
   constructor(private service: TourAuthoringService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadAllEquipment()
-    this.loadTourObjects();
-
     this.route.queryParamMap.subscribe(params => {
       const tourJson = params.get('tour');
       if (tourJson) {
-        this.tour = JSON.parse(tourJson);
+        this.service.getTourById(JSON.parse(tourJson)).subscribe({
+          next: (result: Tour) => { 
+            this.tour = result;
+            this.tourName = this.tour.name;
+            this.tourDescription = this.tour.description; 
+            console.log(this.tour)
+            this.tours.push(this.tour)
+            this.loadAllEquipment()
+            this.loadTourObjects();
+            this.loadTourCheckpoints()
+          },
+          error: (error) => {
+            console.error('Error fetching objects from the backend:', error);
+          }
+        });
+        
         this.selectedEquipment = this.equipmentsTotal.filter(equip =>
           this.tour.equipment.includes(equip.id!)
         );
       }
     });
-    this.tours.push(this.tour)
-    this.loadTourCheckpoints()
+    
 
   }
 
@@ -121,9 +134,12 @@ export class EditTourComponent implements OnInit {
       .map(equip => equip.id)
       .filter((id): id is number => id !== undefined);
 
+    this.tour.name = this.tourName;
+    this.tour.description = this.tourDescription;
 
     this.service.updateTour(this.tour).subscribe({
       next: (response) => {
+        window.location.reload();
       },
       error: (err) => {
         console.error('Error updating tour:', err);
