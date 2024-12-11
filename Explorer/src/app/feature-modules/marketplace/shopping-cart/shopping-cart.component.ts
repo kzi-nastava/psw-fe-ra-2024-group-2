@@ -3,6 +3,8 @@ import { ShoppingCartService } from '../services/shopping-cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { Coupon } from '../../tour-authoring/model/coupon.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 interface CartItem {
   id: number;
@@ -26,13 +28,18 @@ export class ShoppingCartComponent implements OnInit {
   couponCode: string = '';
   couponError: string = '';
   finalCoupon: string = 'empty';
+  user: User;
 
   constructor(
+    private authService: AuthService,
     private cartService: ShoppingCartService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
     this.loadCartItems();
   }
 
@@ -111,6 +118,21 @@ export class ShoppingCartComponent implements OnInit {
         const coupon: Coupon = result;
 
         if (coupon.allToursDiscount === true) {
+          if(coupon.authorId == -1){ //if it's tourist bonus
+            this.cartService.useTouristBonus(this.user.id, coupon.code).subscribe({
+              next: (usedTouristCoupon) => {
+                console.log('Tourist bonus used:', usedTouristCoupon);
+                const maxPriceItem = this.orderItems.reduce((prev, current) => (prev.price > current.price) ? prev : current);
+                maxPriceItem.price = maxPriceItem.price - (maxPriceItem.price * coupon.discountPercentage / 100);
+                this.finalCoupon = coupon.code;
+                this.couponError = 'Coupon applied successfully.';
+              },
+              error: (err) => {
+                console.error("Error using tourist bonus:", err);
+              }
+            })
+            return;
+          }
           //find one that costs the most and apply discount to it
           const matchingItemsByAuthorId: CartItem[] = this.orderItems.filter(item => item.authorId === coupon.authorId);
           if (matchingItemsByAuthorId.length === 0) {
