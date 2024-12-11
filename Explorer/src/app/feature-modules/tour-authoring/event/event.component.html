@@ -1,31 +1,46 @@
-<div class="component"></div>
-<div class="container">
-    <div class="table-section">
+<div class="component">
+    <div class="container">
+      <div class="table-section">
+        <!-- Title Section -->
         <div class="table-title">
-            Events
+          Events
         </div>
-        <table>
-            <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Category</th>
-                  <th>Image</th>
-                </tr>
-              </thead>
-            <tbody>
-                <tr *ngFor="let ev of events">
-                    <td>{{ev.name}}</td>
-                    <td>{{ev.description}}</td>
-                    <td>{{ev.category}}</td>
-                    <td>
-                        <img *ngIf="ev.image?.data" [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" alt="Checkpoint Image" style="max-width: 150px; max-height: 150px;">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+  
+        <!-- User-Friendly Description -->
+        <div class="table-description">
+          <p>
+            Events that may be interseting for tourists are listed below, you can create new ones!
+          </p>
+        </div>
+  
+        <!-- Card Layout for Events -->
+        <div class="card-container">
+          <div class="card" *ngFor="let ev of events">
+            <div class="card-image">
+              <img
+                *ngIf="ev.image?.data"
+                [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data"
+                alt="{{ ev.name }}"
+              />
+              <div class="no-image" *ngIf="!ev.image?.data">
+                <i class="fas fa-image"></i>
+              </div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">{{ ev.name }}</h3>
+              <p class="card-description">{{ ev.description }}</p>
+              <span class="category-badge category-{{ ev.category }}">
+                {{ ev.category }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Form Section -->
+      <div class="form-section">
+        <xp-event-form (eventAdded)="getEvents()"></xp-event-form>
+      </div>
     </div>
-    <div class="form-section">
-        <xp-event-form (eventAdded)="getEvents()" ></xp-event-form>
-    </div>   
-</div>
+  </div>
+  
