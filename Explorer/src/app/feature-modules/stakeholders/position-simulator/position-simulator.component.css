@@ -72,6 +72,7 @@ xp-map {
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: relative;
 }
 
 .secret-section {
@@ -98,16 +99,7 @@ xp-map {
   margin-bottom: 1.5rem;
 }
 
-.event-card {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
+
 .events_container{
     display: flex;
     flex-direction: row;
@@ -176,6 +168,57 @@ xp-map {
       }
     }
   }
+
+
+  .event-card {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Svaka kartica ima širinu 300px */
+    margin: 10px; /* Razmak između kartica */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Slajder koji prikazuje samo 2 kartice */
+  .events-slider {
+    display: flex;
+    overflow: hidden; /* Sakriva sve kartice van prikaza */
+    width: 630px; /* Prikazuje samo 2 kartice */
+  }
+  
+  .events-list {
+    display: flex;
+    transition: transform 0.3s ease-in-out; /* Glatko pomeranje kartica */
+  }
+  
+  .event-card {
+    flex: 0 0 300px; /* Svaka kartica ima širinu 300px */
+    box-sizing: border-box; /* Uključuje marginu u ukupnu širinu kartice */
+  }
+
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1;
+}
+
+.slider-btn.left {
+  left: 0;
+}
+
+.slider-btn.right {
+  right: 0;
+}
+
 
 /* Pozadina modala */
 .book-overlay {

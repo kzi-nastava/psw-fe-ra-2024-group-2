@@ -22,6 +22,10 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./position-simulator.component.css']
 })
 export class PositionSimulatorComponent {
+
+  currentIndex = 0;
+  sliderTransform = 'translateX(0)';
+  sliderTransition = 'transform 0.3s ease-in-out';
   touristPosition: TouristPosition | null = null;
   person: Person | null = null;
   tourExecution: TourExecution; 
@@ -502,5 +506,26 @@ export class PositionSimulatorComponent {
       clearInterval(this.intervalId);
     }
   }
+
+  slideLeft() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateSliderTransform();
+    }
+  }
+
+  slideRight() {
+    if (this.currentIndex < this.events.length - 2) {
+      this.currentIndex++;
+      this.updateSliderTransform();
+    }
+  }
+
+  updateSliderTransform() {
+    const offset = this.currentIndex * -50; // Adjust based on card width
+    this.sliderTransform = `translateX(${offset}%)`;
+  }
+
+
 }
 
