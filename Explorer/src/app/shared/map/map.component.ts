@@ -348,17 +348,17 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.map = undefined; 
     }
   }
-  private getWeatherInfoForPopup(weatherData: any): string {
+  /*private getWeatherInfoForPopup(weatherData: any): string {
     const dailyForecast = this.getDailyForecast(weatherData);
     let weatherInfo = '';
   
     dailyForecast.forEach((forecast: any, index: number) => {
-      const day = this.getDayLabel(index);  // Vraća "Danas", "Sutra", "Prekosutra"
+      const day = this.getDayLabel(index); // Vraća "Danas", "Sutra", "Prekosutra"
       const minTemp = forecast.minTemp;
       const maxTemp = forecast.maxTemp;
       const rainProbability = forecast.rainProbability;
-      const morningIcon = this.getWeatherIcon(forecast.morningIcon);  // Ikonica za pre podne
-      const afternoonIcon = this.getWeatherIcon(forecast.afternoonIcon);  // Ikonica za poslepodne
+      const morningIcon = this.getWeatherIcon(forecast.morningIcon); // Ikonica za pre podne
+      const afternoonIcon = this.getWeatherIcon(forecast.afternoonIcon); // Ikonica za poslepodne
   
       weatherInfo += `
         <h3>${day}</h3>
@@ -372,45 +372,42 @@ export class MapComponent implements AfterViewInit,OnDestroy {
   
     return weatherInfo;
   }
+  
   private getDailyForecast(weatherData: any): any[] {
     const dailyForecast = [];
   
-    // Podaci dolaze na svakih 3 sata, pa ćemo ih grupisati po danima
-    for (let i = 0; i < 3; i++) {  // Pretpostavljamo da imamo podatke za 3 dana
-      const dayData = weatherData.list.slice(i * 8, (i + 1) * 8);  // 8 podataka za svaki dan
-      const minTemp = Math.min(...dayData.map((data: any) => data.main.temp));
-      const maxTemp = Math.max(...dayData.map((data: any) => data.main.temp));
-      const rainProbability = Math.max(...dayData.map((data: any) => data.pop));  // Koristiš verovatnoću padavina (pop)
-      const morningIcon = dayData[0].weather[0].icon;  // Prvi podatak za jutro
-      const afternoonIcon = dayData[4].weather[0].icon;  // Središnji podatak za popodne
+    if (weatherData.forecast && weatherData.forecast.forecastday) {
+      weatherData.forecast.forecastday.forEach((day: any) => {
+        const minTemp = day.day?.mintemp_c || 0; // Sigurna provera
+        const maxTemp = day.day?.maxtemp_c || 0;
+        const rainProbability = day.day?.daily_chance_of_rain || 0;
+        const morningIcon = day.hour[9]?.condition.icon || '❓';
+        const afternoonIcon = day.hour[15]?.condition.icon || '❓';
   
-      dailyForecast.push({
-        minTemp,
-        maxTemp,
-        rainProbability: rainProbability * 100,  // Pretvori u procenat
-        morningIcon,
-        afternoonIcon
+        dailyForecast.push({
+          minTemp,
+          maxTemp,
+          rainProbability,
+          morningIcon,
+          afternoonIcon,
+        });
       });
     }
   
     return dailyForecast;
   }
+  
 
   private getDayLabel(dayIndex: number): string {
     const days = ["Danas", "Sutra", "Prekosutra"];
     return days[dayIndex] || "Nepoznat dan";
   }
-  private getWeatherIcon(iconCode: string): string {
-    const iconMap: { [key: string]: string } = {
-      '01d': '☀️', '01n': '🌙', '02d': '🌤️', '02n': '🌤️',
-      '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
-      '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌦️',
-      '11d': '🌩️', '11n': '🌩️', '13d': '❄️', '13n': '❄️',
-      '50d': '🌫️', '50n': '🌫️'
-    };
-    return iconMap[iconCode] || '❓';  // Ako nije prepoznat, vraća ikonu sa pitanjem
+  
+  private getWeatherIcon(iconUrl: string): string {
+    return `<img src="https:${iconUrl}" alt="Weather Icon" style="width:24px;height:24px;">`;
   }
-
+  
+*/
 
 
   private setExecutionRoutes(): void {
@@ -459,11 +456,13 @@ export class MapComponent implements AfterViewInit,OnDestroy {
           });
           //console.log("Testerina", marker);         
           this.markers.push(marker);
-          console.log("Vreme: ");
+          let weatherContent = '';
           this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude).subscribe(weatherData => {
-            console.log(weatherData);  
-          
-          });
+            //console.log(weatherData);  
+            weatherContent = this.getWeatherInfoForPopup(weatherData);
+            console.log(weatherContent);
+            console.log("Cekpoiniti :" + checkpoints[i].latitude + ", " + checkpoints[i].longitude )
+          })
           marker.bindPopup(`<div style="width: 200px">
             <h2 style="margin: 0;">${checkpoints[i].name}</h2>
             <p>${checkpoints[i].description || 'No description available.'}</p>
@@ -473,8 +472,7 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 style="width: 200px; max-height: 150px;">
             <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
             <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
-            <button (click)="getWeatherForMarker(${checkpoints[i].latitude}, ${checkpoints[i].longitude}, '${checkpoints[i].name}')">See Weather</button>
-            <button (click)="mm()">hudkd</button>
+            ${weatherContent}
           </div>`).openPopup(); 
           return marker;
         },
@@ -490,35 +488,68 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     }
   }
 
-  mm() : void{
-    console.log("Radi");
+  private getWeatherInfoForPopup(weatherData: any): string {
+    const currentTemp = weatherData.current.temp_c;
+    const forecast = weatherData.forecast.forecastday.map((day: any) => {
+      return `<div>
+                <p><strong>${day.date}</strong></p>
+                <p>Temp: ${currentTemp}°C</p>
+                <p>Max temp: ${day.day.maxtemp_c}°C</p>
+                <p>Min temp: ${day.day.mintemp_c}°C</p>
+                <p>Chance of rain: ${day.day.daily_chance_of_rain}%</p>
+                <p>${day.day.condition.text}</p>
+                <img src="${day.day.condition.icon}" alt="${day.day.condition.text}" />
+              </div>`;
+    }).join(''); // Spajanje u jedan HTML string
+    return forecast;
   }
+ 
+  /*
+  this.markers.push(marker);
 
-  getWeatherForMarker(latitude: number, longitude: number, checkpointName: string): void {
-    console.log("Super");
-    this.mapService.getWeatherForecastByDay(latitude, longitude).subscribe(
-      (weatherData) => {
-        console.log("Vreme: " + weatherData);
-        // Ako su podaci uspešno dobijeni, ažuriramo popup sa vremenskim informacijama
-        const weatherInfo = `
-          <div>
-            <h3>Weather for ${checkpointName}</h3>
-            <p>Temperature: ${weatherData.main.temp}°C</p>
-            <p>Weather: ${weatherData.weather[0].description}</p>
-            <p>Humidity: ${weatherData.main.humidity}%</p>
-          </div>
-        `;
-        // Pronađi marker koji odgovara ovom checkpointu i ažuriraj njegov popup
-        const marker = this.markers.find((m) => m.getLatLng().lat === latitude && m.getLatLng().lng === longitude);
-        if (marker) {
-          marker.setPopupContent(weatherInfo); // Ažuriraj sadržaj popupa
-        }
-      },
-      (error) => {
-        console.error('Error fetching weather data:', error);
-      }
-    );
-  }
+let weatherContent = '<p>Loading weather...</p>'; // Prvo postavi placeholder za vremensku prognozu
+
+// Postavi marker sa osnovnim sadržajem
+marker.bindPopup(`<div style="width: 200px">
+  <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+  <p>${checkpoints[i].description || 'No description available.'}</p>
+  <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+       alt="Checkpoint Image" 
+       class="checkpoint-image" 
+       style="width: 200px; max-height: 150px;">
+  <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
+  <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
+  ${weatherContent} <!-- Placeholder za vremensku prognozu -->
+</div>`);
+
+// Zatraži vremensku prognozu
+this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude)
+  .subscribe(weatherData => {
+    // Kada se podaci učitaju, ažuriraj sadržaj popup-a
+    weatherContent = this.getWeatherInfoForPopup(weatherData); // Kreiraš sadržaj sa vremenskom prognozom
+
+    // Ažuriraj popup sa stvarnim vremenskim podacima
+    marker.setPopupContent(`
+      <div style="width: 200px">
+        <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+        <p>${checkpoints[i].description || 'No description available.'}</p>
+        <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+             alt="Checkpoint Image" 
+             class="checkpoint-image" 
+             style="width: 200px; max-height: 150px;">
+        <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
+        <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
+        ${weatherContent} <!-- Ažurirani sadržaj sa vremenskom prognozom -->
+      </div>
+    `);
+
+    // Otvori popup nakon što se podaci učitaju
+    marker.openPopup();
+  });
+
+return marker;
+
+  */
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {
