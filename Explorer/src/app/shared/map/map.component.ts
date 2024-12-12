@@ -456,24 +456,43 @@ export class MapComponent implements AfterViewInit,OnDestroy {
           });
           //console.log("Testerina", marker);         
           this.markers.push(marker);
-          let weatherContent = '';
-          this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude).subscribe(weatherData => {
-            //console.log(weatherData);  
-            weatherContent = this.getWeatherInfoForPopup(weatherData);
-            console.log(weatherContent);
-            console.log("Cekpoiniti :" + checkpoints[i].latitude + ", " + checkpoints[i].longitude )
-          })
-          marker.bindPopup(`<div style="width: 200px">
-            <h2 style="margin: 0;">${checkpoints[i].name}</h2>
-            <p>${checkpoints[i].description || 'No description available.'}</p>
-            <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
-                alt="Checkpoint Image" 
-                class="checkpoint-image" 
-                style="width: 200px; max-height: 150px;">
-            <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
-            <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
-            ${weatherContent}
-          </div>`).openPopup(); 
+          const popupContent = `<div style="width: 200px">
+  <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+  <p>${checkpoints[i].description || 'No description available.'}</p>
+  <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+      alt="Checkpoint Image" 
+      class="checkpoint-image" 
+      style="width: 200px; max-height: 150px;">
+  <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
+  <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
+  <p><strong>Loading weather data...</strong></p>
+</div>`;
+
+marker.bindPopup(popupContent).openPopup();
+
+// Kada se podaci o vremenskoj prognozi dobiju, ažuriraj pop-up
+this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude)
+  .subscribe(weatherData => {
+    const weatherContent = this.getWeatherInfoForPopup(weatherData);
+    const updatedPopupContent = `<div style="width: 200px">
+      <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+      <p>${checkpoints[i].description || 'No description available.'}</p>
+      <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+          alt="Checkpoint Image" 
+          class="checkpoint-image" 
+          style="width: 200px; max-height: 150px;">
+      <p>${checkpoints[i].longitude || 'No longitude available.'}</p>
+      <p>${checkpoints[i].latitude || 'No latitude available.'}</p>
+      ${weatherContent}
+    </div>`;
+
+    const popup = marker.getPopup(); // Dobij popup
+    if (popup) {
+      popup.setContent(updatedPopupContent).update(); // Ažuriraj sadržaj samo ako postoji
+    } else {
+      console.error('Popup is undefined for the marker.');
+    }
+  });
           return marker;
         },
         draggableWaypoints: false,
