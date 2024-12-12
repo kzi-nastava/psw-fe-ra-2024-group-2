@@ -3,10 +3,14 @@
   <div *ngIf="data.encounterType === 'Social'; else miscContent">
     <p>You entered a social encounter!</p>
     <button (click)="onCancel()">Cancel</button>
+    <button (click)="completeChallenge()">Enter Social encounter</button>
   </div>
   <ng-template #miscContent>
     <div>
-      <p>Are you ready to complete the challenge?</p>
+      <p>
+        Are you ready to complete the challenge?
+        <span style="display: block;">{{ data.actionDescription }}</span>
+      </p>      
     </div>
     <div>
       <button (click)="onCancel()">Cancel</button>

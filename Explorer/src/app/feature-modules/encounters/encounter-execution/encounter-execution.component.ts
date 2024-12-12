@@ -9,9 +9,8 @@ import { UserLevelDto } from '../model/userLevel.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CompleteChallengeDialogComponent } from '../complete-challenge-dialog/complete-challenge-dialog.component';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { MatSnackBar
+import { MatSnackBar } from '@angular/material/snack-bar';
 
- } from '@angular/material/snack-bar';
 @Component({
   selector: 'xp-encounter-execution',
   templateUrl: './encounter-execution.component.html',
@@ -53,7 +52,6 @@ export class EncounterExecutionComponent {
   hiddenEncounter: any = null;
   miscEncounter: any = null;
   UserLevelDto: UserLevelDto | null = null;
-
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       this.user = user;
@@ -130,10 +128,15 @@ export class EncounterExecutionComponent {
   }
   onProximityToSocialEncounter(encounter: any): void {
     if (encounter) {
-      console.log("KITA 2")
-      this.socialEncounter = encounter;
-      //this.onCompleteChallenge();
-      this.openChallengeDialog(encounter);
+      if(this.user?.id && this.dialogOpened == false && !encounter.touristIds.includes(this.user.id)){
+        console.log("KITA 2")
+        this.socialEncounter = encounter;
+        //this.onCompleteChallenge();
+        this.openChallengeDialog(encounter);
+      }else{
+        console.log("You are already in this encounter!");
+        console.log(encounter.touristIds);
+      }
     } else {
       this.socialEncounter = null;
       console.log('No Social Encounter in proximity');
@@ -154,6 +157,8 @@ export class EncounterExecutionComponent {
     if (encounter) {
       if(this.user?.id && !encounter.touristIds.includes(this.user.id) && this.dialogOpened == false){
         this.openChallengeDialog(encounter);
+      }else{
+        console.log("You already completed this encounter!");
       }
       console.log("KITA 1")
       this.showCompleteButton = true;
