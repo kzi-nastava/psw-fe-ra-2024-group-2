@@ -46,9 +46,6 @@ export class TourAuthoringService {
   createTouristBonus(touristId: number, discountPercentage: number): Observable<TouristBonus>{
     return this.http.post<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/create/${touristId}/${discountPercentage}`, {});
   }
-  getTouristBonusById(touristId: number): Observable<TouristBonus>{
-    return this.http.get<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/${touristId}`);
-  }
 
   getTourById(tourId: number): Observable<Tour> {
     return this.http.get<Tour>(`https://localhost:44333/api/author/tour/${tourId}`);

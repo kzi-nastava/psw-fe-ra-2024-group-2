@@ -45,8 +45,8 @@ export class WheelOfFortuneComponent implements OnInit {
 
     const data = [16, 16, 16, 16, 16, 16];
     const pieColors = [
-      "#8b35bc", "#b163da", "#8b35bc", 
-      "#b163da", "#8b35bc", "#b163da"
+      "#14a7c4", "#007c94", "#14a7c4", 
+      "#007c94", "#14a7c4", "#007c94"
     ];
 
     const config: ChartConfiguration = {
@@ -70,7 +70,7 @@ export class WheelOfFortuneComponent implements OnInit {
             display: false 
           },
           datalabels: {
-            color: "#ff0000",
+            color: "#f87912",
             formatter: (value: any, context: any) => {
               const dataIndex = context.dataIndex;
               const labels = context.chart.data.labels;
@@ -79,7 +79,8 @@ export class WheelOfFortuneComponent implements OnInit {
                 : '';
             },
             font: { 
-              size: 24 
+              size: 20,
+              weight: 'bold'
             }
           }
         }
@@ -136,20 +137,10 @@ export class WheelOfFortuneComponent implements OnInit {
   }
 
   private valueGenerator(angleValue: number) {
-    const labels = ['again', '15%', '5%', 'bad luck', '10%', '20%']; // Tekstovi za prikaz
-    // for (let i = 1; i <= this.rotationValues.length; i++) {
-    //   const rotation = this.rotationValues[i];
-    //   console.log(rotation)
-    //   if (angleValue >= rotation.minDegree && angleValue <= rotation.maxDegree) {
-    //     const resultLabel = labels[i]; // Dobij tekst na osnovu indeksa
-    //     this.spinResultMessage = `REZULTATTTTTTTTTTTTTTTTT: ${resultLabel}`;
-    //     this.spinCompleted.emit(resultLabel); // Emituj string
-    //     break;
-    //   }
-    // }
+    const labels = ['again', '15%', '5%', 'bad luck', '10%', '20%'];
     for (let rotation of this.rotationValues) {
       if (angleValue >= rotation.minDegree && angleValue <= rotation.maxDegree) {
-        const resultValue = rotation.value;
+        //const resultValue = rotation.value;
         if(labels[rotation.value-1] === 'again') 
           this.spinResultMessage = 'You have another try'
         else
@@ -158,13 +149,5 @@ export class WheelOfFortuneComponent implements OnInit {
         break;
       }
     }
-    // for (let i = 0; i < this.rotationValues.length; i++) {
-    //   const rotation = this.rotationValues[i];
-    //   if (angleValue >= rotation.minDegree && angleValue <= rotation.maxDegree) {
-    //     this.spinResultMessage = `Value: ${rotation.value}`;
-    //     this.spinCompleted.emit(i); // Emituj indeks selektovanog odeljka
-    //     break;
-    //   }
-    // }
   }
 }

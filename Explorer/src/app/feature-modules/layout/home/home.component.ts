@@ -6,6 +6,8 @@ import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { SpinWheelService } from 'src/app/shared/services/spin-wheel.service';
+import { UserRole } from 'src/app/infrastructure/auth/model/registration.model';
 
 export enum Tag {
     Adventure = 0,
@@ -27,6 +29,7 @@ export enum Difficulty {
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+
     currentIndex: number = 0;
     tours: Tour[] = [];
     cardsPerView: number = 3;
@@ -38,17 +41,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     isWheelSpinned: boolean = false;
 
     constructor(
+      private spinWheelService: SpinWheelService,
       private tourExecutionService: TourExecutionService, 
       private router: Router,
       private authService: AuthService,
       private tourAuthoringService: TourAuthoringService) {}
     
     ngOnInit(): void {
-      this.authService.isRegistered$.subscribe(isRegistered => {
-        if (isRegistered) {
-          this.wheelVisible = true;
-        }
-      });
       this.authService.user$.subscribe(user => {
         this.user = user;
         console.log('Logged-in user:', user);
@@ -56,6 +55,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.user && this.user.role) {
           this.getTours();
           this.updateCardsPerView();
+        }
+      });
+      this.authService.isRegistered$.subscribe(isRegistered => {
+        if (isRegistered && this.user.role === 'tourist') {
+          this.wheelVisible = true;
         }
       });
       window.addEventListener('resize', () => this.updateCardsPerView());
@@ -90,6 +94,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             console.log('Tourist bonus created:', createdTouristBonus);
             this.spinResult = 'Congratulations! You got a ' + discountPercentage + '% discount coupon!\n'
             this.spinResult += 'Your coupon code is: ' + createdTouristBonus.couponCode
+
+            this.spinWheelService.spinCompleted.emit();
           },
           error: (err) => {
             console.error("Error creating tourist bonus:", err);

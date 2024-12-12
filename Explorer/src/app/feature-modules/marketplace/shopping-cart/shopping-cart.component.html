@@ -74,16 +74,20 @@
       </div>
     </div>
     <div class="cart-footer">
-      <!-- New Coupon Input Section -->
       <div class="coupon-section">
-        <input 
-          type="text" 
-          class="coupon-input" 
-          placeholder="Enter coupon code" 
-          [(ngModel)]="couponCode"
-          (input)="couponError = ''"
+        <input  
+          type="text"  
+          class="coupon-input"  
+          placeholder="Enter coupon code"  
+          [(ngModel)]="couponCode" 
+          (input)="couponError = ''" 
         >
         <button class="apply-coupon-btn" (click)="applyCoupon()" [disabled]="!couponCode">Apply</button>
+        
+        <!-- New My Coupons Button -->
+        <button class="my-coupons-btn" (click)="toggleMyCouponsOverlay()">
+          My Coupons
+        </button>
       </div>
       <div *ngIf="couponError" class="coupon-error">
         {{ couponError }}
@@ -94,13 +98,38 @@
           <i class="bi bi-coin"></i> {{ (getItemsTotal(tourItems) + getItemsTotal(bundleItems)) + getItemsTotal(souvenirItems) | number:'1.2-2' }}
         </span>
       </div>
-      <button 
-        class="checkout-btn" 
-        (click)="checkout()" 
+      <button  
+        class="checkout-btn"  
+        (click)="checkout()"  
         [disabled]="orderItems.length === 0"
       >
         Proceed to Checkout
       </button>
+    </div>
+  </div>
+
+  <!-- My Coupons Overlay -->
+  <div class="my-coupons-overlay" *ngIf="showMyCouponsOverlay">
+    <div class="my-coupons-container">
+      <div class="my-coupons-header">
+        <h3>My Coupons</h3>
+        <button class="close-overlay-btn" (click)="toggleMyCouponsOverlay()">×</button>
+      </div>
+      <div class="my-coupons-list">
+        <div *ngIf="myCoupons.length === 0" class="no-coupons">
+          <p>You have no available coupons.</p>
+        </div>
+        <div *ngFor="let coupon of myCoupons" class="coupon-item">
+          <div class="coupon-details">
+            <span class="coupon-code">{{ coupon.code }}</span>
+            <span class="coupon-description">
+              {{ coupon.allToursDiscount ? 'All Tours Discount' : 'Specific Tour Discount' }}
+            </span>
+            <span class="coupon-discount">{{ coupon.discountPercentage }}% OFF</span>
+          </div>
+          <button class="apply-coupon-btn" (click)="selectCoupon(coupon)">Select</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
