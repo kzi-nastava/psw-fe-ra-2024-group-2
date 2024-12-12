@@ -1,11 +1,15 @@
 /* Tour Table Styles */
 .tour-table-container {
     overflow-x: auto;
-    margin: 1rem 0;
-    margin-left: 10vw;
-    margin-right: 10vw;
+    margin-top: 4.5rem;
+    margin-bottom: 4.5rem;
+    margin-left: 10.5rem;
+    margin-right: 10.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-color: whitesmoke; 
+    border: 2px solid whitesmoke;   
+    box-shadow: 0 5px 8px rgba(0,0,0,0.1);   
+    max-height: 50vh;
   }
   
   table {
@@ -21,7 +25,7 @@
     background-color: #dfa3a3 !important;
   }
   thead {
-    background-color: var(--lighter-brown);
+    background-color: var(--white);
   }
   
   th {
@@ -29,13 +33,13 @@
     font-weight: 600;
     padding: 1rem;
     text-align: left;
-    border-bottom: 2px solid var(--light-brown);
+    border-bottom: 2px solid var(--dark-brown);
   }
   
   td {
     color: var(--text-light);
     padding: 1rem;
-    border-bottom: 1px solid var(--lighter-brown);
+    border-bottom: 1px solid var(--dark-brown);
 
   }
   
@@ -44,7 +48,7 @@
   }
   
   tbody tr:hover {
-    background-color: rgba(144, 238, 144, 0.1);
+    background-color: rgba(0, 255, 55, 0.1);
     transition: background-color 0.3s ease;
     cursor: pointer;
   }

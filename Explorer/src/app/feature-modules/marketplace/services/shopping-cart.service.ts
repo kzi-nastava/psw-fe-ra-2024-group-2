@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Coupon } from '../../tour-authoring/model/coupon.model';
+import { TouristBonus } from '../model/touristBonus.model';
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +102,10 @@ export class ShoppingCartService {
     );
   }
 
+  
+  useTouristBonus(touristId: number, couponCode: string): Observable<TouristBonus>{
+    return this.http.put<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/use/${touristId}/${couponCode}`, {});
+  }
 
   buyBundle(id: number): Observable<any> {
     return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
