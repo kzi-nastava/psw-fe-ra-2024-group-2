@@ -106,6 +106,9 @@ export class ShoppingCartService {
   useTouristBonus(touristId: number, couponCode: string): Observable<TouristBonus>{
     return this.http.put<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/use/${touristId}/${couponCode}`, {});
   }
+  getTouristBonusById(touristId: number): Observable<TouristBonus>{
+    return this.http.get<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/${touristId}`);
+  }
 
   buyBundle(id: number): Observable<any> {
     return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
@@ -117,6 +120,9 @@ export class ShoppingCartService {
 
   applyCoupon(code: string): Observable<Coupon> {
     return this.http.post<Coupon>(`https://localhost:44333/api/tourist/coupon?code=${encodeURIComponent(code)}`, null);
+  }
+  getCoupon(code: string): Observable<Coupon> {
+    return this.http.get<Coupon>(`https://localhost:44333/api/tourist/coupon/${code}`);
   }
 
 }
