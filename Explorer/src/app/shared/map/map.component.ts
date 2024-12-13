@@ -508,20 +508,30 @@ this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].
   }
 
   private getWeatherInfoForPopup(weatherData: any): string {
-    const currentTemp = weatherData.current.temp_c;
     const forecast = weatherData.forecast.forecastday.map((day: any) => {
-      return `<div>
-                <p><strong>${day.date}</strong></p>
-                <p>Temp: ${currentTemp}°C</p>
-                <p>Max temp: ${day.day.maxtemp_c}°C</p>
-                <p>Min temp: ${day.day.mintemp_c}°C</p>
-                <p>Chance of rain: ${day.day.daily_chance_of_rain}%</p>
-                <p>${day.day.condition.text}</p>
-                <img src="${day.day.condition.icon}" alt="${day.day.condition.text}" />
-              </div>`;
-    }).join(''); // Spajanje u jedan HTML string
+      return `
+        <div style="display: flex; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding: 10px 0;">
+          <div style="flex: 1; text-align: center;">
+            <strong>${day.date}</strong>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <img src="${day.day.condition.icon}" alt="${day.day.condition.text}" style="width: 30px; height: 30px;" />
+          </div>
+          <div style="flex: 1; text-align: center;">
+            ${day.day.mintemp_c}°C
+          </div>
+          <div style="flex: 1; text-align: center;">
+            ${day.day.maxtemp_c}°C
+          </div>
+          <div style="flex: 1; text-align: center;">
+            ${day.day.daily_chance_of_rain || '0'}%
+          </div>
+        </div>`;
+    }).join('');
+  
     return forecast;
   }
+  
  
   /*
   this.markers.push(marker);

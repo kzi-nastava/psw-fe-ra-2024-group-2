@@ -23,7 +23,7 @@ export class MapService {
   }
 
   getWeatherForecastByDay(latitude: number, longitude: number): Observable<any> {
-    const url = `https://api.weatherapi.com/v1/forecast.json?key=${this.apiKey}&q=${latitude},${longitude}&days=1`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=${this.apiKey}&q=${latitude},${longitude}&days=3`;
     
     return this.http.get(url); 
   }
