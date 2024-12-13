@@ -91,7 +91,7 @@ export class EncounterService {
     return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/social`, encounter);
   }
   removeUserFromSocialEncounters(id: number | undefined) {
-    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/removesocial`, id);
+    return this.http.put<string>(`${this.apiUrl}/removesocial`, id);
   }
   getUserLevel(userId: number): Observable<UserLevelDto> {
     const url = `${this.levelUrl}/${userId}`;

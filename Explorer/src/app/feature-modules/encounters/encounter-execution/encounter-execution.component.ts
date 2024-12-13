@@ -93,7 +93,11 @@ export class EncounterExecutionComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.dialogOpened = false;
       if(result){
+        if(encounter.encounterType == "Misc"){
         this.showSuccess('Challenge completed!');
+        }else if(encounter.encounterType == "Social"){
+          this.showSuccess('You entered Social encounter!');
+        }
       }
     })
   }
