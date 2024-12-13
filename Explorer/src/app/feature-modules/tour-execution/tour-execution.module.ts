@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
 import { MarketplaceModule } from '../marketplace/marketplace.module';
+import { TourDetailsComponent } from './tour-details/tour-details.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { MarketplaceModule } from '../marketplace/marketplace.module';
     ReportFormComponent,
     SearchToursComponent,
     TourIssueManagementComponent,
-    PurchasedToursComponent
+    PurchasedToursComponent,
+    TourDetailsComponent
   ],
   imports: [
     CommonModule,

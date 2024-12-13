@@ -52,6 +52,7 @@ import { ShowMySouvenirsAuthorComponent } from 'src/app/feature-modules/marketpl
 import { SouvenirListComponent } from 'src/app/feature-modules/marketplace/show-all-souvenirs/souvenir-list.component';
 import { SouvenirsComponent } from 'src/app/feature-modules/marketplace/show-bought-souvenirs/souvenirs.component';
 import { WheelOfFortuneComponent } from 'src/app/feature-modules/layout/wheel-of-fortune/wheel-of-fortune.component';
+import { TourDetailsComponent } from 'src/app/feature-modules/tour-execution/tour-details/tour-details.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -110,6 +111,8 @@ const routes: Routes = [
   {path: 'souvenirs', component: ShowMySouvenirsAuthorComponent, canActivate: [AuthGuard]},
   {path: 'all-souvenirs', component: SouvenirListComponent, canActivate: [AuthGuard]},
   {path: 'wheel-of-fortune', component: WheelOfFortuneComponent, canActivate: [AuthGuard]},
+  {path: 'tour-details/:tourId', component: TourDetailsComponent, canActivate: [AuthGuard]},
+
 ];
 
 @NgModule({
