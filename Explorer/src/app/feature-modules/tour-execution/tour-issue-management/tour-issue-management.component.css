@@ -1,8 +1,7 @@
 .chat-container {
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -16,12 +15,10 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--white) !important;
-  border-bottom: 1px solid var(--lighter-brown);
+  border-bottom: 1px solid var(--dark-brown);
   padding: 0 1rem;
-  position: sticky;
   top: 0;
-  z-index: 1000;
-  margin-top: 64px;
+  margin-top: 50px;
 }
 /*.header h2{
   position: relative;
@@ -149,8 +146,7 @@
   gap: 1rem;
   padding: 1rem;
   background-color: var(--white);
-  border-top: 1px solid var(--lighter-brown);
-  position: sticky;
+  border-top: 1px solid var(--dark-brown);
   bottom: 0;
   z-index: 1000;
 }
@@ -165,7 +161,7 @@
 }
 
 .messages-container::-webkit-scrollbar-track {
-  background: var(--lighter-brown);
+  background: var(--camel);
   border-radius: 3px;
 }
 

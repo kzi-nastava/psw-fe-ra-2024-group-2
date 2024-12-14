@@ -1,6 +1,14 @@
 <div class="page-container" style="margin: 20px;">
-  <section class="coupon-section">
-    <div class="form-and-table">
+  <!-- Toggle Button -->
+  <div class="toggle-button-container">
+    <button class="btn toggle-coupons-btn" (click)="toggleCouponSection()">
+      {{ showCouponSection ? 'Hide Coupons Section' : 'Show Coupons Section' }}
+    </button>
+  </div>
+
+  <!-- Coupons Section -->
+  <section class="coupon-section" *ngIf="showCouponSection">
+    <div class="coupon-container">
       <!-- Coupons Form -->
       <div class="form-container">
         <h2 class="section-title">Create Coupon</h2>
@@ -24,26 +32,20 @@
               </tr>
               <tr>
                 <td>
-                  <label for="applyToAll">Apply to All</label>
-                </td>
-                <td>
-                  <div class="checkbox-wrapper">
-                    <input type="checkbox" id="applyToAll" name="applyToAll" class="form-checkbox"
-                      [(ngModel)]="applyToAll" (change)="onApplyToAllChange()">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
                   <label for="couponTour">Select Tour</label>
                 </td>
                 <td>
-                  <select id="couponTour" name="couponTour" class="form-input" [(ngModel)]="coupon.tourId"
-                    [disabled]="applyToAll">
-                    <option *ngFor="let tour of tours" [value]="tour.id">
-                      {{ tour.name }}
-                    </option>
-                  </select>
+                  <div class="tour-and-checkbox">
+                    <select id="couponTour" name="couponTour" class="form-input form-input-tour" [(ngModel)]="coupon.tourId"
+                      [disabled]="applyToAll">
+                      <option *ngFor="let tour of tours" [value]="tour.id">
+                        {{ tour.name }}
+                      </option>
+                    </select>
+                    <label for="applyToAll" class="apply-to-all-label">Apply to All</label>
+                    <input type="checkbox" id="applyToAll" name="applyToAll" class="form-checkbox"
+                      [(ngModel)]="applyToAll" (change)="onApplyToAllChange()">
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -55,91 +57,78 @@
           </div>
         </form>
       </div>
-  
+
       <!-- Coupons Table -->
       <div class="coupons-table-container">
         <h2 class="section-title">Coupons</h2>
-        <div class="table-wrapper">
+        <div *ngIf="coupons && coupons.length > 0; else noCoupons" class="table-wrapper">
           <table class="coupons-table">
             <thead>
               <tr>
-                <th>Code</th>
-                <th>Discount (%)</th>
-                <th>Tour ID</th>
-                <th>Apply to All</th>
+                <th style="width: 30%;">Code</th>
+                <th style="width: 40%;">Tour</th>
+                <th style="width: 30%;">Discount (%)</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let coupon of coupons">
                 <td>{{ coupon.code }}</td>
-                <td>{{ coupon.discountPercentage }}</td>
                 <td>{{ getNameOfTourForCoupon(coupon.tourId) }}</td>
-                <td>{{ coupon.allToursDiscount ? 'Yes' : 'No' }}</td>
+                <td>{{ coupon.discountPercentage }}</td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <ng-template #noCoupons>
+          <p class="no-coupons-message">No coupons created</p>
+        </ng-template>
       </div>
     </div>
   </section>
 </div>
 
 
-<div class="card-grid">
-  <!-- Kartice za ture -->
-  <div class="card" *ngFor="let tour of tours">
-    <!-- Header kartice -->
-    <div class="card-header">
-      <h3 class="card-title">{{ tour.name }}</h3>
-      <div class="card-meta">
-        <!-- Težina ture -->
-        <span class="badge" [ngClass]="'badge-difficulty-' + tour.difficulty">
-          {{ getDifficultyLabel(tour.difficulty) }}
-        </span>
-        <!-- Status ture -->
-        <span class="badge" [ngClass]="'badge-status-' + tour.status">
-          {{ getStatusLabel(tour.status) }}
-        </span>
-        <!-- Tag ture -->
-        <span class="badge" [ngClass]="'badge-tag-' + tour.tag">
-          {{ getTagLabel(tour.tag) }}
-        </span>
-      </div>
-    </div>
-
-    <!-- Sadržaj kartice -->
-    <div class="card-body">
-      <p class="card-description">{{ tour.description }}</p>
-      <div class="card-price">
-        <!-- <span class="price">${{ tour.price }}</span> per person -->
-        <ng-container *ngIf="isOnSale(tour.id); else regularPrice">
-          <span class="price discounted-price">
-            <s>${{ tour.price }}</s>
+<div class="slider-container">
+  <h2 class="your-tours-h2">Your Tours</h2>
+  <div *ngIf="tours && tours.length > 0; else noTours" class="slider-wrapper">
+    <div class="tour-card" *ngFor="let tour of tours" (click)="showTourClick(tour)">
+      <div class="tour-image">
+        <!-- <img src="../../../../assets/traveling-with-off-road-car.jpg" [alt]="tour.name"> -->
+        <img 
+          [src]="getCheckpointImage(tour.id)" 
+          [alt]="tour.name"
+        >
+        <div class="tour-status">
+          <span class="badge" [ngClass]="'badge-status-' + tour.status">
+            {{ getStatusLabel(tour.status) }}
           </span>
-          <span class="new-price">
-            ${{ getSalePrice(tour.id) }}
-          </span>
-        </ng-container>
-        <ng-template #regularPrice>
-          <span class="price">${{ tour.price }}</span>
-        </ng-template>
+        </div>
       </div>
-      <!-- Prikaz kontrolnih tačaka ako postoje -->
-      <!-- <div *ngIf="tour.checkpoints.length > 0" class="card-checkpoints">
-        <h4>Checkpoints:</h4>
-        <ul>
-          <li *ngFor="let checkpoint of tour.checkpoints">
-            Checkpoint ID: {{ checkpoint }}
-          </li>
-        </ul>
-      </div> -->
-    </div>
+      
 
-    <!-- Footer kartice -->
-    <div class="card-footer">
-      <button class="btn btn-primary" (click)="showTourClick(tour)">
-        View Details
-      </button>
+      <div class="tour-content">
+        <h3 class="tour-title">{{tour.name}}</h3>
+        <p class="tour-description">{{tour.description}}</p>
+        <div class="card-price">
+          <span class="price">${{ tour.price }}</span> per person
+        </div>
+      </div>
+
+      <div class="tour-tags">
+        <div class="tag">
+          <img src="../../../../assets/mountain1.png" alt="tag">
+          <span>{{getTagLabel(tour.tag)}}</span>
+        </div>
+        <div class="difficulty">
+          <img src="../../../../assets/volume1.png" alt="difficulty">
+          <span>{{getDifficultyLabel(tour.difficulty)}}</span>
+        </div>
+      </div>
     </div>
   </div>
+
+  <ng-template #noTours>
+    <p class="no-tours-message">No tours created</p>
+  </ng-template>
 </div>

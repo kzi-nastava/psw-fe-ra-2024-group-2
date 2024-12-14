@@ -396,3 +396,180 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+/* Actions Section */
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .search-input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .search-icon {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .search-icon:hover {
+    background-color: #0056b3;
+  }
+  
+  .category-filter {
+    position: relative;
+  }
+  
+  .filter-toggle {
+    background-color: #473403;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .filter-toggle i {
+    margin-left: 5px;
+  }
+  
+  .filter-toggle:hover {
+    background-color: #0056b3;
+  }
+  
+  .category-options {
+    position: absolute;
+    top: 40px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .category-options label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+/* Show Details Button */
+.show-details-btn {
+    background-color: #452802; /* Light brown */
+    color: #fbf7f4; /* Off-white text */
+    border: 2px solid var(--primary-dark-brown); /* Dark brown border */
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600; /* Slightly bold for emphasis */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase; /* Make the text uppercase */
+    letter-spacing: 1px; /* Add slight spacing between letters */
+  }
+  
+  .show-details-btn:hover {
+    background-color: var(--hover-brown); /* Darker brown for hover */
+    color: #471c03; /* White text on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow on hover */
+    transform: translateY(-2px); /* Lift button slightly */
+  }
+  
+  .show-details-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 8px rgba(117, 68, 5, 0.8); /* Add focus shadow */
+  }
+  
+  .show-details-btn:active {
+    background-color: #502e0f; /* Even darker shade for active state */
+    transform: translateY(1px); /* Slight press effect */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow for active state */
+  }
+  /* Search Bar Container */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: burlywood;
+    border-radius: 8px;
+  }
+  
+  /* Search Input Field */
+  .search-input {
+    width: 300px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid var(--primary-dark-brown); /* Dark brown border */
+    border-radius: 8px;
+    background-color: var(--primary-light-brown); /* White background */
+    color: var(--primary-dark-brown); /* Text color */
+    outline: var(--primary-dark-brown);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .search-input::placeholder {
+    color: var(--text-secondary); /* Placeholder text color */
+    font-style: italic;
+  }
+  
+  .search-input:focus {
+    border-color: var(--text-secondary); /* Focus border color */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Focus shadow */
+  }
+  
+  /* Search Icon Button */
+  .search-icon {
+    background-color: #754405; /* Light brown background */
+    color: var(--white); /* White text */
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  /* Search Icon Button
+  .search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1b0f01; /* Primary brown */
+    /*font-size: 18px;
+  } */
+  
+  .search-icon:hover {
+    background-color: #3a2002; /* Darker brown on hover */
+    transform: translateY(-2px); /* Slight upward motion */
+  }
+  
+  .search-icon:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Soft shadow for focus effect */
+  }
+  
+  .search-icon i {
+    margin-left: 0.5rem;
+    font-size: 1.2rem; /* Icon size */
+  }
+  

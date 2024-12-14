@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <h3>Wheel of Fortune</h3>
+  <div class="container">
+    <canvas #wheel></canvas>
+    <button id="spin-btn" (click)="spinWheel()" [disabled]="disabled">Spin</button>
+    <img src="../../../../assets/triangle.png" alt="spinner-arrow" />
+  </div>
+  <div id="final-value">
+    <p>{{ spinResultMessage }}</p>
+  </div>
+</div>

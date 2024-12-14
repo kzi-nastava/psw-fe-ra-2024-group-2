@@ -22,6 +22,10 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./position-simulator.component.css']
 })
 export class PositionSimulatorComponent {
+
+  currentIndex = 0;
+  sliderTransform = 'translateX(0)';
+  sliderTransition = 'transform 0.3s ease-in-out';
   touristPosition: TouristPosition | null = null;
   person: Person | null = null;
   tourExecution: TourExecution; 
@@ -78,7 +82,9 @@ export class PositionSimulatorComponent {
             this.person = per;
             this.touristPosition = per.touristPosition;
             localStorage.setItem('touristPosition', JSON.stringify(this.touristPosition));
-            this.startPositionCheckInterval(); 
+            this.startPositionCheckInterval();
+            this.FindEventsWithinRange(this.touristPosition);
+ 
           },
           error: (error) => {
             console.error('Error retrieving tourist position:', error);
@@ -366,24 +372,29 @@ export class PositionSimulatorComponent {
         }
 
       });
-      this.execService.GetAllEventsWithinRange(this.touristPosition).subscribe({
-        next: (result : PagedResult<EventModel>) => {
-          //console.log(result);
-          this.events = result.results;
-          //console.log(this.events);
-          this.eventCordinates = this.events
-          .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
-          .map(event => ({
-            latitude: event.latitude,
-            longitude: event.longitude,
-            name: event.name,
-            category: event.category,
-            image: event.image
-          }));
-        }
-      });
+      this.FindEventsWithinRange(this.touristPosition);
     }
   }
+
+  FindEventsWithinRange(touristPosition : TouristPosition): void {
+    this.execService.GetAllEventsWithinRange(touristPosition).subscribe({
+      next: (result : PagedResult<EventModel>) => {
+        //console.log(result);
+        this.events = result.results;
+        //console.log(this.events);
+        this.eventCordinates = this.events
+        .filter(event => event.eventAcceptances.some((acceptance : EventAcception) => acceptance.touristId === this.user?.id))
+        .map(event => ({
+          latitude: event.latitude,
+          longitude: event.longitude,
+          name: event.name,
+          category: event.category,
+          image: event.image
+        }));
+      }
+    });
+  }
+
 
   hasUserAcceptedEvent(event: EventModel): boolean {
     return event.eventAcceptances.some(acceptance => acceptance.touristId === this.user?.id);
@@ -495,5 +506,26 @@ export class PositionSimulatorComponent {
       clearInterval(this.intervalId);
     }
   }
+
+  slideLeft() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.updateSliderTransform();
+    }
+  }
+
+  slideRight() {
+    if (this.currentIndex < this.events.length - 2) {
+      this.currentIndex++;
+      this.updateSliderTransform();
+    }
+  }
+
+  updateSliderTransform() {
+    const offset = this.currentIndex * -50; // Adjust based on card width
+    this.sliderTransform = `translateX(${offset}%)`;
+  }
+
+
 }
 

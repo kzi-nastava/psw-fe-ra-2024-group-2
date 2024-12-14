@@ -11,6 +11,7 @@ import { LocationDto } from '../tour-execution/model/location.model';
 import { Checkpoint } from './model/checkpoint.model';
 import { Coupon } from './model/coupon.model';
 import { Object } from './model/object.model';
+import { TouristBonus } from './model/touristBonus.model';
 import { Tour } from './model/tour.model';
 import { PagedResult } from './shared/model/tour.module';
 
@@ -36,6 +37,14 @@ export class TourAuthoringService {
 
   getTours(): Observable<PagedResult<Tour>> {
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
+  }
+  
+  getCheckpointsByTourId(tourId: number): Observable<PagedResult<Checkpoint>> {
+    return this.http.get<PagedResult<Checkpoint>>(`https://localhost:44333/api/author/checkpoint/checkpoints/getAllByTourId/${tourId}`);
+  }
+
+  createTouristBonus(touristId: number, discountPercentage: number): Observable<TouristBonus>{
+    return this.http.post<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/create/${touristId}/${discountPercentage}`, {});
   }
 
   getTourById(tourId: number): Observable<Tour> {

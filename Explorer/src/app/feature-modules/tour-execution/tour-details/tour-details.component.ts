@@ -1,61 +1,113 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { TourExecutionService } from '../tour-execution.service';
-import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
+import { Component, ViewChild } from '@angular/core';
 import { Tour } from '../model/tour-model';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
+import { TourExecutionService } from '../tour-execution.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShoppingCartService } from '../../marketplace/services/shopping-cart.service';
+import { Checkpoint } from '../../tour-authoring/model/checkpoint.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'xp-tours',
-  templateUrl: './tours.component.html',
-  styleUrls: ['./tours.component.scss']
+  selector: 'xp-tour-details',
+  templateUrl: './tour-details.component.html',
+  styleUrls: ['./tour-details.component.css']
 })
-export class ToursComponent implements OnInit {
-  tours: Tour[] = [];
+export class TourDetailsComponent {
+  tour: Tour;
+  tourId!: number;  
+  checkpoints: Checkpoint [] = []
   @ViewChild(ShoppingCartComponent) shoppingCart!: ShoppingCartComponent;
 
   constructor(
     private service: TourExecutionService, 
     private router: Router, 
     private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
     private cartService: ShoppingCartService // Uključujemo ShoppingCartService za proveru korpe
   ) {} 
-  
+
   ngOnInit(): void {
-    this.service.getTours().subscribe({
-      next: (result: PagedResult<Tour>) => {
-        this.tours = result.results;
-        this.tours = this.tours.filter(tour => tour.status === 1);
+      this.route.paramMap.subscribe(params => {
+            this.tourId = Number(params.get('tourId'));
+
+      if (this.tourId) {
+        this.fetchTourDetails();
       }
     });
   }
 
-  showReviews(tourId: number): void {
-    this.router.navigate(['/reviews', tourId]);
+  fetchTourDetails(): void {
+    // Fetch the tour details
+    this.service.getTourById(this.tourId).subscribe({
+      next: (result: Tour) => {
+        this.tour = result;
+        if (this.tour.checkpoints?.length) {
+          this.fetchCheckpoints(this.tour.checkpoints);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching tour:', err);
+        this.snackBar.open('Failed to load tour details', 'Close', { duration: 3000 });
+      }
+    });
   }
 
-  goToReviewForm(tourId: number): void {
-    this.router.navigate(['/reviewform', tourId]);
+  fetchCheckpoints(checkpointIds: number[]): void {
+    this.service.getTourCheckpoints(checkpointIds).subscribe({
+      next: (pagedResult) => {
+        this.checkpoints = pagedResult.results; 
+        console.log('Loaded checkpoints:', this.checkpoints);
+      },
+      error: (err) => {
+        console.error('Error fetching checkpoints:', err);
+        this.snackBar.open('Failed to load checkpoints', 'Close', { duration: 3000 });
+      }
+    });
   }
 
-  gotoTourSearch() {
-    this.router.navigate(['/alltours/search']);
+
+  getDifficultyLabel(difficulty: number): string {
+    switch (difficulty) {
+      case 0:
+        return 'Easy';
+      case 1:
+        return 'Moderate';
+      case 2:
+        return 'Difficult';
+      default:
+        return 'Unknown';
+    }
   }
   
-  startTour(tourId: number): void {
-    console.log('Starting tour:', tourId);
-    this.service.startTour(tourId).subscribe({
-      next: (response) => {
-        console.log('Tour started successfully!', response);
-        this.router.navigate(['/position-simulator']);
-      },
-      error: (error) => {
-        console.error('Failed to start the tour:', error);
-      }
-    });
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case 0:
+        return 'Draft';
+      case 1:
+        return 'Published';
+      case 2:
+        return 'Archived';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  getTagLabel(tag: number): string {
+    switch (tag) {
+      case 0:
+        return 'Adventure';
+      case 1:
+        return 'Relaxation';
+      case 2:
+        return 'Historical';
+      case 3:
+        return 'Cultural';
+      case 4:
+        return 'Nature';
+      default:
+        return 'Unknown';
+    }
   }
 
   addToCart(tourId: number): void {
@@ -117,36 +169,8 @@ export class ToursComponent implements OnInit {
       });
     });
   }
-  
 
-    
-  getDifficultyLabel(difficulty: number): string {
-    switch (difficulty) {
-      case 0:
-        return 'Easy';
-      case 1:
-        return 'Moderate';
-      case 2:
-        return 'Difficult';
-      default:
-        return 'Unknown';
-    }
-  }
-  
-  getStatusLabel(status: number): string {
-    switch (status) {
-      case 0:
-        return 'Draft';
-      case 1:
-        return 'Published';
-      case 2:
-        return 'Archived';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  onViewDetails(tourId: number): void {
-    this.router.navigate(['/tour-details', tourId]);
+  goToAllTours() {
+    this.router.navigate(['/alltours']);
   }
 }

@@ -15,10 +15,13 @@ import { Registration } from './model/registration.model';
 })
 export class AuthService {
   user$ = new BehaviorSubject<User>({username: "", id: 0, role: "" });
+  private isRegisteredSubject = new BehaviorSubject<boolean>(false); // Track registration status
+  isRegistered$ = this.isRegisteredSubject.asObservable();
 
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorage,
     private router: Router) { }
+    
 
   login(login: Login): Observable<AuthenticationResponse> {
     return this.http
@@ -38,8 +41,13 @@ export class AuthService {
       tap((authenticationResponse) => {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.setUser();
+        this.isRegisteredSubject.next(true);
       })
     );
+  }
+  // Reset the registration status after navigating away
+  resetRegistrationStatus() {
+    this.isRegisteredSubject.next(false);
   }
 
   logout(): void {

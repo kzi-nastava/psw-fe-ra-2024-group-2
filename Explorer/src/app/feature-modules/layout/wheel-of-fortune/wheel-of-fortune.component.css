@@ -1,0 +1,106 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.wrapper {
+  width: 90%;
+  max-width: 34.37em;
+  max-height: 90vh;
+  background-color: whitesmoke; /* Soft cream background */
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 3em;
+  border-radius: 1em;
+  box-shadow: 0 4em 5em rgba(62, 41, 34, 0.2);
+}
+
+.wrapper h3 {
+  text-align: center;
+  color: #3E2922; /* Dark brown for heading */
+  margin-bottom: 1em;
+  font-size: 2em;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.8em;
+  padding: 1em;
+}
+
+.container img {
+  transform: rotate(-90deg);
+  filter: drop-shadow(2px 2px 2px rgba(229, 119, 52, 0.3)); /* Subtle shadow using orange */
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: inherit;
+  top: 0;
+  padding: 0;
+  background-color: #01757A; /* Teal wheel background */
+  border-radius: 50%;
+}
+
+#spin-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  height: 26%;
+  width: 26%;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid #E57734; /* Orange border */
+  background: radial-gradient(#fdcf3b 50%, #d88a40 85%);
+  color: #c66e16;
+  text-transform: uppercase;
+  font-size: 1.8em;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+#spin-btn:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+img {
+  position: absolute;
+  width: 4em;
+  top: 45%;
+  right: -8%;
+  color: #E57734; /* Orange arrow */
+}
+
+#final-value {
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: 1.5em;
+  color: #3E2922; /* Dark brown text */
+  font-weight: 500;
+  background-color: transparent; /* Soft peach background */
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    font-size: 12px;
+    width: 95%;
+    padding: 1.5em;
+  }
+  
+  img {
+    right: -5%;
+    width: 3em;
+  }
+}
