@@ -13,6 +13,7 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
 export class MapComponent implements AfterViewInit,OnDestroy {
   map: any;
   private markers: L.Marker[] = [];
+  forecastData: any[] = [];
 
   @Input() clearMarkersTrigger: boolean = false;
   @Input() objectCollection: Object[] | null = null;
@@ -347,10 +348,11 @@ export class MapComponent implements AfterViewInit,OnDestroy {
       this.map = undefined; 
     }
   }
-  
+ 
   private setExecutionRoutes(): void {
     if (this.checkpointCordinatesCollection && this.checkpointCordinatesCollection.length > 1) {
       const checkpoints = this.checkpointCordinatesCollection;
+
       //console.log(checkpoints);
       const markers = checkpoints.map((checkpoint: Checkpoint) => {
         const marker = L.marker([checkpoint.latitude, checkpoint.longitude], {
@@ -380,26 +382,52 @@ export class MapComponent implements AfterViewInit,OnDestroy {
                 class="checkpoint-image" 
                 style="width: 200px; max-height: 150px;">
           </div>`);
-
+              
 
             this.markers.push(marker);
             return marker;
           }
+          
 
           const marker = L.marker(waypoint.latLng,{
             draggable: false, 
             title: checkpoints[i]?.name || `Waypoint ${i + 1}`,
           });
-          //console.log("Testerina", marker);
+          //console.log("Testerina", marker);         
           this.markers.push(marker);
-          marker.bindPopup(`<div style="width: 200px">
-            <h2 style="margin: 0;">${checkpoints[i].name}</h2>
-            <p>${checkpoints[i].description || 'No description available.'}</p>
-            <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
-                alt="Checkpoint Image" 
-                class="checkpoint-image" 
-                style="width: 200px; max-height: 150px;">
-          </div>`).openPopup(); 
+          const popupContent = `<div style="width: 200px">
+  <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+  <p>${checkpoints[i].description || 'No description available.'}</p>
+  <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+      alt="Checkpoint Image" 
+      class="checkpoint-image" 
+      style="width: 200px; max-height: 150px;">
+  <p><strong>Loading weather data...</strong></p>
+</div>`;
+
+marker.bindPopup(popupContent).openPopup();
+
+// Kada se podaci o vremenskoj prognozi dobiju, ažuriraj pop-up
+this.mapService.getWeatherForecastByDay(checkpoints[i].latitude, checkpoints[i].longitude)
+  .subscribe(weatherData => {
+    const weatherContent = this.getWeatherInfoForPopup(weatherData);
+    const updatedPopupContent = `<div style="width: 200px">
+      <h2 style="margin: 0;">${checkpoints[i].name}</h2>
+      <p>${checkpoints[i].description || 'No description available.'}</p>
+      <img src="data:${checkpoints[i].image?.mimeType};base64,${checkpoints[i].image?.data}" 
+          alt="Checkpoint Image" 
+          class="checkpoint-image" 
+          style="width: 200px; max-height: 150px;">
+      ${weatherContent}
+    </div>`;
+
+    const popup = marker.getPopup(); // Dobij popup
+    if (popup) {
+      popup.setContent(updatedPopupContent).update(); // Ažuriraj sadržaj samo ako postoji
+    } else {
+      console.error('Popup is undefined for the marker.');
+    }
+  });
           return marker;
         },
         draggableWaypoints: false,
@@ -418,6 +446,72 @@ export class MapComponent implements AfterViewInit,OnDestroy {
     }
   }
 
+  showWeatherAlert() {
+    alert("Weather forecast clicked!");
+  }
+  
+  private getWeatherInfoForPopup(weatherData: any): string {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(today.getDate() + 2);
+  
+    const forecast = weatherData.forecast.forecastday.map((day: any) => {
+      const forecastDate = new Date(day.date); // Datum vremenske prognoze
+      let dateLabel = day.date; // Podrazumevani datum (kao tekst)
+  
+      // Postavljanje oznake za Today, Tomorrow i Day After Tomorrow
+      if (
+        forecastDate.getFullYear() === today.getFullYear() &&
+        forecastDate.getMonth() === today.getMonth() &&
+        forecastDate.getDate() === today.getDate()
+      ) {
+        dateLabel = 'Today';
+      } else if (
+        forecastDate.getFullYear() === tomorrow.getFullYear() &&
+        forecastDate.getMonth() === tomorrow.getMonth() &&
+        forecastDate.getDate() === tomorrow.getDate()
+      ) {
+        dateLabel = 'Tomorrow';
+      } else if (
+        forecastDate.getFullYear() === dayAfterTomorrow.getFullYear() &&
+        forecastDate.getMonth() === dayAfterTomorrow.getMonth() &&
+        forecastDate.getDate() === dayAfterTomorrow.getDate()
+      ) {
+        dateLabel = 'Day After Tomorrow';
+      }
+  
+      return `
+        <div style="display: flex; align-items: center; margin-bottom: 10px; border-bottom: ${dateLabel === 'Day After Tomorrow' ? 'none' : '1px solid #ccc'}; padding: 10px 0 0 0;">
+          <div style="flex: 1; min-width: 70px; text-align: center;">
+            <strong>${dateLabel}</strong>
+          </div>
+          <div style="flex: 1; width: 30px; text-align: center;">
+            <img src="${day.day.condition.icon}" alt="${day.day.condition.text}" style="width: 30px; height: 30px;" />
+          </div>
+          <div style="flex: 1; width: 30px; margin-left: 3px; text-align: center;" title="Max temp.">
+            ${day.day.maxtemp_c}°
+          </div>
+          <div style="flex: 1; width: 30px; margin-left: 3px; text-align: center;" title="Min temp.">
+            ${day.day.mintemp_c}°
+          </div>
+          <div style="flex: 1; width: 30px; margin-left: 2px; text-align: center;">
+            <span style="font-size: 0.8em; vertical-align: middle;">💧</span> ${day.day.daily_chance_of_rain || '0'}%
+          </div>
+        </div>
+      `;
+    }).join('');
+  
+    return `
+    <fieldset style="border: 2px solid #ccc; padding: 0px; margin: 10px 0;">
+  <legend style="font-weight: bold; font-size: 1.2em; text-align: center;">Weather Forecast</legend>
+  ${forecast}
+</fieldset>
+
+    `;
+  }
+ 
   setRoute(): void {
     if (this.checkpointObjectCollection) {
       this.checkpointObjectCollection.forEach(tour => {
