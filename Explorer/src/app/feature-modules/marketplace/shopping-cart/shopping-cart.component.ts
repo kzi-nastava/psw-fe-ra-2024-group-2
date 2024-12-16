@@ -103,12 +103,21 @@ export class ShoppingCartComponent implements OnInit {
     this.toggleMyCouponsOverlay();
   }
 
-  loadCartItems() {
-    this.cartService.getOrderItems().subscribe(items => {
-      this.orderItems = items;
-      this.loadTotalPrice();
+  loadCartItems(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.cartService.getOrderItems().subscribe({
+        next: items => {
+          this.orderItems = items;
+          this.loadTotalPrice();
+          resolve(); 
+        },
+        error: err => {
+          reject(err); 
+        }
+      });
     });
   }
+  
 
   loadTotalPrice() {
     this.cartService.getTotalPrice().subscribe(total => {
@@ -157,7 +166,9 @@ export class ShoppingCartComponent implements OnInit {
     return items.reduce((sum, item) => sum + item.price, 0);
   }
 
-  applyCoupon() {
+  async applyCoupon() {
+
+    await this.loadCartItems();
 
     this.couponError = '';
 
