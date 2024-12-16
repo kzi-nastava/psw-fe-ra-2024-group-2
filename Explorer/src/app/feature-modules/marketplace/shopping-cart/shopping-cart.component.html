@@ -31,7 +31,7 @@
         <h3 class="section-title">
           <span>Tours</span>
           <span class="section-total">
-            <i class="bi bi-coin"></i> {{ getItemsTotal(tourItems) }}
+            <i class="bi bi-coin"></i> {{ getItemsTotal(tourItems) | number:'1.2-2' }}
           </span>
         </h3>
         <div *ngFor="let item of tourItems" class="cart-item">
