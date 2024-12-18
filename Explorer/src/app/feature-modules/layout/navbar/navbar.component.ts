@@ -163,4 +163,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showPurchasedSouvenirs(): void {
     this.router.navigate(['/shopping-cart/purchasedSouvenirs']);
   }
+  showCalendar(): void {
+    this.router.navigate(['/eventsCalendar']);
+  }
 }

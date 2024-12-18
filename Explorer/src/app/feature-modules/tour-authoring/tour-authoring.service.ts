@@ -184,5 +184,9 @@ export class TourAuthoringService {
   getAllSale(): Observable<TourSale[]> {
     return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
   }
+
+  getAllEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event');
+  }
   
 }
