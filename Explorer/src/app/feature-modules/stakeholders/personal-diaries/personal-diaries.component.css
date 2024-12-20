@@ -1,51 +1,90 @@
 .diaries-container {
-    display: flex; /* Postavlja flex layout */
-    flex-wrap: wrap; /* Omogućava prelamanje u novi red ako nema dovoljno prostora */
-    gap: 20px; /* Razmak između dnevnika */
-    justify-content: center; /* Centriranje dnevnika horizontalno */
-    margin: 20px;
-  }
-  
-  .diary-wrapper {
-    width: 300px; /* Širina svakog dnevnika */
-    background-color: #fff8dc;
-    border: 2px solid #d2691e;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    font-family: 'Arial', sans-serif;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .diary-wrapper:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  .diary-header {
-    background-color: #d2691e;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .new-chapter-btn {
-    background-color: #ff4500;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .new-chapter-btn:hover {
-    background-color: #d64500;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+.diary-wrapper {
+  background: #4b3621; /* Boja kože */
+  border: 5px solid #d4af37; /* Zlatna ivica */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  padding: 20px 10px 0px 10px;
+  font-family: 'Georgia', serif;
+  color: #fff;
+  position: relative;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Dodajemo animaciju */
+}
+
+/* Efekat kada se pređe mišem */
+.diary-wrapper:hover {
+  transform: scale(1.05); /* Uvećanje za 5% */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Jači senka za fokusiranje */
+}
+
+
+.diary-circle {
+  width: 250px;
+  height: 150px;
+  background: #d9cd86; /* Bela unutrašnjost kruga */
+  border: 3px solid #d4af37; /* Zlatna ivica */
+  border-radius: 50%; /* Pravi krug */
+  margin: 0 auto 15px; /* Centriranje */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 14px;
+  color: #4b3621; /* Tamno braon tekst */
+  font-weight: bold;
+}
+
+.diary-circle h3 {
+  margin: 5px 0;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #4b3621;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.diary-circle p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #4b3621;
+  text-decoration: underline;
+}
+
+.diary-content {
+  font-size: 14px;
+  text-align: right;
+  margin-top: 20px;
+}
+.diary-content p{
+  color:#d4af37;
+}
+.new-chapter-btn {
+  background: #d4af37;
+  border: none;
+  border-radius: 5px;
+  color: #4b3621;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 15px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.new-chapter-btn:hover {
+  background: #c3a02b;
+  color: #fff;
+}
+
+
   
   .diary-content {
     padding: 20px;

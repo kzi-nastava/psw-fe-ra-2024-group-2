@@ -1,17 +1,18 @@
 <div class="diaries-container">
   <div class="diary-wrapper" *ngFor="let diary of diaries">
-    <div class="diary-header">
+    <div class="diary-circle">
       <h3>{{ diary.title }}</h3>
-      <button class="new-chapter-btn" *ngIf="isAllowed(diary)" (click)="openAddChapterModal(diary)">New chapter</button>
+      <p>User : {{ diary.username }}</p>
+      <p>Tour : {{ diary.tourName }}</p>
     </div>
-    <div class="diary-content">
-      <p><strong>Tour ID:</strong> {{ diary.tourId }}</p>
-      <p><strong>User ID:</strong> {{ diary.userId }}</p>
-      <p><strong>Created At:</strong> {{ diary.createdAt | date: 'short' }}</p>
-      <p><strong>Ending tour execution:</strong> {{ diary.closedAt | date: 'short' }}</p>
-    </div>
+    <button class="new-chapter-btn" (click)="openAddChapterModal(diary)">Add chapter</button>
     <button class="new-chapter-btn" (click)="openAllChapterModal(diary)">See all chapters</button>
-  </div>
+    <div class="diary-content">
+      <p>Created at:</p>
+      <p>{{ diary.createdAt | date: 'short' }}</p>
+      <!--<p><strong>Tour ending:</strong> {{ diary.closedAt | date: 'short' }}</p>-->
+    </div>
+  </div>  
 </div>
 
 <!-- Modal za dodavanje poglavlja -->
