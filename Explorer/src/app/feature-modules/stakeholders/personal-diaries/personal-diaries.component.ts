@@ -108,9 +108,19 @@ export class DiariesComponent implements OnInit {
 
   // Resetuje formu
   resetChapterForm(): void {
-    this.chapterForm.reset();
+    this.chapterForm.get('text')?.setValue('');
+    this.chapterForm.get('title')?.setValue('');
+      this.newChapter.image = undefined; // Resetovanje slike
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Resetuje prikaz datoteke u input polju
+      }
   }
 
+  triggerFileInput() {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    fileInput.click(); // Simulira klik na `input[type="file"]`
+  }
   // Obrada odabranog fajla
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

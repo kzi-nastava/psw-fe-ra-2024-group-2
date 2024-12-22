@@ -16,52 +16,56 @@
 </div>
 
 <!-- Modal za dodavanje poglavlja -->
-<div class="modal" *ngIf="isNewChapterModalOpen">
-  <div class="modal-content">
-    <h2>Add Chapter to "{{ selectedDiary?.title }}"</h2>
-    <form [formGroup]="chapterForm" (ngSubmit)="submitChapter()">
-      <div class="form-group">
-        <label for="chapter-title">Chapter Title:</label>
-        <input
-          type="text"
-          id="chapter-title"
-          formControlName="title"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="chapter-text">Content:</label>
-        <textarea
-          id="chapter-text"
-          formControlName="text"
-          required
-        ></textarea>
-      </div>
-      <div>
-        <label for="image">Dodajte sliku:</label>
-        <input
-          type="file"
-          id="image"
-          accept="image/jpeg, image/png, image/gif"
-          (change)="onFileSelected($event)"
-        />
-      </div>
+<div *ngIf="isNewChapterModalOpen" class="new-chapter-modal">
+  <div class="modal">
+    <div class="modal-content">
+      <h2>Add Chapter to "{{ selectedDiary?.title }}"</h2>
+      <form [formGroup]="chapterForm" (ngSubmit)="submitChapter()">
+        <div class="form-group">
+          <label for="chapter-title">Chapter Title:</label>
+          <input
+            type="text"
+            id="chapter-title"
+            formControlName="title"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="chapter-text">Content:</label>
+          <textarea
+            id="chapter-text"
+            formControlName="text"
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label for="image">Dodajte sliku:</label>
+          <button type="button" class="image-button" (click)="triggerFileInput()">Upload Image</button>
+          <input
+            type="file"
+            id="image"
+            accept="image/jpeg, image/png, image/gif"
+            (change)="onFileSelected($event)"
+            hidden
+          />
+        </div>
 
-      <!-- Prikaz odabrane slike -->
-      <div *ngIf="newChapter.image?.data" class="preview">
-        <h4>Pregled slike:</h4>
-        <img
-          [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
-          alt="Pregled slike"
-        />
-      </div>
+        <!-- Prikaz odabrane slike -->
+        <div *ngIf="newChapter.image?.data" class="preview">
+          <h4>Pregled slike:</h4>
+          <img
+            [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
+            alt="Pregled slike"
+          />
+        </div>
 
-      <div class="form-actions">
-        <button type="submit" [disabled]="!chapterForm.valid" class="submit-btn">Create Chapter</button>
-        <button type="button" (click)="resetChapterForm()" class="reset-btn">Reset Field</button>
-        <button type="button" class="btn btn-secondary" (click)="closeNewChapterForm()">Cancel</button>
-      </div>
-    </form>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!chapterForm.valid" class="submit-btn">Create Chapter</button>
+          <button type="button" (click)="resetChapterForm()" class="reset-btn">Reset Field</button>
+          <button type="button" class="btn btn-secondary" (click)="closeNewChapterForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -72,7 +76,7 @@
     <div class="book-title">
       <!-- Provera da li se uređuje naslov -->
       <div *ngIf="!isEditingTitle; else editTitleForm">
-        <h1 style="font-size: 30px; margin-top: 10px;">{{ selectedDiary?.title }}</h1>
+        <h1>{{ selectedDiary?.title }}</h1>
         <button  *ngIf="isAllowed(selectedDiary)" class="edit-btn" (click)="editTitle()">
           ✎ <!-- Ikonica za uređivanje -->
         </button>
@@ -132,11 +136,13 @@
         <!-- Prikaz poglavlja -->
         <ng-template #chapterView>
           <div class="page-content">
-            <img
+            <div class="chapter-image-wrapper">
+              <img
               [src]="chapter.image?.data ? 'data:image/jpeg;base64,' + chapter.image?.data : 'https://via.placeholder.com/150'"
               alt="Slika poglavlja"
               class="chapter-image"
             />
+            </div>
             <p>{{ chapter.text }}</p>
           </div>
           <div class="page-footer">
