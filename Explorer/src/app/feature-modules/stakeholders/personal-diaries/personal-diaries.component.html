@@ -39,7 +39,7 @@
           ></textarea>
         </div>
         <div>
-          <label for="image">Dodajte sliku:</label>
+          <label for="image">Upload image:</label>
           <button type="button" class="image-button" (click)="triggerFileInput()">Upload Image</button>
           <input
             type="file"
@@ -52,7 +52,7 @@
 
         <!-- Prikaz odabrane slike -->
         <div *ngIf="newChapter.image?.data" class="preview">
-          <h4>Pregled slike:</h4>
+          <h4>Selected image:</h4>
           <img
             [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
             alt="Pregled slike"
@@ -157,35 +157,3 @@
     
   </div>
 </div>
-
-
-
-
-<!-- Modal za kreiranje novog poglavlja 
-<div *ngIf="isNewChapterModalOpen" class="new-chapter-modal">
-  <div class="modal-content">
-    <h2 class="modal-title">Add new chapter</h2>
-    <button class="close-btn" (click)="closeNewChapterForm()">✖</button>
-  </div>
-</div>-->
-
-<!-- Modal za unos naziva dnevnika
-<div *ngIf="createDiaryModal" class="modal">
-  <div class="modal-content">
-    <h3>Create New Diary</h3>
-    <form (ngSubmit)="submitDiaryForm()">
-      <label for="diaryTitle">Diary Title:</label>
-      <input
-        id="diaryTitle"
-        type="text"
-        [(ngModel)]="diary.title"
-        name="diaryTitle"
-        required
-      />
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cancel" (click)="closeCreateDiaryModal()">Cancel</button>
-        <button type="submit" class="btn btn-next" [disabled]="!diary.title">Next</button>
-      </div>
-    </form>
-  </div>
-</div>-->
