@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SocialEncounterDto, HiddenLocationEncounterDto, MiscEncounterDto, UnifiedEncounterDto } from './model/encounter.model';
+import { SocialEncounterDto, HiddenLocationEncounterDto, MiscEncounterDto, UnifiedEncounterDto, EncounterDto } from './model/encounter.model';
 import { UserLevelDto } from './model/userLevel.model';
 
 @Injectable({
@@ -69,6 +69,10 @@ export class EncounterService {
       return this.http.get<any[]>(this.apiUrl); 
     }
 
+  getEncounterById(id: number): Observable<EncounterDto> {
+    return this.http.get<EncounterDto>(`${this.apiUrl}/id/${id}`)
+  }
+
   // Method to update the Misc Encounter
   updateMiscEncounter(encounter: UnifiedEncounterDto): Observable<UnifiedEncounterDto> {
     return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/misc`, encounter);
@@ -88,7 +92,7 @@ export class EncounterService {
   
   
   removeUserFromSocialEncounters(id: number | undefined) {
-    return this.http.put<UnifiedEncounterDto>(`${this.apiUrl}/removesocial`, id);
+    return this.http.put<string>(`${this.apiUrl}/removesocial`, id);
   }
  
  

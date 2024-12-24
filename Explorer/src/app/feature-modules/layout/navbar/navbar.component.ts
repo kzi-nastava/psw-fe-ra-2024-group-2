@@ -64,10 +64,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  showEncounterExecution(): void{
+  showCreateSouvenir(): void {
+    this.router.navigate(['/souvenirs/create']);
+  }
+
+  showEncounterExecution(): void {
     this.router.navigate(['/encounter-execution'])
   }
-  
+
   showProfile(): void {
     this.router.navigate(['/profile']);
   }
@@ -80,6 +84,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/mybundles']);
   }
 
+  showMySouvenirs(): void {
+    this.router.navigate(['/souvenirs']);
+  }
+
   showSimulator(): void {
     this.router.navigate(['/position-simulator']);
   }
@@ -90,6 +98,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   showAllBundles(): void {
     this.router.navigate(['/bundles']);
+  }
+
+  showAllSouvenirs(): void {
+    this.router.navigate(['/all-souvenirs']);
   }
 
   showPurchasedTours(): void {
@@ -131,17 +143,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showAddEvent(): void {
     this.router.navigate(['/events']);
   }
+
   showEventAnalytics(): void {
     this.router.navigate(['/eventAnalytics']);
   }
+
   showPopularEvents(): void {
-   this.router.navigate(['/popularEvents']);
+    this.router.navigate(['/popularEvents']);
   }
+
   showCreateBundle(): void {
     this.router.navigate(['/tour/bundle/create']);
   }
-  
+
   showSales(): void {
     this.router.navigate(['/sale']);
-   }
   }
+
+  showPurchasedSouvenirs(): void {
+    this.router.navigate(['/shopping-cart/purchasedSouvenirs']);
+  }
+  showCalendar(): void {
+    this.router.navigate(['/eventsCalendar']);
+  }
+}

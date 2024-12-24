@@ -1,0 +1,87 @@
+<div class="souvenir-creation-container">
+    <div class="souvenir-form-wrapper">
+        <ng-container *ngIf="!hasPublishedTours">
+            <div class="no-tours-message">
+                <h2>No Published Tours Available</h2>
+                <p>You need to create a tour, and publish it, before adding a souvenir.</p>
+                <button class="btn btn-secondary" (click)="navigateToAddTour()">Create a Tour</button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="hasPublishedTours">
+            <div class="souvenir-form-header">
+                <h1>Create New Souvenir</h1>
+                <p>First, select the tour for your souvenir</p>
+            </div>
+
+            <form class="souvenir-form" (ngSubmit)="createSouvenir()" #souvenirForm="ngForm">
+                <div class="form-group">
+                    <label for="tour">Select Tour</label>
+                    <select id="tour" name="tour" class="form-control" [(ngModel)]="selectedTourId"
+                        (ngModelChange)="onTourSelect($event)" required>
+                        <option *ngFor="let tour of tours" [value]="tour.id">
+                            {{ tour.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Only show rest of the form if a tour is selected -->
+                <ng-container *ngIf="selectedTourId">
+                    <div class="form-group">
+                        <label for="name">Souvenir Name</label>
+                        <input type="text" id="name" name="name" [(ngModel)]="souvenir.name"
+                            placeholder="Enter souvenir name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" [(ngModel)]="souvenir.description"
+                            placeholder="Tell the story behind this souvenir" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="price">Price</label>
+                            <div class="input-icon">
+                                <span class="icon">$</span>
+                                <input type="number" id="price" name="price" [(ngModel)]="souvenir.price"
+                                    placeholder="0.00" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group half-width">
+                            <label for="count">Available Count</label>
+                            <input type="number" id="count" name="count" [(ngModel)]="souvenir.count" placeholder="0"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group image-upload">
+                        <label>Upload Souvenir Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="image-upload" accept="image/*" class="file-input"
+                                (change)="onFileSelected($event)">
+                            <div class="file-input-design">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                                </svg>
+                                <span>Choose Image</span>
+                            </div>
+                        </div>
+                        <p class="file-name"></p>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div *ngIf="imagePreview" class="image-preview">
+                        <img [src]="imagePreview" alt="Souvenir Preview" class="preview-image">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" (click)="cancelCreation()">Cancel</button>
+                        <button type="submit" class="btn btn-secondary" [disabled]="!validateForm()">Create
+                            Souvenir</button>
+                    </div>
+                </ng-container>
+            </form>
+    </ng-container>
+</div>

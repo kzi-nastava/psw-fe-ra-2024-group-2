@@ -1,0 +1,271 @@
+:root {
+    /* Color Variables */
+    --primary-brown: #8B7355;
+    --light-brown: #D2B48C;
+    --lighter-brown: #F5DEB3;
+    --camel: #D2B48C;
+    --coyote: #0b7480;
+    --dark-brown: #654321;
+    --primary-green: #90EE90;
+    --light-green: #98FB98;
+    --dark-green: #228B22;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --blog-background: #F8EBCF;
+    --pumpkin: #E57734;
+    --white: #FFFFFF;
+    --success: #28a745;
+    --error: #DC3545;
+    --warning: #FFC107;
+    --font: "Montserrat", sans-serif;
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--blog-background);
+    line-height: 1.6;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--dark-brown);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+p {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+/* Souvenir Creation Container */
+.souvenir-creation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: var(--blog-background);
+}
+
+.souvenir-form-wrapper {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.souvenir-form-wrapper:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Header */
+.souvenir-form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.souvenir-form-header h1 {
+    color: var(--primary-brown);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.souvenir-form-header p {
+    color: var(--text-light);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-brown);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--light-brown);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.1);
+}
+
+/* Form Row */
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-group.half-width {
+    flex: 1;
+}
+
+/* Input Icon */
+.input-icon {
+    position: relative;
+}
+
+.input-icon .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+.input-icon input {
+    padding-left: 2.5rem;
+}
+
+/* File Upload */
+.image-upload {
+    text-align: center;
+}
+
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.file-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+.file-input-design {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px dashed var(--light-brown);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-input-design:hover {
+    background-color: rgba(210, 180, 140, 0.1);
+}
+
+.file-input-design svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-brown);
+}
+
+.file-name {
+    margin-top: 0.5rem;
+    color: var(--text-light);
+}
+
+/* Buttons */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.image-preview {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.preview-image {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+    border: 2px solid var(--light-brown);
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background-color: var(--primary-brown);
+    color: var(--white);
+    border: 1px solid var(--primary-brown);
+}
+
+.btn-secondary:hover {
+    background-color: var(--dark-brown);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.no-tours-message {
+    text-align: center;
+    padding: 2rem;
+}
+
+.no-tours-message h2 {
+    color: var(--primary-brown);
+    margin-bottom: 1rem;
+}
+
+.no-tours-message p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+/* Snackbar styles */
+.success-snackbar {
+    background-color: var(--success);
+    color: var(--white);
+}
+
+.error-snackbar {
+    background-color: var(--error);
+    color: var(--white);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #666;
+    border: 1px solid #ccc;
+    transition: none;
+}

@@ -1,0 +1,46 @@
+<div class="souvenir-container">
+    <h1 class="page-title">Our Souvenirs</h1>
+
+    <div class="search-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Search Souvenirs</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterSouvenirs()" placeholder="Search by name">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="souvenirs-grid">
+        <mat-card *ngFor="let souvenir of filteredSouvenirs" class="souvenir-card">
+            <mat-card-header>
+                <mat-card-title>{{ souvenir.name }}</mat-card-title>
+                <mat-card-subtitle>
+                    <span class="price">{{ souvenir.price | currency }}</span>
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <img mat-card-image [src]="getSouvenirImage(souvenir)" [alt]="souvenir.name" class="souvenir-image">
+
+            <mat-card-content>
+                <p class="description">{{ souvenir.description }}</p>
+                <div class="stock-info">
+                    <span [ngClass]="isOutOfStock(souvenir) ? 'text-error' : 'text-success'">
+                        {{ isOutOfStock(souvenir) ? 'Out of Stock' : souvenir.count + ' Available' }}
+                    </span>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button class="btn" (click)="addToCart(souvenir)"
+                    [disabled]="isOutOfStock(souvenir)">
+                    Add to Cart
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div *ngIf="filteredSouvenirs.length === 0" class="no-results">
+        <p>No souvenirs found.</p>
+    </div>
+</div>
+
+<xp-shopping-cart></xp-shopping-cart>

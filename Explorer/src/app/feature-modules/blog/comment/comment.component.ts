@@ -19,7 +19,7 @@ export class CommentComponent implements OnInit {
   commentForm: FormGroup;
   shouldEdit: boolean = false;
   currentCommentId: number | null = null;
-  currentUserId: number = 1;
+ // currentUserId: number = 1;
   blogId: string | null = null;
   blogWithUser: BlogWithUser | null = null;
   user: User = {} as User;
@@ -96,7 +96,7 @@ export class CommentComponent implements OnInit {
       const commentData = {
         ...this.commentForm.value,
         blogId: Number(this.blogId),
-        userId: this.currentUserId,
+        userId: this.user.id,
         createdAt: new Date(),
         lastModifiedAt: new Date()
       };
@@ -144,9 +144,13 @@ export class CommentComponent implements OnInit {
       const updatedComment = {
         ...this.commentForm.value,
         id: this.currentCommentId,
-        userId: this.currentUserId
+        userId: this.user.id,
       };
-
+      if (updatedComment.userId !== this.user.id) {
+        alert('You are not authorized to update this comment.');
+        return;
+      }
+      console.log("User id: " + updatedComment.userId);
       this.service.updateComment(this.currentCommentId,Number(this.blogId), updatedComment).subscribe({
         next: () => {
           console.log('Comment updated successfully!');
@@ -163,7 +167,7 @@ export class CommentComponent implements OnInit {
   }
 
   onDeleteClick(comment: Comment): void {
-    if (comment.userId !== this.currentUserId) {
+    if (comment.userId !== this.user.id) {
       alert('You are not authorized to delete this comment.');
       return;
     }

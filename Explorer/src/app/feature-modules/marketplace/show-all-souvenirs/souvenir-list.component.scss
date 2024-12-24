@@ -1,0 +1,185 @@
+:host {
+    display: block;
+    padding: 2rem;
+}
+
+.souvenir-container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--dark-brown);
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+
+    mat-form-field {
+        width: 100%;
+        max-width: 500px;
+
+        .mat-mdc-text-field-wrapper {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.souvenirs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.btn {
+    background-color: var(--light-brown) !important;
+
+    &:hover {
+        background-color: var(--lighter-brown) !important;
+    }
+}
+
+.souvenir-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    mat-card-header {
+        background-color: var(--primary-brown);
+        color: white;
+        padding: 1rem;
+
+        .mat-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .mat-card-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    }
+
+    .souvenir-image {
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    mat-card-content {
+        padding: 1rem;
+
+        .price {
+            color: var(--primary-brown);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .description {
+            color: var(--text-light);
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .stock-info {
+            margin-top: 0.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+
+            .text-error {
+                color: #d32f2f;
+                display: flex;
+                align-items: center;
+
+                &:before {
+                    content: '⚠️';
+                    margin-right: 0.5rem;
+                }
+            }
+
+            .text-success {
+                color: #2e7d32;
+                display: flex;
+                align-items: center;
+
+                &:before {
+                    content: '✅';
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+    }
+
+    mat-card-actions {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        background-color: #f9f9f9;
+
+        button {
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+
+            &:hover:not(:disabled) {
+                transform: scale(1.05);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+.no-results {
+    text-align: center;
+    color: var(--text-light);
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+    .souvenirs-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+}

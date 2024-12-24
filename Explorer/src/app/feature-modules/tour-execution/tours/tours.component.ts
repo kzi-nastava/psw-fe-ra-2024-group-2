@@ -145,4 +145,8 @@ export class ToursComponent implements OnInit {
         return 'Unknown';
     }
   }
+
+  onViewDetails(tourId: number): void {
+    this.router.navigate(['/tour-details', tourId]);
+  }
 }

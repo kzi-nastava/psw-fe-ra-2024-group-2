@@ -26,12 +26,17 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ShowAllBundlesComponent } from './show-all-bundles/show-all-bundles.component';
 import { MyBundlesComponent } from './show-my-bundles/my-bundles.component';
 import { ShowWalletComponent } from './show-wallet/show-wallet.component';
+import { CreateSouvenirsComponent } from './souvenirs/create-souvenirs.component';
+import { ShowMySouvenirsAuthorComponent } from './show-my-souvenirs-author/show-my-souvenirs.author.component';
+import { EditSouvenirDialogComponent } from './edit-souvenir-modal/edit-souvenir-modal.component';
+import { DeleteConfirmDialogComponent } from './delete-souvenir-modal/delete-confirm-souvenir-modal.component';
+import { SouvenirListComponent } from './show-all-souvenirs/souvenir-list.component';
+import { SouvenirsComponent } from './show-bought-souvenirs/souvenirs.component';
 
 export interface PagedResult<T> {
   results: T[];
   totalCount: number;
 }
-
 
 @NgModule({
   declarations: [
@@ -45,7 +50,13 @@ export interface PagedResult<T> {
     ShowWalletComponent,
     ManageTouristFundsComponent,
     SaleComponent,
-    NewSaleComponent
+    NewSaleComponent,
+    CreateSouvenirsComponent,
+    ShowMySouvenirsAuthorComponent,
+    EditSouvenirDialogComponent,
+    DeleteConfirmDialogComponent,
+    SouvenirListComponent,
+    SouvenirsComponent
   ],
   imports: [
     CommonModule,
@@ -83,7 +94,9 @@ export interface PagedResult<T> {
     ShowAllBundlesComponent,
     MyBundlesComponent,
     EditBundleDialogComponent,
-    DeleteBundleDialogComponent
+    DeleteBundleDialogComponent,
+    CreateSouvenirsComponent,
+    ShowMySouvenirsAuthorComponent,
   ]
 })
 export class MarketplaceModule { }

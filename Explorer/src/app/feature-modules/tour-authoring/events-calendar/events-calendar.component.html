@@ -1,0 +1,69 @@
+<div class="calendar-feature-header">
+  <h1>Holiday & Event Calendar</h1>
+  <p>
+    Explore public holidays and events for selected countries. Use the dropdown menu to choose a country and view its holidays alongside your scheduled events. Navigate between months to explore more.
+  </p>
+</div>
+
+
+<div class="country-selector">
+  <label for="country">Select Country:</label>
+  <select id="country" (change)="onCountryChange($event)">
+    <option *ngFor="let country of supportedCountries" [value]="country.code">
+      {{ country.name }}
+    </option>
+  </select>
+</div>
+
+<div class="calendar">
+  <div class="calendar-header">
+    <button (click)="goToPreviousMonth()">
+      &#8592; Previous
+    </button>
+    <h2>{{ viewDate | date: 'MMMM yyyy' }}</h2>
+    <button (click)="goToNextMonth()">
+      Next &#8594;
+    </button>
+  </div>
+
+  <div class="calendar-grid">
+    <div
+      *ngFor="let day of generateDays(viewDate)"
+      class="calendar-day"
+      [class.holiday]="day.holiday"
+      [title]="day.holiday ? day.holiday : ''"
+    >
+      <div class="day-number">{{ day.date | date: 'd' }}</div>
+      <div *ngIf="day.holiday" class="holiday-label" (click)="viewHolidayDetails(day.holiday)">
+        🎉 {{ day.holiday.name }}
+      </div>
+      <div
+      *ngFor="let event of day.events"
+      class="event-item"
+      (click)="viewEventDetails(event, $event)"
+    >
+      <span class="event-icon {{ event.category | lowercase }}"></span>
+      <span class="event-name">{{ event.name }}</span>
+    </div>
+    </div>
+  </div>
+  
+
+  <div *ngIf="selectedEvent" class="modal">
+    <div class="modal-content">
+      <h3>Event Details</h3>
+      <p><strong>Event Name:</strong> {{ selectedEvent.name }}</p>
+      <p><strong>Start Date:</strong> {{ selectedEvent.startDate | date: 'fullDate' }}</p>
+      <p><strong>End Date:</strong> {{ selectedEvent.endDate | date: 'fullDate' }}</p>
+      <p><strong>Description:</strong> {{ selectedEvent.description }}</p>
+      <button (click)="closeModal()">Close</button>
+    </div>
+  </div>
+  <div *ngIf="selectedHoliday" class="modal">
+    <div class="modal-content">
+      <h3>Holiday Details</h3>
+      <p><strong>Holiday Name:</strong> {{ selectedHoliday.name }}</p>
+      <p><strong>Description:</strong> {{ selectedHoliday.description }}</p>
+      <button (click)="closeHolidayModal()">Close</button>
+    </div>
+  </div>

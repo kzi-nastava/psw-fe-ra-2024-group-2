@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { Coupon } from '../../tour-authoring/model/coupon.model';
+import { TouristBonus } from '../model/touristBonus.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,22 @@ export class ShoppingCartService {
 
     // Ako nema keša, prvo dohvatimo stavke pa proverimo
     return this.getOrderItems().pipe(
-      map((items: any[]) => items.some(item => item.id === tourId))
+      map((items: any[]) => { 
+        return items.some(item => item.id === tourId); 
+      })
+    );
+  }
+
+  isSouvenirInCart(itemId: number) {
+    if (this.orderItemsCache.length > 0) {
+      const exists = this.orderItemsCache.some(item => item.souvenirId === itemId);
+      return of(exists);
+    }
+
+    return this.getOrderItems().pipe(
+      map((items: any[]) => { 
+        return items.some(item => item.souvenirId == itemId) 
+      })
     );
   }
 
@@ -49,19 +65,29 @@ export class ShoppingCartService {
   removeItem(item: any): Observable<any> {
     console.log('Brišemo stavku iz korpe:', item);
 
-    if(item.bundleId) {
+    if (item.bundleId) {
       return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove-bundle/${item.bundleId}`).pipe(
         tap(() => {
           // Ažuriramo keš tako što uklonimo stavku
           this.orderItemsCache = this.orderItemsCache.filter(i => i.bundleId !== item.bundleId);
         }));
-    } else {
+    } else if (item.tourId) {
       return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove/${item.tourId}`).pipe(
         tap(() => {
           // Ažuriramo keš tako što uklonimo stavku
           this.orderItemsCache = this.orderItemsCache.filter(i => i.tourId !== item.tourId);
         })
       );
+    } else if (item.souvenirId) {
+      return this.http.delete(`${environment.apiHost}tourist/shopping-cart/remove-souvenir/${item.souvenirId}`).pipe(
+        tap(() => {
+          // Ažuriramo keš tako što uklonimo stavku
+          this.orderItemsCache = this.orderItemsCache.filter(i => i.souvenirId !== item.souvenirId);
+        })
+      );
+    } else {
+      console.error('Nepoznata stavka za brisanje:', item);
+      return of(null);
     }
   }
 
@@ -75,14 +101,28 @@ export class ShoppingCartService {
       })
     );
   }
+
   
+  useTouristBonus(touristId: number, couponCode: string): Observable<TouristBonus>{
+    return this.http.put<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/use/${touristId}/${couponCode}`, {});
+  }
+  getTouristBonusById(touristId: number): Observable<TouristBonus>{
+    return this.http.get<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/${touristId}`);
+  }
 
   buyBundle(id: number): Observable<any> {
     return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-bundle/${id}`, {});
   }
 
+  buySouvenir(id: number): Observable<any> {
+    return this.http.post(`${environment.apiHost}tourist/shopping-cart/add-souvenir/${id}`, {});
+  }
+
   applyCoupon(code: string): Observable<Coupon> {
     return this.http.post<Coupon>(`https://localhost:44333/api/tourist/coupon?code=${encodeURIComponent(code)}`, null);
+  }
+  getCoupon(code: string): Observable<Coupon> {
+    return this.http.get<Coupon>(`https://localhost:44333/api/tourist/coupon/${code}`);
   }
 
 }

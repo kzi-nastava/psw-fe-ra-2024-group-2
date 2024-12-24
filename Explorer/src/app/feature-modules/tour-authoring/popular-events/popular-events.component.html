@@ -1,113 +1,182 @@
 <div class="component">
     <div class="container">
-        <div class="table-section">
-            <div class="table-title">
-                Popular Events
-            </div>
-            <div class="table-description">
-                This section showcases the 3 most popular events based on the number of interested tourists. You can check the details.
-            </div>
-            <div class="cards-container">
-                <div *ngFor="let ev of events; let i = index" class="event-card">
-                    <div class="card-header">
-                        <h3>{{ ev.name }}</h3>
-                        <i *ngIf="i === 0" class="fa fa-trophy trophy-icon" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <p class="description">{{ ev.description }}</p>
-                        <p class="category">Category: <strong>{{ ev.category }}</strong></p>
-                        
-                        <!-- Start and End Date -->
-                        <p class="category">
-                            <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br>
-                            <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
-                        </p>
-                        
-                        <img 
-                            *ngIf="ev.image?.data" 
-                            [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" 
-                            alt="Event Image" 
-                            class="event-image">
-                    </div>
-                    <div class="card-footer">
-                        <button 
-                            class="show-details-btn"
-                            (click)="goToEventDetails(ev.id)">
-                            Show Details
-                        </button>
-                    </div>
-                </div>
-            </div>
+      <!-- Header Section -->
+      <div class="table-header">
+        <h2 class="table-title">Popular Events</h2>
+        <div class="table-description">
+          Filter and explore the most popular events based on your interests.
         </div>
+      </div>
+  
+     <!-- Search and Filter Actions -->
+<div class="table-actions">
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div>
+      <input
+        type="text"
+        placeholder="Search by name..."
+        class="search-input"
+        [(ngModel)]="searchName"
+        (input)="onSearchChange()"
+      />
+      <i (click)="onSearchClick()"></i>
     </div>
-    <div class="component">
-        <div class="container">
-            <div class="two-column-layout">
-                <!-- Sekcija za pretplatu na kategorije -->
-                <div class="subscription-section">
-                    <h2>Subscribe</h2>
-                    <p>Select the categories of events you'd like to receive notifications about:</p>
-    
-                    <div class="category-list">
-                        <label class="category-item" *ngFor="let category of eventCategories">
-                          <input
-                            type="checkbox"
-                            [value]="category.value"
-                            (change)="onCheckboxChange($event)"
-                          />
-                          {{ category.label }}
-                        </label>
-                      </div>
-                    <button class="subscribe-btn" (click)="subscribeToCategories()">Subscribe</button>
-                    <button class="unsubscribe-btn" (click)="unsubscribeFromCategories()">Unsubscribe</button>
-    
-                    <div class="confirmation-message" *ngIf="subscriptionSuccess">
-                        <p>You have successfully updated your subscriptions. Current categories:</p>
-                        <ul>
-                            <li *ngFor="let category of selectedCategories">{{ getCategoryLabel(category) }}</li>
-                        </ul>
-                    </div>
+  </div>
+
+  <!-- Filter Dropdown -->
+  <div class="category-filter">
+    <button class="filter-toggle" (click)="toggleCategoryFilters()">
+      Filter by Category
+      <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="category-options" *ngIf="showCategoryFilters">
+      <label>
+        <input
+          type="checkbox"
+          [value]="'MusicFestival'"
+          (change)="onCategoryChange($event)"
+        />
+        Music Festival
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [value]="'BasketballMatch'"
+          (change)="onCategoryChange($event)"
+        />
+        Basketball Match
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [value]="'FootballMatch'"
+          (change)="onCategoryChange($event)"
+        />
+        Football Match
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [value]="'Concert'"
+          (change)="onCategoryChange($event)"
+        />
+        Concert
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [value]="'FilmFestival'"
+          (change)="onCategoryChange($event)"
+        />
+        Film Festival
+      </label>
+    </div>
+  </div>
+</div>
+  
+      <!-- Cards for Events -->
+      <div class="cards-container">
+        <div *ngFor="let ev of filteredEventss" class="event-card">
+          <div class="card-header">
+            <h3>{{ ev.name }}</h3>
+          </div>
+          <div class="card-body">
+            <p class="description">{{ ev.description }}</p>
+            <p class="category">Category: <strong>{{ ev.category }}</strong></p>
+  
+            <!-- Start and End Date -->
+            <p class="event-dates">
+              <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br />
+              <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
+            </p>
+  
+            <img
+              *ngIf="ev.image?.data"
+              [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data"
+              alt="Event Image"
+              class="event-image"
+            />
+          </div>
+          <div class="card-footer">
+            <button class="show-details-btn" (click)="goToEventDetails(ev.id)">
+              Show Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component">
+    <div class="container">
+        <div class="two-column-layout">
+            <!-- Sekcija za pretplatu na kategorije -->
+            <div class="subscription-section">
+                <h2>Subscribe</h2>
+                <p>Select the categories of events you'd like to receive notifications about:</p>
+
+                <div class="category-list">
+                    <label class="category-item" *ngFor="let category of eventCategories">
+                      <input
+                        type="checkbox"
+                        [value]="category.value"
+                        (change)="onCheckboxChange($event)"
+                      />
+                      {{ category.label }}
+                    </label>
+                  </div>
+                <button class="subscribe-btn" (click)="subscribeToCategories()">Subscribe</button>
+                <button class="unsubscribe-btn" (click)="unsubscribeFromCategories()">Unsubscribe</button>
+
+                <div class="confirmation-message" *ngIf="subscriptionSuccess">
+                    <p>You have successfully updated your subscriptions. Current categories:</p>
+                    <ul>
+                        <li *ngFor="let category of selectedCategories">{{ getCategoryLabel(category) }}</li>
+                    </ul>
                 </div>
-    
-                <!-- Sekcija za događaje u pretplaćenim kategorijama -->
-                <div class="filter-section" *ngIf="subscriptionSuccess && selectedCategories.length > 0">
-                    <div class="upcoming-events-section">
-                        <h2>Events in the Subscribed Category</h2>
-                        <div class="cards-container">
-                            <div *ngFor="let ev of filteredEvents" class="event-card">
-                                <div class="card-header">
-                                    <h3>{{ ev.name }}</h3>
-                                </div>
-                                <div class="card-body">
-                                    <p class="description">{{ ev.description }}</p>
-                                    <p class="category">Category: <strong>{{ ev.category }}</strong></p>
-                                    <p class="event-dates">
-                                        <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br>
-                                        <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
-                                    </p>
-                                    <img 
-                                        *ngIf="ev.image?.data" 
-                                        [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" 
-                                        alt="Event Image" 
-                                        class="event-image">
-                                </div>
-                                <div class="card-footer">
-                                    <button 
-                                        class="show-details-btn"
-                                        (click)="goToEventDetails(ev.id)">
-                                        Show Details
-                                    </button>
-                                </div>
+            </div>
+
+            <!-- Sekcija za događaje u pretplaćenim kategorijama -->
+            <div class="filter-section" *ngIf="subscriptionSuccess && selectedCategories.length > 0">
+                <div class="upcoming-events-section">
+                    <h2>Events in the Subscribed Category</h2>
+                    <div class="cards-container">
+                        <div *ngFor="let ev of filteredEvents" class="event-card">
+                            <div class="card-header">
+                                <h3>{{ ev.name }}</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="description">{{ ev.description }}</p>
+                                <p class="category">Category: <strong>{{ ev.category }}</strong></p>
+                                <p class="event-dates">
+                                    <strong>Start Date:</strong> {{ ev.startDate | date: 'mediumDate' }}<br>
+                                    <strong>End Date:</strong> {{ ev.endDate | date: 'mediumDate' }}
+                                </p>
+                                <img 
+                                    *ngIf="ev.image?.data" 
+                                    [src]="'data:' + ev.image?.mimeType + ';base64,' + ev.image?.data" 
+                                    alt="Event Image" 
+                                    class="event-image">
+                            </div>
+                            <div class="card-footer">
+                                <button 
+                                    class="show-details-btn"
+                                    (click)="goToEventDetails(ev.id)">
+                                    Show Details
+                                </button>
                             </div>
                         </div>
                     </div>
-                
-                    <div class="no-events-message" *ngIf="filteredEvents.length === 0">
-                        <p>No events found in the selected category for the next 7 days.</p>
-                    </div>
+                </div>
+            
+                <div class="no-events-message" *ngIf="filteredEvents.length === 0">
+                    <p>No events found in the selected category for the next 7 days.</p>
                 </div>
             </div>
         </div>
     </div>
-    
 </div>
+
+
+  
