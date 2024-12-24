@@ -1,5 +1,5 @@
 .faq-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 3rem auto;
   padding: 0 1.5rem;
 }
@@ -16,9 +16,12 @@ h1 {
 .add-question-card {
   background: var(--white);
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  
   margin-bottom: 3rem;
   padding: 2rem;
+  border-color: whitesmoke; 
+  border: 2px solid whitesmoke;    
+  box-shadow: 0 5px 8px rgba(0,0,0,0.1);   
 }
 
 .card-header h2 {
@@ -88,8 +91,10 @@ h1 {
 
 .faq-item {
   background: var(--white);
-  border-radius: 12px;
-  border: 1px solid var(--lighter-brown);
+  border-color: whitesmoke; 
+  border: 2px solid whitesmoke;    
+  border-radius: 12px;     
+  box-shadow: 0 5px 8px rgba(0,0,0,0.1);   
   padding: 2rem;
   transition: all 0.3s ease;
 }
@@ -177,9 +182,10 @@ h1 {
   margin-top: 1.5rem;
   background: var(--white);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-  border: 1px solid var(--lighter-brown);
+  border-color: whitesmoke; 
+  border: 2px solid whitesmoke;    
+  border-radius: 12px;     
+  box-shadow: 0 5px 8px rgba(0,0,0,0.1);  
 }
 
 .faq-edit-form mat-form-field {

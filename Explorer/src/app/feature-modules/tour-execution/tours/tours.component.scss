@@ -242,6 +242,15 @@
     }
   }
 
+  &.btn-secondary {
+    background-color: var(--primary-brown);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--dark-brown);
+    }
+  }
+
   .tour-info {
     display: flex;
     gap: 1rem;

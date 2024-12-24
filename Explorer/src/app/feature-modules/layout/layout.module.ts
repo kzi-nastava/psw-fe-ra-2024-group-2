@@ -7,12 +7,14 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { RouterModule } from '@angular/router';
 import { MarketplaceModule } from '../marketplace/marketplace.module';
 import { FooterComponent } from './footer/footer.component';
+import { WheelOfFortuneComponent } from './wheel-of-fortune/wheel-of-fortune.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    WheelOfFortuneComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { FooterComponent } from './footer/footer.component';
   exports: [
     NavbarComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    WheelOfFortuneComponent
   ]
 })
 export class LayoutModule { }

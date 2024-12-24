@@ -1,8 +1,70 @@
 <!-- equipment-map.component.html -->
 <div class="page-container">
+  <div class="tour-header">
+    <div class="tour-title-section">
+      <div class="tour-title-container">
+        <h1 class="tour-name">{{ tour.name }}</h1>
+        <div class="tour-meta">
+          <span class="tour-difficulty" [ngClass]="{
+            'difficulty-easy': tour.difficulty === 0,
+            'difficulty-moderate': tour.difficulty === 1,
+            'difficulty-hard': tour.difficulty === 2
+          }">
+            {{ tour.difficulty === 0 ? 'Easy' : 
+               tour.difficulty === 1 ? 'Moderate' : 
+               'Hard' }}
+          </span>
+          <span class="tour-price">
+            <i class="price-icon">AC</i>
+            {{ tour.price.toFixed(2) }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="tour-quick-stats">
+        <div class="stat-item">
+          <span class="stat-label">Status</span>
+          <span class="stat-value">
+            {{ tour.status === 0 ? 'Draft' : 
+               tour.status === 1 ? 'Active' : 
+               'Archived' }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Checkpoints</span>
+          <span class="stat-value">{{ tour.checkpoints.length }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Equipment</span>
+          <span class="stat-value">{{ tour.equipment.length }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tour-description">
+      <h3>Tour Description</h3>
+      <p>{{ tour.description }}</p>
+    </div>
+  </div>
+<div style="display: flex; gap: 20px;">
   <div class="equipment-section">
     <div class="equipment-card">
-      <h2 class="equipment-header">Select Equipment</h2>
+      <h2 class="update-tour-header">Update Tour</h2>
+
+      <h3 class="update-name">Edit Tour</h3>
+      <div class="price-input-container" style="padding-bottom: 5%;">
+        <label for="tour-price" class="price-name">Tour name:</label>
+        <input type="text" id="tour-price" [(ngModel)]="tourName" class="input-text" />
+      </div>
+      <div class="price-input-container" style="padding-bottom: 5%;">
+        <label for="tour-price" class="price-name">Tour description</label>
+        <textarea type="text" id="tour-price" [(ngModel)]="tourDescription" class="input-text-large"></textarea>
+      </div>
+      <div class="price-input-container" style="padding-bottom: 5%;">
+        <label for="tour-price" class="price-name">Tour Price:</label>
+        <input type="number" id="tour-price" [(ngModel)]="tour.price" min="0" class="input-text" />
+      </div>
+      <h3 class="update-name">Select Equipment</h3>
       <div class="equipment-list">
         <div class="equipment-item" *ngFor="let equipment of equipmentsTotal">
           <div class="checkbox-container">
@@ -16,22 +78,15 @@
           </div>
         </div>
       </div>
-            <div class="price-input-container">
-              <label for="tour-price" class="price-label">Tour Price:</label>
-              <input type="number" id="tour-price" [(ngModel)]="tour.price" min="0" class="price-input" />
-            </div>
       <div class="button-container">
         <button mat-raised-button color="primary" (click)="updateTour()">
-          Update Equipment
+          Update
         </button>
-        <!-- Publish Tour Button: enabled only if price > 0 -->
         <button *ngIf="tour.status === 0 || tour.status === 2" mat-raised-button color="accent" 
-                (click)="publishTour()" [disabled]="!tour.price || tour.price <= 0">
+                (click)="publishTour()" [disabled]="!tour.price || tour.price <= 0" style="margin-left: 10px;">
           Publish Tour
         </button>              
-        
-        <!-- Archive Tour Button: visible only if tour status is 1 -->
-        <button *ngIf="tour.status === 1" mat-raised-button color="warn" (click)="archiveTour()">
+        <button *ngIf="tour.status === 1" mat-raised-button color="warn" (click)="archiveTour()" style="margin-left: 10px;">
           Archive Tour
         </button>
       </div>
@@ -40,7 +95,8 @@
 
   <div class="map-section">
     <xp-map id="map1" [objectCollection]="tourObjects" [checkpointCollection]="tourCheckpoints"
-      [checkpointObjectCollection]="tourCheckpointObjects" [isClickDisabled] = "true" >
+      [checkpointObjectCollection]="tourCheckpointObjects" [isClickDisabled]="true" >
     </xp-map>
   </div>
+</div>
 </div>

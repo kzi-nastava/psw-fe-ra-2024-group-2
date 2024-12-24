@@ -6,6 +6,8 @@ import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { SpinWheelService } from 'src/app/shared/services/spin-wheel.service';
+import { UserRole } from 'src/app/infrastructure/auth/model/registration.model';
 
 export enum Tag {
     Adventure = 0,
@@ -27,12 +29,19 @@ export enum Difficulty {
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+
     currentIndex: number = 0;
     tours: Tour[] = [];
     cardsPerView: number = 3;
     user: User;
-    
+    initialSpin: string = '';
+    wheelVisible: boolean = false;
+    spinResult: string = '';
+    spinResultVisible: boolean = false;
+    isWheelSpinned: boolean = false;
+
     constructor(
+      private spinWheelService: SpinWheelService,
       private tourExecutionService: TourExecutionService, 
       private router: Router,
       private authService: AuthService,
@@ -48,9 +57,59 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.updateCardsPerView();
         }
       });
+      this.authService.isRegistered$.subscribe(isRegistered => {
+        if (isRegistered && this.user.role === 'tourist') {
+          this.wheelVisible = true;
+        }
+      });
       window.addEventListener('resize', () => this.updateCardsPerView());
     }
-    
+    ngOnDestroy() {
+      this.authService.resetRegistrationStatus(); // Reset when leaving the component
+    }
+
+    closeSpinOverlay(): void {
+      this.spinResult = '';  // Briše rezultat
+      this.wheelVisible = false;
+      this.spinResultVisible = false;
+    }
+    onSpinCompleted(result: string): void {
+      //console.log('Rezultat spinovanja:', result);
+      this.initialSpin = result;
+      let discountPercentage = 0;
+      if(this.initialSpin === '15%') discountPercentage = 15
+      else if(this.initialSpin === '5%') discountPercentage = 5
+      else if(this.initialSpin === '10%') discountPercentage = 10
+      else if(this.initialSpin === '20%') discountPercentage = 20
+
+      if(this.initialSpin === 'again'){
+        return;
+      }
+      else if(this.initialSpin === 'bad luck'){
+        this.spinResult = 'Unlucky, better luck next time'
+      }
+      else if(this.initialSpin === '5%' || this.initialSpin === '10%' || this.initialSpin === '15%' || this.initialSpin === '20%'){
+        this.tourAuthoringService.createTouristBonus(this.user.id, discountPercentage).subscribe({
+          next: (createdTouristBonus) => {
+            console.log('Tourist bonus created:', createdTouristBonus);
+            this.spinResult = 'Congratulations! You got a ' + discountPercentage + '% discount coupon!\n'
+            this.spinResult += 'Your coupon code is: ' + createdTouristBonus.couponCode
+
+            this.spinWheelService.spinCompleted.emit();
+          },
+          error: (err) => {
+            console.error("Error creating tourist bonus:", err);
+          }
+        })
+      }
+      else{
+        console.log(`GRESKA, POGRESAN KOD`)
+      }
+      this.spinResultVisible = true;
+      this.isWheelSpinned = true;
+      console.log('this.spinResultVisible: ', this.spinResultVisible);
+    }
+
     ngAfterViewInit(): void {}
     
     getTours(): void {

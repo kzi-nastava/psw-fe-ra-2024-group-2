@@ -24,6 +24,18 @@
   </div>
 </div>
 
+<!-- Overlay za spinovanje sa Wheel of Fortune -->
+<div class="overlay" *ngIf="wheelVisible">
+    <div class="wheel-container">
+        <app-wheel-of-fortune (spinCompleted)="onSpinCompleted($event)"
+        [disabled]="isWheelSpinned"></app-wheel-of-fortune>
+        <div *ngIf="spinResultVisible" class="spin-result-container">
+            <p>{{ spinResult }}</p>
+            <button (click)="closeSpinOverlay()">OK</button>
+        </div>
+    </div>
+</div>
+
 <div class="image-container"></div>
 
 <div class="slider-container" *ngIf="user.role.toLowerCase() === 'author' || user.role.toLowerCase() === 'tourist'">

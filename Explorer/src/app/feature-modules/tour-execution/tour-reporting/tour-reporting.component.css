@@ -1,112 +1,214 @@
-#tours {
-    padding: 1rem;
-  }
-  
-  #tours table {
-    width: 100%;
-    background-color: var(--white);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-collapse: collapse;
-    margin-bottom: 1.5rem;
-  }
-  
-  #tours thead {
-    background-color: var(--lighter-brown);
-  }
-  
-  #tours th {
-    color: var(--dark-brown);
-    font-weight: 600;
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 2px solid var(--light-brown);
-  }
-  
-  #tours td {
-    color: var(--text-light);
-    padding: 1rem;
-    border-bottom: 1px solid var(--lighter-brown);
-  }
-  
-  #tours tbody tr:nth-child(even) {
-    background-color: rgba(210, 180, 140, 0.1);
-  }
-  
-  #tours tbody tr:hover {
-    background-color: rgba(144, 238, 144, 0.1);
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Status styling */
-  #tours td:nth-child(5) {
-    font-weight: 500;
-  }
-  
-  .status-active {
-    color: var(--dark-green);
-  }
-  
-  .status-inactive {
-    color: var(--error);
-  }
-  
-  /* Price column styling */
-  #tours td:nth-child(6) {
-    font-weight: 500;
-    color: var(--dark-brown);
-  }
-  
-  /* Difficulty indicators */
-  .difficulty-easy {
-    color: var(--dark-green);
-  }
-  
-  .difficulty-medium {
-    color: var(--primary-brown);
-  }
-  
-  .difficulty-hard {
-    color: var(--error);
-  }
-  
-  /* Report button styling */
-  #tours button {
-    background-color: var(--primary-brown);
-    color: var(--white);
-    padding: 0.5rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    font-size: 0.9rem;
-  }
-  
-  #tours button:hover {
-    background-color: var(--dark-brown);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-  
-  /* Responsive design */
-  @media screen and (max-width: 1024px) {
-    #tours {
-      padding: 0.5rem;
-      overflow-x: auto;
-    }
-    
-    #tours table {
-      min-width: 800px;
-    }
-    
-    #tours th, 
-    #tours td {
-      padding: 0.75rem;
-      font-size: 0.9rem;
-    }
-    
-    #tours button {
-      padding: 0.4rem 1rem;
-    }
-  }
+#tours {     
+  padding: 1rem;     
+  max-width: 1400px;     
+  margin: 0 auto; 
+}  
+.error-mess p {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin: 0;
+}
+.tours-cards-container {     
+  display: grid;     
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));     
+  gap: 1.5rem;     
+  padding-top: 3rem;
+  padding-bottom: 3rem; 
+  padding-left: 6rem;
+  padding-right: 6rem;
+}  
+
+.tour-card {     
+  min-height: 300px;
+  background-color: var(--white);    
+  border-color: whitesmoke; 
+  border: 2px solid whitesmoke;    
+  border-radius: 8px;     
+  box-shadow: 0 5px 8px rgba(0,0,0,0.1);     
+  padding: 1.5rem;     
+  display: flex;     
+  flex-direction: column;     
+  justify-content: space-between;
+  transition: transform 0.3s ease; 
+}  
+
+.tour-card:hover {     
+  transform: scale(1.03); 
+}  
+
+.tour-card-header {     
+  display: flex;     
+  justify-content: space-between;     
+  align-items: center;     
+  margin-bottom: 1rem;     
+  border-bottom: 1px solid var(--dark-brown);     
+  padding-bottom: 0.5rem; 
+}  
+
+.tour-card-body {     
+  display: grid;     
+  gap: 0.75rem;     
+  flex-grow: 1; 
+}  
+
+.tour-card-detail {     
+  display: flex;     
+  justify-content: space-between;     
+  align-items: center;
+  word-break: break-word; /* Ensures text wraps within the card */
+  overflow-wrap: break-word; 
+}  
+
+.tour-card-detail label {     
+  font-weight: 550;     
+  color: var(--dark-brown);     
+  margin-right: 0.5rem;
+  flex-shrink: 0; /* Prevents label from shrinking */
+}  
+
+.tour-card-detail span {     
+  text-align: right;
+  flex-grow: 1; /* Allows span to take remaining space */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}  
+
+.report-button {     
+  background-color: var(--primary-brown);     
+  color: var(--white);     
+  padding: 0.5rem 1.5rem;     
+  border: none;     
+  border-radius: 4px;     
+  cursor: pointer;     
+  transition: all 0.3s ease;     
+  font-family: inherit;     
+  font-size: 0.9rem;     
+  width: 100%;     
+  margin-top: 1rem; 
+}  
+
+.report-button:hover {     
+  background-color: var(--dark-brown);     
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+}  
+
+/* Modal Styles */
+.modal-overlay {     
+  position: fixed;     
+  top: 0;     
+  left: 0;     
+  width: 100%;     
+  height: 100%;     
+  background: rgba(0, 0, 0, 0.5);     
+  display: flex;     
+  justify-content: center;     
+  align-items: center;     
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.report-form-container {     
+  background: var(--white);     
+  border-radius: 8px;     
+  padding: 2rem;     
+  width: 500px;     
+  max-width: 90%;     
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.open .report-form-container {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.report-form {     
+  display: grid;     
+  gap: 1rem; 
+}  
+
+.form-group {     
+  display: grid;     
+  gap: 0.5rem; 
+}  
+
+.form-group label {     
+  font-weight: 550;     
+  color: var(--dark-brown); 
+}  
+
+.form-group select, 
+.form-group textarea {     
+  width: 100%;     
+  padding: 0.5rem;        
+  border-radius: 8px;     
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  border: 1px solid var(--white);     
+  border-radius: 4px;
+  font-family: inherit; 
+}  
+
+.form-group textarea {     
+  min-height: 100px;     
+  resize: vertical; 
+}  
+
+.submit-button {     
+  background-color: var(--primary-brown);     
+  color: var(--white);     
+  padding: 0.75rem;     
+  border: none;     
+  border-radius: 4px;     
+  cursor: pointer;     
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+  width: 100%; 
+}  
+
+.submit-button:disabled {     
+  background-color: var(--dark-brown);     
+  cursor: not-allowed; 
+}  
+
+.submit-button:hover:not(:disabled) {     
+  background-color: var(--dark-brown); 
+}  
+
+.status-active { color: var(--dark-green); } 
+.status-inactive { color: var(--error); } 
+.difficulty-easy { color: var(--dark-green); } 
+.difficulty-medium { color: var(--primary-brown); } 
+.difficulty-hard { color: var(--error); }  
+
+.close-modal-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--dark-brown);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal-button:hover {
+  color: var(--primary-brown);
+}
+/* Responsive Design */
+@media screen and (max-width: 1024px) {     
+  .tours-cards-container {         
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));         
+      gap: 1rem;         
+      padding: 0.5rem;     
+  } 
+}

@@ -1,32 +1,109 @@
-<div id="tours" class="component">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Difficulty</th>
-                <th>Description</th>
-                <th>Tag</th>
-                <th>Status</th>
-                <th>Price</th>
-                <th>Report</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let rp of tour">
-                <td>{{rp.name}}</td>
-                <td>{{getDifficulty(rp.difficulty)}}</td>
-                <td>{{rp.description}}</td>
-                <td>{{getTag(rp.tag)}}</td>
-                <td>{{getStatus(rp.status)}}</td>
-                <td>{{rp.price | currency}}</td>
-                <td><button (click)="onAddClicked(rp)">Report Tour</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <xp-report-form
-        *ngIf="shouldRenderReportForm"
-        [tour]="selectedTour"
-        [tourId]="selectedTourId"
-        [userId]="selectedUserId">
-    </xp-report-form>
+<div id="tours">
+    <div class="tours-cards-container">
+        <div *ngFor="let rp of tour" class="tour-card">
+            <div class="tour-card-header">
+                <h3>{{rp.name}}</h3>
+            </div>
+            <div class="tour-card-body">
+                <div class="tour-card-detail">
+                    <label>Difficulty:</label>
+                    <span [ngClass]="{
+                        'difficulty-easy': getDifficulty(rp.difficulty) === 'Easy',
+                        'difficulty-medium': getDifficulty(rp.difficulty) === 'Moderate',
+                        'difficulty-hard': getDifficulty(rp.difficulty) === 'Hard'
+                    }">{{getDifficulty(rp.difficulty)}}</span>
+                </div>
+                <div class="tour-card-detail">
+                    <label>Tag:</label>
+                    <span>{{getTag(rp.tag)}}</span>
+                </div>
+                <div class="tour-card-detail">
+                    <label>Status:</label>
+                    <span [ngClass]="{
+                        'status-active': getStatus(rp.status) === 'Published',
+                        'status-inactive': getStatus(rp.status) !== 'Published'
+                    }">{{getStatus(rp.status)}}</span>
+                </div>
+                <div class="tour-card-detail">
+                    <label>Price:</label>
+                    <span>{{rp.price | currency}}</span>
+                </div>
+                <button 
+                    class="report-button"
+                    (click)="openReportModal(rp)">
+                    Report Tour
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay for Report Form -->
+    <div class="modal-overlay" [class.open]="isReportModalOpen" (click)="closeReportModal()">
+        <div class="report-form-container" 
+        (click)="$event.stopPropagation()">
+        <div>
+            <h3>Tour: {{tourName}}</h3>
+        </div>
+            <button 
+            class="close-modal-button" 
+            (click)="closeReportModal()">
+            &times;
+        </button>
+            <form [formGroup]="reportForm" class="report-form">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select 
+                        id="category"
+                        formControlName="category"
+                        name="category"
+                        required
+                    >
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Technical Issue">Technical Issue</option>
+                        <option value="Guide Issue">Guide Issue</option>
+                        <option value="Tour Delay">Tour Delay</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        formControlName="description"
+                        name="description"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select
+                        id="priority"
+                        formControlName="priority"
+                        name="priority"
+                        required
+                    >
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                
+                <div *ngIf="isError" class="error-mess">
+                    <p>You are allowed to report an issue with the tour only once.</p>
+                </div>
+                <button
+                    type="submit"
+                    class="submit-button"
+                    [disabled]="!reportForm.valid"
+                    (click)="addTourIssueReport()"
+                >
+                    Submit Report
+                </button>
+            </form>
+        </div>
+    </div>
 </div>

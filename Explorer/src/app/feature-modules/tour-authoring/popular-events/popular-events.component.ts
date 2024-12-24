@@ -21,7 +21,6 @@ export enum EventCategory {
   styleUrls: ['./popular-events.component.css']
 })
 export class PopularEventsComponent {
-  events: EventModel[] = []
 
   eventCategories = [
     { label: 'Concert', value: 0 },
@@ -30,11 +29,16 @@ export class PopularEventsComponent {
     { label: 'Football Match', value: 3 },
     { label: 'Basketball Match', value: 4 },
   ];
+
+  events: EventModel[] = []
   selectedCategories: number[] = []; // Niz odabranih integer vrednosti
   selectedCategory: string = '';
   filteredEvents: any[] = []; // Pretpostavka da ovo puniš iz API-ja ili lokalno
   subscriptionSuccess: boolean = false;
-  
+  showCategoryFilters: boolean = false; // Flag to toggle category filters UI
+  selectedCategoriess: string[] = []; // List of selected categories for filtering
+  filteredEventss: EventModel[] = []; // Pretpostavka da ovo puniš iz API-ja ili lokalno
+  searchName: string = ''; // User-entered search term for object names
 
   onCheckboxChange(event: any): void {
     const value = +event.target.value; // Konvertuje vrednost u broj
@@ -48,8 +52,6 @@ export class PopularEventsComponent {
   
     //console.log('Updated selected categories:', this.selectedCategories); // Za debagovanje
   }
-  
-  
   constructor(private service: TourAuthoringService, private dialog: MatDialog, private router: Router) {}
 
 
@@ -62,6 +64,7 @@ export class PopularEventsComponent {
     this.service.getPopularEvents().subscribe({
       next: (result: PagedResult<EventModel>) =>{
         this.events = result.results
+        this.filteredEventss = [...this.events]; // Initialize filteredObjects
       },
       error: (err:any) => {
         console.log(err)
@@ -156,15 +159,60 @@ export class PopularEventsComponent {
     })
   }
 
-
-
   filterEvents(): void {
     if (this.selectedCategory) {
-      this.filteredEvents = this.events.filter(
+      this.filteredEvents = this.filteredEventss.filter(
         (event) => event.category === this.selectedCategory
       );
     } else {
       this.filteredEvents = [];
     }
   }
+
+  toggleCategoryFilters(): void {
+    this.showCategoryFilters = !this.showCategoryFilters;
+  }
+
+  onCategoryChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    const category = checkbox.value;
+
+    if (checkbox.checked) {
+      this.selectedCategoriess.push(category); // Add selected category
+    } else {
+      this.selectedCategoriess = this.selectedCategoriess.filter(
+        (cat) => cat !== category
+      ); // Remove unselected category
+    }
+
+    this.applyFilters(); // Apply filters after updating categories
+  }
+  /**
+   * Triggered when the search input value changes.
+   * Updates the search term and applies filters.
+   */
+  onSearchChange(): void {
+    this.applyFilters();
+  }
+
+  /**
+   * Triggered when the search icon is clicked.
+   * Applies filters based on the search term and selected categories.
+   */
+  onSearchClick(): void {
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    const searchLower = this.searchName.toLowerCase();
+    this.filteredEventss = this.events.filter((objek) => {
+      const matchesName = objek.name.toLowerCase().includes(searchLower);
+      const matchesCategory =
+        this.selectedCategoriess.length === 0 || // No category filters applied
+        this.selectedCategoriess.includes(objek.category); // Matches selected categories
+
+      return matchesCategory && matchesName;
+    });
+  }
+
 }

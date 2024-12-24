@@ -1,0 +1,55 @@
+<div class="head">
+    <div class="tour-details-container">
+        <div class="tour-header">
+            <h1 class="tour-title">{{ tour.name }}</h1>
+        </div>
+
+        <div class="tour-info-grid">
+            <div class="info-card difficulty">
+                <div class="info-icon">⚡</div>
+                <h3>Difficulty</h3>
+                <p>{{ getDifficultyLabel(tour.difficulty) }}</p>
+            </div>
+
+            <div class="info-card status">
+                <div class="info-icon">●</div>
+                <h3>Status</h3>
+                <p>{{ getStatusLabel(tour.status) }}</p>
+            </div>
+
+            <div class="info-card price">
+                <div class="info-icon">💰</div>
+                <h3>Price</h3>
+                <p>{{ tour.price }} AC</p>
+            </div>
+
+            <div class="info-card tag">
+                <div class="info-icon">🏷️</div>
+                <h3>Tag</h3>
+                <p>{{ getTagLabel(tour.status) }}</p>
+            </div>
+        </div>
+
+        <div class="tour-description">
+            <h2>Description</h2>
+            <p>{{ tour.description }}</p>
+        </div>
+
+        <div class="tour-checkpoints">
+            <h2>Checkpoints</h2>
+            <ul>
+                <li *ngFor="let checkpoint of checkpoints">
+                    <div class="checkpoint-item">
+                        <h3 class="checkpoint-name">Name: {{ checkpoint.name }}</h3>
+                        <p class="checkpoint-description">Description: {{ checkpoint.description }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tour-actions">
+            <button class="btn btn-primary" (click)="addToCart(tour.id)"><span class="icon">🛒</span>Add to Cart</button>
+            <button class="btn btn-secondary" (click)="goToAllTours()"><span class="icon">🏠</span>Back to Tours</button>
+        </div>
+    </div>
+</div>

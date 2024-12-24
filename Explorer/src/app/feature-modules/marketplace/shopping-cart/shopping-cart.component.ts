@@ -3,6 +3,10 @@ import { ShoppingCartService } from '../services/shopping-cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { Coupon } from '../../tour-authoring/model/coupon.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { TouristBonus } from '../model/touristBonus.model';
+import { SpinWheelService } from 'src/app/shared/services/spin-wheel.service';
 
 interface CartItem {
   id: number;
@@ -26,14 +30,27 @@ export class ShoppingCartComponent implements OnInit {
   couponCode: string = '';
   couponError: string = '';
   finalCoupon: string = 'empty';
+  user: User;
+  showMyCouponsOverlay = false;
+  touristBonuses: TouristBonus[] = [];
+  myCoupons: Coupon[] = [];
 
   constructor(
+    private spinWheelService: SpinWheelService,
+    private authService: AuthService,
     private cartService: ShoppingCartService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.loadUserCoupons();
+    });
     this.loadCartItems();
+    this.spinWheelService.spinCompleted.subscribe(() => {
+      this.loadUserCoupons(); // Osveži turističke bonuse i kupone
+    });
   }
 
   get bundleItems(): CartItem[] {
@@ -48,12 +65,59 @@ export class ShoppingCartComponent implements OnInit {
     return this.orderItems.filter(item => item.souvenirId);
   }
 
-  loadCartItems() {
-    this.cartService.getOrderItems().subscribe(items => {
-      this.orderItems = items;
-      this.loadTotalPrice();
+  loadUserCoupons() {
+    this.touristBonuses = []
+    this.myCoupons = []
+    if (this.user) {
+      this.cartService.getTouristBonusById(this.user.id).subscribe({
+        next: (touristBonus: TouristBonus) => {
+          if(touristBonus.isUsed) return //ako je vec iskoristen touristBonus
+
+          this.touristBonuses.push(touristBonus);
+          console.log(this.touristBonuses)///////////////////////////
+          this.cartService.getCoupon(touristBonus.couponCode).subscribe({
+            next: (coupon: Coupon) => {
+              this.myCoupons.push(coupon)
+              console.log(this.myCoupons)////////////////////
+            },
+            error: (error) => {
+              console.error('Error fetching tourists coupon:', error);
+            }
+          })
+        },
+        error: (error) => {
+          console.error('Error fetching tourist bonus:', error);
+        }
+      });
+    }
+  }
+
+  // Toggle My Coupons overlay
+  toggleMyCouponsOverlay() {
+    this.showMyCouponsOverlay = !this.showMyCouponsOverlay;
+  }
+
+  // Select a coupon from the overlay
+  selectCoupon(coupon: Coupon) {
+    this.couponCode = coupon.code;
+    this.toggleMyCouponsOverlay();
+  }
+
+  loadCartItems(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.cartService.getOrderItems().subscribe({
+        next: items => {
+          this.orderItems = items;
+          this.loadTotalPrice();
+          resolve(); 
+        },
+        error: err => {
+          reject(err); 
+        }
+      });
     });
   }
+  
 
   loadTotalPrice() {
     this.cartService.getTotalPrice().subscribe(total => {
@@ -102,7 +166,9 @@ export class ShoppingCartComponent implements OnInit {
     return items.reduce((sum, item) => sum + item.price, 0);
   }
 
-  applyCoupon() {
+  async applyCoupon() {
+
+    await this.loadCartItems();
 
     this.couponError = '';
 
@@ -111,6 +177,27 @@ export class ShoppingCartComponent implements OnInit {
         const coupon: Coupon = result;
 
         if (coupon.allToursDiscount === true) {
+          if(coupon.authorId == -1){ //if it's tourist bonus
+            if(this.orderItems.length > 0){
+              this.cartService.useTouristBonus(this.user.id, coupon.code).subscribe({
+                next: (usedTouristCoupon) => {
+                    const maxPriceItem = this.orderItems.reduce((prev, current) => (prev.price > current.price) ? prev : current);
+                    maxPriceItem.price = maxPriceItem.price - (maxPriceItem.price * coupon.discountPercentage / 100);
+                    this.finalCoupon = coupon.code;
+                    this.couponError = 'Coupon applied successfully.';
+                    this.loadUserCoupons();
+                    console.log('Tourist bonus used:', usedTouristCoupon);
+                },
+                error: (err) => {
+                  this.couponError = 'Coupon might be already used.';
+                  console.error("Error using tourist bonus:", err);
+                }
+              })
+              return;
+            }else{
+              this.couponError = 'Coupon cannot be used on empty cart.';
+            }
+          }
           //find one that costs the most and apply discount to it
           const matchingItemsByAuthorId: CartItem[] = this.orderItems.filter(item => item.authorId === coupon.authorId);
           if (matchingItemsByAuthorId.length === 0) {
