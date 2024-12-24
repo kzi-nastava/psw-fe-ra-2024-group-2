@@ -61,6 +61,17 @@ export class CompleteChallengeDialogComponent implements OnInit {
         }
       });
     }
+    if(this.data && this.data.encounterType == 'HiddenLocation'){
+      this.encounterService.updateHiddenEncounter(this.data).subscribe({
+        next: updatedEncounter => {
+          console.log('Encounter successfully updated:', updatedEncounter);
+          this.updateUserLevelOnChallengeCompletion();
+        },
+        error: error => {
+          console.error('Error updating encounter:', error);
+        }
+      });
+    }
     console.log('Challenge Completed:', this.data);
     this.dialogRef.close(true); // Close the dialog and return success
   }
