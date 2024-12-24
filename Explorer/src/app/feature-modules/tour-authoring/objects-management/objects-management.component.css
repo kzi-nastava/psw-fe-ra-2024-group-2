@@ -65,7 +65,7 @@
   }
   
   .filter-toggle {
-    background: linear-gradient(120deg, #d2b48c, #8b7355);
+    background:  #8b7355;
     color: #fff;
     border: none;
     padding: 10px 15px;
@@ -80,7 +80,7 @@
   }
   
   .filter-toggle:hover {
-    background: linear-gradient(120deg, #8b7355, #d2b48c);
+    background:  #8b7355;
   }
   
   .filter-toggle i {
@@ -333,7 +333,7 @@
   }
   
   .btn-edit {
-    background: linear-gradient(120deg, #d2b48c, #8b7355);
+    background:  #8b7355;
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -345,6 +345,6 @@
   }
   
   .btn-edit:hover {
-    background: linear-gradient(120deg, #8b7355, #784606);
+    background:  #784606;
     transform: translateY(-3px);
   }
