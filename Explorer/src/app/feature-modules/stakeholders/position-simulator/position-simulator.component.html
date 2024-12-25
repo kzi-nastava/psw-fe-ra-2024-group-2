@@ -43,8 +43,8 @@
                           <strong>Description:</strong> {{ event.description }}
                         </p>
                         <p class="event-dates">
-                          <strong>Start:</strong> {{ event.startDate }}<br />
-                          <strong>End:</strong> {{ event.endDate }}
+                          <strong>Start:</strong> {{  event.endDate | date: 'mediumDate'  }}<br />
+                          <strong>End:</strong> {{  event.endDate | date: 'mediumDate'  }}
                         </p>
                       </div>
                       <div class="event-actions">
