@@ -55,7 +55,7 @@ export class RateAppFormComponent implements OnInit {
           this.result = 'Uspešno si ocenio aplikaciju!';
         },
         error: (err) => {
-          this.result = 'Greška pri ocenjivanju aplikacije!';
+          this.result = 'There was an error, please try again!';
           console.error('Greška pri ocenjivanju aplikacije za turiste!', err);
         }
       });
@@ -64,11 +64,11 @@ export class RateAppFormComponent implements OnInit {
       this.service.addRateAppAuthor(rate).subscribe({
         next: (response) => {
           // Ovde se postavlja poruka jer je odgovor uspešan
-          this.result = 'Uspešno si ocenio aplikaciju!';
+          this.result = 'Application rated succesfully!';
         },
         error: (err) => {
-          this.result = 'Greška pri ocenjivanju aplikacije!';
-          console.error('Greška pri ocenjivanju aplikacije za autore!', err);
+          this.result = 'There was an error, please try again!';
+          console.error('There was an error for authors, please try again!', err);
         }
       });
     }
