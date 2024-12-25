@@ -6,5 +6,6 @@ export class Diary {
     title: string;
     createdAt: Date;
     closedAt: Date;
-    
+    username?: string;
+    tourName?: string;
 }

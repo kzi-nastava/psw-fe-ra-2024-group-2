@@ -1,0 +1,37 @@
+<div class="dialog-content">
+  <div *ngIf="data.encounterType === 'Social'">
+    <h1>Challenge</h1>
+    <div>
+      <p>You entered a social encounter!</p>
+    </div>
+    <div class="button-container">
+      <button (click)="onCancel()">Cancel</button>
+      <button (click)="completeChallenge()">Enter Social encounter</button>
+    </div>
+  </div>
+
+  <div *ngIf="data.encounterType === 'HiddenLocation'">
+    <h1>Challenge</h1>
+    <div>
+      <p>This is a hidden encounter. Proceed with caution!</p>
+    </div>
+    <div class="button-container">
+      <button (click)="onCancel()">Cancel</button>
+      <button (click)="completeChallenge()">Complete Hidden encounter</button>
+    </div>
+  </div>
+
+  <div *ngIf="data.encounterType === 'Misc'">
+    <h1>Challenge</h1>
+    <div>
+      <p>
+        Are you ready to complete the challenge?
+        <span style="display: block;">{{ data.actionDescription }}</span>
+      </p>
+    </div>
+    <div class="button-container">
+      <button (click)="onCancel()">Cancel</button>
+      <button (click)="completeChallenge()">Complete Challenge</button>
+    </div>
+  </div>
+</div>

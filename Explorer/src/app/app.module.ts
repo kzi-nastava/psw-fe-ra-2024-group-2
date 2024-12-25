@@ -24,6 +24,9 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
 import { EncountersModule } from './feature-modules/encounters/encounter.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -52,7 +55,11 @@ import { EncountersModule } from './feature-modules/encounters/encounter.module'
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     {
