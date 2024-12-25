@@ -2,8 +2,9 @@
   <div class="centered-content">
     <div class="message-card">
       <h2 class="card-title">Send Message</h2>
- 
+      
       <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+        <!-- Recipient -->
         <div class="form-group">
           <label>Recipient</label>
           <select formControlName="recipientId" class="form-control">
@@ -13,7 +14,8 @@
             </option>
           </select>
         </div>
- 
+
+        <!-- Message -->
         <div class="form-group">
           <label>Message</label>
           <textarea 
@@ -23,7 +25,8 @@
           ></textarea>
           <small class="char-limit">Maximum 280 characters</small>
         </div>
- 
+
+        <!-- Tour Link -->
         <div class="form-group">
           <label>Tour Link (optional)</label>
           <input 
@@ -33,17 +36,18 @@
             placeholder="Add link to your tour..." 
           />
         </div>
- 
-        <button type="submit" 
-          [disabled]="!messageForm.valid || loading"
-          class="submit-button">
-          Send Message
-        </button>
- 
+
+        <!-- Submit Button -->
+        <div class="form-action">
+          <button type="submit" [disabled]="!messageForm.valid || loading">
+            Send Message
+          </button>
+        </div>
+
         <div *ngIf="error" class="error-message">
           {{error}}
         </div>
       </form>
     </div>
   </div>
- </div>
+</div>

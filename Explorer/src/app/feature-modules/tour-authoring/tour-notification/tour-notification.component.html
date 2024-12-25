@@ -1,44 +1,45 @@
 <div class="notification-dropdown">
   <div class="notification-header">
-    Notifications
+    <h3>Notifications</h3>
   </div>
   
   <div class="notification-list" (scroll)="onScroll($event)">
-    <!-- No notifications message -->
-    <div *ngIf="notifications.length === 0 && coinNotifications.length===0" class="notification-empty">
-      No new notifications
+    <!-- Empty state -->
+    <div *ngIf="notifications.length === 0 && coinNotifications.length === 0" 
+         class="notification-empty">
+      <p>No new notifications</p>
     </div>
     
-    <!-- Iterate over notifications and display them -->
-    <div *ngFor="let notification of notifications" class="notification-item" (click)="goToNotification(notification)">
+    <!-- Regular notifications -->
+    <div *ngFor="let notification of notifications" 
+         class="notification-item" 
+         (click)="goToNotification(notification)">
       <div class="notification-content">
-        From User: {{ notification.fromUserId }}
-      </div>
-      <div class="notification-meta">
-        Status: 
-        <span class="notification-status" [ngClass]="{
-          'status-pending': notification.status === 'Pending',
-          'status-resolved': notification.status === 'Resolved',
-          'status-unresolved': notification.status === 'Unresolved'
+        <div class="notification-title">From User: {{ notification.fromUserId }}</div>
+        <div class="notification-badge" [ngClass]="{
+          'badge-pending': notification.status === 'Pending',
+          'badge-resolved': notification.status === 'Resolved',
+          'badge-unresolved': notification.status === 'Unresolved'
         }">
           {{ notification.status }}
-        </span>
+        </div>
       </div>
     </div>
     
-    <!-- Coin notifications (without status display) -->
-    <div *ngFor="let coinNotification of coinNotifications" class="notification-item">
+    <!-- Coin notifications -->
+    <div *ngFor="let coinNotification of coinNotifications" 
+         class="notification-item">
       <div class="notification-content">
-        Adventure Coin Notification
-      </div>
-      <div class="notification-meta">
-        Sent At: {{ coinNotification.sentAt | date:'short' }}
+        <div class="notification-title">Adventure Coin Notification</div>
+        <div class="notification-time">
+          {{ coinNotification.sentAt | date:'short' }}
+        </div>
       </div>
     </div>
   </div>
 
   <div class="notification-footer">
-    <button class="mark-all-read" (click)="MarkAllAsRead()">
+    <button class="mark-read-btn" (click)="MarkAllAsRead()">
       Mark all as read
     </button>
   </div>
