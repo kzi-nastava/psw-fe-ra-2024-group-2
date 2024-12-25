@@ -3,9 +3,35 @@
     <p class="instructions">Click on the map to choose your location.</p>
 </div>
 
-<div *ngIf="showCompleteButton">
-    <button class="mat-raised-button" (click)="onCompleteChallenge()">Complete Challenge</button>
+<div class="map-legend">
+    <details>
+        <summary>
+            <h3>Legend <span class="dropdown-arrow">&#9662;</span></h3>
+        </summary>
+        <div class="legend-content">
+            <p>Other users have created different challenges for you. Complete these to connect with them and explore the world around you.</p>
+            <ul>
+                <li>
+                    <img src="assets/people.png" alt="Social Encounter" width="32" height="32"> 
+                    <strong>Social Encounter:</strong> Find and connect with others nearby.
+                </li>
+                <li>
+                    <img src="assets/misc.png" alt="Misc Encounter" width="32" height="32"> 
+                    <strong>Misc Encounter:</strong> Perform unique actions at specific points.
+                </li>
+                <li>
+                    <img src="assets/exclamation.png" alt="Hidden Encounter" width="32" height="32"> 
+                    <strong>Hidden Location:</strong> Discover secret spots based on images.
+                </li>
+            </ul>
+        </div>
+    </details>
 </div>
+
+
+<!--<div *ngIf="showCompleteButton">
+    <button class="mat-raised-button" (click)="onCompleteChallenge()">Complete Challenge</button>
+</div>-->
 
 <div class="map-container">
     <div class="xp-map-container">

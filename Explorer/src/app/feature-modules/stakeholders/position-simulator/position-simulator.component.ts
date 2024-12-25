@@ -436,6 +436,11 @@ export class PositionSimulatorComponent {
     });
   }
 
+  triggerFileInput() {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    fileInput.click(); // Simulira klik na `input[type="file"]`
+  }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
