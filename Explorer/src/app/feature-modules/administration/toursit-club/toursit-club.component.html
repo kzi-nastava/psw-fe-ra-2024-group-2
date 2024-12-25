@@ -1,25 +1,31 @@
-<div class="component">
-    <p></p>
-    <p></p>
-</div>
 <div class="tourist-management">
-  <div class="column">
+    <div class="column">
       <h3>Club Members</h3>
-      <ul>
-          <li *ngFor="let member of members">
-              {{ member.username }} ({{ member.email }})
-              <button (click)="removeMember(member.userId)">Remove</button>
-          </li>
+      <ul class="member-list">
+        <li *ngFor="let member of members" class="member-item">
+          <div class="member-info">
+            <span class="username">{{ member.username }}</span>
+            <span class="email">{{ member.email }}</span>
+          </div>
+          <button class="action-button btn-remove" (click)="removeMember(member.userId)">
+            Remove
+          </button>
+        </li>
       </ul>
-  </div>
-
-  <div class="column">
+    </div>
+  
+    <div class="column">
       <h3>Non-Members</h3>
-      <ul>
-          <li *ngFor="let nonMember of nonMembers">
-              {{ nonMember.username }} ({{ nonMember.email }})
-              <button (click)="inviteTourist(nonMember)">Invite</button>
-          </li>
+      <ul class="member-list">
+        <li *ngFor="let nonMember of nonMembers" class="member-item">
+          <div class="member-info">
+            <span class="username">{{ nonMember.username }}</span>
+            <span class="email">{{ nonMember.email }}</span>
+          </div>
+          <button class="action-button btn-invite" (click)="inviteTourist(nonMember)">
+            Invite
+          </button>
+        </li>
       </ul>
+    </div>
   </div>
-</div>
