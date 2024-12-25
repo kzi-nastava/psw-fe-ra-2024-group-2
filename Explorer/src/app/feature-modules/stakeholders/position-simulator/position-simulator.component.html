@@ -90,9 +90,9 @@
     <!-- Naslov knjige -->
     <div class="book-title">
       <!-- Provera da li se uređuje naslov -->
-      <div *ngIf="!isEditingTitle; else editTitleForm">
+      <div *ngIf="!isEditingTitle; else editTitleForm" class="title-container">
         <button class="new-chapter-btn" (click)="addNewChapter()">New chapter</button>
-        <h1 style="font-size: 30px; margin-top: 10px;">{{ diary.title }}</h1>
+        <h1>{{ diary.title }}</h1>
         <button class="edit-btn" (click)="editTitle()">
           ✎ <!-- Ikonica za uređivanje -->
         </button>
@@ -152,11 +152,13 @@
         <!-- Prikaz poglavlja -->
         <ng-template #chapterView>
           <div class="page-content">
-            <img
+            <div class="chapter-image-wrapper">
+              <img
               [src]="chapter.image?.data ? 'data:image/jpeg;base64,' + chapter.image?.data : 'https://via.placeholder.com/150'"
               alt="Slika poglavlja"
               class="chapter-image"
             />
+            </div>
             <p>{{ chapter.text }}</p>
           </div>
           <div class="page-footer">
@@ -194,18 +196,20 @@
       </div>
 
       <div>
-        <label for="image">Dodajte sliku:</label>
+        <label for="image">Upload image:</label>
+        <button type="button" class="image-button" (click)="triggerFileInput()">Upload Image</button>
         <input
-        type="file"
-        id="image"
-        accept="image/jpeg, image/png, image/gif"
-        (change)="onFileSelected($event)"
+          type="file"
+          id="image"
+          accept="image/jpeg, image/png, image/gif"
+          (change)="onFileSelected($event)"
+          hidden
         />
-    </div>
+      </div>
 
     <!-- Prikaz odabrane slike -->
     <div *ngIf="newChapter.image?.data" class="preview">
-        <h4>Pregled slike:</h4>
+        <h4>Selected image:</h4>
         <img
         [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
         alt="Pregled slike"

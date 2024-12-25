@@ -8,6 +8,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { RateAppFormComponent } from './rate-app-form/rate-app-form.component';
 import { SendMessageComponent } from './send-message/send-message.component';
 import { DiariesComponent } from './personal-diaries/personal-diaries.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { DiariesComponent } from './personal-diaries/personal-diaries.component'
         CommonModule,
         MaterialModule,
         FormsModule,          // Dodato FormsModule
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatProgressBarModule
     ],
     providers: [DatePipe],
     exports: [

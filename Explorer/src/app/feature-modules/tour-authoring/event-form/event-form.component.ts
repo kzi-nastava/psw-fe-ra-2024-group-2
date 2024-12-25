@@ -59,6 +59,7 @@ onFileSelect(event: any): void {
       };
       reader.readAsDataURL(file); // Convert file to base64
   }
+  event.target.value = ''; // This resets the file input field
 }
 onLocationSelected(location: { lat: number, lng: number }) {
 this.latitude = location.lat;
