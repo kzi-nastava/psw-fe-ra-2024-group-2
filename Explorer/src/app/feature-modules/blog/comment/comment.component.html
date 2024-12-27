@@ -1,125 +1,206 @@
-<div class="blogInfo">
-  <div *ngIf="blogImages.length > 0" class="image-gallery">
-    <div *ngFor="let image of blogImages" class="image-item">
-      <img [src]="image.data" [alt]="'Image '" class="blog-image"/>
-    </div>
-  </div>
-  
+<article class="blog-container" *ngIf="blogWithUser; else blogNotFound">
+  <header class="blog-hero">
+    <div class="blog-hero-content">
+      <div class="blog-header-line">
+        <p class="blog-date">
+          <strong>{{ blogWithUser.blog.date | date: 'longDate' }}</strong>
+        </p>
+    
+        <div class="blog-author-info">
+          <img 
+            class="blog-author-image"
+            [src]="blogWithUser.author.profileImage?.data?.startsWith('data:image/jpeg;base64,') 
+                    ? blogWithUser.author.profileImage?.data 
+                    : 'data:image/jpeg;base64,' + blogWithUser.author.profileImage?.data" 
+            alt="Author Image">
+          <div class="blog-author-details">
+            <p class="blog-author-name">
+              {{ blogWithUser.author.name || 'Unknown'}} {{ blogWithUser.author.lastName || 'Author'}}
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="line-header"></div>
+    </div>    
+  </header>
 
-  <div class="blog-parent">
-    <div *ngIf="blogWithUser" class="blog-details-container">
-      <p><strong>Date: {{ blogWithUser.blog.date | date: 'longDate' }}</strong></p>
-      <h1>{{ blogWithUser.blog.title }}</h1>
+  <section class="blog-content-section">
+    <div class="blog-title">
+      <h1>{{  blogWithUser.blog.title }}</h1>
     </div>
-    <div *ngIf="blogWithUser" class="blog-content">
-      <h2>Content</h2>
-      <p>{{ blogWithUser.blog.description }}</p>
+    <div class="blog-content-wrapper">
+      <br>
+      <markdown class="blog-markdown" [data]="blogWithUser.blog.description"></markdown>
     </div>
-  </div>
+  </section>
+
+  <section class="blog-meta-section" *ngIf="blogWithUser">
+    <div class="blog-reactions">
   
-  <div *ngIf="!blogWithUser" class="error-message">
+      <button 
+        class="reaction-button"  
+        (click)="upvote(blogWithUser.blog)" 
+        [ngClass]="{'highlighted': userVote === 'Upvote'}"
+        [attr.aria-label]="userVote === 'Upvote' ? 'You liked this post' : 'Click to like this post'">
+        <img src="../../../../assets/heart.png" alt="Like" class="reaction-icon">
+        <span class="reaction-text">
+          {{ userVote === 'Upvote' ? 'Liked' : 'Like' }}
+        </span>
+      </button>
+  
+      <button 
+        class="reaction-button" 
+        (click)="downvote(blogWithUser.blog)" 
+        [ngClass]="{'highlighted': userVote === 'Downvote'}"
+        [attr.aria-label]="userVote === 'Downvote' ? 'You disliked this post' : 'Click to dislike this post'">
+        <img src="../../../../assets/dislike (1).png" alt="Dislike" class="reaction-icon">
+        <span class="reaction-text">
+          {{ userVote === 'Downvote' ? 'Disliked' : 'Dislike' }}
+        </span>
+      </button>
+  
+    </div>
+  </section>
+  
+</article>
+
+<ng-template #blogNotFound>
+  <div class="error-message">
     <p>Blog not found.</p>
   </div>
+</ng-template>
 
-  <div class="blog-author">
-    <div class="blog-card-left" *ngIf="blogWithUser">
-      <img 
-      [src]="blogWithUser.author.profileImage?.data?.startsWith('data:image/jpeg;base64,') 
-              ? blogWithUser.author.profileImage?.data 
-              : 'data:image/jpeg;base64,' + blogWithUser.author.profileImage?.data" 
-      class="blog-author-image">
-      <p class="blog-author-name">
-        {{  blogWithUser.author.name || 'Unknown'}} {{ blogWithUser.author.lastName || 'Author'}}
-      </p>
-    </div>    
-    <div class="rating-buttons" *ngIf="blogWithUser">
-      <button 
-          class="rating-button"  
-          (click)="upvote(blogWithUser.blog)" 
-          [ngClass]="{'highlighted': blogWithUser.blog.userVote === 'Upvote'}">
-          <img src="../../../../assets/heart.png"  width="30px" alt="Like" class="rating-icon"> 
-      </button>
-      <button 
-          class="rating-button" 
-          (click)="downvote(blogWithUser.blog)" 
-          [ngClass]="{'highlighted': blogWithUser.blog.userVote === 'Downvote'}">
-          <img src="../../../../assets/dislike (1).png" width="30px" alt="Dislike" class="rating-icon"> 
-      </button>
+<section class="comments-section" *ngIf="blogWithUser">
+  <div class="comments-header">
+    <h2 class="comments-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="comments-icon">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+      </svg>
+      Comments ({{ commentsWithAuthor.length }})
+    </h2>
   </div>
-  </div>
-</div>
-<div class="component">
-  <h1>Comments</h1>
 
-  <div class="two-column-layout">
-    <div class="column form-column">
-      <div class="form-card">
-        <form [formGroup]="commentForm" (ngSubmit)="addComment()">
-          <div class="form-content">
-            <div class="form-field">
-              <label for="text">Text</label>
-              <textarea id="text" formControlName="text" placeholder="Enter Comment Text" class="form-input" rows="3"></textarea>
-              <div class="error-message" *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched">
-                Comment text is required
-              </div>
-            </div>
-        
-            <div class="form-actions">
-              <button *ngIf="!shouldEdit" type="button" class="btn btn-primary" (click)="addComment()">
-                Add Comment
-              </button>
-        
-              <button *ngIf="shouldEdit" type="button" class="btn btn-primary" [disabled]="commentForm.invalid" (click)="updateComment()">
-                Update Comment
-              </button>
-        
-              <button *ngIf="shouldEdit" type="button" class="btn btn-error" (click)="cancelEdit()">
-                Cancel
-              </button>
-            </div>
+  <div class="comment-form-card">
+    <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+      <div class="form-field">
+        <label for="commentText">Your Thoughts</label>
+        <textarea 
+          id="commentText"
+          formControlName="text"
+          placeholder="Share your insights..."
+          class="form-input"
+          rows="4"
+        ></textarea>
+        <div class="error-container">
+          <div 
+            class="error-message" 
+            *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="error-icon">
+              <path d="M12 2L2 22h20L12 2zm1 16h-2v-2h2v2zm0-4h-2V8h2v6z"/>
+            </svg>
+            Comment must be between 3 and 500 characters
           </div>
-        </form>        
-      </div>
-    </div>
-
-    <div class="column table-column">
-      <div class="table-container">
-        <table *ngIf="commentsWithAuthor.length > 0">
-          <thead>
-            <tr>
-              <th>Text</th>
-              <th>Username</th>
-              <th>Created At</th>
-              <th>Last Modified At</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let commentWithAuthor of commentsWithAuthor" class="clickable-row">
-              <td>{{ commentWithAuthor.comment.text }}</td>
-              <td>{{ commentWithAuthor.author.username }}</td>
-              <td>{{ commentWithAuthor.comment.createdAt | date: 'short' }}</td>
-              <td>{{ commentWithAuthor.comment.lastModifiedAt | date: 'short' }}</td>
-              <td>
-                <button class="icon-button edit-button" (click)="onEditClick(commentWithAuthor.comment)">
-                  <i class="icon">edit</i>
-                </button>
-              </td>
-              <td>
-                <button class="icon-button delete-button" (click)="onDeleteClick(commentWithAuthor.comment)">
-                  <i class="icon">delete</i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        </div>
       </div>
 
-      <!-- No Comments Message -->
-      <div class="message-card" *ngIf="commentsWithAuthor.length === 0">
-        <p>No comments available.</p>
+      <div class="form-actions">
+        <button 
+          *ngIf="!shouldEdit"
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="commentForm.invalid"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon">
+            <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
+          </svg>
+          Post Comment
+        </button>
+
+        <ng-container *ngIf="shouldEdit">
+          <button 
+            type="button"
+            class="btn btn-primary"
+            [disabled]="commentForm.invalid"
+            (click)="updateComment()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            Update
+          </button>
+          <button 
+            type="button"
+            class="btn btn-error"
+            (click)="cancelEdit()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+            Cancel
+          </button>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+
+  <div class="comment-list" *ngIf="commentsWithAuthor.length > 0; else noComments">
+    <div 
+      class="comment-card" 
+      *ngFor="let commentWithAuthor of commentsWithAuthor" 
+      [@commentAnimation]
+    >
+      <div class="comment-header">
+        <div class="comment-author-info">
+          <img 
+            [src]="commentWithAuthor.author.profileImage?.data || '/assets/default-avatar.png'"
+            alt="{{ commentWithAuthor.author.username }}"
+            class="author-avatar"
+          >
+          <span class="comment-author">{{ commentWithAuthor.author.username }}</span>
+        </div>
+        <span class="comment-date">
+          {{ commentWithAuthor.comment.createdAt | date:'short' }}
+        </span>
+      </div>
+
+      <div class="comment-body">
+        <p>{{ commentWithAuthor.comment.text }}</p>
+      </div>
+
+      <div class="comment-actions">
+        <button 
+          class="icon-button edit-button" 
+          *ngIf="isCurrentUserComment(commentWithAuthor.comment)"
+          (click)="onEditClick(commentWithAuthor.comment)" 
+          aria-label="Edit Comment"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+        </button>
+
+        <button 
+          class="icon-button delete-button" 
+          *ngIf="isCurrentUserComment(commentWithAuthor.comment)"
+          (click)="onDeleteClick(commentWithAuthor.comment)" 
+          aria-label="Delete Comment"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
-</div>
+
+  <ng-template #noComments>
+    <div class="message-card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="empty-icon">
+        <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+      </svg>
+      <p>No comments yet. Be the first to share your thoughts!</p>
+    </div>
+  </ng-template>
+</section>

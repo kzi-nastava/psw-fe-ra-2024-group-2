@@ -139,20 +139,50 @@
   background-color: var(--lighter-brown);
   padding: 1rem;
   border-radius: 4px;
-  text-align: center;
   margin-bottom: 1rem;
-
-  .price-amount {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--dark-brown);
-  }
-
-  .price-label {
-    color: var(--text-light);
-    font-size: 0.875rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
+
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centriranje u liniji */
+  gap: 1rem; /* Razmak između stare i nove cene */
+}
+
+.old-price-container .price-amount {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.new-price-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.new-price-container .price-amount {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--dark-brown);
+}
+
+.sale-badge {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.price-label {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
 
 .tour-description {
   color: var(--text-light);

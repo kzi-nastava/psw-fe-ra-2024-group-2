@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,20 +19,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SuccessModalComponent } from './bundle-success-modal/success-modal.component';
 import { CreateTourBundleComponent } from './bundles/create-tour-bundle.component';
 import { DeleteBundleDialogComponent } from './delete-bundle-modal/delete-bundle-dialog.component';
+import { DeleteConfirmDialogComponent } from './delete-souvenir-modal/delete-confirm-souvenir-modal.component';
 import { EditBundleDialogComponent } from './edit-bundle-modal/edit-bundle-dialog.component';
+import { EditSouvenirDialogComponent } from './edit-souvenir-modal/edit-souvenir-modal.component';
 import { ManageTouristFundsComponent } from './manage-tourist-funds/manage-tourist-funds.component';
 import { NewSaleComponent } from './new-sale/new-sale.component';
 import { SaleComponent } from './sale/sale.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ShowAllBundlesComponent } from './show-all-bundles/show-all-bundles.component';
-import { MyBundlesComponent } from './show-my-bundles/my-bundles.component';
-import { ShowWalletComponent } from './show-wallet/show-wallet.component';
-import { CreateSouvenirsComponent } from './souvenirs/create-souvenirs.component';
-import { ShowMySouvenirsAuthorComponent } from './show-my-souvenirs-author/show-my-souvenirs.author.component';
-import { EditSouvenirDialogComponent } from './edit-souvenir-modal/edit-souvenir-modal.component';
-import { DeleteConfirmDialogComponent } from './delete-souvenir-modal/delete-confirm-souvenir-modal.component';
 import { SouvenirListComponent } from './show-all-souvenirs/souvenir-list.component';
 import { SouvenirsComponent } from './show-bought-souvenirs/souvenirs.component';
+import { MyBundlesComponent } from './show-my-bundles/my-bundles.component';
+import { ShowMySouvenirsAuthorComponent } from './show-my-souvenirs-author/show-my-souvenirs.author.component';
+import { ShowWalletComponent } from './show-wallet/show-wallet.component';
+import { CreateSouvenirsComponent } from './souvenirs/create-souvenirs.component';
 
 export interface PagedResult<T> {
   results: T[];
@@ -66,6 +67,7 @@ export interface PagedResult<T> {
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatCheckboxModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
