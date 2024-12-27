@@ -49,10 +49,9 @@ export class SouvenirListComponent implements OnInit {
     }
 
     loadSouvenirs(): void {
-        // Fetch souvenirs from service, filtering out archived items
         this.souvenirService.showAllSouvenirs().subscribe(
             (data: PagedResult<Souvenir>) => {
-                this.souvenirs = data.results.filter(s => s.souvenirStatus !== SouvenirStatus.Archived);
+                this.souvenirs = data.results.filter(s => s.souvenirStatus == SouvenirStatus.Published);
                 this.filteredSouvenirs = [...this.souvenirs];
             },
             error => {

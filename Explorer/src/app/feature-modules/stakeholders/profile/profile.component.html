@@ -37,7 +37,25 @@
                     <input matInput [value]="profile.moto" disabled />
                 </div>
             </div>
-
+            
+            <div *ngIf="level" class="level-info">
+                <div class="level-display">
+                    <span class="level-number">{{ level.level }}</span>
+                    <div class="progress-container">
+                        <mat-progress-bar 
+                            class="level-bar"
+                            mode="determinate" 
+                            [value]="getXpProgress()">
+                        </mat-progress-bar>
+                    </div>
+                    <span class="level-number">{{ getNextLevel() }}</span>
+                </div>                               
+                <p class="xp-details">XP: {{ level.xp }} / {{ getNextLevelXp() }}</p>
+            </div>
+            
+            
+            
+        
             <div class="edit-button-container">
                 <button mat-raised-button color="primary" (click)="openEditDialog()">Edit</button>
             </div>

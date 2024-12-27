@@ -10,12 +10,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { EncounterExecutionComponent } from './encounter-execution/encounter-execution.component';
 import { MapEncounterComponent } from './map-encounter/map-encounter.component';
+import { CompleteChallengeDialogComponent } from './complete-challenge-dialog/complete-challenge-dialog.component';
 
 @NgModule({
   declarations: [
     EncounterComponent,
     EncounterExecutionComponent,
-    MapEncounterComponent
+    MapEncounterComponent,
+    CompleteChallengeDialogComponent
   ],
   imports: [
     CommonModule,

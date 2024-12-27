@@ -7,6 +7,7 @@ import { TouristPosition } from "./model/tourist-position";
 import { Person } from "./model/person";
 import { ProfileMessage } from "./model/profile-message.model";
 import { Profile } from "./model/profile.model";
+import { UserLevelDto } from "../encounters/model/userLevel.model"; 
 
 @Injectable({
     providedIn: 'root'
@@ -47,5 +48,14 @@ export class ProfileService {
     sendMessage(message: ProfileMessage): Observable<ProfileMessage> {
       return this.http.post<ProfileMessage>(environment.apiHost + 'profile/messaging/new/message', message);
     }
+
+    updateUserLevel(userLevelDto: UserLevelDto): Observable<any> {
+        return this.http.put<UserLevelDto>('https://localhost:44333/api/userLevels', userLevelDto);
+    }
+
+    getUserLevel(userId: number): Observable<UserLevelDto> {
+        return this.http.get<UserLevelDto>(`https://localhost:44333/api/userLevels/${userId}`);
+    }
+    
 
 }
