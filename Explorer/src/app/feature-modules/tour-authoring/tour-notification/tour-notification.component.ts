@@ -29,17 +29,37 @@ export class NotificationComponent implements OnInit {
   loadNotifications(): void {
     console.log("Fetching notifications for user ID:", this.user?.id);
     this.service.getNotifications(this.user.id).subscribe(result => {
-      console.log("Notifications API response:", result);
-      if (result && result.results) {
-        this.notifications = result.results;
-      } else {
-        this.notifications = [];
-      }
-      console.log("Loaded notifications:", this.notifications);
+        console.log("Notifications API response:", result);
+        if (result && result.results) {
+            this.notifications = result.results.map(notification => ({
+                ...notification,
+                fromUsername: notification.fromUsername || 'Unknown',
+                toUsername: notification.toUsername || 'Unknown',
+                // Map status to the enum value if needed
+                status: this.mapStatus(notification.status)
+            }));
+        } else {
+            this.notifications = [];
+        }
+        console.log("Loaded notifications:", this.notifications);
     }, error => {
-      console.error("Error loading notifications:", error);
+        console.error("Error loading notifications:", error);
     });
-  }
+}
+
+private mapStatus(status: string | number): TourIssueNotificationStatus {
+    if (typeof status === 'string') {
+        return status as TourIssueNotificationStatus;
+    } else {
+        switch (status) {
+            case 0: return TourIssueNotificationStatus.Resolved;
+            case 1: return TourIssueNotificationStatus.Unresolved;
+            default: return TourIssueNotificationStatus.Unresolved; // Default to Pending
+        }
+    }
+}
+
+  
 
   loadCoinNotifications(): void {
     this.service.getAdventureCoinNotifications().subscribe(result => {

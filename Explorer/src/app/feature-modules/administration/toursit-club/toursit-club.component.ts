@@ -27,10 +27,9 @@ export class ToursitClubComponent implements OnInit {
   }
 
   loadTourists(): void {
-    // Ensure currentUserId is set correctly
     if (!this.currentUserId) {
       console.log("Error: currentUserId is not set");
-      return; // Exit if currentUserId is not defined
+      return;
     }
 
     this.touristService.getFilteredTourists(this.page, this.pageSize).subscribe(touristData => {
