@@ -1,67 +1,121 @@
 <div class="form-section">
-    <form [formGroup]="blogForm" class="blog-form" (ngSubmit)="addBlog()">
-      <div class="form-header">
-        <h2>Create Blog</h2>
+  <form [formGroup]="blogForm" class="blog-form" (ngSubmit)="addBlog()">
+    <div class="form-header">
+      <h2>Create New Blog Post</h2>
+      <p class="form-subtitle">Share your thoughts with the world</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="title">
+        <span class="label-text">Title</span>
+        <span class="label-hint">Maximum 90 characters</span>
+      </label>
+      <input
+        id="title"
+        class="form-control title-input"
+        formControlName="title"
+        type="text"
+        placeholder="Enter a captivating title"
+        [ngClass]="{'is-invalid': isFieldInvalid('title')}"
+        maxlength="90"
+      />
+      <div class="error-message" *ngIf="isFieldInvalid('title')">
+        {{ getErrorMessage('title') }}
       </div>
-  
-      <div class="form-group">
-        <label class="form-label" for="title">Title</label>
-        <input
-          id="title"
-          class="form-control"
-          formControlName="title"
-          type="text"
-          placeholder="Enter blog title"
-          [ngClass]="{'is-invalid': isFieldInvalid('title')}"
-          maxlength="90"
-        />
-        <div class="error-message" *ngIf="isFieldInvalid('title')">
-          {{ getErrorMessage('title') }}
-        </div>
-      </div>
-  
-      <div class="markdown-editor">
-        <textarea
-          id="description"
-          class="form-control"
-          formControlName="description"
-          (input)="onMarkdownChange($event)"
-          placeholder="Enter blog description (supports Markdown)"
-        ></textarea>
-      
-        <div class="markdown-preview">
-          <h3>Preview:</h3>
-          <markdown [data]="markdownContent"></markdown>
-        </div>
-      </div>
-         
-      <div class="form-group">
-        <label class="form-label">Upload Images</label>
+
+      <label class="form-label" for="coverImage">
+        <span class="label-text">Cover Image</span>
+        <span class="label-hint">Recommended size: 1200x630px</span>
+      </label>
+      <div class="file-upload-wrapper">
         <input
           type="file"
-          (change)="onFileChange($event)"
-          multiple
+          id="coverImage"
           accept="image/*"
-          class="form-control"
+          (change)="onCoverImageChange($event)"
+          class="form-control file-input"
         />
-  
-        <div class="image-preview-container" *ngIf="previewUrls.length > 0">
-          <div class="image-preview" *ngFor="let url of previewUrls; let i = index">
-            <img [src]="url" alt="Preview">
-            <button type="button" class="remove-image" (click)="removeImage(i)">×</button>
-          </div>
+        <div class="file-upload-placeholder">
+          <i class="upload-icon">📁</i>
+          <span>Click to upload or drag and drop</span>
         </div>
       </div>
-  
-      <div class="form-actions">
-        <button
-          class="btn-submit"
-          type="submit"
-          [disabled]="blogForm.invalid || isSubmitting"
-        >
-          {{ isSubmitting ? 'Creating...' : 'Create Blog' }}
-        </button>
+      
+      <div class="cover-preview" *ngIf="coverImagePreview">
+        <div class="preview-container">
+          <img [src]="coverImagePreview" alt="Cover Image Preview" class="cover-image-preview" />
+          <button type="button" class="remove-button" (click)="removeCoverImage()">
+            <i class="remove-icon">×</i>
+          </button>
+        </div>
       </div>
-    </form>
-  </div>
-  
+    </div>
+
+    <div class="markdown-editor">
+      <div class="editor-section">
+        <label class="form-label">
+          <span class="label-text">Content</span>
+          <span class="label-hint">Supports Markdown formatting</span>
+        </label>
+        
+        <div class="toolbar">
+          <div class="toolbar-group" *ngFor="let group of toolbarGroups | keyvalue">
+            <div class="toolbar-group-label">{{ group.key | titlecase }}</div>
+            <div class="toolbar-group-buttons">
+              <button
+                type="button"
+                *ngFor="let item of group.value"
+                (click)="formatText(item.action)"
+                class="toolbar-button"
+                [title]="item.label"
+              >
+                <span class="button-icon">{{ item.icon }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <textarea
+          #descriptionTextarea
+          formControlName="description"
+          class="form-control content-textarea"
+          (input)="onMarkdownInput($event)"
+          (select)="onTextareaSelect($event)"
+          (mouseup)="onTextareaSelect($event)"
+          (keyup)="onTextareaSelect($event)"
+          rows="15"
+          placeholder="Start writing your blog post..."
+        ></textarea>
+
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          style="display: none"
+        />
+      </div>
+
+      <div class="preview-section">
+        <div class="preview-header">
+          <span class="preview-title">Live Preview</span>
+          <span class="preview-hint">See how your post will look</span>
+        </div>
+        <div class="markdown-preview">
+          <markdown [data]="blogForm.get('description')?.value || ''"></markdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="btn-submit"
+        type="submit"
+        [disabled]="blogForm.invalid || isSubmitting"
+      >
+        <span class="button-text">Publish Blog Post</span>
+        <span class="button-icon" *ngIf="isSubmitting">↻</span>
+      </button>
+    </div>
+  </form>
+</div>

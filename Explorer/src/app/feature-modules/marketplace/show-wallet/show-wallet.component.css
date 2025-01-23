@@ -1,10 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    background-color: #F8EBCF;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+}
+
 :root {
     --primary-brown: #8B7355;
     --dark-brown: #5D4037;
     --light-brown: #F4D7BE;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --accent-gold: #B8860B;
+    --font-family: 'Caudex', sans-serif;
 }
+
+.adventure-coins-container, 
+.wallet-card, 
+.wallet-header h2, 
+.balance-container, 
+.balance-text, 
+.adventure-coins-section, 
+.coins-overview h3, 
+.coin-info-card, 
+.coin-info-card h4, 
+.coin-info-card p {
+    font-family: 'Caudex', sans-serif !important;
+}
+
 
 .adventure-coins-container {
     display: flex;
@@ -14,7 +38,7 @@
 }
 
 .wallet-card {
-    background: linear-gradient(135deg, var(--light-brown) 0%, var(--primary-brown) 100%);
+    background: linear-gradient(135deg, #DEC3A6 0%, #8D7664 80%);
     border-radius: 12px;
     padding: 40px;
     width: 100%;
@@ -31,7 +55,7 @@
 }
 
 .balance-container {
-    background: cornsilk;
+    background: #F8EBCF;
     border-radius: 12px;
     padding: 30px;
     display: flex;
@@ -65,7 +89,7 @@
 }
 
 .adventure-coins-section {
-    background: rgba(255, 255, 255, 0.2);
+    background: #F8EBCF;
     border-radius: 12px;
     padding: 30px;
 }
@@ -96,7 +120,7 @@
 }
 
 .card-icon {
-    background: var(--accent-gold);
+    background: #E57734; /* Orange color from the home icons */
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -104,11 +128,18 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding subtle shadow for depth */
 }
 
 .card-icon i {
-    color: white;
+    color: #F8EBCF; /* White color from the home icons */
     font-size: 36px;
+}
+
+.card-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
 .coin-info-card h4 {

@@ -11,9 +11,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { SimplemdeModule } from 'ngx-simplemde';
 import { AppComponent } from './app.component';
 import { AdministrationModule } from './feature-modules/administration/administration.module';
 import { BlogModule } from './feature-modules/blog/blog.module';
+import { EncountersModule } from './feature-modules/encounters/encounter.module';
 import { LayoutModule } from './feature-modules/layout/layout.module';
 import { MarketplaceModule } from './feature-modules/marketplace/marketplace.module';
 import { ProfileModule } from './feature-modules/stakeholders/profile.module';
@@ -23,9 +28,6 @@ import { AuthModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { MaterialModule } from './infrastructure/material/material.module';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
-import { EncountersModule } from './feature-modules/encounters/encounter.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     AdministrationModule,
     ProfileModule,
     BlogModule,
+    LMarkdownEditorModule,
     MarketplaceModule,
     TourAuthoringModule,
     TourExecutionModule,
@@ -60,6 +63,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    MatListModule,
+    SimplemdeModule.forRoot({})
   ],
   providers: [
     {

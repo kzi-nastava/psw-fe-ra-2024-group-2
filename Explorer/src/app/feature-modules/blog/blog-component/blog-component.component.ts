@@ -46,7 +46,6 @@ export class BlogComponentComponent implements OnInit {
     );
   }
   
-
   countVotes(blog: Blog): { upvotes: number; downvotes: number } {
     const upvotes = blog.ratings.filter(rating => rating.ratingType === 'Upvote').length;
     const downvotes = blog.ratings.filter(rating => rating.ratingType === 'Downvote').length;

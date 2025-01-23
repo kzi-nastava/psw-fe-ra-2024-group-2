@@ -32,6 +32,8 @@ export class CommentComponent implements OnInit {
     4: 'Closed'
   };
 
+  userVote: 'Upvote' | 'Downvote' | null = null;
+
   constructor(private fb: FormBuilder, 
               private service: CommentService,
               private router: Router, 
@@ -73,6 +75,20 @@ export class CommentComponent implements OnInit {
       next: (blog: BlogWithUser) => {
         this.blogWithUser = blog;
         console.log(this.blogWithUser);
+        if (this.blogWithUser && this.blogWithUser.blog && this.blogWithUser.blog.ratings) {
+          const userRating = this.blogWithUser.blog.ratings.find(r => r?.username === this.user.username);
+          if (userRating) {
+            if (userRating.ratingType === 'Upvote') {
+              this.userVote = 'Upvote';
+            } else if (userRating.ratingType === 'Downvote') {
+              this.userVote = 'Downvote';
+            } else {
+              this.userVote = null;
+            }
+          } else {
+            this.userVote = null;
+          }
+        }
       },
       error: (err) => {
         console.error('Error fetching blog:', err);
@@ -84,6 +100,7 @@ export class CommentComponent implements OnInit {
     this.service.getCommentsByBlogId(blogId).subscribe({
       next: (commentsWithAuthor: CommentWithAuthor[]) => {
         this.commentsWithAuthor = commentsWithAuthor;
+        console.log(this.commentsWithAuthor);
       },
       error: (err: any) => {
         console.error('Error fetching comments:', err);
@@ -119,6 +136,7 @@ export class CommentComponent implements OnInit {
     this.blogService.addRatingOnBlog(blog.id, this.user.username, ratingType).subscribe(
       (updatedBlog) => {
         console.log("Rating updated successfully", updatedBlog);
+        this.userVote = 'Downvote';
       },
       (error) => {
         console.error("Error updating rating:", error);
@@ -131,14 +149,18 @@ export class CommentComponent implements OnInit {
     this.blogService.addRatingOnBlog(blog.id, this.user.username, ratingType).subscribe(
       (updatedBlog) => {
         console.log("Rating updated successfully", updatedBlog);
+        this.userVote = 'Upvote';
       },
       (error) => {
         console.error("Error updating rating:", error);
       }
     );
   }
-  
 
+  isCurrentUserComment(comment: Comment): boolean {
+    return comment.userId === this.user.id;
+  }
+  
   updateComment(): void {
     if (this.commentForm.valid && this.currentCommentId !== null) {
       const updatedComment = {

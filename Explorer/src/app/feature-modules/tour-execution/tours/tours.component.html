@@ -42,6 +42,30 @@
               {{ tour.price }}
             </div>
             <div class="price-label">per person</div>
+            <ng-container *ngIf="isOnSale(tour.id); else regularPrice">
+              <div class="price-container">
+                <div class="old-price-container">
+                  <div class="price-amount text-muted">
+                    <i class="bi bi-coin"></i> {{tour.price}}
+                  </div>
+                </div>
+                <div class="new-price-container">
+                  <div class="price-amount text-danger">
+                    <i class="bi bi-coin"></i> {{getSalePrice(tour.id)}}
+                  </div>
+                  <span class="sale-badge">SALE</span>
+                </div>
+              </div>
+              <div class="price-label">per person</div>
+            </ng-container>
+            
+            <ng-template #regularPrice>
+              <!-- Regular price display -->
+              <div class="price-amount">
+                <i class="bi bi-coin"></i> {{tour.price}}
+              </div>
+              <div class="price-label">per person</div>
+            </ng-template>
           </div>
            
           <div class="tour-description">

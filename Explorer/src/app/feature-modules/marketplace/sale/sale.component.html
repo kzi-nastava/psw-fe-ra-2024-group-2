@@ -1,45 +1,98 @@
-<div *ngIf="sales.length > 0; else noSales" class="sales-container">
-  <div
-    *ngFor="let sale of sales"
-    class="sale-card"
-    (mouseenter)="hoveredSale = sale"
-    (mouseleave)="hoveredSale = null" >
-    <h3 class="sale-title">{{ sale.name }}</h3>
-    <p class="sale-discount">💸 Discount: <strong>{{ sale.discountPercentage }}%</strong></p>
-    <p class="sale-end-date">📅 Ends on: {{ sale.endDate | date }}</p>
-    <button mat-button color="primary" (click)="editSale(sale)">Edit</button>
-    <button mat-button color="warn" (click)="deleteSale(sale.id)">Delete</button>
-    <div
-      *ngIf="hoveredSale === sale"
-      class="tooltip">
-      <p><strong>Included Tours:</strong></p>
-      <ul>
-        <li *ngFor="let tour of sale.tours">
-          {{ tour.name }}
-          <ul>
-            <li *ngFor="let price of tour.prices">
-              Old Price: {{ price.oldPrice }} - New Price: {{ price.newPrice }}
-            </li>
-          </ul>
-        </li>        
-      </ul>
-    </div>
+<div class="sales-container" [@fadeInOut]>
+  <header class="page-header">
+      <div class="header-content">
+          <h1>Active Sales</h1>
+          <p class="subtitle">Manage your ongoing and upcoming sales campaigns</p>
+      </div>
+      <div class="header-actions">
+          <button mat-raised-button (click)="createNewSale()">
+              <mat-icon>add</mat-icon>
+              New Sale
+          </button>
+      </div>
+  </header>
+
+  <div class="sort-controls" *ngIf="sales.length > 0">
+      <button mat-button [class.active]="currentSort === 'name'" (click)="toggleSort('name')">
+          Name
+          <mat-icon>{{ currentSort === 'name' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more' }}</mat-icon>
+      </button>
+      <button mat-button [class.active]="currentSort === 'discount'" (click)="toggleSort('discount')">
+          Discount
+          <mat-icon>{{ currentSort === 'discount' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more' }}</mat-icon>
+      </button>
+      <button mat-button [class.active]="currentSort === 'endDate'" (click)="toggleSort('endDate')">
+          End Date
+          <mat-icon>{{ currentSort === 'endDate' ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more' }}</mat-icon>
+      </button>
   </div>
-</div>
 
-<ng-template #noSales>
-  <div class="no-sales-message">
-    <p>No sales available at the moment. Check back later!</p>
+  <div class="sales-grid" *ngIf="sales.length > 0; else noSales" [@fadeInOut]>
+      <mat-card *ngFor="let sale of sales" class="sale-card" [@slideIn]>
+          <div class="sale-actions-overlay">
+              <button mat-mini-fab color="primary" (click)="editSale(sale)" class="action-button edit">
+                  <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="warn" (click)="deleteSale(sale.id)" class="action-button delete">
+                  <mat-icon>delete</mat-icon>
+              </button>
+          </div>
+
+          <mat-card-header>
+              <mat-card-title>{{ sale.name }}</mat-card-title>
+              <mat-card-subtitle>
+                  <span class="status-badge" [ngClass]="getSaleStatus(sale)">
+                      {{ getSaleStatusLabel(sale) }}
+                  </span>
+              </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+              <div class="sale-info-section">
+                  <div class="discount-info">
+                      <span class="discount-label">Discount</span>
+                      <span class="discount-value">{{ sale.discountPercentage }}%</span>
+                  </div>
+                  <div class="date-info">
+                      <mat-icon>event</mat-icon>
+                      <span>Ends {{ sale.endDate | date }}</span>
+                  </div>
+              </div>
+
+              <div class="tours-section">
+                  <h3>
+                      <mat-icon>local_offer</mat-icon>
+                      Included Tours
+                  </h3>
+                  <div class="tour-list">
+                      <div *ngFor="let tour of sale.tours" class="tour-item">
+                          <div class="tour-info">
+                              <span class="tour-name">{{ tour.name }}</span>
+                              <div class="price-change">
+                                  <span class="old-price">{{ tour.prices[0].oldPrice | currency }}</span>
+                                  <mat-icon>arrow_forward</mat-icon>
+                                  <span class="new-price">{{ tour.prices[0].newPrice | currency }}</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </mat-card-content>
+      </mat-card>
   </div>
-</ng-template>
 
-<div class="button-container">
-  <button mat-raised-button color="primary" (click)="createNewSale()">
-    Create New Sale
-  </button>
+  <div *ngIf="isLoading" class="loading-spinner">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+  </div>
+
+  <ng-template #noSales>
+      <div class="empty-state">
+          <mat-icon>local_offer_off</mat-icon>
+          <h2>No Active Sales</h2>
+          <p>Create your first sale to start offering special discounts on your tours.</p>
+          <button mat-raised-button color="primary" (click)="createNewSale()">
+              Create New Sale
+          </button>
+      </div>
+  </ng-template>
 </div>
-
-
-<ng-template #noSales>
-  <p>No sales available at the moment.</p>
-</ng-template>

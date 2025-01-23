@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { TourExecutionService } from '../tour-execution.service';
-import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
-import { Tour } from '../model/tour-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
+import { Router } from '@angular/router';
 import { ShoppingCartService } from '../../marketplace/services/shopping-cart.service';
+import { ShoppingCartComponent } from '../../marketplace/shopping-cart/shopping-cart.component';
+import { TourSale } from '../../tour-authoring/model/tourSale.model';
+import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
+import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { Tour } from '../model/tour-model';
+import { TourExecutionService } from '../tour-execution.service';
 
 @Component({
   selector: 'xp-tours',
@@ -15,12 +16,14 @@ import { ShoppingCartService } from '../../marketplace/services/shopping-cart.se
 })
 export class ToursComponent implements OnInit {
   tours: Tour[] = [];
+  tourSales: TourSale[] = [];
   @ViewChild(ShoppingCartComponent) shoppingCart!: ShoppingCartComponent;
 
   constructor(
     private service: TourExecutionService, 
     private router: Router, 
     private snackBar: MatSnackBar,
+    private tourService : TourAuthoringService,
     private cartService: ShoppingCartService // Uključujemo ShoppingCartService za proveru korpe
   ) {} 
   
@@ -31,6 +34,7 @@ export class ToursComponent implements OnInit {
         this.tours = this.tours.filter(tour => tour.status === 1);
       }
     });
+    this.loadTourSales();
   }
 
   showReviews(tourId: number): void {
@@ -131,6 +135,36 @@ export class ToursComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+
+   //Sale methods
+   loadTourSales(): void {
+    this.tourService.getAllSale().subscribe((sales) => {
+      this.tourSales = sales;
+      console.log(sales)
+    });
+  }
+
+  isOnSale(tourId: number): boolean {
+    const isOnSale = this.tourSales.some((sale) =>
+      sale.tours.some((tour) =>
+        tour.prices.some((price) => price.tourId === tourId)
+      )
+    );
+    return isOnSale;
+  }
+  
+
+  getSalePrice(tourId: number): number | null {
+    for (const sale of this.tourSales) {
+      for (const tour of sale.tours) {
+        const price = tour.prices.find((p: { tourId: number; }) => p.tourId === tourId);
+        if (price) {
+          return price.newPrice;
+        }
+      }
+    }
+    return null;
   }
   
   getStatusLabel(status: number): string {

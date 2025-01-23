@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
+import { SimplemdeModule } from 'ngx-simplemde';
 import { MaterialModule } from '../../infrastructure/material/material.module';
 import { BlogComponentComponent } from './blog-component/blog-component.component';
 import { CommentComponent } from './comment/comment.component';
@@ -16,18 +17,18 @@ export interface PagedResult<T> {
   declarations: [
     CommentComponent,
     BlogComponentComponent,
-    CreateBlogComponent,
+    CreateBlogComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
     MarkdownModule.forRoot(),
-    FormsModule
+    FormsModule,
+    SimplemdeModule.forRoot({})
   ],
   exports: [
-    CommentComponent
-  ],
-  schemas: [NO_ERRORS_SCHEMA]
+    CommentComponent,
+  ]
 })
 export class BlogModule {}
