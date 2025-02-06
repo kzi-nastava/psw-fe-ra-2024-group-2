@@ -29,7 +29,8 @@ export class AddTourCheckpointsComponent implements OnInit {
     tour: Tour | null = null;
     routingControl: L.Routing.Control | null = null;
     clearMarkersFlag: boolean = false;
-
+    isHelpModalOpen = false;
+    
     @ViewChild('map', { static: false }) mapComponent!: MapComponent;
 
     constructor(
@@ -50,6 +51,8 @@ export class AddTourCheckpointsComponent implements OnInit {
         actionDescription: new FormControl(''),
         encounterDescription: new FormControl('')
     });
+
+    
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
@@ -311,5 +314,9 @@ export class AddTourCheckpointsComponent implements OnInit {
                     reject([{ transport: 'Driving', duration: 0 }, { transport: 'Walking', duration: 0 }, { transport: 'Bicycling', duration: 0 }]);
                 });
         });
+    }
+
+    toggleHelpModal() {
+        this.isHelpModalOpen = !this.isHelpModalOpen;
     }
 }
