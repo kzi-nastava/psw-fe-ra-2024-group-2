@@ -8,3 +8,8 @@ div {
     width: auto;
     margin-left: auto;
 }
+
+mat-toolbar {
+    min-height: 40px;
+    height: 10vh;
+}

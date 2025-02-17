@@ -1,0 +1,55 @@
+h2 {
+    color: #333;
+    text-align: center;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  li {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  li h3 {
+    margin: 0 0 8px 0;
+  }
+  
+  li p {
+    margin: 4px 0;
+  }
+  
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+  .create-tour-btn {
+    margin-top: 16px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .create-tour-btn:hover {
+    background-color: #0056b3;
+  }

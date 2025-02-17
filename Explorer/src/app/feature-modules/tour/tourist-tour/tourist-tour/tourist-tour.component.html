@@ -1,0 +1,32 @@
+<div *ngIf="!tourDetails">
+    <div *ngIf="tours.length > 0; else noTours">
+    <h2>Your Tours</h2>
+    <ul>
+      <li *ngFor="let tour of tours">
+        <h3 (click)="seeTourDetails(tour)">{{ tour.name }}</h3>
+        <p><strong>Description:</strong> {{ tour.description }}</p>
+        <p><strong>Status:</strong> {{ tour.status }}</p>
+        <p><strong>Category:</strong> {{ tour.category }}</p>
+        <p><strong>Price:</strong> ${{ tour.price }}</p>
+        <p><strong>Difficulty:</strong> {{ tour.difficulty }}</p>
+        <p><strong>Date:</strong> {{ tour.date | date: 'medium' }}</p>
+
+        <button class="add-to-basket-btn" *ngIf="!tour.isInBasket" (click)="addToBasket(tour)">🛒 Add to Basket</button>
+        <button class="add-to-basket-btn" *ngIf="tour.isInBasket" (click)="removeFromBasket(tour)">🛒 Remove from Basket</button>
+
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noTours>
+    <h2>No tours available</h2>
+  </ng-template>
+</div>
+
+<xp-guide-tour-create *ngIf="tourDetails" (closeCreateTour)="seeTours()" [editableTourId]="selectedTourId"></xp-guide-tour-create>
+  
+<!-- Basket Button -->
+<button class="basket-btn" (click)="toggleBasket()">🛒 Basket</button>
+
+<!-- Basket Component -->
+<xp-basket *ngIf="showBasket" class="show"></xp-basket>

@@ -32,6 +32,8 @@ export class AuthService {
   }
 
   register(registration: Registration): Observable<AuthenticationResponse> {
+    console.log("registration: " + registration);
+
     return this.http
     .post<AuthenticationResponse>(environment.apiHost + 'users', registration)
     .pipe(
@@ -70,4 +72,24 @@ export class AuthService {
     };
     this.user$.next(user);
   }
+
+  getUser(): string {
+    const currentUser = this.user$.getValue();
+    return `ID: ${currentUser.id}, Username: ${currentUser.username}, Role: ${currentUser.role}`;
+  }
+
+  getUserId(): number {
+    const currentUser = this.user$.getValue();
+    return currentUser.id;
+  }
+
+  test(): Observable<string> {
+    return this.http.get<string>(environment.apiHost + 'tour/test').pipe(
+      tap((response) => {
+        // This is where you can handle the response if needed, for now, we just return it.
+        console.log(response); // Log the response for debugging or testing purposes
+      })
+    );
+  }
+  
 }

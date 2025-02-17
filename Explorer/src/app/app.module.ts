@@ -14,13 +14,20 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { GuideTourComponent } from './feature-modules/tour/guide-tour/guide-tour/guide-tour.component';
+import { GuideTourCreateComponent } from './feature-modules/tour/guide-tour/guide-tour-create/guide-tour-create.component';
+import { GuideTourModule } from './feature-modules/tour/guide-tour/guide-tour.module';
+import { TouristTourComponent } from './feature-modules/tour/tourist-tour/tourist-tour/tourist-tour.component';
+import { BasketComponent } from './feature-modules/tour/tourist-tour/basket/basket.component';
+import { TouristTourModule } from './feature-modules/tour/tourist-tour/tourist-tour.module';
+//import { MapSelectorComponent } from './feature-modules/map-selector/map-selector.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,       
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
     AppRoutingModule,
     LayoutModule,
     BrowserAnimationsModule,
@@ -31,7 +38,9 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
     TourAuthoringModule,
     TourExecutionModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    GuideTourModule,
+    TouristTourModule,
   ],
   providers: [
     {

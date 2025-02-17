@@ -1,0 +1,45 @@
+<div class="tour-container" [class.map-active]="showMap">
+    <!-- Left: Form -->
+    <div class="tour-form">
+      <form [formGroup]="tourForm" (ngSubmit)="submitForm()">
+        <div class="form-header">
+          <label for="name">Name:</label>
+          <button type="button" class="show-map-btn" (click)="toggleMap()">Show Map</button>
+        </div>
+        <input id="name" formControlName="name" required />
+
+        <div *ngIf="editableTourId != null">
+            <label>Status:</label>
+            <p class="status-text">{{ tourForm.get('status')?.value }}</p>
+        </div>
+  
+        <label for="description">Description:</label>
+        <textarea id="description" formControlName="description" required></textarea>
+      
+        <label for="difficulty">Difficulty (1-5):</label>
+        <input id="difficulty" type="number" formControlName="difficulty" min="1" max="5" />
+      
+        <label for="category">Category:</label>
+        <input id="category" formControlName="category" />
+      
+        <label for="price">Price:</label>
+        <input id="price" type="number" formControlName="price" min="0" />
+      
+        <label for="date">Date:</label>
+        <input id="date" type="date" formControlName="date" />
+      
+        <button type="submit" [disabled]="tourForm.invalid">Save Tour</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  
+    <!-- Right: Map (Visible only when showMap is true) -->
+    <div class="map-container" *ngIf="showMap">
+        <xp-map-selector 
+            [locations]="keyPoints"          
+            (newKeyPoints)="handleLocationsSelection($event)">
+        </xp-map-selector>    
+    </div>
+      
+</div>
+  

@@ -1,0 +1,121 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    align-self: flex-start;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  input,
+  textarea,
+  p {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+
+  .tour-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .tour-form {
+    flex: 1;
+    padding: 20px;
+    max-width: 100%;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .map-container {
+    display: none;
+    flex: 2;
+    height: 100vh; /* Adjust as needed */
+    transition: width 0.3s ease-in-out;
+    max-width: 67%;
+  }
+  
+  #map {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .map-active .tour-form {
+    flex: 1;
+    max-width: 33%;
+  }
+  
+  .map-active .map-container {
+    display: block;
+  }
+  
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.show-map-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: auto; /* Moves it to the right */
+    width: 100px;
+}
+
+  
+  .show-map-btn:hover {
+    background-color: #0056b3;
+  }
+  

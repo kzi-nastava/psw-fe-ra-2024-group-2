@@ -1,0 +1,30 @@
+<button *ngIf="!createTour" class="create-tour-btn" (click)="createTour = true">Create Tour</button>
+<div *ngIf="!createTour">
+    <div class="filter-buttons">
+        <button (click)="updateFilterStatus(null)">All</button>
+        <button (click)="updateFilterStatus('Draft')">Draft</button>
+        <button (click)="updateFilterStatus('Published')">Published</button>
+    </div>
+
+    <div *ngIf="filteredTours.length > 0; else noTours">
+    <h2>Your Tours</h2>
+    <ul>
+      <li *ngFor="let tour of filteredTours">
+        <h3 (click)="editTour(tour)">{{ tour.name }}</h3>
+        <p><strong>Description:</strong> {{ tour.description }}</p>
+        <p><strong>Status:</strong> {{ tour.status }}</p>
+        <p><strong>Category:</strong> {{ tour.category }}</p>
+        <p><strong>Price:</strong> ${{ tour.price }}</p>
+        <p><strong>Difficulty:</strong> {{ tour.difficulty }}</p>
+        <p><strong>Date:</strong> {{ tour.date | date: 'medium' }}</p>
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noTours>
+    <h2>No tours available</h2>
+  </ng-template>
+</div>
+
+<xp-guide-tour-create *ngIf="createTour" (closeCreateTour)="seeTours()" [editableTourId]="selectedTourId"></xp-guide-tour-create>
+  

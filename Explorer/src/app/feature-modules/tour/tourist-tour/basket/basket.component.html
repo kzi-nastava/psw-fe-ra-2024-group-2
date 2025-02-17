@@ -1,0 +1,28 @@
+<div class="basket-container">
+    <h2>Your Basket</h2>
+  
+    <div *ngIf="tours.length > 0; else emptyBasket">
+      <ul class="tour-list">
+        <li *ngFor="let tour of tours">
+          <span class="tour-name">{{ tour.name }}</span>
+          <span class="tour-price">${{ tour.price }}</span>
+        </li>
+      </ul>
+  
+      <!-- Total Price -->
+      <div class="total-price">
+        <strong>Total:</strong> ${{ getTotalPrice() }}
+      </div>
+  
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="buy-btn" (click)="buyTours()">Buy</button>
+        <button class="go-back-btn" (click)="resetBasket()">Reset Basket</button>
+      </div>
+    </div>
+  
+    <ng-template #emptyBasket>
+      <p>Your basket is empty.</p>
+    </ng-template>
+  </div>
+  
