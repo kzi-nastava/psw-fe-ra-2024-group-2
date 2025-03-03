@@ -21,19 +21,24 @@ export class MapSelectorComponent implements OnInit {
   
 
   @Input() locations: KeyPoint[] | null = null;
-  @Output() newKeyPoints = new EventEmitter<KeyPoint[]>();  ngOnInit(): void {
+  @Input() tourStatus: string = '';
+  @Output() newKeyPoints = new EventEmitter<KeyPoint[]>();  
+  
+  ngOnInit(): void {
+    console.log("Map Tour Status: " + this.tourStatus)
+    const user: User = this.authService.user$.getValue();
+      if(user.role == 'author' && this.tourStatus != "Cancelled"){
+        console.log("Map Tour Status: " + this.tourStatus);
+        this.guideUser = true;
+      }
+      
     this.initMap();
     this.loadInputLocations();
   }
 
   constructor(
       private authService: AuthService
-    ) {
-      const user: User = this.authService.user$.getValue();
-      if(user.role == 'author'){
-        this.guideUser = true;
-      }
-    }
+    ) {}
 
   private initMap(): void {
     this.map = L.map('map').setView([45.2671, 19.8335], 13); // Postavi centar (Novi Sad)

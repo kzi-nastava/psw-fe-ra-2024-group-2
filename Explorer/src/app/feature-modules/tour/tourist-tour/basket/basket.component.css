@@ -100,3 +100,11 @@
     background: #c82333;
   }
   
+  .bonus-points {
+    color: #ff9800; /* Orange for emphasis */
+    font-weight: bold;
+    font-size: 0.8rem; /* Slightly larger */
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 152, 0, 0.1); /* Light orange background */
+}

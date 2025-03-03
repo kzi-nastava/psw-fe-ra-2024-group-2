@@ -6,40 +6,59 @@
           <label for="name">Name:</label>
           <button type="button" class="show-map-btn" (click)="toggleMap()">Show Map</button>
         </div>
-        <input id="name" formControlName="name" required />
+        <input id="name" formControlName="name" required [readonly]="userRole != 'author'" />
 
-        <div *ngIf="editableTourId != null">
+        <div *ngIf="editableTourId != null" >
             <label>Status:</label>
-            <p class="status-text">{{ tourForm.get('status')?.value }}</p>
+            <div class="tour-status">
+                
+                <p class="status-text">{{ tourForm.get('status')?.value }}</p>
+                
+                <button *ngIf="userRole == 'author' && tourForm.get('status')?.value !== 'Cancelled'" 
+                        class="cancel-button" 
+                        type="button"
+                        (click)="cancelTour()">
+                    Cancel Tour
+                </button>
+            </div>
         </div>
+        
+        
   
         <label for="description">Description:</label>
-        <textarea id="description" formControlName="description" required></textarea>
+        <textarea id="description" formControlName="description" required [readonly]="userRole != 'author'"></textarea>
       
         <label for="difficulty">Difficulty (1-5):</label>
-        <input id="difficulty" type="number" formControlName="difficulty" min="1" max="5" />
+        <input id="difficulty" type="number" formControlName="difficulty" min="1" max="5" [readonly]="userRole != 'author'"/>
       
         <label for="category">Category:</label>
-        <input id="category" formControlName="category" />
+        <input id="category" formControlName="category" [readonly]="userRole != 'author'"/>
       
         <label for="price">Price:</label>
-        <input id="price" type="number" formControlName="price" min="0" />
+        <input id="price" type="number" formControlName="price" min="0" [readonly]="userRole != 'author'"/>
       
         <label for="date">Date:</label>
-        <input id="date" type="date" formControlName="date" />
+        <input id="date" type="date" formControlName="date" [readonly]="userRole != 'author'"/>
       
-        <button type="submit" [disabled]="tourForm.invalid">Save Tour</button>
-        <button type="button" (click)="cancel()">Cancel</button>
+        <button *ngIf="userRole == 'author' && tourForm.get('status')?.value !== 'Cancelled'" type="submit" [disabled]="tourForm.invalid">Save Tour</button>
+        <button *ngIf="userRole == 'author'" type="button" (click)="cancel()">Cancel</button>
+        <button *ngIf="userRole != 'author'" type="button" (click)="cancel()">Back</button>
       </form>
     </div>
   
     <!-- Right: Map (Visible only when showMap is true) -->
     <div class="map-container" *ngIf="showMap">
         <xp-map-selector 
-            [locations]="keyPoints"          
+            [locations]="keyPoints"
+            [tourStatus]="tourForm.get('status')?.value"         
             (newKeyPoints)="handleLocationsSelection($event)">
         </xp-map-selector>    
     </div>
-      
+
+    <button *ngIf="touristCanRate" class="rating-btn" (click)="showRatingForm = true">Rate ★</button>
+    <button *ngIf="userRole == 'author'" class="rating-btn" (click)="showGuideTourRates = true">Tour Rates</button>
+
+    <xp-rate-tour *ngIf="showRatingForm" [tourRate]="tourRate" [tourId]="editableTourId" (close)="closeRatingForm()"></xp-rate-tour>
+    <xp-guide-tour-rates *ngIf="showGuideTourRates" [tourId]="editableTourId" (close)="closeGuideTourRates()"></xp-guide-tour-rates>
 </div>
   

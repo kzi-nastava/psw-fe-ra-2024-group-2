@@ -1,0 +1,16 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+      <h2>Rate Your Tour</h2>
+      <form [formGroup]="ratingForm" (ngSubmit)="submitRating()">
+        <label for="rating">Rating (1-5):</label>
+        <input id="rating" type="number" formControlName="rating" min="1" max="5" required>
+    
+        <label for="comment">Comment:</label>
+        <textarea id="comment" formControlName="comment"></textarea>
+    
+        <button type="submit" *ngIf="!tourRate" [disabled]="ratingForm.invalid">Submit Rating</button>
+        <button type="button" (click)="closeModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  

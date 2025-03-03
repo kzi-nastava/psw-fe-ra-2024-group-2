@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TourService } from '../../tour.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { KeyPoint } from '../../model/keyPoint.model';
+import { TourRate } from '../../model/tourRate.model';
 
 
 @Component({
@@ -20,6 +21,12 @@ export class GuideTourCreateComponent implements OnInit {
   guideId!: number;
   showMap = false;
   keyPoints: KeyPoint[] | null = null;
+  userRole: string | null;
+  tourDate: Date;
+  showRatingForm: boolean = false;
+  touristCanRate: boolean = false;
+  tourRate: TourRate | null = null;
+  showGuideTourRates: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,12 +36,17 @@ export class GuideTourCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.guideId = this.authService.getUserId(); // Fetch logged-in user's ID
-
+    this.userRole = this.authService.getUserRole();
+    
     this.createForm();
     if(this.editableTourId != null){
+      if(this.userRole == 'tourist'){
+        this.loadTourRate();
+      }
+      
       this.editForm();
       console.log("edit form: " + this.editableTourId);
-    } 
+    }         
   }
 
   editForm(){
@@ -49,6 +61,17 @@ export class GuideTourCreateComponent implements OnInit {
         //console.log("editable tour name: " + this.editableTour.name);
         //console.log("key points: " + this.keyPoints);
         //console.log("key points: ", JSON.stringify(this.keyPoints, null, 2));
+
+        this.tourDate = tourData.date;
+
+        if(this.canRate()){
+          if(!this.tourAlreadyRated()){
+            this.showRatingForm = true;
+          }
+          
+          this.touristCanRate = true;
+        }
+
         this.tourForm = this.fb.group({
           name: [tourData.name, Validators.required],
           description: [tourData.description, Validators.required],
@@ -71,6 +94,33 @@ export class GuideTourCreateComponent implements OnInit {
     //this.keyPoints = this.tourService.getTourKeyPoints(this.editableTour?.id);
     
   }
+
+  closeRatingForm() {
+    this.showRatingForm = false; // Close the rating form by setting the flag to false
+  }
+
+  closeGuideTourRates(){
+    this.showGuideTourRates = false;
+  }
+
+  cancelTour(): void {
+    console.log("Cancel tour triggered");
+  
+    if (this.editableTourId != null) {
+      this.tourService.cancelTour(this.editableTourId).subscribe({
+        next: (response) => {
+          console.log('Tour cancelled response:', response);
+          alert('Tour cancelled successfully!');
+          this.closeCreateTour.emit();
+        },
+        error: (err) => {
+          console.error('Error cancelling tour:', err);
+          alert('Error cancelling the tour.');
+        }
+      });
+    }
+  }
+  
 
   createForm(){
     this.tourForm = this.fb.group({
@@ -119,6 +169,60 @@ export class GuideTourCreateComponent implements OnInit {
       }, 100); // Ensures the map container is visible before initializing
     }
   }
+
+  loadTourRate(): void{
+    if (this.editableTourId) {
+      this.tourService.getTourRateByUser(this.editableTourId).subscribe(
+        (response) => {
+          //console.log('Tour rate:', response);
+          this.tourRate = response;
+          console.log("Tour rate: " + JSON.stringify(this.tourRate, null, 2));
+        },
+        (error) => {
+          console.error('Error fetching tour rate:', error);
+        }
+      );
+    }    
+  }
+
+  tourAlreadyRated(){
+    if(this.tourRate != null){
+      console.log("Tour already rated!");
+      return true;
+    }
+    return false;
+  }
+  canRate(): boolean {
+    if (this.userRole !== "tourist") {
+      console.log("only tourist can rate: " + this.userRole);
+      return false;
+    }    
+        
+    console.log("Tour rate: " + JSON.stringify(this.tourRate, null, 2));
+    // Ensure tourDate is a Date object
+    let tourDate = this.tourDate;
+  
+    // If tourDate is a string, attempt to convert it to a Date object
+    if (typeof tourDate === 'string') {
+      tourDate = new Date(tourDate);
+    }
+  
+    // Check if tourDate is a valid Date object
+    if (isNaN(tourDate.getTime())) {
+      console.error("Invalid tourDate: " + tourDate);
+      return false;
+    }
+  
+    console.log("tour date: " + tourDate.toString());
+  
+    const currentDate = new Date();
+    const oneMonthAfterTour = new Date(tourDate);
+    oneMonthAfterTour.setMonth(tourDate.getMonth() + 1);
+  
+    // User can rate only after the tour date and within 1 month after the tour
+    return currentDate > tourDate && currentDate <= oneMonthAfterTour;
+  }
+  
 
   handleLocationsSelection(newKeyPoints: KeyPoint[]) {
     console.log('Final Selected Locations:', newKeyPoints);

@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TouristTourComponent } from './tourist-tour/tourist-tour.component';
 import { BasketComponent } from './basket/basket.component';
 import { GuideTourModule } from '../guide-tour/guide-tour.module';
+import { RateTourComponent } from './rate-tour/rate-tour.component';
 
 
 
@@ -22,7 +23,7 @@ import { GuideTourModule } from '../guide-tour/guide-tour.module';
   ],
   exports: [
     TouristTourComponent,
-    BasketComponent
+    BasketComponent,    
   ]
 })
 export class TouristTourModule { }

@@ -9,12 +9,14 @@ import { Login } from './model/login.model';
 import { AuthenticationResponse } from './model/authentication-response.model';
 import { User } from './model/user.model';
 import { Registration } from './model/registration.model';
+import { Wallet } from './model/wallet.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  user$ = new BehaviorSubject<User>({username: "", id: 0, role: "" });
+  user$ = new BehaviorSubject<User>({username: "", id: 0, role: "",  bonusPoints: 0 });
+
 
   constructor(private http: HttpClient,
     private tokenStorage: TokenStorage,
@@ -52,6 +54,18 @@ export class AuthService {
     );
   }
 
+  getWallet(): Observable<Wallet> {
+
+    return this.http
+      .get<Wallet>(`${environment.apiHost}GetWallet/${this.getUserId()}`)
+      .pipe(
+        tap((wallet) => {
+          console.log('Wallet data:', wallet);
+        })
+      );
+  }
+  
+
   checkIfUserExists(): void {
     const accessToken = this.tokenStorage.getAccessToken();
     if (accessToken == null) {
@@ -69,18 +83,29 @@ export class AuthService {
       role: jwtHelperService.decodeToken(accessToken)[
         'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
       ],
+      bonusPoints: jwtHelperService.decodeToken(accessToken).bonusPoints
     };
     this.user$.next(user);
   }
 
   getUser(): string {
     const currentUser = this.user$.getValue();
-    return `ID: ${currentUser.id}, Username: ${currentUser.username}, Role: ${currentUser.role}`;
+    return `ID: ${currentUser.id}, Username: ${currentUser.username}, Role: ${currentUser.role}, Bonus Points: ${currentUser.bonusPoints}`;
   }
 
   getUserId(): number {
     const currentUser = this.user$.getValue();
     return currentUser.id;
+  }
+
+  getUserRole(): string {
+    const currentUser = this.user$.getValue();
+    return currentUser.role;
+  }
+
+  getBonusPoints(): number {
+    const currentUser = this.user$.getValue();
+    return currentUser.bonusPoints || 0;
   }
 
   test(): Observable<string> {

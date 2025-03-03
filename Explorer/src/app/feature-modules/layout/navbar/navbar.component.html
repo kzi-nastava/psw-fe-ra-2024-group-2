@@ -15,6 +15,7 @@
         <mat-menu #userMenu="matMenu">
           <button mat-menu-item [routerLink]="['home']">Home</button>
           <button *ngIf="user && user.role === 'author'" mat-menu-item [routerLink]="['guide-tours']">Tours</button>
+          <button *ngIf="user && user.role === 'tourist'" mat-menu-item [routerLink]="['tourist-tours']">Tours</button>
           <button mat-menu-item (click)="onLogout()">Logout</button>
         </mat-menu>
   

@@ -22,7 +22,8 @@ export class GuideTourComponent implements OnInit {
   ngOnInit(): void {
     this.x = 1;
     this.getGuideTours();
-    this.applyFilter();    
+    this.applyFilter();   
+    //this.getWallet(); 
   }
 
   constructor(
@@ -48,6 +49,10 @@ export class GuideTourComponent implements OnInit {
         error: () => {  
         }
       })
+  }
+
+  getWallet(){
+    this.authService.getWallet();
   }
 
   seeTours(): void{

@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GuideTourCreateComponent } from './guide-tour-create/guide-tour-create.component';
 import { GuideTourComponent } from './guide-tour/guide-tour.component';
 import { MapSelectorComponent } from '../../map-selector/map-selector.component';
+import { RateTourComponent } from '../tourist-tour/rate-tour/rate-tour.component';
+import { GuideTourRatesComponent } from './guide-tour-rates/guide-tour-rates.component';
 
 
 
@@ -13,7 +15,9 @@ import { MapSelectorComponent } from '../../map-selector/map-selector.component'
   declarations: [
     GuideTourCreateComponent,
     GuideTourComponent,
-    MapSelectorComponent
+    MapSelectorComponent,
+    RateTourComponent,
+    GuideTourRatesComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,8 @@ import { MapSelectorComponent } from '../../map-selector/map-selector.component'
   exports: [
     GuideTourComponent,
     GuideTourCreateComponent,
-    MapSelectorComponent
+    MapSelectorComponent,
+    RateTourComponent
   ]
 })
 export class GuideTourModule { }

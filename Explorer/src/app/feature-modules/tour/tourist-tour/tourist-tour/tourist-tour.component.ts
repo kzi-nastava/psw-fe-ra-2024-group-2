@@ -25,6 +25,8 @@ export class TouristTourComponent implements OnInit {
     this.basketSubscription = this.basketService.getBasketObservable().subscribe((basket) => {
       this.updateToursInBasket(basket.tours || []);
     });
+
+    //this.sendTestEmail();
   }
 
   constructor(
@@ -39,6 +41,17 @@ export class TouristTourComponent implements OnInit {
     if (this.basketSubscription) {
       this.basketSubscription.unsubscribe();
     }
+  }
+
+  sendTestEmail(): void{
+    this.service.sendTestEmail().subscribe(
+      (response) => {
+        console.log('Test email sent successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending test email:', error);
+      }
+    );    
   }
 
   getAllTours(): void {

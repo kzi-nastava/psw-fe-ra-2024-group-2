@@ -1,6 +1,6 @@
 <div *ngIf="!tourDetails">
     <div *ngIf="tours.length > 0; else noTours">
-    <h2>Your Tours</h2>
+    <h2>Available Tours</h2>
     <ul>
       <li *ngFor="let tour of tours">
         <h3 (click)="seeTourDetails(tour)">{{ tour.name }}</h3>
@@ -11,8 +11,18 @@
         <p><strong>Difficulty:</strong> {{ tour.difficulty }}</p>
         <p><strong>Date:</strong> {{ tour.date | date: 'medium' }}</p>
 
-        <button class="add-to-basket-btn" *ngIf="!tour.isInBasket" (click)="addToBasket(tour)">🛒 Add to Basket</button>
-        <button class="add-to-basket-btn" *ngIf="tour.isInBasket" (click)="removeFromBasket(tour)">🛒 Remove from Basket</button>
+        <button class="add-to-basket-btn" 
+                *ngIf="!tour.isInBasket && tour.status != 'Cancelled'" 
+                (click)="addToBasket(tour)">
+        🛒 Add to Basket
+        </button>
+
+        <button class="add-to-basket-btn" 
+                *ngIf="tour.isInBasket && tour.status != 'Cancelled'" 
+                (click)="removeFromBasket(tour)">
+        🛒 Remove from Basket
+        </button>
+
 
       </li>
     </ul>

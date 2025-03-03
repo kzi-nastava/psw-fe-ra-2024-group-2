@@ -1,0 +1,24 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div *ngIf="tourRates && tourRates.length > 0; else noRates">
+            <h3>Tour Ratings</h3>
+            <ul>
+            <li *ngFor="let rate of tourRates">
+                <strong>Rating:</strong> {{ rate.rating }} / 5 <br />
+                <strong *ngIf="rate.comment">Comment:</strong> {{ rate.comment }} <br *ngIf="rate.comment"/>
+                <strong>Tourist Username:</strong> {{ rate.touristUsername || 'Anonymous' }} <br />
+                <hr />
+            </li>
+            </ul>
+        </div>
+        
+        <ng-template #noRates>
+            <p>This tour hasn't been rated yet.</p>
+        </ng-template>
+        
+        <!-- Cancel Button and Background Overlay -->
+        
+        <button (click)="closeTourRates()">Cancel</button>
+    </div>
+</div>
+  
