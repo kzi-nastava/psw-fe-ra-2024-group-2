@@ -58,7 +58,7 @@ export class RegistrationComponent {
   getEmailErrorMessage(): string {
     const emailControl = this.registrationForm.get('email');
     if (emailControl?.errors?.['email'] && emailControl.value !== '') {
-      return 'Invalid Email Format';
+      return 'Email format is invalid.';
     }
     return '';
   }
