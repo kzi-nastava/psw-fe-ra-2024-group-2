@@ -24,7 +24,7 @@ export class EventsCalendarComponent implements OnInit {
     { code: 'FR', name: 'France' },
   ];
   
-  selectedCountry = 'RS'; // Default to Serbia
+  selectedCountry = 'US'; // Default to Serbia
   
 
   constructor(private service: TourAuthoringService, private http: HttpClient) {}
