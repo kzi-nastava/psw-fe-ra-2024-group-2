@@ -223,21 +223,38 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private fetchEncounters(): void {
-    this.encounterService.getAllEncounters().subscribe((encounters: any[]) => {
-      encounters.forEach(encounter => {
-        const lat = encounter.latitude;
-        const lng = encounter.longitude;
-
-        if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-          // Only process non-HiddenLocation encounters initially
-          if (encounter.encounterType !== 'HiddenLocation') {
-            this.addEncounterMarker(encounter, lat, lng);
-          } else {
-            // Add the marker to hiddenLocationMarkers list
-            this.addHiddenLocationMarker(encounter, lat, lng);
-          }
+    console.log('Fetching encounters...');
+    this.encounterService.getAllEncounters().subscribe({
+      next: (encounters: any[]) => {
+        console.log('Encounters received:', encounters);
+        if (!encounters || encounters.length === 0) {
+          console.log('No encounters found or empty array received');
+          return;
         }
-      });
+        
+        encounters.forEach(encounter => {
+          console.log('Processing encounter:', encounter);
+          const lat = encounter.latitude;
+          const lng = encounter.longitude;
+
+          if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+            // Only process non-HiddenLocation encounters initially
+            if (encounter.encounterType !== 'HiddenLocation') {
+              console.log('Adding visible encounter marker:', encounter.encounterType);
+              this.addEncounterMarker(encounter, lat, lng);
+            } else {
+              console.log('Adding hidden location marker');
+              // Add the marker to hiddenLocationMarkers list
+              this.addHiddenLocationMarker(encounter, lat, lng);
+            }
+          } else {
+            console.log('Invalid coordinates for encounter:', { lat, lng, encounter });
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error fetching encounters:', error);
+      }
     });
   }
 

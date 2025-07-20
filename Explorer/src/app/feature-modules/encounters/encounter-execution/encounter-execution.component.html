@@ -1,24 +1,81 @@
-<div class="position-selection-container">
-    <h2>Select Your Position</h2>
-    <p class="instructions">Click on the map to choose your location.</p>
-</div>
+<div class="encounter-container">
+    <!-- Header Section -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="title-section">
+                <h1>Encounter Execution</h1>
+                <p class="subtitle">Choose your position on the map to begin your adventure</p>
+            </div>
+            
+            <div *ngIf="showCompleteButton" class="action-section">
+                <button mat-raised-button class="complete-btn" (click)="onCompleteChallenge()">
+                    <span class="btn-icon">✓</span>
+                    Complete Challenge
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div *ngIf="showCompleteButton">
-    <button class="mat-raised-button" (click)="onCompleteChallenge()">Complete Challenge</button>
-</div>
+    <!-- Map Section -->
+    <div class="map-section">
+        <div class="map-card">
+            <div class="map-header">
+                <h3 class="map-title">Interactive Map</h3>
+                <div class="map-instructions">
+                    <span class="instruction-icon">🎯</span>
+                    <span>Click anywhere on the map to set your location</span>
+                </div>
+            </div>
+            
+            <div class="map-wrapper">
+                <xp-map-encounter 
+                    (locationSelected)="onLocationSelected($event)" 
+                    [touristPosition]="touristPosition"
+                    [clearMarkersTrigger]="clearMarkersFlag" 
+                    (markersCleared)="onMarkersCleared()"
+                    (proximityToMiscEncounter)="onProximityToMiscEncounter($event)"
+                    (proximityToSocialEncounter)="onProximityToSocialEncounter($event)"
+                    (proximityToHiddenEncounter)="onProximityToHiddenEncounter($event)"
+                    (noProximityToSocialEncounter)="noProximityToSocialEncounter($event)">
+                </xp-map-encounter>
+            </div>
 
-<div class="map-container">
-    <div class="xp-map-container">
-        <xp-map-encounter 
-            (locationSelected)="onLocationSelected($event)" 
-            [touristPosition]="touristPosition"
-            [clearMarkersTrigger]="clearMarkersFlag" 
-            (markersCleared)="onMarkersCleared()"
-            (proximityToMiscEncounter)="onProximityToMiscEncounter($event)"
-            (proximityToSocialEncounter)="onProximityToSocialEncounter($event)"
-            (proximityToHiddenEncounter)="onProximityToHiddenEncounter($event)"
-            (noProximityToSocialEncounter)="noProximityToSocialEncounter($event)">
-        </xp-map-encounter>
+            <!-- Encounter Legend -->
+            <div class="encounter-legend">
+                <h4 class="legend-title">Encounter Types</h4>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-icon social-icon">
+                            <img src="assets/people.png" alt="Social Encounter" class="icon-image">
+                        </div>
+                        <div class="legend-content">
+                            <span class="legend-name">Social Encounters</span>
+                            <span class="legend-description">Meet and interact with other tourists in the area</span>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-item">
+                        <div class="legend-icon hidden-icon">
+                            <img src="assets/exclamation.png" alt="Hidden Encounter" class="icon-image">
+                        </div>
+                        <div class="legend-content">
+                            <span class="legend-name">Hidden Location Encounters</span>
+                            <span class="legend-description">Discover secret locations and hidden treasures</span>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-item">
+                        <div class="legend-icon misc-icon">
+                            <img src="assets/misc.png" alt="Misc Encounter" class="icon-image">
+                        </div>
+                        <div class="legend-content">
+                            <span class="legend-name">Miscellaneous Encounters</span>
+                            <span class="legend-description">Special activities and unique experiences</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
