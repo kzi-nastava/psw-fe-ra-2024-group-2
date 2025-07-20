@@ -37,12 +37,16 @@ export enum Difficulty {
 
 export class MyToursComponent implements OnInit {
 
+  showCouponSection: boolean = false;
   tours: Tour[] = []
   tourObjects: any[] = [];
   tourCheckpoints: any[] = [];
   tourCheckpointObjects: any[] = [];
   coupons: Coupon[] = [];
   tourSales: TourSale[] = [];
+
+  checkpointImageIndexes: { [tourId: number]: number } = {};
+  checkpointImageIntervals: { [tourId: number]: any } = {};
 
   coupon = {
     discount: 1,
@@ -51,6 +55,11 @@ export class MyToursComponent implements OnInit {
   applyToAll = false;
   successMessage: string = '';
   unsuccessMessage: string = '';
+  isHelpModalOpen = false;
+
+  toggleHelpModal() {
+    this.isHelpModalOpen = !this.isHelpModalOpen;
+  }
   //selectedObject: Object | null = null;
 
   constructor(private service: TourAuthoringService, private router: Router, private dialog: MatDialog) { }
@@ -61,6 +70,28 @@ export class MyToursComponent implements OnInit {
     this.loadTourCheckpoints();
     this.loadCoupons();
     this.loadTourSales();
+  }
+  toggleCouponSection(): void {
+    this.showCouponSection = !this.showCouponSection; // Menjanje vidljivosti sekcije
+  }
+  getCheckpointImage(tourId: number): string {
+    // Find the checkpoints for this specific tour
+    const tourCheckpoints = this.tourCheckpointObjects.find(
+      (item) => item.tourId === tourId
+    );
+
+    // If checkpoints exist and the first checkpoint has an image, return it
+    if (tourCheckpoints &&
+      tourCheckpoints.checkpoints.length > 0 &&
+      tourCheckpoints.checkpoints[0].image?.data) {
+      return 'data:' +
+        tourCheckpoints.checkpoints[0].image.mimeType +
+        ';base64,' +
+        tourCheckpoints.checkpoints[0].image.data;
+    }
+
+    // Fallback to default image if no checkpoint image found
+    return '../../../../assets/traveling-with-off-road-car.jpg';
   }
 
   loadTourObjects() {
@@ -168,7 +199,7 @@ export class MyToursComponent implements OnInit {
   }
 
   showTourClick(tour: Tour): void {
-    this.router.navigate(['/edittours'], { queryParams: { tour: JSON.stringify(tour) } });
+    this.router.navigate(['/edittours'], { queryParams: { tour: JSON.stringify(tour.id) } });
   }
 
   getStatusLabel(status: number): string {
@@ -211,7 +242,7 @@ export class MyToursComponent implements OnInit {
     );
     return isOnSale;
   }
-  
+
 
   getSalePrice(tourId: number): number | null {
     for (const sale of this.tourSales) {
@@ -224,5 +255,5 @@ export class MyToursComponent implements OnInit {
     }
     return null;
   }
-  
+
 }

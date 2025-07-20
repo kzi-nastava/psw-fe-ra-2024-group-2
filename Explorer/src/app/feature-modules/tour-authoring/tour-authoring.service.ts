@@ -11,6 +11,7 @@ import { LocationDto } from '../tour-execution/model/location.model';
 import { Checkpoint } from './model/checkpoint.model';
 import { Coupon } from './model/coupon.model';
 import { Object } from './model/object.model';
+import { TouristBonus } from './model/touristBonus.model';
 import { Tour } from './model/tour.model';
 import { PagedResult } from './shared/model/tour.module';
 
@@ -36,6 +37,14 @@ export class TourAuthoringService {
 
   getTours(): Observable<PagedResult<Tour>> {
     return this.http.get<PagedResult<Tour>>('https://localhost:44333/api/author/tour')
+  }
+  
+  getCheckpointsByTourId(tourId: number): Observable<PagedResult<Checkpoint>> {
+    return this.http.get<PagedResult<Checkpoint>>(`https://localhost:44333/api/author/checkpoint/checkpoints/getAllByTourId/${tourId}`);
+  }
+
+  createTouristBonus(touristId: number, discountPercentage: number): Observable<TouristBonus>{
+    return this.http.post<TouristBonus>(`https://localhost:44333/api/tourist/touristBonus/create/${touristId}/${discountPercentage}`, {});
   }
 
   getTourById(tourId: number): Observable<Tour> {
@@ -113,6 +122,14 @@ export class TourAuthoringService {
     return this.http.delete<void>('https://localhost:44333/api/eventsubscription')
   }
 
+  deleteEvent(eventId: number): Observable<any> {
+    return this.http.delete(`https://localhost:44333/api/author/event/${eventId}`)
+  }
+
+  updateEvent(event: EventModel): Observable<EventModel> {
+    return this.http.put<EventModel>(`https://localhost:44333/api/author/event/update`, event)
+  }
+
   addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour> {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', { tour, checkpoints });
   }
@@ -174,6 +191,10 @@ export class TourAuthoringService {
   //Sale
   getAllSale(): Observable<TourSale[]> {
     return this.http.get<TourSale[]>('https://localhost:44333/api/user/tourSale');
+  }
+
+  getAllEvents(): Observable<PagedResult<EventModel>> {
+    return this.http.get<PagedResult<EventModel>>('https://localhost:44333/api/author/event');
   }
   
 }

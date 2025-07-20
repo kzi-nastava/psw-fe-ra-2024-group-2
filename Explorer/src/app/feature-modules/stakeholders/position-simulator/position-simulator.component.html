@@ -3,7 +3,7 @@
         <h2>Select Your Position</h2>
         <p class="instructions">Click on the map to choose your location.</p>
     </div>
-    <div class = "map_and_button_container">
+    <div class = "map_and_button_container" >
         <div class="map-container">
             <xp-map 
                 (locationSelected)="onLocationSelected($event)" 
@@ -14,63 +14,85 @@
                 [checkpointCordinatesCollection]="checkpointCordinates">
             </xp-map>
         </div>
-        <div style="display: flex; flex-direction: column; align-items: end;">
-            <div class="checkpoint-secrets-container">
-                <div *ngIf="secret" class="secret-card">
-                    <p>Secret: {{ secret }}</p>
-                </div>  
+        <div style="margin-left: 3rem;">
+          <div class="event-section" style="text-align: center;">
+            <h2>Events</h2>
+            <div *ngIf="events.length > 0; else noEvents" class="events-slider-container">
+              <!-- Slider Buttons -->
+              <button *ngIf="events.length > 2" class="slider-btn left" (click)="slideLeft()">❮</button>
+              <div class="events-slider">
+                <div
+                  class="events-list"
+                  [style.transform]="sliderTransform"
+                  [style.transition]="sliderTransition"
+                >
+                  <div *ngFor="let event of events" class="event-card">
+                    <div class="event-card-content">
+                      <img
+                        *ngIf="event.image?.data"
+                        [src]="'data:' + event.image?.mimeType + ';base64,' + event.image?.data"
+                        alt="Event Image"
+                        class="event-image"
+                      />
+                      <div class="event-details">
+                        <h2 class="event-name">{{ event.name }}</h2>
+                        <p class="event-category">
+                          <strong>Category:</strong> {{ event.category }}
+                        </p>
+                        <p class="event-description">
+                          <strong>Description:</strong> {{ event.description }}
+                        </p>
+                        <p class="event-dates">
+                          <strong>Start:</strong> {{  event.endDate | date: 'mediumDate'  }}<br />
+                          <strong>End:</strong> {{  event.endDate | date: 'mediumDate'  }}
+                        </p>
+                      </div>
+                      <div class="event-actions">
+                        <button
+                          *ngIf="!hasUserAcceptedEvent(event)"
+                          class="btn btn-accent"
+                          (click)="joinEvent(event)"
+                        >
+                          Interested
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button *ngIf="diary.id" (click)="openModal()" class="btn btn-accent">Open diary</button> 
-              <button *ngIf="!diary.id" (click)="openModalCreate()" class="btn btn-accent">Create diary</button> 
-            <button (click)="endTour()" class="btn btn-accent">
-                {{ executedCheckpoints.length === 0 ? 'Finish Tour' : 'Abandon Tour' }}
-            </button> 
+              <button *ngIf="events.length > 2" class="slider-btn right" (click)="slideRight()">❯</button>
+            </div>
+            <ng-template #noEvents>
+              <p>No events available.</p>
+            </ng-template>
+          </div>
+          
+          <div style="display: flex; flex-direction: column;">
+              <div *ngIf="secret" class="secret-section">
+                      <h2>Secret</h2>
+                      <p>{{ secret }}</p>
+              </div>
+                <div style="margin-top: 10px;margin-bottom: 10px; display: flex; flex-direction: row;" >
+                  <button *ngIf="diary.id" (click)="openModal()" class="btn btn-accent">Open diary</button> 
+                  <button *ngIf="!diary.id" (click)="openModalCreate()" class="btn btn-accent">Create diary</button> 
+                  <button (click)="endTour()" class="btn btn-accent">
+                  {{ executedCheckpoints.length === 0 ? 'Finish Tour' : 'Abandon Tour' }}
+                </button> 
+                </div>
+          </div>
         </div>
+
     </div>    
 </div>
-<div class="events-container" style="text-align: center;">
-    <h2>Events</h2>
-    <div *ngIf="events.length > 0; else noEvents">
-        <div *ngFor="let event of events" class="event-card">
-            <div class="event-card">
-                <img *ngIf="event.image?.data"
-                                [src]="'data:' + event.image?.mimeType + ';base64,' + event.image?.data"
-                                alt="Event Image" class="event-image">
-                <div class="event-details">
-                  <h2 class="event-name">{{event.name}}</h2>
-                  <p class="event-category"><strong>Category:</strong>{{event.category}}</p>
-                  <p class="event-description"><strong>Description:</strong>{{event.description}}</p>
-                  <p class="event-dates">
-                    <strong>Start:</strong> {{event.startDate}}<br />
-                    <strong>End:</strong> {{event.endDate}}
-                  </p>
-                </div>
-                <div class="event-actions">
-                    <button 
-                      *ngIf="!hasUserAcceptedEvent(event)" 
-                      class="btn btn-accent" 
-                      (click)="joinEvent(event)">
-                      Interested
-                    </button>
-                  </div>
-              </div>
-        </div>
-    </div>
-   
-    <ng-template #noEvents>
-        <p>No events available.</p>
-    </ng-template>
-</div>
-
 <!-- Modal u stilu otvorene knjige -->
 <div class="book-overlay" *ngIf="isModalOpen">
   <div class="book">
     <!-- Naslov knjige -->
     <div class="book-title">
       <!-- Provera da li se uređuje naslov -->
-      <div *ngIf="!isEditingTitle; else editTitleForm">
+      <div *ngIf="!isEditingTitle; else editTitleForm" class="title-container">
         <button class="new-chapter-btn" (click)="addNewChapter()">New chapter</button>
-        <h1 style="font-size: 30px; margin-top: 10px;">{{ diary.title }}</h1>
+        <h1>{{ diary.title }}</h1>
         <button class="edit-btn" (click)="editTitle()">
           ✎ <!-- Ikonica za uređivanje -->
         </button>
@@ -130,11 +152,13 @@
         <!-- Prikaz poglavlja -->
         <ng-template #chapterView>
           <div class="page-content">
-            <img
+            <div class="chapter-image-wrapper">
+              <img
               [src]="chapter.image?.data ? 'data:image/jpeg;base64,' + chapter.image?.data : 'https://via.placeholder.com/150'"
               alt="Slika poglavlja"
               class="chapter-image"
             />
+            </div>
             <p>{{ chapter.text }}</p>
           </div>
           <div class="page-footer">
@@ -172,18 +196,20 @@
       </div>
 
       <div>
-        <label for="image">Dodajte sliku:</label>
+        <label for="image">Upload image:</label>
+        <button type="button" class="image-button" (click)="triggerFileInput()">Upload Image</button>
         <input
-        type="file"
-        id="image"
-        accept="image/jpeg, image/png, image/gif"
-        (change)="onFileSelected($event)"
+          type="file"
+          id="image"
+          accept="image/jpeg, image/png, image/gif"
+          (change)="onFileSelected($event)"
+          hidden
         />
-    </div>
+      </div>
 
     <!-- Prikaz odabrane slike -->
     <div *ngIf="newChapter.image?.data" class="preview">
-        <h4>Pregled slike:</h4>
+        <h4>Selected image:</h4>
         <img
         [src]="'data:image/jpeg;base64,' + (newChapter.image?.data || '')"
         alt="Pregled slike"

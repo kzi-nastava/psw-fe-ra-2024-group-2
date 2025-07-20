@@ -1,7 +1,13 @@
 <div class="page-container">
     <section class="forms-section">
         <div class="form-container">
-            <h2 class="form-title">Define Your Tour: Add 2 or More Checkpoints</h2>
+            <div class="help-section">
+                <h2 class="form-title">Define Your Tour: Add 2 or More Checkpoints</h2>
+                <button class="help-button" (click)="toggleHelpModal()">
+                    <span class="help-icon">?</span>
+                    <span>Need help?</span>
+                </button>
+            </div>
             <form [formGroup]="checkpointForm" class="custom-form" (ngSubmit)="addCheckpoint()">
                 <div class="form-content">
                     <div class="form-left">
@@ -132,4 +138,61 @@
         </div>
         
     </section>
+</div>
+
+<div class="help-modal" [class.active]="isHelpModalOpen">
+    <div class="modal-content">
+        <button class="close-button" (click)="toggleHelpModal()">×</button>
+        <div class="modal-header">
+            <h3>🛠 How to Create a Tour?</h3>
+        </div>
+        <div class="modal-body">
+            <p class="intro">Creating a tour is simple! Just follow these steps:</p>
+
+            <div class="help-step">
+                <span class="step-number">1</span>
+                <div class="step-content">
+                    <h4>Name & Description</h4>
+                    <p>Give your tour a catchy name and an engaging description. What makes it special?</p>
+                </div>
+            </div>
+
+            <div class="help-step">
+                <span class="step-number">2</span>
+                <div class="step-content">
+                    <h4>Difficulty & Tags</h4>
+                    <p>Set the difficulty level and add tags (e.g., <em>historical, adventure, nature</em>) to help
+                        users find it.</p>
+                </div>
+            </div>
+
+            <div class="help-step">
+                <span class="step-number">3</span>
+                <div class="step-content">
+                    <h4>Checkpoints</h4>
+                    <p>Every tour needs at least <strong>two checkpoints</strong> before you can finalize it. Add as
+                        many as you want!</p>
+                </div>
+            </div>
+
+            <div class="help-step">
+                <span class="step-number">4</span>
+                <div class="step-content">
+                    <h4>Checkpoint Details</h4>
+                    <ul class="checkpoint-list">
+                        <li><strong>Name & Description</strong> – What makes this location interesting?</li>
+                        <li><strong>Secret Info</strong> 🔒 – Add a hidden fact or story that unlocks only when a
+                            tourist reaches the spot.</li>
+                        <li><strong>Image (Optional)</strong> – Upload a picture to make it more immersive.</li>
+                        <li><strong>Encounters (Optional)</strong> ⚔️ – Add an interactive element with an action
+                            and description.</li>
+                        <li><strong>Map Location</strong> 📍 – Place the checkpoint precisely on the map.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="conclusion">Once you're happy with your tour, finalize it and share your adventure with the
+                world! 🌍✨</p>
+        </div>
+    </div>
 </div>

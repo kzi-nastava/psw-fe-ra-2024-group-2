@@ -156,4 +156,45 @@ button[mat-raised-button]:hover {
     .mat-card-title {
         font-size: 1.5rem;
     }
+
+
 }
+
+    /* Level Info Wrapper */
+    .level-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .level-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        gap: 15px;
+        flex-direction: row;
+    }
+    
+    .level-number {
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .progress-container {
+        max-width: 1000px;
+        min-width: 100%; /* Ensures a minimum width */
+    }
+    
+    .level-bar {
+        width: 100%;
+        height: 8px;
+    }
+    
+    .xp-details {
+        margin-top: 0.5rem;
+        text-align: center;
+    }

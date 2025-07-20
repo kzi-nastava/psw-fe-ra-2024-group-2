@@ -3,6 +3,8 @@ import { EncounterMapService } from './map-encounter.service';
 import { EncounterService } from '../encounter.service'; // Import EncounterService
 import * as L from 'leaflet';
 import { Input } from '@angular/core';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 @Component({
   selector: 'xp-map-encounter',
@@ -27,15 +29,19 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
 
   private routingControl: L.Routing.Control | null = null;
   private marker: L.Marker | null = null;
-
+  private user : User | null;
   private positionCheckInterval: any; // For periodically checking the tourist position
 
   constructor(
     private mapService: EncounterMapService,
-    private encounterService: EncounterService // Inject EncounterService
+    private encounterService: EncounterService, // Inject EncounterService
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+          this.user = user;
+        });
     // Start periodic position check when the component is initialized
     this.positionCheckInterval = setInterval(() => {
       if (this.touristPosition) {
@@ -319,10 +325,23 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
       popupAnchor: [0, -32],
     });
     const marker = L.marker([lat, lng], { icon: hiddenIcon }).bindPopup(`
-      <b>${encounter.name}</b><br>
-      <i>${encounter.description}</i><br>
-      <small>Lat: ${lat}, Lng: ${lng}</small><br>
-      ${encounter.image?.data ? `<img src="${encounter.image?.data}" alt="Encounter Image" style="width: 100px; height: 100px;"/>` : ''}
+      <div style="font-family: 'Georgia', sans-serif; color: #333; padding: 10px; border: 1px solid #D2B48C; border-radius: 8px; background-color: #F5F5DC;">
+        <h3 style="margin: 0; font-size: 20px; color: #8B4513;">${encounter.name}</h3>
+        <p style="margin: 5px 0; font-size: 18px; color: #5D3A1A;"><i>${encounter.description}</i></p>
+        <p style="margin: 5px 0; font-size: 14px; color: #8B4513;">
+          <small><strong>Coordinates:</strong> Lat: ${lat}, Lng: ${lng}</small>
+        </p>
+        ${encounter.actionDescription
+          ? `<p style="margin: 5px 0; font-size: 14px; color: #5D3A1A;">
+               <small><strong>Action:</strong> ${encounter.actionDescription}</small>
+             </p>`
+          : ''}
+        ${encounter.image?.data
+          ? `<div style="text-align: center; margin-top: 10px;">
+               <img src="${encounter.image.data}" alt="Encounter Image" style="width: 100px; height: 100px; border-radius: 4px; border: 1px solid #D2B48C;" />
+             </div>`
+          : ''}
+      </div>
     `);
 
     // Store custom data on marker.options
@@ -365,7 +384,7 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
     this.persistentMarkers.forEach((marker) => {
       const encounter = (marker.options as any).encounter; // Access the stored encounter data
       if (encounter && encounter.encounterType === 'Social') {
-        const rangeInMeters = 20; // Set the range for proximity (20 meters)
+        const rangeInMeters = 50; // Set the range for proximity (20 meters)
         const distance = touristLatLng.distanceTo(marker.getLatLng()); // Calculate distance between tourist and marker
         
         if (distance <= rangeInMeters) {
@@ -377,9 +396,16 @@ export class MapEncounterComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       }
     });
-    if(!found){
-      console.log("KITA 4")
+    if (!found) {
+      this.persistentMarkers.forEach((marker) => {
+        const encounter = (marker.options as any).encounter; // Access the stored encounter data
+        if (encounter && encounter.encounterType === 'Social') {
+          // Remove the userId from the touristIds array
+          encounter.touristIds = encounter.touristIds.filter((id: number) => id !== this.user?.id);
+        }
+      });
       this.noProximityToSocialEncounter.emit(1);
     }
+    
   }
 }

@@ -23,6 +23,8 @@ import { EventAnalyticsComponent } from './event-analytics/event-analytics.compo
 import { PopularEventsComponent } from './popular-events/popular-events.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EncountersModule } from '../encounters/encounter.module';
+import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
+import { UpdateEventFormComponent } from './event-update-form/event-update-form.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { EncountersModule } from '../encounters/encounter.module';
     AddTourCheckpointsComponent,
     EventAnalyticsComponent,
     PopularEventsComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    EventsCalendarComponent,
+    UpdateEventFormComponent
   ],
   imports: [
     CommonModule,

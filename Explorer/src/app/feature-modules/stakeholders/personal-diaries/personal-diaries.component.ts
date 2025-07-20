@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-import { PersonalDairy } from '../../tour-execution/model/personalDiary.model';
+import { ProfileService } from '../profile.service';
 import { Diary } from '../../tour-execution/model/diary.model';
 import { Chapter } from '../../tour-execution/model/chapter.model';
 import { DatePipe } from '@angular/common';
@@ -30,6 +30,7 @@ export class DiariesComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private tourExecutionService: TourExecutionService,
+    private profileService: ProfileService,
     private datePipe: DatePipe,
     private fb: FormBuilder // Inicijalizacija FormBuilder-a
   ) {
@@ -42,21 +43,49 @@ export class DiariesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('userId'));
-    this.loadDiaries(this.userId);
+    this.loadDiaries();
   }
 
-  loadDiaries(userId: number): void {
-    this.tourExecutionService.getDiaryForUser(userId).subscribe({
-      next: (diaries) => {
-        this.diaries = diaries;
-        console.log(diaries);
+  loadDiaries(): void {
+    this.profileService.getProfile().subscribe({
+      next: (profile) => {
+        this.tourExecutionService.getDiaryForUser(profile.id).subscribe({
+          next: (diaries) => {
+            this.diaries = []; // Resetujemo niz
+            diaries.forEach(diary => {
+              this.tourExecutionService.getTourById(diary.tourId).subscribe({
+                next: (tour) => {
+                  // Dodajemo ime ture u dnevnik
+                  this.diaries.push({
+                    ...diary,
+                    username: profile.username,
+                    tourName: tour.name // Dodajemo naziv ture
+                  });
+                },
+                error: () => {
+                  // U slučaju greške, koristimo podrazumevano ime
+                  this.diaries.push({
+                    ...diary,
+                    username: profile.username,
+                    tourName: 'Unknown'
+                  });
+                }
+              });
+            });
+          },
+          error: () => {
+            this.errorMessage = 'Failed to load diaries.';
+          }
+        });
       },
-      error: (error) => {
-        this.errorMessage = 'Failed to load diaries.';
-        console.error(error);
+      error: () => {
+        this.errorMessage = 'Failed to load profile.';
       }
     });
   }
+  
+  
+  
 
   openAddChapterModal(diary: Diary): void {
     this.selectedDiary = diary;
@@ -79,9 +108,19 @@ export class DiariesComponent implements OnInit {
 
   // Resetuje formu
   resetChapterForm(): void {
-    this.chapterForm.reset();
+    this.chapterForm.get('text')?.setValue('');
+    this.chapterForm.get('title')?.setValue('');
+      this.newChapter.image = undefined; // Resetovanje slike
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Resetuje prikaz datoteke u input polju
+      }
   }
 
+  triggerFileInput() {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    fileInput.click(); // Simulira klik na `input[type="file"]`
+  }
   // Obrada odabranog fajla
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

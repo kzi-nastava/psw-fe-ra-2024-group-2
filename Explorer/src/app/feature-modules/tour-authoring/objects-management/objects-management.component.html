@@ -1,57 +1,97 @@
 <div class="component">
-    <div class="container">
-      <div class="table-section">
-        <div class="table-header">
-          <h2 class="table-title">Objects List</h2>
-          <div class="table-actions">
-            <div class="search-container">
-              <input type="text" placeholder="Search objects..." class="search-input">
-              <i class="fas fa-search search-icon"></i>
+  <div class="container">
+    <div class="table-section">
+      <!-- Header Section -->
+      <div class="table-header">
+        <h2 class="table-title">Objects List</h2>
+        <div class="table-actions">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <div class="search-box">
+              <input
+                type="text"
+                placeholder="Search by name..."
+                class="search-input"
+                [(ngModel)]="searchName"
+                (input)="onSearchChange()"
+              />
+              <i class="fas fa-search search-icon" (click)="onSearchClick()"></i>
+            </div>
+          </div>
+
+          <!-- Filter Button -->
+          <div class="category-filter">
+            <button class="filter-toggle" (click)="toggleCategoryFilters()">
+              Filter by Category
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="category-options" *ngIf="showCategoryFilters">
+              <label>
+                <input
+                  type="checkbox"
+                  [value]="'WC'"
+                  (change)="onCategoryChange($event)"
+                />
+                WC
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  [value]="'Parking'"
+                  (change)="onCategoryChange($event)"
+                />
+                Parking
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  [value]="'Restaurant'"
+                  (change)="onCategoryChange($event)"
+                />
+                Restaurant
+              </label>
             </div>
           </div>
         </div>
-        
-        <div class="table-container">
-          <table class="custom-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Image</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let objek of objects" class="table-row">
-                <td class="name-cell">{{objek.name}}</td>
-                <td class="description-cell">
-                  <div class="description-content">{{objek.description}}</div>
-                </td>
-                <td class="category-cell">
-                  <span class="category-badge">
-                    {{ objek.category }}
-                  </span>
-                </td>
-                <td class="image-cell">
-                  <div class="image-container" *ngIf="objek.image?.data">
-                    <img [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data" 
-                         alt="Object Image" 
-                         class="object-image">
-                  </div>
-                  <div class="no-image" *ngIf="!objek.image?.data">
-                    <i class="fas fa-image"></i>
-                  </div>
-                </td>
-                <td class="actions-cell">
-                  <button class="btn btn-icon btn-edit" (click)="editObject(objek)" title="Edit object">
-                    Edit object
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      </div>
+
+      <!-- Description Section -->
+      <div class="table-description">
+        <p>
+          The objects listed here are points of interest relevant to tourists embarking on a solo tour. You can view and edit their locations as needed to ensure accuracy and relevance for the tour.
+        </p>
+      </div>
+
+      <!-- Card Layout for Objects -->
+      <div class="card-container">
+        <div class="card" *ngFor="let objek of filteredObjects">
+          <div class="card-image">
+            <img
+              *ngIf="objek.image?.data"
+              [src]="'data:' + objek.image?.mimeType + ';base64,' + objek.image?.data"
+              alt="{{ objek.name }}"
+            />
+            <div class="no-image" *ngIf="!objek.image?.data">
+              <i class="fas fa-image"></i>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">{{ objek.name }}</h3>
+            <p class="card-description">{{ objek.description }}</p>
+            <span class="category-badge category-{{ objek.category }}">
+              {{ objek.category }}
+            </span>
+          </div>
+          <div class="card-actions">
+            <button
+              class="btn btn-icon btn-edit"
+              (click)="editObject(objek)"
+            >
+              Edit location
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
