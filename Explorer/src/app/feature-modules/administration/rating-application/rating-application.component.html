@@ -1,19 +1,96 @@
 <div id="rating-application">
-    <p id="title">All ratings of application</p>
-    <hr>
-    <div id="rating-application-details">
-        <div *ngFor="let ra of ratingWithUser" class="rating-card">
-            <div class="card-header">
-                <h3>Username: {{ ra.account.username }}</h3>
-                <div class="rating-icon">{{ '⭐'.repeat(ra.ratingApplication.grade) }}</div>
+ <div class="header-with-filter">
+    <h2 id="title">All ratings</h2>
+      <div class="filter-buttons">
+    <div class="dropdown">
+      <button class="dropdown-toggle" (click)="toggleDropdown()">Filter by time  </button>
+      <ul *ngIf="showDropdown" class="dropdown-menu">
+        <li (click)="filterByTime('today')">Today</li>
+        <li (click)="filterByTime('7days')">Last 7 days</li>
+        <li (click)="filterByTime('month')">Last month</li>
+        <li (click)="filterByTime('year')">Last year</li>
+        <li (click)="filterByTime('all')">All time</li>
+      </ul>
+    </div>
+    <div class="dropdown">
+  <button class="dropdown-toggle" (click)="toggleRatingDropdown()">Filter by rating  </button>
+  <ul *ngIf="showRatingDropdown" class="dropdown-menu">
+    <li (click)="filterByRating(5)">5 <span class="gold-star"> ★</span></li>
+<li (click)="filterByRating(4)">4 <span class="gold-star"> ★</span></li>
+<li (click)="filterByRating(3)">3 <span class="gold-star"> ★</span></li>
+<li (click)="filterByRating(2)">2 <span class="gold-star"> ★</span></li>
+<li (click)="filterByRating(1)">1 <span class="gold-star"> ★</span></li>
+<li (click)="filterByRating(0)">All ratings</li>
+
+  </ul>
+</div>
+  </div> 
+  </div> 
+   <div id="rating-application-details">
+        <div *ngFor="let ra of filteredRatings" class="rating-card">
+        <div class="card-header">
+            <div class="profile-wrapper">
+                <div class="profile-icon">
+                    <!-- Okrugla ikonica profila, siva boja -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#888888" viewBox="0 0 24 24">
+                        <path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zM12 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/>
+                    </svg>
+                </div>
+                <span class="username">{{ ra.username }}</span>
             </div>
-            <div class="card-content">
-                <p class="comment">
-                    <i *ngIf="ra.ratingApplication.comment; else noComment">"{{ ra.ratingApplication.comment }}"</i>
-                    <ng-template #noComment><strong>Korisnik nije ostavio komentar!</strong></ng-template>
-                </p>          
-                      <p><strong>Rated on:</strong> {{ ra.ratingApplication.ratingTime ? (ra.ratingApplication.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</p>
+            <div class="rating-summary">
+                    <ng-container *ngFor="let star of [].constructor(ra.ratingApplication.grade)">
+                        <span class="star">&#9733;</span>
+                    </ng-container>
             </div>
         </div>
+        
+            <div class="card-content">
+                <p class="comment" *ngIf="ra.ratingApplication.comment; else noComment">
+                {{ ra.ratingApplication.comment }}
+                </p>
+                <ng-template #noComment>
+            <p class="no-comment">The user did not leave a comment.</p>
+                </ng-template>
+            </div>
+            <div class="rating-date">
+                {{ ra.ratingApplication.ratingTime ? (ra.ratingApplication.ratingTime | date:'dd/MM/yyyy HH:mm') : 'N/A' }}
+            </div>  
+        </div>
+      <!-- sadržaj kartice -->
     </div>
+  </div>
+
+
+
+  <div class="rating-container" >
+  <div class="rating-summary2">
+    <div class="average-rating">
+  <h2 class="rating-number-average">{{ displayAverageRating | number:'1.1-1' }}</h2>
+      <div class="stars">
+        <span *ngFor="let star of getStarsArray(averageRating)" 
+              [class]="star.class">{{ star.symbol }}</span>
+      </div>
+      <div class="total-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#888888" style="margin-bottom: 7px; vertical-align: middle;" >
+                        <path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zM12 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/>
+                    </svg>
+                    {{ displayTotalRatings  | number }} total
+      </div>
+    </div>
+    
+<div class="rating-breakdown">
+  <div *ngFor="let rating of [5,4,3,2,1]" class="rating-row">
+<span class="star-label">
+  <span class="gold-star">★</span> {{ rating }}
+</span>
+    <div class="progress-container">
+      <div class="progress-bar"
+           [style.width.%]="getPercentage(displayRatingCounts[rating])">
+      </div>
+    </div>
+    <span class="count-label">{{ displayRatingCounts[rating] }}</span>
+  </div>
+</div>
+  </div>
 </div>
