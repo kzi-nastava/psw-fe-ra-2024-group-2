@@ -3,7 +3,9 @@ export class TourIssueNotification {
         public fromUserId: number,
         public toUserId: number,
         public status: TourIssueNotificationStatus,
-        public tourIssueReportId: number
+        public tourIssueReportId: number,
+        public fromUsername?: string,
+        public toUsername?: string  
     ) { }
 }
 
