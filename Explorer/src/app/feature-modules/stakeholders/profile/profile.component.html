@@ -1,67 +1,92 @@
-<div class="component"></div>
-<div id="profile" class="profile-container mat-elevation-z4">
-    <mat-card *ngIf="profile;">
-        <div class="mat-header">
-            <!-- Profile Picture Avatar -->
-            <div class="profile-picture" *ngIf="profile.image">
-                <img [src]="profile.image.data" alt="Profile Picture" class="profile-img"/>
-            </div>
+<div class="profile-page">
+  <mat-card class="profile-card" *ngIf="profile">
+    <div class="profile-layout">
 
-            <div class="mat-header-text">User Profile</div>
+      <!-- Profile Image -->
+      <div class="profile-image-container" *ngIf="profile.image">
+        <img [src]="profile.image.data" alt="Profile Picture" class="profile-image" />
+      </div>
+
+      <!-- Info -->
+      <div class="profile-info-container">
+        <h1 class="card-title">User Profile</h1>
+
+        <!-- Personal Info -->
+        <section class="profile-section">
+          <h2 class="section-title">
+            <mat-icon class="info-icon">person</mat-icon>
+            Personal Info
+          </h2>
+          <div class="info-card-grid">
+            <mat-card class="info-card">
+              <label><mat-icon class="info-icon">person</mat-icon> Username</label>
+              <div class="value">{{ profile.username }}</div>
+            </mat-card>
+            <mat-card class="info-card">
+              <label><mat-icon class="info-icon">badge</mat-icon> Name</label>
+              <div class="value">{{ profile.name }}</div>
+            </mat-card>
+            <mat-card class="info-card">
+              <label><mat-icon class="info-icon">badge</mat-icon> Last Name</label>
+              <div class="value">{{ profile.lastName }}</div>
+            </mat-card>
+            <mat-card class="info-card">
+              <label><mat-icon class="info-icon">mail</mat-icon> Email</label>
+              <div class="value">{{ profile.email }}</div>
+            </mat-card>
+          </div>
+        </section>
+
+        <!-- About -->
+        <section class="profile-section" *ngIf="profile.biography || profile.moto">
+          <h2 class="section-title">
+            <mat-icon class="info-icon">info</mat-icon>
+            About
+          </h2>
+          <div class="info-card-grid">
+            <mat-card class="info-card" *ngIf="profile.biography">
+              <label><mat-icon class="info-icon">description</mat-icon> Biography</label>
+              <div class="value">{{ profile.biography }}</div>
+            </mat-card>
+            <mat-card class="info-card" *ngIf="profile.moto">
+              <label><mat-icon class="info-icon">format_quote</mat-icon> Moto</label>
+              <div class="value">{{ profile.moto }}</div>
+            </mat-card>
+          </div>
+        </section>
+
+        <!-- Level -->
+        <section class="profile-section" *ngIf="level">
+          <h2 class="section-title">
+            <mat-icon class="info-icon">star</mat-icon>
+            Level
+          </h2>
+          <mat-card class="info-card wide">
+            <div class="level-box">
+              <span class="level-number">{{ level.level }}</span>
+              <mat-progress-bar
+                class="level-bar"
+                mode="determinate"
+                [value]="getXpProgress()"
+              ></mat-progress-bar>
+              <span class="level-number">{{ getNextLevel() }}</span>
+            </div>
+            <p class="xp-text">XP: {{ level.xp }} / {{ getNextLevelXp() }}</p>
+          </mat-card>
+        </section>
+
+        <!-- Buttons -->
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" (click)="openEditDialog()">
+            <mat-icon class="info-icon">edit</mat-icon>
+            Edit
+          </button>
+          <button mat-raised-button color="accent" (click)="viewMyDiaries()">
+            <mat-icon class="info-icon">book</mat-icon>
+            My Diaries
+          </button>
         </div>
-
-        <mat-card-content>
-            <div class="profile-info">
-                <div class="info-item">
-                    <label>Username:</label>
-                    <input matInput [value]="profile.username" disabled />
-                </div>
-                <div class="info-item">
-                    <label>Name:</label>
-                    <input matInput [value]="profile.name" disabled />
-                </div>
-                <div class="info-item">
-                    <label>Last Name:</label>
-                    <input matInput [value]="profile.lastName" disabled />
-                </div>
-                <div class="info-item">
-                    <label>Email:</label>
-                    <input matInput [value]="profile.email" disabled />
-                </div>
-                <div *ngIf="profile.biography" class="info-item">
-                    <label>Biography:</label>
-                    <input matInput [value]="profile.biography" disabled />
-                </div>
-                <div *ngIf="profile.moto" class="info-item">
-                    <label>Moto:</label>
-                    <input matInput [value]="profile.moto" disabled />
-                </div>
-            </div>
-            
-            <div *ngIf="level" class="level-info">
-                <div class="level-display">
-                    <span class="level-number">{{ level.level }}</span>
-                    <div class="progress-container">
-                        <mat-progress-bar 
-                            class="level-bar"
-                            mode="determinate" 
-                            [value]="getXpProgress()">
-                        </mat-progress-bar>
-                    </div>
-                    <span class="level-number">{{ getNextLevel() }}</span>
-                </div>                               
-                <p class="xp-details">XP: {{ level.xp }} / {{ getNextLevelXp() }}</p>
-            </div>
-            
-            
-            
-        
-            <div class="edit-button-container">
-                <button mat-raised-button color="primary" (click)="openEditDialog()">Edit</button>
-            </div>
-            <div class="edit-button-container">
-                <button mat-raised-button color="accent" (click)="viewMyDiaries()">My Diaries</button>
-            </div>
-        </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
+  </mat-card>
 </div>

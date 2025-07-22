@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
         try {
             const user = await firstValueFrom(this.authService.user$);
             this.user = user;
+            console.log('User fetched:', user);
             return user;
         } catch (error) {
             console.error("Failed to fetch user:", error);
