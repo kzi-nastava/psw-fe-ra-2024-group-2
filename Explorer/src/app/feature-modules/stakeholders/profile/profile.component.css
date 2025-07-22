@@ -14,6 +14,36 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.image-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.image-preview {
+  width: 300px;
+  height: 400px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid var(--light-brown);
+  background-color: var(--lighter-brown);
+}
+
+.image-text .name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--primary-brown);
+}
+
+.image-text .role {
+  font-size: 0.9rem;
+  color: var(--dark-brown);
+}
+
+
+
 .profile-layout {
   display: flex;
   flex-wrap: wrap;
@@ -46,10 +76,22 @@
 }
 
 .section-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--dark-brown);
-  margin: 1.5rem 0 1rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--primary-brown);
+  text-align: center;
+  position: relative;
+  margin: 2rem 0 1rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--light-brown);
+  margin: 0.5rem auto 0 auto;
+  border-radius: 2px;
 }
 
 .info-card-grid {
@@ -130,7 +172,7 @@
 
 .action-buttons {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
 

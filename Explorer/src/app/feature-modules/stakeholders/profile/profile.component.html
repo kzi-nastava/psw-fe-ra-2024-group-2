@@ -3,9 +3,12 @@
     <div class="profile-layout">
 
       <!-- Profile Image -->
-      <div class="profile-image-container" *ngIf="profile.image">
-        <img [src]="profile.image.data" alt="Profile Picture" class="profile-image" />
-      </div>
+      <div class="image-preview-container" *ngIf="profile.image">
+<img [src]="profile.image.data" alt="Profile Image Preview" class="image-preview" />
+  <div class="image-text">
+    <div class="name">{{ profile.name }} {{ profile.lastName }}</div>
+    <div class="role">{{ user?.role }}</div>
+  </div>      </div>
 
       <!-- Info -->
       <div class="profile-info-container">
@@ -14,7 +17,6 @@
         <!-- Personal Info -->
         <section class="profile-section">
           <h2 class="section-title">
-            <mat-icon class="info-icon">person</mat-icon>
             Personal Info
           </h2>
           <div class="info-card-grid">
@@ -40,7 +42,6 @@
         <!-- About -->
         <section class="profile-section" *ngIf="profile.biography || profile.moto">
           <h2 class="section-title">
-            <mat-icon class="info-icon">info</mat-icon>
             About
           </h2>
           <div class="info-card-grid">
