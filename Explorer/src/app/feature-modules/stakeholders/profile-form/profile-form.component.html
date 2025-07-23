@@ -1,11 +1,20 @@
-<h2 mat-dialog-title>Edit Profile</h2>
+<h2 mat-dialog-title class="dialog-title">Edit Profile</h2>
+
 <mat-dialog-content>
-  <form [formGroup]="profileForm" class="edit-profile-form">
+  <form [formGroup]="profileForm" class="edit-profile-grid">
+    
+    <!-- Red 1: Username - Email -->
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username">
     </mat-form-field>
 
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+
+    <!-- Red 2: Name - Last Name -->
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name">
@@ -16,38 +25,32 @@
       <input matInput formControlName="lastName">
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
+    <!-- Red 3: Biography (span 2) -->
+    <mat-form-field appearance="fill" class="full-width biography-span">
       <mat-label>Biography</mat-label>
-      <textarea matInput formControlName="biography"></textarea>
+      <textarea matInput rows="4" formControlName="biography"></textarea>
     </mat-form-field>
 
+    <!-- Red 4: Moto - Upload Image -->
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Moto</mat-label>
       <input matInput formControlName="moto">
     </mat-form-field>
 
-    <!-- Flex container for the file input and image preview -->
-    <div class="file-input-container">
-      <div class="file-input">
-        <label for="image-upload">Profile Image</label>
-        <input type="file" id="image-upload" (change)="onFileSelect($event)">
-      </div>
+    <div class="image-upload-block">
+      <label for="image-upload">Profile Image</label>
+      <input type="file" id="image-upload" (change)="onFileSelect($event)">
 
-      <!-- Image Preview -->
       <div *ngIf="imagePreview" class="image-preview-container">
         <label>Image Preview</label>
-        <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview"/>
+        <img [src]="imagePreview" alt="Profile Image Preview" class="image-preview" />
       </div>
     </div>
+
   </form>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button class="brown-button outlined" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button class="brown-button" (click)="onSave()">Save</button>
 </mat-dialog-actions>
