@@ -5,19 +5,18 @@
   
   <div class="notification-list" (scroll)="onScroll($event)">
     <!-- No notifications message -->
-    <div *ngIf="notifications.length === 0 && coinNotifications.length===0" class="notification-empty">
+    <div *ngIf="notifications.length === 0 && coinNotifications.length === 0" class="notification-empty">
       No new notifications
     </div>
     
     <!-- Iterate over notifications and display them -->
     <div *ngFor="let notification of notifications" class="notification-item" (click)="goToNotification(notification)">
       <div class="notification-content">
-        From User: {{ notification.fromUserId }}
+        From User: {{ notification.fromUsername }}
       </div>
       <div class="notification-meta">
         Status: 
         <span class="notification-status" [ngClass]="{
-          'status-pending': notification.status === 'Pending',
           'status-resolved': notification.status === 'Resolved',
           'status-unresolved': notification.status === 'Unresolved'
         }">

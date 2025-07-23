@@ -1,54 +1,107 @@
-<div class="register-container">
-    <form [formGroup]="registrationForm" (ngSubmit)="register()">
-        <div>
-            <mat-form-field appearance="fill">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="name" type="text" />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Surname</mat-label>
-                <input matInput formControlName="surname" type="text" />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Username</mat-label>
-                <input matInput formControlName="username" type="text" />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="email" 
-                       (blur)="onEmailBlur()" (click)="onEmailClick()"/>
-                <label class="error-label" 
-                       *ngIf="emailTouched && 
-                       registrationForm.get('email')?.errors" 
-                       style="color: red;">
-                       {{ getEmailErrorMessage() }}
-                </label>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password"/>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Confirm Password</mat-label>
-                <input matInput formControlName="confirmPassword" type="password"
-                       (input)="passwordMismatch = false"/>
-                <label *ngIf="passwordMismatch" style="color: red;">
-                    Passwords do not match
-                </label>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Select Role</mat-label>
-                <select matNativeControl formControlName="userRole" name="userRole">
-                    <option value="" disabled selected>Select Role</option>
-                    <option [value]="UserRole.Tourist">Tourist</option>
-                    <option [value]="UserRole.Author">Author</option>
-                </select>
-            </mat-form-field>
+<div class="page-wrapper">
+    <div class="register-container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Have an account?</h1>
+                <a class="signin-btn" href="/login">Sign in</a>
+            </div>
+
+            <!-- Clouds from bootstrap icons -->
+            <div class="cloud cloud1">
+                <i class="bi bi-cloud-fill"></i>
+            </div>
+            <div class="cloud cloud2">
+                <i class="bi bi-cloud-fill"></i>
+            </div>
+            <div class="cloud cloud3">
+                <i class="bi bi-cloud-fill"></i>
+            </div>
+
+            <!-- Airplane from bootstrap icons -->
+             <div class="flying-plane">
+                <i class="bi bi-airplane-engines-fill"></i>
+            </div>
+
+            <!-- Traveller illustration -->
+            <div class="illustration">
+                <img src="assets/signInTraveller.png" alt="Explorer illustration">
+            </div>
         </div>
 
-        <button color="primary" type="submit" mat-raised-button
-        [disabled]="registrationForm.invalid || passwordMismatch">Register</button>
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="form-container">
+                <form [formGroup]="registrationForm" (ngSubmit)="register()">
+                    <div class="form-field">
+                        <input matInput formControlName="name" type="text" placeholder="Enter your name">
+                        <div class="error-message" 
+                             *ngIf="registrationForm.get('name')?.touched && registrationForm.get('name')?.errors">
+                            {{ registrationForm.get('name')?.errors?.['required'] ? 'The name field is required.' : '' }}
+                        </div>
+                    </div>
 
-        <p>Already have an account?<a href="/login">Sign in</a></p>
-    </form>
+                    <div class="form-field">
+                        <input matInput formControlName="surname" type="text" placeholder="Enter your surname">
+                        <div class="error-message" 
+                             *ngIf="registrationForm.get('surname')?.touched && registrationForm.get('surname')?.errors">
+                            {{ registrationForm.get('surname')?.errors?.['required'] ? 'The surname field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <input matInput formControlName="username" type="text" placeholder="Enter your username">
+                        <div class="error-message" 
+                             *ngIf="registrationForm.get('username')?.touched && registrationForm.get('username')?.errors">
+                            {{ registrationForm.get('username')?.errors?.['required'] ? 'The username field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <input matInput formControlName="email" type="email" placeholder="Enter your email"
+                               (blur)="onEmailBlur()" (click)="onEmailClick()"/>
+                        <div class="error-message" 
+                             *ngIf="emailTouched && registrationForm.get('email')?.errors">
+                            {{ registrationForm.get('email')?.errors?.['required'] ? 'The email field is required.' : getEmailErrorMessage() }} 
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <input matInput formControlName="password" type="password" placeholder="Enter your password"/>
+                        <div class="error-message" 
+                             *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.errors">
+                            {{ registrationForm.get('password')?.errors?.['required'] ? 'The password field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <input matInput formControlName="confirmPassword" type="password"
+                               placeholder="Confirm password"
+                               (input)="passwordMismatch = false"/>
+                        <div class="error-message" *ngIf="passwordMismatch">
+                            Passwords do not match.
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <select matNativeControl formControlName="userRole" name="userRole">
+                            <option value="" disabled selected hidden>Select Role</option>
+                            <option [value]="UserRole.Tourist">Tourist</option>
+                            <option [value]="UserRole.Author">Author</option>
+                        </select>
+                        <div class="error-message" 
+                             *ngIf="registrationForm.get('userRole')?.touched && registrationForm.get('userRole')?.errors">
+                            {{ registrationForm.get('userRole')?.errors?.['required'] ? 'The role field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <button color="primary" type="submit" mat-raised-button
+                            class="register-btn"
+                            [disabled]="registrationForm.invalid || passwordMismatch">
+                        Sign up
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

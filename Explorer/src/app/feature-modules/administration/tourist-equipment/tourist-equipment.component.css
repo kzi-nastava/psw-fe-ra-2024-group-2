@@ -1,50 +1,145 @@
-#equipment {
-    margin-top: 200px;
-    margin-left: 20px;
+.equipment-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F8EBCF, #F6C8A6);
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-#equipment-details {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
+/* Kartica */
+.equipment-card {
+    max-width: 64rem;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-p {
-    font-size: 20px;
+.equipment-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.card-header {
+    background-color: #01757A;
+    padding: 1.5rem;
+    text-align: center;
+    color: white;
+    border-bottom: none;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+/* Content */
+.card-content {
+    padding: 1.5rem;
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* Naslovi sekcija */
+.equipment-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #3E2922;
+    margin-bottom: 0.75rem;
+}
+
+/* Tabele */
+.table-container {
+    background-color: #F8EBCF;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 table {
+    width: 100%;
     border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-size: 0.95rem;
 }
 
 thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
+    background-color: #B6ACAD;
+}
+
+th {
     text-align: left;
+    padding: 1rem;
+    color: #3E2922;
+    font-weight: 600;
 }
 
-th, td {
-    padding: 12px 15px;
+td {
+    padding: 1rem;
+    color: #3E2922;
 }
 
+/* Redovi */
 tbody tr {
-    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #E0D6CA;
 }
 
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+tbody tr:last-child {
+    border-bottom: none;
 }
 
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
+tbody tr:hover {
+    background-color: #F6C8A6;
 }
 
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
+/* Dugmad (Add / Delete) */
+.icon-button {
+    padding: 0.4rem;
+    border-radius: 6px;
+    border: none;
+    background-color: #01757A;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:hover {
+    background-color: #03585C;
+    transform: scale(1.1);
+}
+
+.icon-button.delete {
+    background-color: #E57734;
+}
+
+.icon-button.delete:hover {
+    background-color: #c55d1f;
+}
+
+/* Notifikacija */
+.notification {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 6px;
+    background-color: #01757A;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .equipment-grid {
+        grid-template-columns: 1fr;
+    }
 }

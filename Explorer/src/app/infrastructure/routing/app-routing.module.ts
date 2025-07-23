@@ -55,6 +55,9 @@ import { WheelOfFortuneComponent } from 'src/app/feature-modules/layout/wheel-of
 import { TourDetailsComponent } from 'src/app/feature-modules/tour-execution/tour-details/tour-details.component';
 import { EventsCalendarComponent } from 'src/app/feature-modules/tour-authoring/events-calendar/events-calendar.component';
 import {EventFormComponent} from 'src/app/feature-modules/tour-authoring/event-form/event-form.component';
+import { ProfileMessagingChatComponent } from 'src/app/feature-modules/stakeholders/profile-messaging-chat/profile-messaging-chat.component';
+import { ProfileMessagingMainComponent } from 'src/app/feature-modules/stakeholders/profile-messaging-main/profile-messaging-main.component';
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -115,6 +118,10 @@ const routes: Routes = [
   {path: 'tour-details/:tourId', component: TourDetailsComponent, canActivate: [AuthGuard]},
   {path: 'eventsCalendar', component: EventsCalendarComponent, canActivate: [AuthGuard]},
   {path: 'addEvent', component: EventFormComponent, canActivate: [AuthGuard]},
+  {path: 'profileMessaging/chat/:userId', component: ProfileMessagingMainComponent },
+  {path: 'profileMessaging', component: ProfileMessagingMainComponent},
+
+
 ];
 
 @NgModule({

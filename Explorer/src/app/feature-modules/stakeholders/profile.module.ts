@@ -11,6 +11,9 @@ import { DiariesComponent } from './personal-diaries/personal-diaries.component'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
+import { ProfileMessagingChatComponent } from './profile-messaging-chat/profile-messaging-chat.component';
+import { ProfileMessagingMainComponent } from './profile-messaging-main/profile-messaging-main.component';
+import { ChatSidebarComponent } from './chat-sidebar/chat-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +21,10 @@ import { MatDividerModule } from "@angular/material/divider";
         ProfileFormComponent,
         RateAppFormComponent,
         SendMessageComponent,
-        DiariesComponent
+        DiariesComponent,
+        ProfileMessagingChatComponent,
+        ProfileMessagingMainComponent,
+        ChatSidebarComponent
     ],
     imports: [
     CommonModule,

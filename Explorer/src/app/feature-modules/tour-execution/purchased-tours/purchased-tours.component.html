@@ -1,5 +1,13 @@
 <div class="container">
-  <div class="row">
+  <!-- Empty state message -->
+  <div class="page-title">Purchased Tours</div>
+  
+  <div *ngIf="tours.length === 0" class="empty-state">
+    You haven't purchased any tours yet.
+  </div>
+
+  <!-- Tours grid -->
+  <div class="row" *ngIf="tours.length > 0">
     <div class="col-4" *ngFor="let tour of tours">
       <div class="tour-card">
         <div class="tour-header">
@@ -19,12 +27,12 @@
             </div>
           </div>
         </div>
-
+        
         <div class="tour-content">
           <div class="tour-description">
             {{ tour.description }}
           </div>
-
+          
           <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
             <div class="section-title">
               <span class="icon">⚒</span>
@@ -37,13 +45,13 @@
               </div>
             </div>
           </div>
-
+          
           <div class="tour-duration" *ngFor="let duration of tour.tourDurationByTransportDtos">
             <span class="icon">⏱</span>
             Duration ({{ duration.transport }}): {{ formatDuration(duration.duration) }}
           </div>
         </div>
-
+        
         <div class="tour-actions">
           <button class="btn btn-accent" (click)="goToReviewForm(tour.id)">
             Write Review
