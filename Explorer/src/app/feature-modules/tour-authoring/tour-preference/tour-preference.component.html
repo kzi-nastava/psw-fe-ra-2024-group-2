@@ -19,34 +19,78 @@
 
             <!-- Transportation Preferences -->
             <div class="form-section">
-              <label>Transportation Preferences (0-3)</label>
+              <label>Transportation Preferences</label>
               <div class="transport-grid">
                 <div class="transport-item">
                   <div class="icon-box">👣</div>
                   <span>Walking</span>
-                  <input type="number" class="number-input" 
-                         formControlName="walkRating" min="0" max="3">
+                  <div class="rating-selector">
+                    <div class="rating-circle" 
+                         *ngFor="let rating of [1, 2, 3]; let i = index"
+                         [class.active]="preferenceForm.get('walkRating')?.value >= rating"
+                         (click)="setRating('walkRating', rating)">
+                      {{rating}}
+                    </div>
+                    <div class="rating-clear" 
+                         (click)="setRating('walkRating', 0)"
+                         title="Clear rating">
+                      ✕
+                    </div>
+                  </div>
                 </div>
 
                 <div class="transport-item">
                   <div class="icon-box">🚲</div>
                   <span>Bicycle</span>
-                  <input type="number" class="number-input" 
-                         formControlName="bicycleRating" min="0" max="3">
+                  <div class="rating-selector">
+                    <div class="rating-circle" 
+                         *ngFor="let rating of [1, 2, 3]; let i = index"
+                         [class.active]="preferenceForm.get('bicycleRating')?.value >= rating"
+                         (click)="setRating('bicycleRating', rating)">
+                      {{rating}}
+                    </div>
+                    <div class="rating-clear" 
+                         (click)="setRating('bicycleRating', 0)"
+                         title="Clear rating">
+                      ✕
+                    </div>
+                  </div>
                 </div>
 
                 <div class="transport-item">
                   <div class="icon-box">🚗</div>
                   <span>Car</span>
-                  <input type="number" class="number-input" 
-                         formControlName="carRating" min="0" max="3">
+                  <div class="rating-selector">
+                    <div class="rating-circle" 
+                         *ngFor="let rating of [1, 2, 3]; let i = index"
+                         [class.active]="preferenceForm.get('carRating')?.value >= rating"
+                         (click)="setRating('carRating', rating)">
+                      {{rating}}
+                    </div>
+                    <div class="rating-clear" 
+                         (click)="setRating('carRating', 0)"
+                         title="Clear rating">
+                      ✕
+                    </div>
+                  </div>
                 </div>
 
                 <div class="transport-item">
                   <div class="icon-box">⛵</div>
                   <span>Boat</span>
-                  <input type="number" class="number-input" 
-                         formControlName="boatRating" min="0" max="3">
+                  <div class="rating-selector">
+                    <div class="rating-circle" 
+                         *ngFor="let rating of [1, 2, 3]; let i = index"
+                         [class.active]="preferenceForm.get('boatRating')?.value >= rating"
+                         (click)="setRating('boatRating', rating)">
+                      {{rating}}
+                    </div>
+                    <div class="rating-clear" 
+                         (click)="setRating('boatRating', 0)"
+                         title="Clear rating">
+                      ✕
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,25 +139,45 @@
               <div class="rating-display" [class.has-rating]="currentPreferences.walkRating > 0">
                 <div class="icon-box">👣</div>
                 <span>Walking</span>
-                <div class="rating-badge">{{currentPreferences.walkRating}}/3</div>
+                <div class="rating-visual">
+                  <div class="rating-dot" 
+                       *ngFor="let rating of [1, 2, 3]"
+                       [class.filled]="currentPreferences.walkRating >= rating">
+                  </div>
+                </div>
               </div>
 
               <div class="rating-display" [class.has-rating]="currentPreferences.bicycleRating > 0">
                 <div class="icon-box">🚲</div>
                 <span>Bicycle</span>
-                <div class="rating-badge">{{currentPreferences.bicycleRating}}/3</div>
+                <div class="rating-visual">
+                  <div class="rating-dot" 
+                       *ngFor="let rating of [1, 2, 3]"
+                       [class.filled]="currentPreferences.bicycleRating >= rating">
+                  </div>
+                </div>
               </div>
 
               <div class="rating-display" [class.has-rating]="currentPreferences.carRating > 0">
                 <div class="icon-box">🚗</div>
                 <span>Car</span>
-                <div class="rating-badge">{{currentPreferences.carRating}}/3</div>
+                <div class="rating-visual">
+                  <div class="rating-dot" 
+                       *ngFor="let rating of [1, 2, 3]"
+                       [class.filled]="currentPreferences.carRating >= rating">
+                  </div>
+                </div>
               </div>
 
               <div class="rating-display" [class.has-rating]="currentPreferences.boatRating > 0">
                 <div class="icon-box">⛵</div>
                 <span>Boat</span>
-                <div class="rating-badge">{{currentPreferences.boatRating}}/3</div>
+                <div class="rating-visual">
+                  <div class="rating-dot" 
+                       *ngFor="let rating of [1, 2, 3]"
+                       [class.filled]="currentPreferences.boatRating >= rating">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
