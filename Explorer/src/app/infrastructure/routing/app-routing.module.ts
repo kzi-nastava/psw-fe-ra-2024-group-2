@@ -54,6 +54,9 @@ import { SouvenirsComponent } from 'src/app/feature-modules/marketplace/show-bou
 import { WheelOfFortuneComponent } from 'src/app/feature-modules/layout/wheel-of-fortune/wheel-of-fortune.component';
 import { TourDetailsComponent } from 'src/app/feature-modules/tour-execution/tour-details/tour-details.component';
 import { EventsCalendarComponent } from 'src/app/feature-modules/tour-authoring/events-calendar/events-calendar.component';
+import { ProfileMessagingChatComponent } from 'src/app/feature-modules/stakeholders/profile-messaging-chat/profile-messaging-chat.component';
+import { ProfileMessagingMainComponent } from 'src/app/feature-modules/stakeholders/profile-messaging-main/profile-messaging-main.component';
+
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
@@ -113,6 +116,9 @@ const routes: Routes = [
   {path: 'wheel-of-fortune', component: WheelOfFortuneComponent, canActivate: [AuthGuard]},
   {path: 'tour-details/:tourId', component: TourDetailsComponent, canActivate: [AuthGuard]},
   {path: 'eventsCalendar', component: EventsCalendarComponent, canActivate: [AuthGuard]},
+  {path: 'profileMessaging/chat/:userId', component: ProfileMessagingMainComponent },
+  {path: 'profileMessaging', component: ProfileMessagingMainComponent},
+
 
 ];
 

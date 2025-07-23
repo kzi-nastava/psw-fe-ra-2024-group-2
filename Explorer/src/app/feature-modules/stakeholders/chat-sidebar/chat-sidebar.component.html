@@ -1,0 +1,13 @@
+<div class="chat-sidebar">
+  <h3 class="chat-title">Chat with fellow users:</h3>
+  
+  <button class="scroll-arrow scroll-up" (click)="scrollUp()">▲</button>
+  
+  <ul #usersList>
+    <li *ngFor="let user of users" (click)="selectUser(user.id)">
+      {{ user.username }}
+    </li>
+  </ul>
+  
+  <button class="scroll-arrow scroll-down" (click)="scrollDown()">▼</button>
+</div>
