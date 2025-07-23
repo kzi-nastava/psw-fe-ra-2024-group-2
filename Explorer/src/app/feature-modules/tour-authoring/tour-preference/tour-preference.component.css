@@ -303,3 +303,117 @@
     font-size: 0.8rem;
   }
 }
+.main-container {
+  padding: 2rem;
+  background: linear-gradient(135deg, #F8EBCF, #F6C8A6);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Kartice */
+.preference-card {
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.preference-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.card-header {
+  background-color: #01757A;
+  padding: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+/* Inputi */
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #B6ACAD;
+  border-radius: 8px;
+  background-color: #F8EBCF;
+  color: #3E2922;
+  font-size: 1rem;
+}
+
+/* Transport rating */
+.rating-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #B6ACAD;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3E2922;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rating-circle:hover {
+  background-color: #F6C8A6;
+  transform: scale(1.1);
+}
+
+.rating-circle.active {
+  background-color: #01757A;
+  border-color: #01757A;
+  color: white;
+}
+
+/* Dugme */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #E57734;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #c55d1f;
+  transform: translateY(-2px);
+}
+
+/* Tagovi */
+.tag-label {
+  padding: 0.6rem 1rem;
+  background-color: #F8EBCF;
+  border-radius: 20px;
+  color: #3E2922;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-weight: 500;
+}
+
+.tag-wrapper input[type="checkbox"]:checked + .tag-label {
+  background-color: #01757A;
+  color: white;
+}
+
+/* Difficulty & Badge stil */
+.difficulty-badge {
+  background-color: #01757A;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
