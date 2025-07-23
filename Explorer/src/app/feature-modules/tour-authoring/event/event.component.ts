@@ -10,7 +10,14 @@ import { PagedResult } from '../shared/model/tour.module';
   styleUrls: ['./event.component.css']
 })
 export class EventComponent implements OnInit{
+
   events: EventModel[] = []
+
+  deleteButtonDialog: boolean = false;
+  updateButtonDialog: boolean = false;
+  selectedEvent : EventModel;
+
+
 
   constructor(private service: TourAuthoringService, private dialog: MatDialog) {}
 
@@ -18,6 +25,12 @@ export class EventComponent implements OnInit{
   ngOnInit(): void {
     this.getEvents();
   }
+
+  refreshEvents(): void {
+    this.updateButtonDialog = !this.updateButtonDialog;
+    this.getEvents();
+  }
+
 
   getEvents(): void {
     this.service.getEvents().subscribe({
@@ -30,4 +43,33 @@ export class EventComponent implements OnInit{
     });
   }
 
+  deleteOverlay(event:EventModel): void{
+    this.deleteButtonDialog = !this.deleteButtonDialog;
+    this.selectedEvent = event;
+  }
+  updateOverlay(event:EventModel): void{ 
+    this.updateButtonDialog = !this.updateButtonDialog;
+    this.selectedEvent = event;
+  }
+
+  confirmDelete(): void{
+   console.log('deleting event', this.selectedEvent.id)
+     this.service.deleteEvent(this.selectedEvent.id).subscribe({
+        next: (result: any) =>{
+          console.log(result)
+          this.getEvents();
+          this.deleteButtonDialog = !this.deleteButtonDialog;
+        },
+        error: (err:any) => {
+          console.log(err)
+        }
+      });  
+  }
+  cancelDelete(): void{
+    this.deleteButtonDialog = !this.deleteButtonDialog;
+  } 
+
+  onCancelUpdate(): void{
+    this.updateButtonDialog = !this.updateButtonDialog;
+  }
 }

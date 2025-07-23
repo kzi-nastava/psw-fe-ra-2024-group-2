@@ -122,6 +122,14 @@ export class TourAuthoringService {
     return this.http.delete<void>('https://localhost:44333/api/eventsubscription')
   }
 
+  deleteEvent(eventId: number): Observable<any> {
+    return this.http.delete(`https://localhost:44333/api/author/event/${eventId}`)
+  }
+
+  updateEvent(event: EventModel): Observable<EventModel> {
+    return this.http.put<EventModel>(`https://localhost:44333/api/author/event/update`, event)
+  }
+
   addTourAndCheckpoints(tour: Tour, checkpoints: Checkpoint[]): Observable<Tour> {
     return this.http.post<Tour>('https://localhost:44333/api/author/tour/addNew', { tour, checkpoints });
   }

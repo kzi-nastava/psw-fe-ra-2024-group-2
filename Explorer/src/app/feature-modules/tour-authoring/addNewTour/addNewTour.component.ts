@@ -24,6 +24,11 @@ export class AddNewTourComponent implements OnInit {
         difficulty: new FormControl(0),
         price: new FormControl(0, [Validators.required])
     });
+    isHelpModalOpen = false;
+
+    toggleHelpModal() {
+        this.isHelpModalOpen = !this.isHelpModalOpen;
+    }
 
     ngOnInit(): void { }
 
