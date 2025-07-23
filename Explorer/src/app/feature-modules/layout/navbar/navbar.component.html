@@ -23,7 +23,7 @@
       || user && user.role==='administrator'">
         <button class="dropdown-toggle">Messaging</button>
         <div class="dropdown-content">
-          <button [routerLink]="['profileMessaging']">Send Message</button>
+          <button [routerLink]="['/profileMessaging/chat', user.id]">Send Message</button>
         </div>
       </div>
 

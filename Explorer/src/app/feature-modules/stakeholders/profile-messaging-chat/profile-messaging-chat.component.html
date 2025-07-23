@@ -1,0 +1,17 @@
+<div class="chat-container" *ngIf="currentUser">
+  <div class="messages-container" #messageContainer>
+    <div *ngFor="let msg of messages" 
+         [ngClass]="{'message-right': msg.senderId === currentUser.id, 'message-left': msg.senderId !== currentUser.id}">
+      <div class="message">
+        <strong>{{ msg.senderId === currentUser?.id ? 'You' : recipient?.username }}</strong>
+        <p>{{ msg.text }}</p>
+        <small>{{ msg.sentAt | date: 'short' }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <input type="text" [(ngModel)]="newMessage" placeholder="Type your message..." />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>

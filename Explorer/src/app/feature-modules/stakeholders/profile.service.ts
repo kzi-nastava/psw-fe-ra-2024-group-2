@@ -56,6 +56,17 @@ export class ProfileService {
     getUserLevel(userId: number): Observable<UserLevelDto> {
         return this.http.get<UserLevelDto>(`https://localhost:44333/api/userLevels/${userId}`);
     }
-    
 
+    getConversation(otherUserId: number): Observable<ProfileMessage[]> {
+        return this.http.get<ProfileMessage[]>(environment.apiHost + `profile/messaging/conversation/${otherUserId}`);
+    }
+
+    getById(id: number): Observable<Profile> {
+        return this.http.get<Profile>(`${environment.apiHost}profile/${id}`);
+    }
+
+    getAllRaw(): Observable<Profile[]> {
+        return this.http.get<Profile[]>(environment.apiHost + 'profile/all-raw');
+    }
+    
 }

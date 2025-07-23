@@ -1,0 +1,100 @@
+.chat-sidebar {
+  width: 200px;
+  background-color: var(--soft-cream);
+  border-right: 1px solid #ccc;
+  padding: 1rem;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-title {
+  color: var(--dark-brown);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  flex-shrink: 0; 
+}
+
+.chat-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1; 
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-sidebar ul::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-sidebar li {
+  background-color: var(--camel);
+  color: var(--dark-brown);
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.chat-sidebar li:hover {
+  background-color: var(--dark-brown);
+  color: var(--white);
+}
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.scroll-arrow {
+  position: absolute;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  background-color: var(--primary-brown);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  z-index: 999;
+}
+
+.scroll-up { top: 80px; }
+.scroll-down { bottom: 10px; }
+
+.scroll-arrow:hover {
+  background-color: var(--dark-brown);
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-arrow:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-arrow {
+  position: absolute;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  background-color: var(--primary-brown);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
