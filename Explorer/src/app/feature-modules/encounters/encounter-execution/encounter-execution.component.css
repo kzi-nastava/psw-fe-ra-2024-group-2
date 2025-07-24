@@ -1,85 +1,341 @@
-.position-selection-container {
-    text-align: center; /* Center-align the text */
-    margin-bottom: 20px; /* Add some space below */
+/* Main Container */
+.encounter-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--white);
+    min-height: calc(100vh - 64px);
 }
 
-.position-selection-container h2 {
-    font-size: 24px; /* Increase the font size for the heading */
-    color: #333; /* Set a color for the heading */
+/* Header Section */
+.page-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
 }
 
-.instructions {
-    font-size: 16px; /* Set a smaller font size for instructions */
-    color: #666; /* Set a softer color for the instructions */
-}
-
-.map-container {
-    border-radius: 10px; /* Round the corners */
-    overflow: hidden; /* Ensure no overflow outside the border */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-xp-map {
-    width: 100%; /* Make the map take the full width */
-    height: 400px; /* Set a fixed height for the map */
-}
-
-.map-legend details {
-    border: 2px solid #ccd1d9;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px;
-    background: white;
-}
-
-.map-legend summary {
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 18px;
-    color: #444;
-    outline: none;
+.header-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 2rem;
 }
 
-.map-legend summary:hover {
-    color: #0056b3;
+.title-section h1 {
+    color: var(--dark-brown);
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.map-legend .legend-content {
-    margin-top: 10px;
+.subtitle {
+    color: var(--text-light);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+}
+
+/* Action Section */
+.action-section {
+    display: flex;
+    justify-content: center;
+}
+
+.complete-btn {
+    background-color: var(--primary-brown) !important;
+    color: var(--white) !important;
+    padding: 12px 30px !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.3) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.complete-btn:hover {
+    background-color: var(--dark-brown) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(139, 115, 85, 0.4) !important;
+}
+
+.btn-icon {
     font-size: 16px;
-    color: #333;
+    font-weight: bold;
 }
 
-.map-legend ul {
-    list-style-type: none;
-    padding: 0;
+/* Map Section */
+.map-section {
+    width: 100%;
 }
 
-.map-legend li {
-    margin: 10px 0;
+.map-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.map-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.map-header {
+    background-color: #f6e8d6;
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid var(--lighter-brown);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.map-title {
+    color: var(--dark-brown);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.map-instructions {
     display: flex;
     align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
-.map-legend img {
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.instruction-icon {
+    font-size: 18px;
 }
 
-.map-legend summary .dropdown-arrow {
-    display: inline-block;
-    margin-left: 5px;
-    transition: transform 0.3s;
-    vertical-align: middle;
+.map-wrapper {
+    position: relative;
+    height: 500px;
+    background-color: var(--lighter-brown);
+    overflow: hidden;
 }
 
-.map-legend details[open] .dropdown-arrow {
-    transform: rotate(-90deg);
+/* Map Component Styling */
+xp-map-encounter {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
+/* Encounter Legend */
+.encounter-legend {
+    padding: 1.5rem 2rem;
+    background-color: #f6e8d6;
+    border-top: 1px solid var(--lighter-brown);
+    position: relative;
+    z-index: 1000;
+}
 
+.legend-title {
+    color: var(--dark-brown);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
 
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
 
+.legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.legend-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    padding: 8px;
+}
+
+.icon-image {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.social-icon {
+    background-color: rgba(139, 115, 85, 0.15);
+    border: 2px solid var(--primary-brown);
+}
+
+.hidden-icon {
+    background-color: rgba(210, 180, 140, 0.15);
+    border: 2px solid var(--light-brown);
+}
+
+.misc-icon {
+    background-color: rgba(101, 67, 33, 0.15);
+    border: 2px solid var(--dark-brown);
+}
+
+.legend-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.legend-name {
+    font-weight: 600;
+    color: var(--dark-brown);
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+.legend-description {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .encounter-container {
+        padding: 1rem;
+    }
+    
+    .title-section h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .map-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .map-wrapper {
+        height: 400px;
+    }
+    
+    .complete-btn {
+        padding: 10px 24px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .encounter-legend {
+        padding: 1rem;
+    }
+    
+    .legend-items {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .legend-item {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .encounter-container {
+        padding: 0.5rem;
+    }
+    
+    .page-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .header-content {
+        gap: 1rem;
+    }
+    
+    .title-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    .map-wrapper {
+        height: 350px;
+    }
+    
+    .encounter-legend {
+        padding: 0.75rem;
+    }
+    
+    .legend-title {
+        font-size: 1.1rem;
+    }
+    
+    .legend-icon {
+        width: 45px;
+        height: 45px;
+        padding: 6px;
+    }
+    
+    .icon-image {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .legend-name {
+        font-size: 0.9rem;
+    }
+    
+    .legend-description {
+        font-size: 0.8rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.map-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Focus and hover states */
+.complete-btn:focus {
+    outline: 2px solid var(--primary-brown);
+    outline-offset: 2px;
+}
