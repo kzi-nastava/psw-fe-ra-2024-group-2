@@ -40,6 +40,7 @@ export class EncounterExecutionComponent {
   clearMarkersFlag: boolean = false;
   dialogOpened: boolean = false;
   currentTouristPosition: TouristPosition | null = null;
+  showCompleteButton: boolean = false;
   constructor(
     private profileService: ProfileService,
      private authService: AuthService, 
@@ -107,6 +108,13 @@ export class EncounterExecutionComponent {
         verticalPosition: 'bottom',
         panelClass: ['success-snackbar']
     });
+  }
+
+  onCompleteChallenge(): void {
+    // Hide the complete button after clicking
+    this.showCompleteButton = false;
+    this.showSuccess('Challenge completed successfully!');
+    console.log('Challenge completion triggered');
   }
 
   onLocationSelected(event: { lat: number, lng: number }): void {
