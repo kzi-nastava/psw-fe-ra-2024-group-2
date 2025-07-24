@@ -30,6 +30,10 @@
   --celestial-blue: #3498db;
   --white-opacity-70: rgba(255, 255, 255, 0.7);
   --font: "Montserrat", sans-serif;
+  --comments-primary: #4a5568;
+  --comments-secondary: #718096;
+  --comments-background: #f7fafc;
+  --comments-border: #e2e8f0;
 }
 
 /* Global Reset */

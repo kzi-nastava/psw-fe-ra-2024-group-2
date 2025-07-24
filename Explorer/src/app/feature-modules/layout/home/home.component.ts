@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Tour } from '../../tour-authoring/model/tour.model';
-import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { Router } from '@angular/router';
-import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { SpinWheelService } from 'src/app/shared/services/spin-wheel.service';
-import { UserRole } from 'src/app/infrastructure/auth/model/registration.model';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { TourSale } from '../../tour-authoring/model/tourSale.model';
+import { PagedResult } from '../../tour-authoring/shared/model/tour.module';
+import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 
 export enum Tag {
     Adventure = 0,
@@ -39,12 +39,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     spinResult: string = '';
     spinResultVisible: boolean = false;
     isWheelSpinned: boolean = false;
+    tourSales: TourSale[] = [];
 
     constructor(
       private spinWheelService: SpinWheelService,
       private tourExecutionService: TourExecutionService, 
       private router: Router,
       private authService: AuthService,
+      private tourService : TourAuthoringService,
       private tourAuthoringService: TourAuthoringService) {}
     
     ngOnInit(): void {
@@ -63,6 +65,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       });
       window.addEventListener('resize', () => this.updateCardsPerView());
+      this.loadTourSales();
     }
     ngOnDestroy() {
       this.authService.resetRegistrationStatus(); // Reset when leaving the component
@@ -191,4 +194,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
     getDifficultyLabel(difficulty: number): string {
         return Difficulty[difficulty];
     }
+
+      //Sale methods
+  loadTourSales(): void {
+    this.tourService.getAllSale().subscribe((sales) => {
+      this.tourSales = sales;
+      console.log(sales)
+    });
+  }
+
+  isOnSale(tourId: number): boolean {
+    const isOnSale = this.tourSales.some((sale) =>
+      sale.tours.some((tour) =>
+        tour.prices.some((price) => price.tourId === tourId)
+      )
+    );
+    return isOnSale;
+  }
+  
+
+  getSalePrice(tourId: number): number | null {
+    for (const sale of this.tourSales) {
+      for (const tour of sale.tours) {
+        const price = tour.prices.find((p: { tourId: number; }) => p.tourId === tourId);
+        if (price) {
+          return price.newPrice;
+        }
+      }
+    }
+    return null;
+  }
 }
