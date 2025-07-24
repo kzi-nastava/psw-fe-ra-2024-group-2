@@ -87,6 +87,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showMySouvenirs(): void {
     this.router.navigate(['/souvenirs']);
   }
+  showMyEvents(): void {
+    this.router.navigate(['/events']);
+  }
+  showAddNewEvent(): void {
+    this.router.navigate(['/addEvent']);
+  }
 
   showSimulator(): void {
     this.router.navigate(['/position-simulator']);
@@ -141,7 +147,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   showAddEvent(): void {
-    this.router.navigate(['/events']);
+    this.router.navigate(['/addEvent']);
   }
 
   showEventAnalytics(): void {

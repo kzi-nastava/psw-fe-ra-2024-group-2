@@ -1,86 +1,356 @@
 #rating-application {
-    margin-top: 20px;
-    margin-left: 20px;
+  margin-top: 20px;
+  margin-left: 83px;
+  margin-right: 83px;
 }
 
+/* Glavni kontejner za kartice */
 #rating-application-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;          /* horizontalni raspored */
+  gap: 20px;              /* razmak između kartica */
+  overflow-x: auto;       /* horizontalni scroll ako treba */
+  padding-bottom: 10px;   /* malo prostora ispod */
+
 }
 
+/* Opcionalno, da se skrol traka lepo vidi */
+#rating-application-details::-webkit-scrollbar {
+  height: 8px;
+}
+
+#rating-application-details::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+/* Kartice ostaju iste dimenzije */
 .rating-card {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    padding: 20px;
-    width: 280px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
+  flex: 0 0 auto; /* fiksna širina, da ne skupljaju */
+  width: 280px;
+  /* ostatak stila iz prethodnog CSS-a */
 }
 
-.rating-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
-.card-header h3 {
-    font-size: 1.3em;
-    color: #3f51b5;
-    margin: 0;
+/* Nova omotna klasa za ikonicu + username */
+.profile-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* razmak između ikone i username */
 }
 
-.rating-icon {
-    background-color: #ffeb3b;
-    color: #000;
-    padding: 5px 10px;
-    border-radius: 50%;
-    font-size: 1.2em;
-    font-weight: bold;
+.profile-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* okruglo */
+    background-color: #888888; /* tamnije siva pozadina kruga */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.card-content {
-    font-size: 0.95em;
+.profile-icon svg {
+    fill: #ddd; /* svetlije siva ikonica */
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: auto;
 }
 
-.card-content p {
-    margin: 8px 0;
-}
-
-.card-content .comment {
-    font-style: italic;
-    color: #555;
-}
-
-.card-content strong {
+.username {
     font-weight: 600;
+    font-size: 1.1em;
+    color: #555555;
+}
+
+/* Rating summary */
+.rating-summary {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    gap: 1px;
+    color: #3f51b5;
+}
+
+.rating-number {
+    font-size: 1.3em;
     color: #333;
 }
 
-/* Optional: Additional card effects */
-.rating-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(63,81,181,0.15), transparent 70%);
-    transform: rotate(45deg);
-    pointer-events: none;
+/* Zvezdice zlatne boje */
+.star {
+    font-size: 1.3em;
+    color: #f2b01e; /* zlatna/žuta boja */
+    user-select: none;
 }
+
+/* Ostatak CSS ostaje isti */
+.rating-card {
+background-image: url('../../../../assets/rateApp-background.jpg');
+background-size: cover;             /* da popuni celu pozadinu */
+background-repeat: no-repeat;       /* da se ne ponavlja */
+  background-position: 60% center; /* pomereno malo ulevo od desne ivice */
+
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  padding: 20px 8px 10px 20px;
+    width: 280px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rating-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+
+.card-content {
+    flex-grow: 1;
+    font-size: 1em;
+    color: #000; /* crna boja teksta po defaultu */
+    margin-bottom: 10px;
+    background-color: rgba(245, 245, 240, 0.8); /* prljavo bela, poluprozirna */
+    padding: 12px;  /* da ne lepi tekst za ivice */
+    border-radius: 6px;
+}
+
+.comment {
+    font-style: normal;
+    font-weight: normal;
+    color: #000; /* crna boja teksta */
+    margin: 0;
+}
+
+.no-comment {
+    font-style: italic;
+    color: #000; /* crna boja teksta */
+    margin: 0;
+}
+
+.rating-date {
+  font-size: 0.85em;
+  color: #050202;
+  text-align: right;
+  font-style: italic;       /* ukoso */
+  user-select: none;
+  margin-top:50px;          /* blago pomeri dole */
+}
+
+
+.header-with-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Centriran naslov */
 #title {
-    font-size: 2em; /* Povećava veličinu fonta */
-    font-weight: bold; /* Čini tekst podebljanim */
-    color: #3f51b5; /* Postavlja boju teksta */
-    margin-bottom: 20px; /* Razmak ispod paragrafa */
-    text-align: center; /* Centriranje teksta */
+  font-size: 2em;
+  font-weight: bold;
+  color: #0f0604;
+  text-align: center;
+  flex: 1;
+}
+
+/* Grupa dugmića ide desno */
+.filter-buttons {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  right: 0;
+}
+
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background-color: var(--dark-brown);
+  color: white;
+  border: none;
+  padding: 8px 20px 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.dropdown-toggle:hover {
+  background-color: var(--primary-brown);
+}
+
+.dropdown-toggle::after {
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--white); /* ili #fff ako ne koristiš varijable */
+  right: px; /* manja vrednost da strelica bude bliže tekstu */
+
+}
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--primary-brown);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: white;
+  border-radius: 6px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 4px 0 0 0;
+  z-index: 1000;
+  width: 100px;
+}
+
+.dropdown-menu li {
+  padding: 7px 7px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.gold-star {
+  color: #f2b01e;
+  font-weight: bold;
+}
+
+.dropdown-menu li:hover {
+  background-color:  var(--dark-brown)
+}
+
+
+.rating-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 400px;
+  font-family: Arial, sans-serif;
+    margin: 20px auto;  /* vertikalni razmak 20px gore/dole, auto levo/desno centriranje */
+    text-align: center; /* da centira tekst i inline elemente unutar */
+}
+
+.rating-summary2 {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.average-rating {
+  text-align: center;
+  min-width: 120px;
+}
+
+.rating-number-average{
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.stars {
+  margin: 5px 0;
+}
+
+.star-filled {
+  color: #ffd700;
+  font-size: 1.2rem;
+}
+
+.star-half {
+  color: #ffd700;
+  font-size: 1.2rem;
+}
+
+.star-empty {
+  color: #ddd;
+  font-size: 1.2rem;
+}
+
+.total-count {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.user-icon {
+  margin-right: 5px;
+}
+
+.rating-breakdown {
+  flex: 1;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+.star-label {
+  color: #333; /* boja broja */
+  font-size: 0.9rem;
+  min-width: 25px;
+}
+
+
+.progress-container {
+  flex: 1;
+  height: 12px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1s ease-in-out;
+}
+
+.rating-row:nth-child(1) .progress-bar {
+  background-color: #28a745; /* 5 stars - green */
+}
+
+.rating-row:nth-child(2) .progress-bar {
+  background-color: #17a2b8; /* 4 stars - blue */
+}
+
+.rating-row:nth-child(3) .progress-bar {
+  background-color: #17a2b8; /* 3 stars - light blue */
+}
+
+.rating-row:nth-child(4) .progress-bar {
+  background-color: #fd7e14; /* 2 stars - orange */
+}
+
+.rating-row:nth-child(5) .progress-bar {
+  background-color: #dc3545; /* 1 star - red */
+}
+
+@media (max-width: 480px) {
+  .rating-summary {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .rating-container {
+    padding: 15px;
+  }
+}
+.count-label {
+  min-width: 30px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
 }

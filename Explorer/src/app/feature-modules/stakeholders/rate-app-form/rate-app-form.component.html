@@ -1,37 +1,76 @@
+<!-- rate-app-form.component.html -->
 <main class="rate-app-container">
-  <h2 class="form-title">Ocenite aplikaciju</h2>
+
+<h2 class="form-title">
+  <span style="white-space: nowrap;">
+    How would you rate our <a href="/"><img src="../../../../assets/logo.png" alt="Logo" class="logo" style="height: 1em; vertical-align: middle;"></a>app?
+  </span>
+</h2>
+
+<p class="form-subtitle">How helpful was the app for your trip?</p>
 
   <form [formGroup]="rateAppForm" class="rate-app-form" (ngSubmit)="addRateApp()"
     aria-label="Forma za ocenjivanje aplikacije">
-    <!-- Rating Input Group -->
-    <div class="form-group">
-      <label for="grade" class="form-label">
-        Ocena <span class="required" aria-hidden="true">*</span>
-      </label>
-      <input id="grade" type="number" formControlName="grade" class="input-field"
-        [ngClass]="{'input-error': isFieldInvalid('grade')}" min="1" max="5" aria-describedby="gradeError" required />
-      <div *ngIf="isFieldInvalid('grade')" class="error-message" id="gradeError" role="alert">
-        Unesite ocenu između 1 i 5.
-      </div>
-    </div>
+
+    
+    <!-- Star Rating sa inline stilovima -->
+<div class="form-group">
+  <div class="star-rating" role="radiogroup" aria-label="Ocena od 1 do 5 zvezdica">
+    <span 
+      *ngFor="let star of stars; let i = index" 
+      class="star"
+      [style.color]="i < selectedRating ? '#FFD700' : (i < hoverRating && hoverRating > selectedRating ? '#FFC107' : '#ddd')"
+      [style.text-shadow]="i < selectedRating ? '0 0 5px rgba(255, 215, 0, 0.5)' : 'none'"
+      (click)="setRating(i + 1)"
+      (mouseenter)="setHoverRating(i + 1)"
+      (mouseleave)="setHoverRating(0)"
+      (keydown)="onStarKeydown($event, i + 1)"
+      [attr.aria-label]="(i + 1) + ' zvezdica'"
+      tabindex="0"
+      role="radio">
+      ★
+    </span>
+  </div>
+  <div class="rating-text">{{ getRatingText() }}</div>
+  <div *ngIf="isFieldInvalid('grade')" class="error-message" role="alert">
+    Molimo vas da odaberete ocenu.
+  </div>
+</div>
 
     <!-- Comment Input Group -->
     <div class="form-group">
-      <label for="comment" class="form-label">Komentar</label>
-      <textarea id="comment" formControlName="comment" class="textarea-field" rows="4"
-        placeholder="Unesite vaš komentar ovde..." aria-label="Polje za komentar">
+      <textarea 
+        id="comment" 
+        formControlName="comment" 
+        class="textarea-field" 
+        rows="4"
+        placeholder="Share your experience with the app..."
+        aria-label="Polje za komentar">
+
       </textarea>
     </div>
 
     <!-- Submit Button -->
     <button type="submit" class="submit-button" [disabled]="!rateAppForm.valid">
-      <span>Pošalji ocenu</span>
+      <span>Submit</span>
     </button>
+
+<div class="help-container">
+  <button class="help-button" type="button"   [attr.title]="!showHelp ? 'Click to learn why your feedback matters.' : null" aria-label="Help info" (click)="toggleHelp()" [attr.aria-expanded]="showHelp">
+    ?
+  </button>
+<div class="help-popup" *ngIf="showHelp" role="dialog" aria-live="polite">
+  Your ratings help us to develop new features, improve the user experience, provide better support to travelers,<br>
+  and make 
+  <a href="/">
+    <img src="../../../../assets/logo.png" alt="Logo" class="logo" style="height: 1em; vertical-align: middle;">
+  </a>
+  an even better app for you.
+</div>
+
+</div>
+
   </form>
 
-  <!-- Feedback Messages -->
-  <div class="feedback-container" role="status" aria-live="polite">
-    <p *ngIf="result" class="result-message">{{ result }}</p>
-    <p *ngIf="alreadyRate" class="already-rate-message">{{ alreadyRate }}</p>
-  </div>
+
 </main>

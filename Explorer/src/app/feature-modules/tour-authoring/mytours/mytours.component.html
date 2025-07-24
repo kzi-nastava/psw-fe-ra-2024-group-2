@@ -11,7 +11,13 @@
     <div class="coupon-container">
       <!-- Coupons Form -->
       <div class="form-container">
-        <h2 class="section-title">Create Coupon</h2>
+        <div class="help-section">
+          <h2 class="section-title">Create Coupon</h2>
+          <button class="help-button" (click)="toggleHelpModal()">
+            <span class="help-icon">?</span>
+            <span>Need help?</span>
+          </button>
+        </div>
         <div *ngIf="successMessage" class="success-message">
           {{ successMessage }}
         </div>
@@ -36,8 +42,8 @@
                 </td>
                 <td>
                   <div class="tour-and-checkbox">
-                    <select id="couponTour" name="couponTour" class="form-input form-input-tour" [(ngModel)]="coupon.tourId"
-                      [disabled]="applyToAll">
+                    <select id="couponTour" name="couponTour" class="form-input form-input-tour"
+                      [(ngModel)]="coupon.tourId" [disabled]="applyToAll">
                       <option *ngFor="let tour of tours" [value]="tour.id">
                         {{ tour.name }}
                       </option>
@@ -95,17 +101,14 @@
     <div class="tour-card" *ngFor="let tour of tours" (click)="showTourClick(tour)">
       <div class="tour-image">
         <!-- <img src="../../../../assets/traveling-with-off-road-car.jpg" [alt]="tour.name"> -->
-        <img 
-          [src]="getCheckpointImage(tour.id)" 
-          [alt]="tour.name"
-        >
+        <img [src]="getCheckpointImage(tour.id)" [alt]="tour.name">
         <div class="tour-status">
           <span class="badge" [ngClass]="'badge-status-' + tour.status">
             {{ getStatusLabel(tour.status) }}
           </span>
         </div>
       </div>
-      
+
 
       <div class="tour-content">
         <h3 class="tour-title">{{tour.name}}</h3>
@@ -144,4 +147,58 @@
   <ng-template #noTours>
     <p class="no-tours-message">No tours created</p>
   </ng-template>
+</div>
+
+<div class="help-modal" [class.active]="isHelpModalOpen">
+  <div class="modal-content">
+      <button class="close-button" (click)="toggleHelpModal()">×</button>
+      <div class="modal-header">
+          <h3>🎟 How to Create a Coupon?</h3>
+      </div>
+      <div class="modal-body">
+          <p class="intro">Creating a coupon is quick and easy! Here's how:</p>
+
+          <div class="help-step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                  <h4>Discount Type</h4>
+                  <p>Choose whether the coupon applies to a specific tour or all tours created by you.</p>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                  <h4>Discount Percentage</h4>
+                  <p>Select the percentage of the discount you'd like to offer.</p>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                  <h4>Coupon Code</h4>
+                  <p>The system will generate a unique code consisting of <strong>8 random letters</strong>.</p>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                  <h4>Sharing</h4>
+                  <p>Once your coupon is created, you can share it with anyone!</p>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">5</span>
+              <div class="step-content">
+                  <h4>Redemption</h4>
+                  <p>Users can apply the coupon code during their booking to receive the discount.</p>
+              </div>
+          </div>
+
+          <p class="conclusion">It's that simple! Share your coupon and give your tours an extra boost! 🎉</p>
+      </div>
+  </div>
 </div>

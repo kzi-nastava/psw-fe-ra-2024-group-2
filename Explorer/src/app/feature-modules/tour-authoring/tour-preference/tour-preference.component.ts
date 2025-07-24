@@ -89,6 +89,15 @@ export class TourPreferenceComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the rating for a specific transport type
+   * @param controlName The form control name (walkRating, bicycleRating, etc.)
+   * @param rating The rating value (0-3, where 0 clears the rating)
+   */
+  setRating(controlName: string, rating: number): void {
+    this.preferenceForm.patchValue({ [controlName]: rating });
+  }
+
   toggleTag(tag: string): void {
     const currentTags = this.preferenceForm.get('tags')?.value || [];
     const tagIndex = currentTags.indexOf(tag);

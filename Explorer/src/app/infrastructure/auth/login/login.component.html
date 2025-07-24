@@ -1,25 +1,63 @@
-<div class="login-container">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div>
-            <mat-form-field appearance="fill">
-                <mat-label>Username</mat-label>
-                <input matInput formControlName="username" type="text" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password" />
-            </mat-form-field>
-
-            <div *ngIf="errorMessage" class="error-message">
-                <label class="error-message" style="color: red; font-size: medium;">
-                       {{ errorMessage }}
-                </label>
+<div class="page-wrapper">
+    <div class="login-container">
+        <!-- Background image section -->
+        <div class="image-section">
+            <img src="assets/capAndDaisiesLandscape.jpg" alt="Login background">
+            <div class="music-note note1">
+                <i class="bi bi-music-note"></i>
             </div>
-
-            <button color="primary" type="submit" mat-raised-button>Login</button>
-
-            <p>Don't have an account yet?<a href="/register">Sign Up</a></p>
+            <div class="music-note note2">
+                <i class="bi bi-music-note-beamed"></i>
+            </div>
+            <div class="curved-text">
+                <span class="letter" style="--i: 0">W</span>
+                <span class="letter" style="--i: 1">e</span>
+                <span class="letter" style="--i: 2">l</span>
+                <span class="letter" style="--i: 3">c</span>
+                <span class="letter" style="--i: 4">o</span>
+                <span class="letter" style="--i: 5">m</span>
+                <span class="letter" style="--i: 6">e</span>
+                <span class="letter" style="--i: 7">&nbsp;</span>
+                <span class="letter" style="--i: 8">B</span>
+                <span class="letter" style="--i: 9">a</span>
+                <span class="letter" style="--i: 10">c</span>
+                <span class="letter" style="--i: 11">k</span>
+                <span class="letter" style="--i: 12">!</span>
+            </div>
         </div>
-    </form>
+        
+        <!-- Form section (desna trecina) -->
+        <div class="form-section">
+            <div class="form-container">
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="form-field">
+                        <input matInput formControlName="username" type="text" placeholder="Enter your username">
+                        <div class="error-message" 
+                             *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.errors">
+                            {{ loginForm.get('username')?.errors?.['required'] ? 'The username field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <input matInput formControlName="password" type="password" placeholder="Enter your password">
+                        <div class="error-message" 
+                             *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors">
+                            {{ loginForm.get('password')?.errors?.['required'] ? 'The password field is required.' : '' }}
+                        </div>
+                    </div>
+
+                    <div *ngIf="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                    </div>
+
+                    <button color="primary" type="submit" mat-raised-button class="login-btn"
+                            [disabled]="loginForm.invalid">
+                        Login
+                    </button>
+
+                    <p>Don't have an account yet? <a href="/register">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

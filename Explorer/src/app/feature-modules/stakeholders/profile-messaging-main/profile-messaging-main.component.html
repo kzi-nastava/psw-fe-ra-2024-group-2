@@ -1,0 +1,16 @@
+<div class="chat-layout">
+  <div class="chat-wrapper">
+    <xp-chat-sidebar (userSelected)="openChat($event)"></xp-chat-sidebar>
+
+    <div class="chat-window" *ngIf="selectedUserId || true">
+     <div *ngIf="isLoading" class="loading-overlay">
+        <div class="loading-spinner">Loading chat...</div>
+      </div>
+      
+      <xp-profile-messaging-chat 
+        *ngIf="!isLoading"
+        [recipientId]="selectedUserId || 1">
+      </xp-profile-messaging-chat>
+    </div>
+  </div>
+</div>

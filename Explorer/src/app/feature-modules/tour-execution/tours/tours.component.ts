@@ -20,13 +20,18 @@ export class ToursComponent implements OnInit {
   @ViewChild(ShoppingCartComponent) shoppingCart!: ShoppingCartComponent;
 
   constructor(
-    private service: TourExecutionService, 
-    private router: Router, 
+    private service: TourExecutionService,
+    private router: Router,
     private snackBar: MatSnackBar,
     private tourService : TourAuthoringService,
     private cartService: ShoppingCartService // Uključujemo ShoppingCartService za proveru korpe
-  ) {} 
-  
+  ) { }
+  isHelpModalOpen = false;
+
+  toggleHelpModal() {
+    this.isHelpModalOpen = !this.isHelpModalOpen;
+  }
+
   ngOnInit(): void {
     this.service.getTours().subscribe({
       next: (result: PagedResult<Tour>) => {
@@ -48,7 +53,7 @@ export class ToursComponent implements OnInit {
   gotoTourSearch() {
     this.router.navigate(['/alltours/search']);
   }
-  
+
   startTour(tourId: number): void {
     console.log('Starting tour:', tourId);
     this.service.startTour(tourId).subscribe({
@@ -72,12 +77,12 @@ export class ToursComponent implements OnInit {
         });
         return;
       }
-  
+
       // Check if the tour is already purchased
       this.service.getPurchasedTours().subscribe({
         next: (purchasedTours: Tour[]) => {
           const purchasedTourIds = purchasedTours.map(tour => tour.id); // Extract IDs
-  
+
           if (purchasedTourIds.includes(tourId)) {
             this.snackBar.open('This item is already purchased!', 'Close', {
               duration: 3000,
@@ -86,7 +91,7 @@ export class ToursComponent implements OnInit {
             });
             return;
           }
-  
+
           // Proceed to add the item to the cart
           this.service.addToCart(tourId).subscribe({
             next: () => {
@@ -96,10 +101,10 @@ export class ToursComponent implements OnInit {
                 horizontalPosition: 'end',
                 verticalPosition: 'top'
               });
-  
+
               if (this.shoppingCart) {
                 this.shoppingCart.loadCartItems();
-  
+
                 if (!this.shoppingCart.isOpen) {
                   this.shoppingCart.toggleCart();
                 }
@@ -121,9 +126,9 @@ export class ToursComponent implements OnInit {
       });
     });
   }
-  
 
-    
+
+
   getDifficultyLabel(difficulty: number): string {
     switch (difficulty) {
       case 0:

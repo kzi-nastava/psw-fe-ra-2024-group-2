@@ -1,11 +1,18 @@
 <div class="container">
   <div class="mb-4">
-    <button class="btn btn-primary" (click)="gotoTourSearch()">
-      <span class="icon">🔍</span>
-      Search Tours
-    </button>
+
+    <div class="help-section">
+      <button class="btn btn-primary" (click)="gotoTourSearch()">
+        <span class="icon">🔍</span>
+        Search Tours
+      </button>
+      <button class="help-button" style="margin-left: 5px;" (click)="toggleHelpModal()">
+        <span class="help-icon">?</span>
+        <span>Need help?</span>
+      </button>
+    </div>
   </div>
-   
+
   <div class="row">
     <div class="col-4" *ngFor="let tour of tours">
       <div class="tour-card" *ngIf="tour.status !== 2">
@@ -26,7 +33,7 @@
             </div>
           </div>
         </div>
-         
+
         <div class="tour-content">
           <div class="tour-price">
             <ng-container *ngIf="isOnSale(tour.id); else regularPrice">
@@ -54,11 +61,11 @@
               <div class="price-label">per person</div>
             </ng-template>
           </div>
-           
+
           <div class="tour-description">
             {{ tour.description }}
           </div>
-           
+
           <div *ngIf="tour.equipment.length > 0" class="tour-equipment">
             <div class="section-title">
               <span class="icon">⚒</span>
@@ -72,7 +79,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="tour-actions">
           <button class="btn btn-primary" (click)="showReviews(tour.id)">
             <span class="icon">★</span>
@@ -93,3 +100,68 @@
   </div>
 </div>
 <xp-shopping-cart></xp-shopping-cart>
+
+<div class="help-modal" [class.active]="isHelpModalOpen">
+  <div class="modal-content">
+    <button class="close-button" (click)="toggleHelpModal()">×</button>
+    <div class="modal-header">
+      <h3>🔍 Tour Search</h3>
+    </div>
+    <div class="modal-body">
+      <p class="intro">This window allows you to easily find the perfect tour based on your preferences. Here's how it
+        works:</p>
+
+      <div class="help-step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <h4>Search by Location</h4>
+          <p>You can search for tours within a specific radius from your current location. This is an optional filter
+            that helps you find tours nearby, making your adventure more accessible.</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <h4>Adventure Coins</h4>
+          <p>Use your Adventure Coins as a currency to purchase selected tours. Accumulate coins through your adventures
+            and spend them on new experiences!</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <h4>Coupons & Discounts</h4>
+          <p>If you have any active coupons, you can apply them during checkout to receive additional discounts on your
+            selected tours.</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <span class="step-number">4</span>
+        <div class="step-content">
+          <h4>Tour Bundles</h4>
+          <p>If you're interested in buying a package of tours, you’ll need to do that in the <strong>Browse
+              Bundles</strong> window. Bundles allow you to purchase multiple tours at once for a better deal.</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <span class="step-number">5</span>
+        <div class="step-content">
+          <h4>Souvenirs</h4>
+          <p>For the souvenir lovers, you can browse and buy souvenirs in the <strong>Browse Souvenirs</strong> window.
+            It's the perfect way to remember your adventures.</p>
+        </div>
+      </div>
+
+      <p class="important">⚠️ <strong>Important:</strong> You cannot purchase the same tour more than once unless you’ve
+        completed it. Make sure to finish the tour before purchasing it again!</p>
+
+      <p class="conclusion">Once you’ve purchased a tour, you can start it from your <strong>Purchased Tours</strong>
+        window. From there, you’ll follow the map through all the checkpoints, uncover secrets, and enjoy the full
+        adventure experience!</p>
+    </div>
+  </div>
+</div>

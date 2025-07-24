@@ -3,7 +3,13 @@
   <div class="tour-header">
     <div class="tour-title-section">
       <div class="tour-title-container">
-        <h1 class="tour-name">{{ tour.name }}</h1>
+        <div class="help-section">
+          <h2 class="tour-name">{{ tour.name }}</h2>
+          <button class="help-button" (click)="toggleHelpModal()">
+            <span class="help-icon">?</span>
+            <span>Need help?</span>
+          </button>
+        </div>
         <div class="tour-meta">
           <span class="tour-difficulty" [ngClass]="{
             'difficulty-easy': tour.difficulty === 0,
@@ -99,4 +105,53 @@
     </xp-map>
   </div>
 </div>
+</div>
+
+<div class="help-modal" [class.active]="isHelpModalOpen">
+  <div class="modal-content">
+      <button class="close-button" (click)="toggleHelpModal()">×</button>
+      <div class="modal-header">
+          <h3>🏞 Tour Management</h3>
+      </div>
+      <div class="modal-body">
+          <p class="intro">This window is designed specifically for managing the selected tour from your list. Here, you can:</p>
+
+          <div class="help-step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                  <h4>Edit Tour Details</h4>
+                  <p>Modify the <strong>name</strong>, <strong>description</strong>, <strong>price</strong>, and choose which <strong>equipment</strong> is used or not used for this tour.</p>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                  <h4>View Tour Information</h4>
+                  <p>See all details related to the tour, including:</p>
+                  <ul>
+                      <li><strong>Map of Checkpoints</strong> – View and adjust the map of your checkpoints.</li>
+                      <li><strong>Difficulty Level</strong> – Check or modify the difficulty rating of your tour.</li>
+                      <li><strong>Tags</strong> – Review and update any tags (e.g., historical, adventure, nature).</li>
+                      <li><strong>Equipment</strong> – See which equipment is currently associated with the tour and select which equipment is used or not used.</li>
+                  </ul>
+              </div>
+          </div>
+
+          <div class="help-step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                  <h4>Publish or Archive</h4>
+                  <p>Once you're satisfied, you can:</p>
+                  <ul>
+                      <li><strong>Publish</strong> the tour to make it live.</li>
+                      <li><strong>Archive</strong> the tour if it needs further adjustments or doesn't meet the requirements.</li>
+                  </ul>
+                  <p><strong>🔒 Important:</strong> To publish your tour, the price must be greater than 0. Be sure to set a price before publishing!</p>
+              </div>
+          </div>
+
+          <p class="conclusion">That's it! Manage your tours easily and share your experiences with the world! 🌍✨</p>
+      </div>
+  </div>
 </div>

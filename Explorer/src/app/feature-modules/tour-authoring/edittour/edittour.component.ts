@@ -23,6 +23,11 @@ export class EditTourComponent implements OnInit {
   tourObjects: any[] = [];
   tourCheckpoints: any[] = [];
   tourCheckpointObjects: any[] = [];
+  isHelpModalOpen = false;
+
+  toggleHelpModal() {
+    this.isHelpModalOpen = !this.isHelpModalOpen;
+  }
 
   constructor(private service: TourAuthoringService, private router: Router, private route: ActivatedRoute) { }
 
@@ -31,10 +36,10 @@ export class EditTourComponent implements OnInit {
       const tourJson = params.get('tour');
       if (tourJson) {
         this.service.getTourById(JSON.parse(tourJson)).subscribe({
-          next: (result: Tour) => { 
+          next: (result: Tour) => {
             this.tour = result;
             this.tourName = this.tour.name;
-            this.tourDescription = this.tour.description; 
+            this.tourDescription = this.tour.description;
             console.log(this.tour)
             this.tours.push(this.tour)
             this.loadAllEquipment()
@@ -45,13 +50,13 @@ export class EditTourComponent implements OnInit {
             console.error('Error fetching objects from the backend:', error);
           }
         });
-        
+
         this.selectedEquipment = this.equipmentsTotal.filter(equip =>
           this.tour.equipment.includes(equip.id!)
         );
       }
     });
-    
+
 
   }
 
@@ -145,14 +150,14 @@ export class EditTourComponent implements OnInit {
         console.error('Error updating tour:', err);
       }
     });
-  } 
-  
+  }
+
   publishTour() {
     console.log('Tour published');
     this.tour.status = 1;
     this.updateTour();
   }
-  
+
   archiveTour() {
     console.log('Tour archived');
     this.tour.status = 2;

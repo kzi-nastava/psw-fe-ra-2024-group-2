@@ -17,6 +17,18 @@
   --success: #28a745;
   --error: #DC3545;
   --warning: #FFC107;
+  --deep-teal: #01757A;
+  --muted-gray: #B6ACAD;
+  --peach-pastel: #F6C8A6;
+  --soft-cream: #F8EBCF;
+  --rich-brown: #3E2922;
+  --sunset-orange: #E57734;
+  --light-mocha: #8D7664;
+  --sandy-beige: #DEC3A6;
+  --explorer-dark-teal: #00777c;
+  --pastel-pink: #F7BAC0;
+  --celestial-blue: #3498db;
+  --white-opacity-70: rgba(255, 255, 255, 0.7);
   --font: "Montserrat", sans-serif;
   --comments-primary: #4a5568;
   --comments-secondary: #718096;

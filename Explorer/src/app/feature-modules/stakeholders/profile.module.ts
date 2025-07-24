@@ -9,6 +9,11 @@ import { RateAppFormComponent } from './rate-app-form/rate-app-form.component';
 import { SendMessageComponent } from './send-message/send-message.component';
 import { DiariesComponent } from './personal-diaries/personal-diaries.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
+import { ProfileMessagingChatComponent } from './profile-messaging-chat/profile-messaging-chat.component';
+import { ProfileMessagingMainComponent } from './profile-messaging-main/profile-messaging-main.component';
+import { ChatSidebarComponent } from './chat-sidebar/chat-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -16,15 +21,20 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         ProfileFormComponent,
         RateAppFormComponent,
         SendMessageComponent,
-        DiariesComponent
+        DiariesComponent,
+        ProfileMessagingChatComponent,
+        ProfileMessagingMainComponent,
+        ChatSidebarComponent
     ],
     imports: [
-        CommonModule,
-        MaterialModule,
-        FormsModule,          // Dodato FormsModule
-        ReactiveFormsModule,
-        MatProgressBarModule
-    ],
+    CommonModule,
+    MaterialModule,
+    FormsModule, // Dodato FormsModule
+    ReactiveFormsModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatDividerModule
+],
     providers: [DatePipe],
     exports: [
         ProfileComponent,
