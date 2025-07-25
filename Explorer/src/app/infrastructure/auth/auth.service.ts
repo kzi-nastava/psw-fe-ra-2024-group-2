@@ -85,6 +85,8 @@ export class AuthService {
       ],
       bonusPoints: jwtHelperService.decodeToken(accessToken).bonusPoints
     };
+    
+    console.log("user interest: " + jwtHelperService.decodeToken(accessToken).interests);
     this.user$.next(user);
   }
 

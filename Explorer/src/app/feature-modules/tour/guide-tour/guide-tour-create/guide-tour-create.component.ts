@@ -5,6 +5,7 @@ import { TourService } from '../../tour.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { KeyPoint } from '../../model/keyPoint.model';
 import { TourRate } from '../../model/tourRate.model';
+import { TourCategory } from 'src/app/infrastructure/auth/model/registration.model';
 
 
 @Component({
@@ -27,6 +28,9 @@ export class GuideTourCreateComponent implements OnInit {
   touristCanRate: boolean = false;
   tourRate: TourRate | null = null;
   showGuideTourRates: boolean = false;
+  
+
+  tourCategories = Object.values(TourCategory); 
 
   constructor(
     private fb: FormBuilder,
@@ -76,11 +80,17 @@ export class GuideTourCreateComponent implements OnInit {
           name: [tourData.name, Validators.required],
           description: [tourData.description, Validators.required],
           difficulty: [tourData.difficulty],
-          category: [tourData.category],
+          //category: tourData.category,
+          category: [tourData.category ? tourData.category.split(', ') : []], // Convert to array
+          //category: [[ 'Nature', 'Art' ]],
           price: [tourData.price, [Validators.min(0)]],
           date: [this.formatDate(tourData.date)],   
           status: [tourData.status]   
         });
+        if(tourData.status == 'Cancelled'){
+          this.tourForm.disable();
+        }
+        console.log("tour categories: " + tourData.category.split(','));
       },
       error: (err) => {
         console.error('Error fetching key points:', err);
@@ -140,7 +150,8 @@ export class GuideTourCreateComponent implements OnInit {
         ...this.tourForm.value,
         guideId: this.guideId,
         id: this.editableTourId,
-        keyPoints: this.keyPoints    
+        keyPoints: this.keyPoints  ,
+        category: this.tourForm.value.category ? this.tourForm.value.category.join(',') : ""  
       };
 
       this.tourService.createTour(tourData).subscribe({

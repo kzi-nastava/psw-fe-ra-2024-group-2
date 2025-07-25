@@ -32,7 +32,15 @@
         <input id="difficulty" type="number" formControlName="difficulty" min="1" max="5" [readonly]="userRole != 'author'"/>
       
         <label for="category">Category:</label>
-        <input id="category" formControlName="category" [readonly]="userRole != 'author'"/>
+        <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" multiple [disabled]="userRole != 'author'">
+                <mat-option *ngFor="let category of tourCategories" [value]="category">
+                    {{ category }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
       
         <label for="price">Price:</label>
         <input id="price" type="number" formControlName="price" min="0" [readonly]="userRole != 'author'"/>
@@ -56,7 +64,7 @@
     </div>
 
     <button *ngIf="touristCanRate" class="rating-btn" (click)="showRatingForm = true">Rate ★</button>
-    <button *ngIf="userRole == 'author'" class="rating-btn" (click)="showGuideTourRates = true">Tour Rates</button>
+    <button *ngIf="userRole == 'author' && editableTourId !=null" class="rating-btn" (click)="showGuideTourRates = true">Tour Rates</button>
 
     <xp-rate-tour *ngIf="showRatingForm" [tourRate]="tourRate" [tourId]="editableTourId" (close)="closeRatingForm()"></xp-rate-tour>
     <xp-guide-tour-rates *ngIf="showGuideTourRates" [tourId]="editableTourId" (close)="closeGuideTourRates()"></xp-guide-tour-rates>

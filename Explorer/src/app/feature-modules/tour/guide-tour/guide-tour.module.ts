@@ -8,6 +8,7 @@ import { GuideTourComponent } from './guide-tour/guide-tour.component';
 import { MapSelectorComponent } from '../../map-selector/map-selector.component';
 import { RateTourComponent } from '../tourist-tour/rate-tour/rate-tour.component';
 import { GuideTourRatesComponent } from './guide-tour-rates/guide-tour-rates.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -22,7 +23,8 @@ import { GuideTourRatesComponent } from './guide-tour-rates/guide-tour-rates.com
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule,    
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     GuideTourComponent,
